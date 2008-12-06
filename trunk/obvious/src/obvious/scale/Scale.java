@@ -32,7 +32,7 @@ public interface Scale<T> {
      *  fraction along the data scale
      * @return the interpolation fraction of the value in the data scale
      */
-    double interpolate(Object value);
+    double interpolate(T value);
 
     /**
      * Performs a reverse lookup, returning an object value corresponding
