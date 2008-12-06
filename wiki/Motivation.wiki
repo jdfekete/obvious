@@ -9,17 +9,24 @@ The workshop will create a list of the remaining issues and propose an agenda to
 = Initial Project Participants =
 
 || Name || System || URL ||
-|| Baudel, Thomas || Discovery  || www2.ilog.com/preview/Discovery  ||
-|| Chevalier, Fanny || InfoVis + Tulip  || www.labri.fr/perso/auber/projects/tulip/ ||
-|| Duke, David || SciVis Software  || www.comp.leeds.ac.uk/vvr ||
-|| Favart, Christophe || Business Intelligence  || www.businessobjects.com ||
-|| Fekete, Jean‐Daniel || InfoVis Toolkit  || ivtk.sourceforge.net ||
-|| Heer, Jeffrey || Prefuse/Flare  || www.prefuse.org/ ||
-|| O'Madadhain, Joshuah || JUNG  || jung.sourceforge.net/ ||
-|| Piringer, Harald || SciVis  || www.vrvis.at/scivis ||
-|| Fyscher, Danyel || DynaVis || research.microsoft.com/vibe/projects/dynavis.aspx ||
-|| Santucci, Giuseppe || VisDis Libraries || www.dis.uniroma1.it/~santucci/VisDis/InfovisLib.html  ||
-|| Smoot, Mike || Cytoscape || www.cytoscape.org ||
-|| Theus, Martin || Mondrian || www.theusrus.de/ ||
-|| Weaver, Chris || Improvise || www.personal.psu.edu/cew15/improvise/ ||
-|| Wood, Jo || LandSerf || www.landserf.org/ ||
+|| Baudel, Thomas || Discovery  || http://www2.ilog.com/preview/Discovery  ||
+|| Chevalier, Fanny || InfoVis + Tulip  || http://www.labri.fr/perso/auber/projects/tulip/ ||
+|| Duke, David || SciVis Software  || http://www.comp.leeds.ac.uk/vvr ||
+|| Favart, Christophe || Business Intelligence  || http://www.businessobjects.com ||
+|| Fekete, Jean‐Daniel || InfoVis Toolkit  || http://ivtk.sourceforge.net ||
+|| Heer, Jeffrey || Prefuse/Flare  || http://www.prefuse.org/ ||
+|| O'Madadhain, Joshuah || JUNG  || http://jung.sourceforge.net/ ||
+|| Piringer, Harald || SciVis  || http://www.vrvis.at/scivis ||
+|| Fyscher, Danyel || DynaVis || http://research.microsoft.com/vibe/projects/dynavis.aspx ||
+|| Santucci, Giuseppe || VisDis Libraries || http://www.dis.uniroma1.it/~santucci/VisDis/InfovisLib.html  ||
+|| Smoot, Mike || Cytoscape || http://www.cytoscape.org ||
+|| Theus, Martin || Mondrian || http://www.theusrus.de/ ||
+|| Weaver, Chris || Improvise || http://www.personal.psu.edu/cew15/improvise/ ||
+|| Wood, Jo || LandSerf || http://www.landserf.org/ ||
+
+= Links =
+
+[http://vw.indiana.edu/ivsi2004/ 2004 Workshop on Information Visualization Software Infrastructures]
+
+
+[http://www.vismaster.eu/ This project is partially funded by the EEC Vismaster project]
