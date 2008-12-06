@@ -5,6 +5,7 @@
 TODO
 
  * Instantiate the graph model on the table model (Joshua+JDF)
+ * Add graph observer methods (Joshua)
  * Add expression languages (Chris + Jeff)
  * Populating the wiki with documents (Thomas)
  * Put your notes
