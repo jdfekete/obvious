@@ -2,7 +2,7 @@
 
 = Introduction =
 
-TODO
+== TODO ==
 
  * Instantiate the graph model on the table model (Joshua+JDF)
  * Add graph observer methods (Joshua)
@@ -10,6 +10,7 @@ TODO
  * Populating the wiki with documents (Thomas)
  * Put your notes
  * Implement the current interfaces with existing toolkit
+ * Add checklipse configuration for indentation/style (JDF)
 
 == Intergration tests ==
 
