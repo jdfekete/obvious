@@ -4,7 +4,7 @@ import java.util.Properties;
 
 public interface Operator {
 	
-	// the data set the operator
+	// the data set the operator operates on
 	DataSet getDataSet();
 	void setDataSet(DataSet set);
 	
