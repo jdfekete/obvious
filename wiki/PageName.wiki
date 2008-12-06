@@ -11,6 +11,7 @@
  * Put your notes
  * Implement the current interfaces with existing toolkit
  * Add checklipse configuration for indentation/style (JDF)
+ * Ping people every once in a while
 
 == Intergration tests ==
 
