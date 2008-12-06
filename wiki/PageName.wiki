@@ -17,7 +17,7 @@
  * Everything (InfoVis Toolkit+JDF)
  * Graph+Table (Cytoscape +Mike)
  * Table (Improvise +Chris)
- * Table (Jo)
+ * Table+Graph (Jo)
  * Graph interface (JUNK+Joshua)
  * Table (Discovery+Thomas)
  * Table interface in C++ and see how it fits (visplore+Harald)
