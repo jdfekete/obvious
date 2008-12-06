@@ -5,10 +5,19 @@
 TODO
 
  * Instantiate the graph model on the table model (Joshua+JDF)
- * Operator interface
- * Scale interface
  * Add expression languages (Chris + Jeff)
+ * Populating the wiki with documents (Thomas)
+ * Put your notes
+ * Implement the current interfaces with existing toolkit
 
+== Intergration tests ==
+
+ * Everything (InfoVis Toolkit+JDF)
+ * Graph+Table (Cytoscape +Mike)
+ * Table (Improvise +Chris)
+ * Table (Jo)
+ * Graph interface (JUNK+Joshua)
+ * 
 
 
 = Details =
