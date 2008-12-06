@@ -22,4 +22,4 @@ The workshop will create a list of the remaining issues and propose an agenda to
 || Smoot, Mike || Cytoscape || www.cytoscape.org ||
 || Theus, Martin || Mondrian || www.theusrus.de/ ||
 || Weaver, Chris || Improvise || www.personal.psu.edu/cew15/improvise/ ||
-|| Wood, Jo || LandSerf || www.soi.city.ac.uk/~jwo/landserf/ ||
+|| Wood, Jo || LandSerf || www.landserf.org/ ||
