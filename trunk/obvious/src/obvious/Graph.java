@@ -22,7 +22,7 @@ import java.util.Collection;
 //(2) Node and edge types?
 //(3) Explicit Table-related methods?
 
-public interface Graph<V, E, T> extends DataSet
+public interface Graph<V, E, T> extends Data
 {
     Collection<E> getEdges();
     Collection<V> getNodes();
