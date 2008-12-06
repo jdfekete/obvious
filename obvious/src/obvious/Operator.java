@@ -15,6 +15,8 @@ public interface Operator {
 	// handle progress?
 	double progress();
 
+	// TODO: get/set dependencies (as path names?)
+	
 	// handle interruption?
 	// it might make sense to put this at the level of an operator execution manager?
 	void pause();
