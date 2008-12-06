@@ -12,6 +12,8 @@
  * Implement the current interfaces with existing toolkit
  * Add checklipse configuration for indentation/style (JDF)
  * Ping people every once in a while
+ * Split into packages
+ * Split into independant jar files (interfaces / utilities / sample impls)
 
 == Intergration tests ==
 
