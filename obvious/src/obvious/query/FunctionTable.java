@@ -27,13 +27,13 @@ public class FunctionTable {
         s_functionTable = new HashMap();
         // tuple functions
         addFunction("ROW", RowFunction.class);
-        addFunction("ISNODE", IsNodeFunction.class);
-        addFunction("ISEDGE", IsEdgeFunction.class);
-        addFunction("DEGREE", DegreeFunction.class);
-        addFunction("INDEGREE", InDegreeFunction.class);
-        addFunction("OUTDEGREE", OutDegreeFunction.class);
-        addFunction("CHILDCOUNT", ChildCountFunction.class);
-        addFunction("TREEDEPTH", TreeDepthFunction.class);
+//        addFunction("ISNODE", IsNodeFunction.class);
+//        addFunction("ISEDGE", IsEdgeFunction.class);
+//        addFunction("DEGREE", DegreeFunction.class);
+//        addFunction("INDEGREE", InDegreeFunction.class);
+//        addFunction("OUTDEGREE", OutDegreeFunction.class);
+//        addFunction("CHILDCOUNT", ChildCountFunction.class);
+//        addFunction("TREEDEPTH", TreeDepthFunction.class);
         
         // numeric functions
         addFunction("ABS", AbsFunction.class);
@@ -50,8 +50,8 @@ public class FunctionTable {
         addFunction("EXP", ExpFunction.class);
         addFunction("FLOOR", FloorFunction.class);
         addFunction("LOG", LogFunction.class);
-        addFunction("LOG2", Log2Function.class);
-        addFunction("LOG10", Log10Function.class);
+//        addFunction("LOG2", Log2Function.class);
+//        addFunction("LOG10", Log10Function.class);
         addFunction("MAX", MaxFunction.class);
         addFunction("MIN", MaxFunction.class);
         addFunction("MOD", MaxFunction.class);
@@ -67,11 +67,11 @@ public class FunctionTable {
         addFunction("SUM", SumFunction.class);
         addFunction("TAN", TanFunction.class);
         
-        addFunction("SAFELOG10", SafeLog10Function.class);
-        addFunction("SAFESQRT", SafeSqrtFunction.class);
+//        addFunction("SAFELOG10", SafeLog10Function.class);
+//        addFunction("SAFESQRT", SafeSqrtFunction.class);
         
         // string functions
-        addFunction("CAP", CapFunction.class);
+//        addFunction("CAP", CapFunction.class);
         addFunction("CONCAT", ConcatFunction.class);
         addFunction("CONCAT_WS", ConcatWsFunction.class);
         addFunction("FORMAT", FormatFunction.class);
@@ -94,13 +94,13 @@ public class FunctionTable {
         addFunction("UCASE", UpperFunction.class);
         
         // color functions
-        addFunction("RGB", RGBFunction.class);
-        addFunction("RGBA", RGBAFunction.class);
-        addFunction("GRAY", GrayFunction.class);
-        addFunction("HEX", HexFunction.class);
-        addFunction("HSB", HSBFunction.class);
-        addFunction("HSBA", HSBAFunction.class);
-        addFunction("COLORINTERP", ColorInterpFunction.class);
+//        addFunction("RGB", RGBFunction.class);
+//        addFunction("RGBA", RGBAFunction.class);
+//        addFunction("GRAY", GrayFunction.class);
+//        addFunction("HEX", HexFunction.class);
+//        addFunction("HSB", HSBFunction.class);
+//        addFunction("HSBA", HSBAFunction.class);
+//        addFunction("COLORINTERP", ColorInterpFunction.class);
         
 /*        // visualization functions
         addFunction("GROUPSIZE", GroupSizeFunction.class);

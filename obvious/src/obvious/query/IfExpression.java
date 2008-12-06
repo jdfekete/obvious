@@ -2,7 +2,6 @@ package obvious.query;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.TypeLib;
 
 /**
  * Expression instance representing an "if then else" clause in the prefuse
@@ -92,6 +91,27 @@ public class IfExpression extends AbstractExpression {
     }
     
     // ------------------------------------------------------------------------    
+    /**
+     * Get the nearest shared ancestor class of two classes. Note: this
+     * currently does not compute the actual least common ancestor, but
+     * only looks up one level in the inheritance tree and quits if
+     * it does not find a match.
+     * @param type1 the first type
+     * @param type2 the second type
+     * @return the nearest class instance which is equal to or a
+     * superclass of the two class instances
+     */
+    public static Class getSharedType(Class type1, Class type2) {
+        if ( type1 == type2 ) {
+            return type1;
+        } else if ( type1.isAssignableFrom(type2) ) {
+            return type1;
+        } else if ( type2.isAssignableFrom(type1) ) {
+            return type2;
+        } else {
+            return null;
+        }
+    }
     
     /**
      * @see prefuse.data.expression.Expression#getType(prefuse.data.Schema)
@@ -99,7 +119,7 @@ public class IfExpression extends AbstractExpression {
     public Class getType(Schema s) {
         Class type1 = m_then.getType(s);
         Class type2 = m_else.getType(s);
-        return TypeLib.getSharedType(type1, type2);
+        return getSharedType(type1, type2);
     }
 
     /**

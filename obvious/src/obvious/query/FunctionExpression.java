@@ -2,15 +2,10 @@ package obvious.query;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
-import prefuse.data.Edge;
-import prefuse.data.Node;
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.ColorLib;
-import prefuse.util.MathLib;
-import prefuse.util.StringLib;
-import prefuse.util.collections.CopyOnWriteArrayList;
 
 /**
  * Abstract base class for FunctionExpression implementations. Provides
@@ -21,7 +16,7 @@ import prefuse.util.collections.CopyOnWriteArrayList;
 public abstract class FunctionExpression extends AbstractExpression
     implements Function
 {
-    protected CopyOnWriteArrayList m_params;
+    protected ArrayList m_params;
     protected final int m_pcount; 
     
     /**
@@ -47,7 +42,7 @@ public abstract class FunctionExpression extends AbstractExpression
                 "This function takes only "+pc+" parameters.");
         }
         if ( m_params == null )
-            m_params = new CopyOnWriteArrayList();
+            m_params = new ArrayList();
         m_params.add(e);
     }
     
@@ -91,7 +86,7 @@ public abstract class FunctionExpression extends AbstractExpression
     public void visit(ExpressionVisitor v) {
         v.visitExpression(this);
         if ( paramCount() > 0 ) {
-            Object[] params = m_params.getArray();
+            Object[] params = m_params.toArray();
             for ( int i=0; i<params.length; ++i ) {
                 v.down();
                 ((Expression)params[i]).visit(v);
@@ -105,7 +100,7 @@ public abstract class FunctionExpression extends AbstractExpression
      */
     protected void addChildListeners() {
         if ( paramCount() > 0 ) {
-            Object[] params = m_params.getArray();
+            Object[] params = m_params.toArray();
             for ( int i=0; i<params.length; ++i )
                 ((Expression)params[i]).addExpressionListener(this);
         }
@@ -116,7 +111,7 @@ public abstract class FunctionExpression extends AbstractExpression
      */
     protected void removeChildListeners() {
         if ( paramCount() > 0 ) {
-            Object[] params = m_params.getArray();
+            Object[] params = m_params.toArray();
             for ( int i=0; i<params.length; ++i )
                 ((Expression)params[i]).removeExpressionListener(this);
         }
@@ -207,62 +202,62 @@ class RowFunction extends IntFunction {
         return t.getRow();
     }
 }
-//ISNODE()
-class IsNodeFunction extends BooleanFunction {
-    public IsNodeFunction() { super(0); }
-    public String getName() { return "ISNODE"; }
-    public boolean getBoolean(Tuple t) {
-        return (t instanceof Node);
-    }
-}
-//ISEDGE()
-class IsEdgeFunction extends BooleanFunction {
-    public IsEdgeFunction() { super(0); }
-    public String getName() { return "ISEDGE"; }
-    public boolean getBoolean(Tuple t) {
-        return (t instanceof Edge);
-    }
-}
-//DEGREE()
-class DegreeFunction extends IntFunction {
-    public DegreeFunction() { super(0); }
-    public String getName() { return "DEGREE"; }
-    public int getInt(Tuple t) {
-        return (t instanceof Node ? ((Node)t).getDegree() : 0 );
-    }
-}
-//INDEGREE()
-class InDegreeFunction extends IntFunction {
-    public InDegreeFunction() { super(0); }
-    public String getName() { return "INDEGREE"; }
-    public int getInt(Tuple t) {
-        return (t instanceof Node ? ((Node)t).getInDegree() : 0 );
-    }
-}
-//OUTDEGREE()
-class OutDegreeFunction extends IntFunction {
-    public OutDegreeFunction() { super(0); }
-    public String getName() { return "OUTDEGREE"; }
-    public int getInt(Tuple t) {
-        return (t instanceof Node ? ((Node)t).getOutDegree() : 0 );
-    }
-}
-//CHILDCOUNT()
-class ChildCountFunction extends IntFunction {
-    public ChildCountFunction() { super(0); }
-    public String getName() { return "CHILDCOUNT"; }
-    public int getInt(Tuple t) {
-        return (t instanceof Node ? ((Node)t).getChildCount() : 0 );
-    }
-}
-//TREEDEPTH()
-class TreeDepthFunction extends IntFunction {
-    public TreeDepthFunction() { super(0); }
-    public String getName() { return "TREEDEPTH"; }
-    public int getInt(Tuple t) {
-        return (t instanceof Node ? ((Node)t).getDepth() : 0 );
-    }
-}
+////ISNODE()
+//class IsNodeFunction extends BooleanFunction {
+//    public IsNodeFunction() { super(0); }
+//    public String getName() { return "ISNODE"; }
+//    public boolean getBoolean(Tuple t) {
+//        return (t instanceof Node);
+//    }
+//}
+////ISEDGE()
+//class IsEdgeFunction extends BooleanFunction {
+//    public IsEdgeFunction() { super(0); }
+//    public String getName() { return "ISEDGE"; }
+//    public boolean getBoolean(Tuple t) {
+//        return (t instanceof Edge);
+//    }
+//}
+////DEGREE()
+//class DegreeFunction extends IntFunction {
+//    public DegreeFunction() { super(0); }
+//    public String getName() { return "DEGREE"; }
+//    public int getInt(Tuple t) {
+//        return (t instanceof Node ? ((Node)t).getDegree() : 0 );
+//    }
+//}
+////INDEGREE()
+//class InDegreeFunction extends IntFunction {
+//    public InDegreeFunction() { super(0); }
+//    public String getName() { return "INDEGREE"; }
+//    public int getInt(Tuple t) {
+//        return (t instanceof Node ? ((Node)t).getInDegree() : 0 );
+//    }
+//}
+////OUTDEGREE()
+//class OutDegreeFunction extends IntFunction {
+//    public OutDegreeFunction() { super(0); }
+//    public String getName() { return "OUTDEGREE"; }
+//    public int getInt(Tuple t) {
+//        return (t instanceof Node ? ((Node)t).getOutDegree() : 0 );
+//    }
+//}
+////CHILDCOUNT()
+//class ChildCountFunction extends IntFunction {
+//    public ChildCountFunction() { super(0); }
+//    public String getName() { return "CHILDCOUNT"; }
+//    public int getInt(Tuple t) {
+//        return (t instanceof Node ? ((Node)t).getChildCount() : 0 );
+//    }
+//}
+////TREEDEPTH()
+//class TreeDepthFunction extends IntFunction {
+//    public TreeDepthFunction() { super(0); }
+//    public String getName() { return "TREEDEPTH"; }
+//    public int getInt(Tuple t) {
+//        return (t instanceof Node ? ((Node)t).getDepth() : 0 );
+//    }
+//}
 
 //ABS(X)
 class AbsFunction extends DoubleFunction {
@@ -432,45 +427,45 @@ class LogFunction extends DoubleFunction {
         }
     }
 }
-//LOG2(X)
-class Log2Function extends DoubleFunction {
-    public Log2Function() { super(1); }
-    public String getName() { return "LOG2"; }
-    public double getDouble(Tuple t) {
-        if ( paramCount() == 1 ) {
-            return MathLib.log2(param(0).getDouble(t));
-        } else {
-            missingParams(); return Double.NaN;
-        }
-    }
-}
-//LOG10(X)
-class Log10Function extends DoubleFunction {
-    public Log10Function() { super(1); }
-    public String getName() { return "LOG10"; }
-    public double getDouble(Tuple t) {
-        if ( paramCount() == 1 ) {
-            return MathLib.log10(param(0).getDouble(t));
-        } else {
-            missingParams(); return Double.NaN;
-        }
-    }
-}
-//SAFELOG10(X)
-class SafeLog10Function extends DoubleFunction {
-    public SafeLog10Function() { super(2); }
-    public String getName() { return "SAFELOG10"; }
-    public double getDouble(Tuple t) {
-        int pc = paramCount();
-        if ( pc == 1 ) {
-            double x = param(0).getDouble(t);
-            return MathLib.safeLog10(x);
-        } else {
-            missingParams();
-            return Double.NaN;
-        }
-    }
-}
+////LOG2(X)
+//class Log2Function extends DoubleFunction {
+//    public Log2Function() { super(1); }
+//    public String getName() { return "LOG2"; }
+//    public double getDouble(Tuple t) {
+//        if ( paramCount() == 1 ) {
+//            return MathLib.log2(param(0).getDouble(t));
+//        } else {
+//            missingParams(); return Double.NaN;
+//        }
+//    }
+//}
+////LOG10(X)
+//class Log10Function extends DoubleFunction {
+//    public Log10Function() { super(1); }
+//    public String getName() { return "LOG10"; }
+//    public double getDouble(Tuple t) {
+//        if ( paramCount() == 1 ) {
+//            return MathLib.log10(param(0).getDouble(t));
+//        } else {
+//            missingParams(); return Double.NaN;
+//        }
+//    }
+//}
+////SAFELOG10(X)
+//class SafeLog10Function extends DoubleFunction {
+//    public SafeLog10Function() { super(2); }
+//    public String getName() { return "SAFELOG10"; }
+//    public double getDouble(Tuple t) {
+//        int pc = paramCount();
+//        if ( pc == 1 ) {
+//            double x = param(0).getDouble(t);
+//            return MathLib.safeLog10(x);
+//        } else {
+//            missingParams();
+//            return Double.NaN;
+//        }
+//    }
+//}
 //MAX(X1,X2,...)
 class MaxFunction extends DoubleFunction {
     public MaxFunction() { super(Function.VARARGS); }
@@ -620,21 +615,21 @@ class SumFunction extends DoubleFunction {
         return v;
     }
 }
-//SAFESQRT(X)
-class SafeSqrtFunction extends DoubleFunction {
-    public SafeSqrtFunction() { super(2); }
-    public String getName() { return "SAFESQRT"; }
-    public double getDouble(Tuple t) {
-        int pc = paramCount();
-        if ( pc == 1 ) {
-            double x = param(0).getDouble(t);
-            return MathLib.safeSqrt(x);
-        } else {
-            missingParams();
-            return Double.NaN;
-        }
-    }
-}
+////SAFESQRT(X)
+//class SafeSqrtFunction extends DoubleFunction {
+//    public SafeSqrtFunction() { super(2); }
+//    public String getName() { return "SAFESQRT"; }
+//    public double getDouble(Tuple t) {
+//        int pc = paramCount();
+//        if ( pc == 1 ) {
+//            double x = param(0).getDouble(t);
+//            return MathLib.safeSqrt(x);
+//        } else {
+//            missingParams();
+//            return Double.NaN;
+//        }
+//    }
+//}
 //TAN(X)
 class TanFunction extends DoubleFunction {
     public TanFunction() { super(1); }
@@ -664,15 +659,15 @@ abstract class StringFunction extends FunctionExpression {
         return new StringBuffer();
     }
 }
-//CAP(str1)
-class CapFunction extends StringFunction {
-    public CapFunction() { super(1); }
-    public String getName() { return "CAP"; }
-    public Object get(Tuple t) {
-        String str = param(0).get(t).toString();
-        return StringLib.capitalizeFirstOnly(str);
-    }
-}
+////CAP(str1)
+//class CapFunction extends StringFunction {
+//    public CapFunction() { super(1); }
+//    public String getName() { return "CAP"; }
+//    public Object get(Tuple t) {
+//        String str = param(0).get(t).toString();
+//        return StringLib.capitalizeFirstOnly(str);
+//    }
+//}
 //CONCAT(str1,str2,...)
 class ConcatFunction extends StringFunction {
     public ConcatFunction() { super(Function.VARARGS); }
@@ -919,83 +914,83 @@ class UpperFunction extends StringFunction {
 
 // ----------------------------------------------------------------------------
 
-//RGB(r,g,b)
-class RGBFunction extends IntFunction {
-    public RGBFunction() { super(3); }
-    public String getName() { return "RGB"; }
-    public int getInt(Tuple t) {
-        int r = param(0).getInt(t);
-        int g = param(1).getInt(t);
-        int b = param(2).getInt(t);
-        return ColorLib.rgb(r,g,b);
-    }
-}
-//HEX(hex)
-class HexFunction extends IntFunction {
-    public HexFunction() { super(1); }
-    public String getName() { return "RGB"; }
-    public int getInt(Tuple t) {
-        String hex = (String)param(0).get(t);
-        return ColorLib.hex(hex);
-    }
-}
-//RGBA(r,g,b,a)
-class RGBAFunction extends IntFunction {
-    public RGBAFunction() { super(4); }
-    public String getName() { return "RGBA"; }
-    public int getInt(Tuple t) {
-        int r = param(0).getInt(t);
-        int g = param(1).getInt(t);
-        int b = param(2).getInt(t);
-        int a = param(3).getInt(t);
-        return ColorLib.rgba(r,g,b,a);
-    }
-}
-//GRAY(v) | GRAY(v, a)
-class GrayFunction extends IntFunction {
-    public GrayFunction() { super(2); }
-    public String getName() { return "GRAY"; }
-    public int getInt(Tuple t) {
-        int g = param(0).getInt(t);
-        if ( paramCount() == 2 ) {
-            int a = param(1).getInt(t);
-            return ColorLib.gray(g, a);
-        } else {
-            return ColorLib.gray(g);
-        }
-    }
-}
-//HSB(h,s,b)
-class HSBFunction extends IntFunction {
-    public HSBFunction() { super(3); }
-    public String getName() { return "HSB"; }
-    public int getInt(Tuple t) {
-        float h = param(0).getFloat(t);
-        float s = param(1).getFloat(t);
-        float b = param(2).getFloat(t);
-        return ColorLib.hsb(h,s,b);
-    }
-}
-//HSBA(h,s,b,a)
-class HSBAFunction extends IntFunction {
-    public HSBAFunction() { super(4); }
-    public String getName() { return "HSBA"; }
-    public int getInt(Tuple t) {
-        float h = param(0).getFloat(t);
-        float s = param(1).getFloat(t);
-        float b = param(2).getFloat(t);
-        float a = param(3).getFloat(t);
-        return ColorLib.hsba(h,s,b,a);
-    }
-}
-//COLORINTERP(c1, c2, f)
-class ColorInterpFunction extends IntFunction {
-    public ColorInterpFunction() { super(3); }
-    public String getName() { return "COLORINTERP"; }
-    public int getInt(Tuple t) {
-        int c1 = param(0).getInt(t);
-        int c2 = param(1).getInt(t);
-        double f = param(2).getDouble(t);
-        return ColorLib.interp(c1, c2, f);
-    }
-}
+////RGB(r,g,b)
+//class RGBFunction extends IntFunction {
+//    public RGBFunction() { super(3); }
+//    public String getName() { return "RGB"; }
+//    public int getInt(Tuple t) {
+//        int r = param(0).getInt(t);
+//        int g = param(1).getInt(t);
+//        int b = param(2).getInt(t);
+//        return ColorLib.rgb(r,g,b);
+//    }
+//}
+////HEX(hex)
+//class HexFunction extends IntFunction {
+//    public HexFunction() { super(1); }
+//    public String getName() { return "RGB"; }
+//    public int getInt(Tuple t) {
+//        String hex = (String)param(0).get(t);
+//        return ColorLib.hex(hex);
+//    }
+//}
+////RGBA(r,g,b,a)
+//class RGBAFunction extends IntFunction {
+//    public RGBAFunction() { super(4); }
+//    public String getName() { return "RGBA"; }
+//    public int getInt(Tuple t) {
+//        int r = param(0).getInt(t);
+//        int g = param(1).getInt(t);
+//        int b = param(2).getInt(t);
+//        int a = param(3).getInt(t);
+//        return ColorLib.rgba(r,g,b,a);
+//    }
+//}
+////GRAY(v) | GRAY(v, a)
+//class GrayFunction extends IntFunction {
+//    public GrayFunction() { super(2); }
+//    public String getName() { return "GRAY"; }
+//    public int getInt(Tuple t) {
+//        int g = param(0).getInt(t);
+//        if ( paramCount() == 2 ) {
+//            int a = param(1).getInt(t);
+//            return ColorLib.gray(g, a);
+//        } else {
+//            return ColorLib.gray(g);
+//        }
+//    }
+//}
+////HSB(h,s,b)
+//class HSBFunction extends IntFunction {
+//    public HSBFunction() { super(3); }
+//    public String getName() { return "HSB"; }
+//    public int getInt(Tuple t) {
+//        float h = param(0).getFloat(t);
+//        float s = param(1).getFloat(t);
+//        float b = param(2).getFloat(t);
+//        return ColorLib.hsb(h,s,b);
+//    }
+//}
+////HSBA(h,s,b,a)
+//class HSBAFunction extends IntFunction {
+//    public HSBAFunction() { super(4); }
+//    public String getName() { return "HSBA"; }
+//    public int getInt(Tuple t) {
+//        float h = param(0).getFloat(t);
+//        float s = param(1).getFloat(t);
+//        float b = param(2).getFloat(t);
+//        float a = param(3).getFloat(t);
+//        return ColorLib.hsba(h,s,b,a);
+//    }
+//}
+////COLORINTERP(c1, c2, f)
+//class ColorInterpFunction extends IntFunction {
+//    public ColorInterpFunction() { super(3); }
+//    public String getName() { return "COLORINTERP"; }
+//    public int getInt(Tuple t) {
+//        int c1 = param(0).getInt(t);
+//        int c2 = param(1).getInt(t);
+//        double f = param(2).getDouble(t);
+//        return ColorLib.interp(c1, c2, f);
+//    }
+//}
