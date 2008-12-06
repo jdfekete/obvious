@@ -5,6 +5,10 @@
 TODO
 
  * Instantiate the graph model on the table model (Joshua+JDF)
+ * Operator interface
+ * Scale interface
+
+
 
 
 = Details =
