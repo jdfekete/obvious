@@ -1,6 +1,6 @@
 package obvious.query;
 
-import prefuse.data.Tuple;
+import obvious.Tuple;
 import prefuse.data.event.ExpressionListener;
 import prefuse.util.collections.CopyOnWriteArrayList;
 

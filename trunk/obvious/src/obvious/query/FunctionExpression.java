@@ -5,8 +5,8 @@ import java.text.NumberFormat;
 
 import prefuse.data.Edge;
 import prefuse.data.Node;
-import prefuse.data.Schema;
-import prefuse.data.Tuple;
+import obvious.Schema;
+import obvious.Tuple;
 import prefuse.util.ColorLib;
 import prefuse.util.MathLib;
 import prefuse.util.StringLib;

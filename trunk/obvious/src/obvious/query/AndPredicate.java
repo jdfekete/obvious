@@ -2,7 +2,7 @@ package obvious.query;
 
 import java.util.Iterator;
 
-import prefuse.data.Tuple;
+import obvious.Tuple;
 
 /**
  * Predicate representing an "and" clause of sub-predicates.
