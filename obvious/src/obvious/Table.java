@@ -14,7 +14,7 @@ import java.util.Collection;
  * Table have columns and rowIds.
  * 
  */
-public interface Table extends DataSet {
+public interface Table extends Data {
     static final Object MISSING_VALUE = new Object();//FIXME make it serializabe
     /**
      * Returns this Table's schema. 
