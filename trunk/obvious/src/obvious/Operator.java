@@ -4,6 +4,10 @@ import java.util.Properties;
 
 public interface Operator {
 	
+	// the data set the operator
+	DataSet getDataSet();
+	void setDataSet(DataSet set);
+	
 	// basic operation
 	// need arguments? e.g., transitioner to collect value updates?
 	void operate();
