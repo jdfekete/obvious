@@ -31,7 +31,7 @@ The workshop will create a list of the remaining issues and propose an agenda to
 
 Previous workshops:
    * [http://vw.indiana.edu/ivsi2004/ 2004 Workshop on Information Visualization Software Infrastructures]
-   * [http://nwb.slis.indiana.edu/events/ivsi2007/ 2007 Workshop on Information Visualization Software Infrastructures]
+   * [https://nwb.slis.indiana.edu/events/ivsi2007/ 2007 Workshop on Information Visualization Software Infrastructures]
 
 
 [http://www.vismaster.eu/ This project is partially funded by the EEC Vismaster project]
