@@ -2,7 +2,6 @@ package obvious.query;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.TypeLib;
 
 /**
  * Literal expression of a numeric value. 
@@ -54,6 +53,31 @@ public class NumericLiteral extends Literal {
     }
     
     /**
+     * Given a numeric (byte, short, int, long, float, or double) class type or
+     * associated wrapper class type, return the primitive class type
+     * @param type the type to look up, must be a numerical type, but can be
+     * either primitive or a wrapper.
+     * @return the primitive class type
+     */
+    public static Class getPrimitiveType(Class type) {
+        if ( Integer.class.equals(type) || type == int.class ) {
+            return int.class;
+        } else if ( Long.class.equals(type) || type == long.class ) {
+            return long.class;
+        } else if ( Float.class.equals(type) || type == float.class ) {
+            return float.class;
+        } else if ( Double.class.equals(type) || type == double.class ) {
+            return double.class;
+        } else if ( Byte.class.equals(type) || type == byte.class ) {
+            return byte.class;
+        } else if ( Short.class.equals(type) || type == short.class ) {
+            return short.class;
+        } else {
+            throw new IllegalArgumentException(
+                "Input class must be a numeric type");
+        }
+    }
+    /**
      * Create a new NumericLiteral.
      * @param x the literal numeric value, must be an instance of 
      * {@link java.lang.Number}, otherwise an exception will be thrown.
@@ -61,7 +85,7 @@ public class NumericLiteral extends Literal {
     public NumericLiteral(Object x) {
         if ( x instanceof Number ) {
             m_number = (Number)x;
-            m_type = TypeLib.getPrimitiveType(m_number.getClass());
+            m_type = getPrimitiveType(m_number.getClass());
         } else {
             throw new IllegalArgumentException("Invalid type!");
         }

@@ -2,7 +2,6 @@ package obvious.query;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.TypeLib;
 
 /**
  * Expression supporting basic arithmetic: add, subtract, multiply,
@@ -49,7 +48,7 @@ public class ArithmeticExpression extends BinaryExpression {
             Class rType = m_right.getType(s);
         
             // determine this class's type
-            m_type = TypeLib.getNumericType(lType, rType);
+            m_type = getNumericType(lType, rType);
         }
         return m_type;
     }

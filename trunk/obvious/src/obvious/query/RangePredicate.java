@@ -4,9 +4,6 @@ import java.util.Comparator;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.TypeLib;
-import prefuse.util.collections.DefaultLiteralComparator;
-import prefuse.util.collections.LiteralComparator;
 
 /**
  * Predicate instance that evaluates if a value is contained within
@@ -41,7 +38,8 @@ public class RangePredicate extends BinaryExpression implements Predicate {
             Expression left, Expression right)
     {
         this(IN_IN, middle, left, right,
-             DefaultLiteralComparator.getInstance());
+//             DefaultLiteralComparator.getInstance()); FIXME: JDF for compilation
+                null);
     }
     
     /**
@@ -69,7 +67,8 @@ public class RangePredicate extends BinaryExpression implements Predicate {
             Expression left, Expression right)
     {
         this(operation, middle, left, right,
-             DefaultLiteralComparator.getInstance());
+//             DefaultLiteralComparator.getInstance());
+                null); //FIXME JDF for compilation
     }
     
     /**
@@ -109,6 +108,18 @@ public class RangePredicate extends BinaryExpression implements Predicate {
         return m_cmp;
     }
     
+    /**
+     * Indicates if a given class type is a primitive numeric one type
+     * (one of byte, short, int, long, float, or double).
+     * @param type the type to check
+     * @return true if it is a primitive numeric type, false otherwise
+     */
+    public static boolean isNumericType(Class type) {
+        return ( type == byte.class   || type == short.class ||
+                 type == int.class    || type == long.class  || 
+                 type == double.class || type == float.class );
+    }
+    
     // ------------------------------------------------------------------------
     // Expression Interface
     
@@ -129,35 +140,36 @@ public class RangePredicate extends BinaryExpression implements Predicate {
         }
         
         int c1, c2 = 0;
-        if ( sType != null && TypeLib.isNumericType(sType) && 
-                TypeLib.isNumericType(mType) )
+        if ( sType != null 
+                && isNumericType(sType)
+                && isNumericType(mType))
         {
             // the range is of numeric types
-            Class type = TypeLib.getNumericType(sType, mType);
+            Class type = ArithmeticExpression.getNumericType(sType, mType);
             if ( type == int.class ) {
                 int lo = m_left.getInt(t);
                 int hi = m_right.getInt(t);
                 int x  = m_middle.getInt(t);
-                c1 = ((LiteralComparator)m_cmp).compare(x,lo);
-                c2 = ((LiteralComparator)m_cmp).compare(x,hi);
+                c1 = x-lo;
+                c2 = x-hi;
             } else if ( type == long.class ) {
                 long lo = m_left.getLong(t);
                 long hi = m_right.getLong(t);
                 long x  = m_middle.getLong(t);
-                c1 = ((LiteralComparator)m_cmp).compare(x,lo);
-                c2 = ((LiteralComparator)m_cmp).compare(x,hi);
+                c1 = Long.signum(x-lo);
+                c2 = Long.signum(x-hi);
             } else if ( type == float.class ) {
                 float lo = m_left.getFloat(t);
                 float hi = m_right.getFloat(t);
                 float x  = m_middle.getFloat(t);
-                c1 = ((LiteralComparator)m_cmp).compare(x,lo);
-                c2 = ((LiteralComparator)m_cmp).compare(x,hi);
+                c1 = (int)Math.signum(x-lo);
+                c2 = (int)Math.signum(x-hi);
             } else if ( type == double.class ) {
                 double lo = m_left.getDouble(t);
                 double hi = m_right.getDouble(t);
                 double x  = m_middle.getDouble(t);
-                c1 = ((LiteralComparator)m_cmp).compare(x,lo);
-                c2 = ((LiteralComparator)m_cmp).compare(x,hi);
+                c1 = (int)Math.signum(x-lo);
+                c2 = (int)Math.signum(x-hi);
             } else {
                 throw new IllegalStateException();
             }

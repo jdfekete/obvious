@@ -1,7 +1,6 @@
-package prefuse.data.expression;
+package obvious.query;
 
 import obvious.Tuple;
-import prefuse.util.TypeLib;
 
 /**
  * Abstarct base class for a Literal Expression that evaluates to a
@@ -59,6 +58,18 @@ public abstract class Literal extends AbstractExpression {
     }
     
     /**
+     * Indicates if a given class type is a primitive numeric one type
+     * (one of byte, short, int, long, float, or double).
+     * @param type the type to check
+     * @return true if it is a primitive numeric type, false otherwise
+     */
+    public static boolean isNumericType(Class type) {
+        return ( type == byte.class   || type == short.class ||
+                 type == int.class    || type == long.class  || 
+                 type == double.class || type == float.class );
+    }
+    
+    /**
      * Return the given object as a new Literal instance.
      * @param val the object value
      * @param type the type the literal should take
@@ -66,7 +77,7 @@ public abstract class Literal extends AbstractExpression {
      * object value
      */
     public static Literal getLiteral(Object val, Class type) {
-        if ( TypeLib.isNumericType(type) )
+        if ( isNumericType(type) )
         {
             return new NumericLiteral(val);
         }

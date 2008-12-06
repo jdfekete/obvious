@@ -41,6 +41,8 @@ public interface Tuple {
      */
     public boolean isValid();
     
+    public Class getColumnType(String field);
+    
     // ------------------------------------------------------------------------
     // Data Access Methods
     

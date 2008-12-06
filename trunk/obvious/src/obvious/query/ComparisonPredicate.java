@@ -4,9 +4,6 @@ import java.util.Comparator;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.util.TypeLib;
-import prefuse.util.collections.DefaultLiteralComparator;
-import prefuse.util.collections.LiteralComparator;
 
 /**
  * Predicate implementation that computes a comparison operation. Supported
@@ -41,7 +38,9 @@ public class ComparisonPredicate extends BinaryExpression implements Predicate {
     public ComparisonPredicate(int operation, 
             Expression left, Expression right)
     {
-        this(operation, left, right, DefaultLiteralComparator.getInstance());
+        this(operation, left, right, 
+                //DefaultLiteralComparator.getInstance());
+                null); //FIXME jdf to compile
     }
 
     /**
@@ -84,31 +83,31 @@ public class ComparisonPredicate extends BinaryExpression implements Predicate {
         Class rType = m_right.getType(t.getSchema());
         
         int c = 0;
-        if ( TypeLib.isNumericType(lType) && TypeLib.isNumericType(rType) ) {
-            Class type = TypeLib.getNumericType(lType, rType);
-            if ( type == int.class || type == byte.class ) {
-                int x = m_left.getInt(t);
-                int y = m_right.getInt(t);
-                c = ((LiteralComparator)m_cmp).compare(x,y);
-            } else if ( type == long.class ) {
-                long x = m_left.getLong(t);
-                long y = m_right.getLong(t);
-                c = ((LiteralComparator)m_cmp).compare(x,y);
-            } else if ( type == float.class ) {
-                float x = m_left.getFloat(t);
-                float y = m_right.getFloat(t);
-                c = ((LiteralComparator)m_cmp).compare(x,y);
-            } else if ( type == double.class ) {
-                double x = m_left.getDouble(t);
-                double y = m_right.getDouble(t);
-                c = ((LiteralComparator)m_cmp).compare(x,y);
-            } else {
-                throw new IllegalStateException();
-            }
-        } else {
-            c = m_cmp.compare(m_left.get(t), m_right.get(t));
-        }
-       
+//        if ( TypeLib.isNumericType(lType) && TypeLib.isNumericType(rType) ) {
+//            Class type = TypeLib.getNumericType(lType, rType);
+//            if ( type == int.class || type == byte.class ) {
+//                int x = m_left.getInt(t);
+//                int y = m_right.getInt(t);
+//                c = ((LiteralComparator)m_cmp).compare(x,y);
+//            } else if ( type == long.class ) {
+//                long x = m_left.getLong(t);
+//                long y = m_right.getLong(t);
+//                c = ((LiteralComparator)m_cmp).compare(x,y);
+//            } else if ( type == float.class ) {
+//                float x = m_left.getFloat(t);
+//                float y = m_right.getFloat(t);
+//                c = ((LiteralComparator)m_cmp).compare(x,y);
+//            } else if ( type == double.class ) {
+//                double x = m_left.getDouble(t);
+//                double y = m_right.getDouble(t);
+//                c = ((LiteralComparator)m_cmp).compare(x,y);
+//            } else {
+//                throw new IllegalStateException();
+//            }
+//        } else {
+//            c = m_cmp.compare(m_left.get(t), m_right.get(t));
+//        }
+       //FIXME JDF for compilation
         switch ( m_op ) {
         case LT:
             return ( c == -1 );

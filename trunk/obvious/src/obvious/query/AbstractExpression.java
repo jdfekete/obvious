@@ -1,8 +1,8 @@
 package obvious.query;
 
+import java.util.ArrayList;
+
 import obvious.Tuple;
-import prefuse.data.event.ExpressionListener;
-import prefuse.util.collections.CopyOnWriteArrayList;
 
 /**
  * Abstract base class for Expression implementations. Provides support for
@@ -14,7 +14,7 @@ import prefuse.util.collections.CopyOnWriteArrayList;
 public abstract class AbstractExpression
     implements Expression, ExpressionListener
 {
-    private CopyOnWriteArrayList m_listeners = new CopyOnWriteArrayList();
+    private ArrayList m_listeners = new ArrayList();
     
     /**
      * @see prefuse.data.expression.Expression#visit(prefuse.data.expression.ExpressionVisitor)
@@ -54,7 +54,7 @@ public abstract class AbstractExpression
      * Fire an expression change.
      */
     protected final void fireExpressionChange() {
-        Object[] lstnrs = m_listeners.getArray();
+        Object[] lstnrs = m_listeners.toArray();
         for ( int i=0; i<lstnrs.length; ++i ) {
             ((ExpressionListener)lstnrs[i]).expressionChanged(this);
         }
@@ -131,6 +131,44 @@ public abstract class AbstractExpression
      */
     public boolean getBoolean(Tuple t) {
         throw new UnsupportedOperationException();
+    }
+    
+
+    
+    /**
+     * Indicates if a given class type is a primitive numeric one type
+     * (one of byte, short, int, long, float, or double).
+     * @param type the type to check
+     * @return true if it is a primitive numeric type, false otherwise
+     */
+    public static boolean isNumericType(Class type) {
+        return ( type == byte.class   || type == short.class ||
+                 type == int.class    || type == long.class  || 
+                 type == double.class || type == float.class );
+    }
+    
+    /**
+     * Get a compatible numeric type for two primitive numeric
+     * class types. Any of (byte, short, int) will resolve to int.
+     * @param c1 a numeric primitive class type (int, long, float, or double)
+     * @param c2 a numeric primitive class type (int, long, float, or double)
+     * @return the compatible numeric type for binary operations involving
+     * both types.
+     */
+    public static Class getNumericType(Class c1, Class c2) {
+        if ( !isNumericType(c1) || !isNumericType(c2) ) {
+            throw new IllegalArgumentException(
+                "Input types must be primitive number types");
+        }
+        if ( c1 == double.class || c2 == double.class ) {
+            return double.class;
+        } else if ( c1 == float.class || c1 == float.class ) {
+            return float.class;
+        } else if ( c1 == long.class || c2 == long.class ) {
+            return long.class;
+        } else {
+            return int.class;
+        }
     }
     
 } // end of abstract class AbstractExpression

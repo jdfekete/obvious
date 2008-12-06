@@ -2,7 +2,6 @@ package obvious.query;
 
 import obvious.Schema;
 import obvious.Tuple;
-import prefuse.data.event.ExpressionListener;
 
 /**
  * <p>An Expression is an arbitrary function that takes a single Tuple as an

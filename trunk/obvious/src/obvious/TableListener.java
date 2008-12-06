@@ -1,7 +1,5 @@
 package obvious;
 
-
-
 /**
  * Listener interface for monitoring changes to a table.
  * 
