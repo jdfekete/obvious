@@ -99,29 +99,6 @@ public interface Table {
      */
     void removeAllRows();
     
-    /**
-     * Add a Tuple to this table. If the Tuple is already a member of this
-     * table, nothing is done and null is returned. If the Tuple is not
-     * a member of this Table but has a compatible data schema, as
-     * determined by {@link Schema#isAssignableFrom(Schema)}, a new row
-     * is created, the Tuple's values are copied, and the new Tuple that
-     * is a member of this Table is returned. If the data schemas are not
-     * compatible, nothing is done and null is returned.
-     * @param t the Tuple to "add" to this table
-     * @return the actual Tuple instance added to this table, or null if
-     * no new Tuple has been added
-     * @see prefuse.data.tuple.TupleSet#addTuple(prefuse.data.Tuple)
-     */
-    public Tuple addTuple(Tuple t);
-    
-    /**
-     * Get the number of times this Table has been modified. Adding rows,
-     * deleting rows, and updating table cell values all contribute to
-     * this count.
-     * @return the number of modifications to this table
-     */
-    public int getModificationCount();
-    
     public void set(int rowId, String field, Object val); 
     public void set(int rowId, int col, Object val);
 }
