@@ -17,7 +17,8 @@ TODO
  * Table (Improvise +Chris)
  * Table (Jo)
  * Graph interface (JUNK+Joshua)
- * 
+ * Table (Discovery+Thomas)
+ * Table interface in C++ and see how it fits (visplore+Harald)
 
 
 = Details =
