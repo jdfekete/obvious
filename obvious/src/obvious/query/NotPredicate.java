@@ -1,6 +1,6 @@
 package obvious.query;
 
-import prefuse.data.Tuple;
+import obvious.Tuple;
 
 /**
  * Predicate representing the negation of another predicate.

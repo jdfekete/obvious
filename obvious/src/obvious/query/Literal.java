@@ -1,6 +1,6 @@
 package prefuse.data.expression;
 
-import prefuse.data.Tuple;
+import obvious.Tuple;
 import prefuse.util.TypeLib;
 
 /**

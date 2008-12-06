@@ -2,13 +2,13 @@ package obvious.query;
 
 import java.util.HashMap;
 
-import prefuse.visual.expression.GroupSizeFunction;
+/*import prefuse.visual.expression.GroupSizeFunction;
 import prefuse.visual.expression.HoverPredicate;
 import prefuse.visual.expression.InGroupPredicate;
 import prefuse.visual.expression.QueryExpression;
 import prefuse.visual.expression.SearchPredicate;
 import prefuse.visual.expression.ValidatedPredicate;
-import prefuse.visual.expression.VisiblePredicate;
+import prefuse.visual.expression.VisiblePredicate;*/
 
 /**
  * Function table that allows lookup of registered FunctionExpressions
@@ -102,14 +102,14 @@ public class FunctionTable {
         addFunction("HSBA", HSBAFunction.class);
         addFunction("COLORINTERP", ColorInterpFunction.class);
         
-        // visualization functions
+/*        // visualization functions
         addFunction("GROUPSIZE", GroupSizeFunction.class);
         addFunction("HOVER", HoverPredicate.class);
         addFunction("INGROUP", InGroupPredicate.class);
         addFunction("MATCH", SearchPredicate.class);
         addFunction("QUERY", QueryExpression.class);
         addFunction("VISIBLE", VisiblePredicate.class);
-        addFunction("VALIDATED", ValidatedPredicate.class);
+        addFunction("VALIDATED", ValidatedPredicate.class);*/
     }
     
     /**

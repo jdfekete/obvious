@@ -2,8 +2,8 @@ package obvious.query;
 
 import java.util.Comparator;
 
-import prefuse.data.Schema;
-import prefuse.data.Tuple;
+import obvious.Schema;
+import obvious.Tuple;
 import prefuse.util.TypeLib;
 import prefuse.util.collections.DefaultLiteralComparator;
 import prefuse.util.collections.LiteralComparator;

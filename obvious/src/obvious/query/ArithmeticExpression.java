@@ -1,7 +1,7 @@
 package obvious.query;
 
 import obvious.Schema;
-import prefuse.data.Tuple;
+import obvious.Tuple;
 import prefuse.util.TypeLib;
 
 /**

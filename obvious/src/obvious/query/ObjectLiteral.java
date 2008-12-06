@@ -1,7 +1,7 @@
 package obvious.query;
 
-import prefuse.data.Schema;
-import prefuse.data.Tuple;
+import obvious.Schema;
+import obvious.Tuple;
 
 /**
  * Literal expression of an Object value.
