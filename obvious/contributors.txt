@@ -1,0 +1,12 @@
+NAME;ORGANIZATION
+Jean-Daniel Fekete; INRIA, France
+Harald Piringer; VRVis, Austria
+Thomas Baudel; IBM, France
+Mike Smoot; UCSD, USA
+Jeffrey Heer; Stanford, USA
+Joshua O'Madadhain; Google, USA
+Giuseppe Santucci; University of Roma, Italy
+Martin Theus; Univ. of Berlin, Germany
+Jo Wood; City University London, UK
+Chris Weaver; University of Oklahoma, USA
+Christophe Favart; SAP, France
