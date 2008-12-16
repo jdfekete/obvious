@@ -35,7 +35,25 @@ public interface Graph<V, E> extends Data
 
     boolean addNode(V node);
     boolean removeNode(V node);
+
+    /**
+     * Add a hyperedge. 
+     * @param edge
+     * @param nodes
+     * @param edgeType
+     * @return
+     */
     boolean addEdge(E edge, Collection<? extends V> nodes, EdgeType edgeType);
+    
+    /**
+     * Convenience method for multigraphs.
+     * @param edge
+     * @param source
+     * @param target
+     * @param edgeType
+     * @return
+     */
+    boolean addEdge(E edge, V source, V target, EdgeType edgeType);
     boolean removeEdge(E edge);
 
     Collection<E> getInEdges(V node);
@@ -45,7 +63,7 @@ public interface Graph<V, E> extends Data
     Collection<V> getSuccessors(V node);
     
     V getSource(E directed_edge);
-    V getDest(E directed_edge);
+    V getTarget(E directed_edge);
     
     V getOpposite(V node, E edge); 
 
