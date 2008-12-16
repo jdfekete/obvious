@@ -8,17 +8,16 @@ import java.util.Collection;
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
-public interface Tree<V,E,T> extends Forest<V,E,T>
+public interface Tree<V,E> extends Forest<V,E>
 {
     public int getDepth(V node);
     public int getHeight();
     
     public V getRoot();
     
-    public V getParent(V node);
+    public V getParentNode(V node);
     public E getParentEdge(V node);
     
-    public Collection<V> getChildren(V node);
+    public Collection<V> getChildNodes(V node);
     public Collection<E> getChildEdges(V node);
-//    public int getChildCount(V node);
 } 

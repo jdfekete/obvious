@@ -8,8 +8,7 @@ import java.util.Collection;
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
-// existing JUNG interfaces below
-public interface Forest<V,E,T> extends Graph<V,E,T> 
+public interface Forest<V,E> extends Graph<V,E> 
 {
-    Collection<Tree<V,E,T>> getTrees();
+    Collection<Tree<V,E>> getTrees();
 } 

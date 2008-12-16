@@ -15,22 +15,27 @@ import java.util.Collection;
 //(2) Node and edge types?
 //(3) Explicit Table-related methods?
 
-public interface Graph<V, E, T> extends Data
+public interface Graph<V, E> extends Data
 {
+	enum EdgeType {
+		DIRECTED,
+		UNDIRECTED
+	}
+	
     Collection<E> getEdges();
     Collection<V> getNodes();
     
     Collection<V> getNeighbors(V node);
     Collection<E> getIncidentEdges(V node);
-    Collection<V> getIncidentVertices(E edge);
+    Collection<V> getIncidentNodes(E edge);
 
     // TODO: do we want this method or to let the user call getConnectingEdges(v1, v2).iterator().next()?
     E getConnectingEdge(V v1, V v2);
     Collection<E> getConnectingEdges(V v1, V v2);
 
-    boolean addVertex(V node);
-    boolean removeVertex(V node);
-    boolean addEdge(E edge, Collection<? extends V> nodes, T edgeType);
+    boolean addNode(V node);
+    boolean removeNode(V node);
+    boolean addEdge(E edge, Collection<? extends V> nodes, EdgeType edgeType);
     boolean removeEdge(E edge);
 
     Collection<E> getInEdges(V node);
@@ -44,5 +49,5 @@ public interface Graph<V, E, T> extends Data
     
     V getOpposite(V node, E edge); 
 
-   T getEdgeType(E edge);
+    EdgeType getEdgeType(E edge);
 }
