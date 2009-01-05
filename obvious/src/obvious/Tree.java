@@ -1,3 +1,10 @@
+/*****************************************************************************
+ * Copyright (C) 2008 Jean-Daniel Fekete and INRIA, France                  *
+ * ------------------------------------------------------------------------- *
+ * This software is published under the terms of the X11 Software License    *
+ * a copy of which has been included with this distribution in the           *
+ * license.txt file.                                                         *
+ *****************************************************************************/
 package obvious;
 
 import java.util.Collection;
@@ -20,4 +27,5 @@ public interface Tree<V,E> extends Forest<V,E>
     
     public Collection<V> getChildNodes(V node);
     public Collection<E> getChildEdges(V node);
+//    public int getChildCount(V node);
 } 
