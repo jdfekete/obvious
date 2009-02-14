@@ -1,5 +1,5 @@
 
-package obvious.test;
+package obvious;
 
 import obvious.Graph;
 
