@@ -18,7 +18,7 @@ The workshop will create a list of the remaining issues and propose an agenda to
 || Favart, Christophe || Business Intelligence  || http://www.businessobjects.com ||
 || Fekete, Jean‐Daniel || InfoVis Toolkit  || http://ivtk.sourceforge.net ||
 || Heer, Jeffrey || Prefuse/Flare  || http://www.prefuse.org ||
-|| O'Madadhain, Joshuah || JUNG  || http://jung.sourceforge.net ||
+|| O'Madadhain, Joshua || JUNG  || http://jung.sourceforge.net ||
 || Piringer, Harald || Visplore  || http://www.vrvis.at ||
 || Fischer, Danyel || DynaVis || http://research.microsoft.com/vibe/projects/dynavis.aspx ||
 || Santucci, Giuseppe || VisDis Libraries || http://www.dis.uniroma1.it/~santucci/VisDis/InfovisLib.html  ||
