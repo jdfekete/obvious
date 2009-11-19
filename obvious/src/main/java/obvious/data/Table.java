@@ -34,33 +34,41 @@ import obvious.data.Schema;
 import obvious.data.util.TableListener;
 import obvious.data.Data;
 
-
+/**
+ * Interface Table.
+ *
+ * @author obvious
+ * @version $Revision$
+ */
 public interface Table extends Data {
+    /**
+     * TO DO.
+     */
 	  static final Object MISSING_VALUE = new Object();//FIXME make it serializabe
 	    /**
-	     * Returns this Table's schema. 
+	     * Returns this Table's schema.
 	     * @return a copy of this Table's schema
 	     */
-	    public Schema getSchema();
+	    Schema getSchema();
 
 	    /**
 	     * Get the number of rows in the table.
 	     * @return the number of rows
 	     */
-	    public int getRowCount();
+	    int getRowCount();
 
 	    /**
-	     * Get an interator over the row numbers of this table.
+	     * Get an iterator over the row numbers of this table.
 	     * @return an iterator over the rows of this table
 	     */
-	    public IntIterator rowIterator();
+	    IntIterator rowIterator();
 
 	    /**
 	     * Indicates if the given row number corresponds to a valid table row.
 	     * @param rowId the row number to check for validity
 	     * @return true if the row is valid, false if it is not
 	     */
-	    public boolean isValidRow(int rowId);
+	    boolean isValidRow(int rowId);
 //	    /**
 //	     * Get the minimum row index currently in use by this Table.
 //	     * 
@@ -91,24 +99,92 @@ public interface Table extends Data {
 //	     */
 //	    public boolean containsTuple(Tuple t);
 
-	    public Object getValue(int rowId, String field);
-	    public Object getValue(int rowId, int col);
-	    public boolean isValueValid(int rowId, int col);
+	    /**
+	     * Gets a specific value.
+	     * @param rowId spotted row
+	     * @param field dedicated to spotted column
+	     * @return value
+	     */
+	    Object getValue(int rowId, String field);
 
+	    /**
+	     * Gets a specific value.
+	     * @param rowId spotted row
+	     * @param col spotted
+	     * @return value
+	     */
+	    Object getValue(int rowId, int col);
+
+	    /**
+	     * Indicates if a given value is correct.
+	     * @param rowId spotted row
+	     * @param col spotted
+	     * @return true if the coordinates are valid
+	     */
+	    boolean isValueValid(int rowId, int col);
+
+	    /**
+	     * Indicates the beginning of a column edit.
+	     * @param col edited
+	     */
 	    void beginEdit(int col);
+
+	    /**
+	     * Indicates the end of a column edit.
+	     * @param col edited
+	     */
 	    void endEdit(int col);
+
+	    /**
+	     * Indicates if a column is being edited.
+	     * @param col spotted
+	     * @return true if edited
+	     */
 	    boolean isEditing(int col);
 
-	    public void addTableListener(TableListener listnr);
-	    public void removeTableListener(TableListener listnr);
-	    public Collection<TableListener> getTableListeners();
+	    /**
+	     * Adds a table listener.
+	     * @param listnr to add
+	     */
+	    void addTableListener(TableListener listnr);
+
+	    /**
+	     * Removes a table listener.
+	     * @param listnr to remove
+	     */
+	    void removeTableListener(TableListener listnr);
+
+	    /**
+	     * Gets all table listener.
+	     * @return a collection of table listeners.
+	     */
+	    Collection<TableListener> getTableListeners();
 
 	    //Mutable methods
-	    boolean canAddRow();//FIXME
-	    boolean canRemoveRow();//FIXME
+	    /**
+	     * Indicates if possible to add rows.
+	     * @return true if possible
+	     */
+	    boolean canAddRow(); //FIXME
 
-	    public int addRow();
-	    public boolean removeRow(int row);
+	    /**
+	     * Indicates if possible to remove rows.
+	     * @return true if possible
+	     */
+	    boolean canRemoveRow(); //FIXME
+
+	    /**
+	     * Adds a row.
+	     * @return number of rows?
+	     */
+	    int addRow();
+
+	    /**
+	     * Removes a row.
+	     * @param row to remove
+	     * @return true if done
+	     */
+	    boolean removeRow(int row);
 
 	    /**
 	     * Removes all the rows.
@@ -120,6 +196,19 @@ public interface Table extends Data {
 	     */
 	    void removeAllRows();
 
-	    public void set(int rowId, String field, Object val);
-	    public void set(int rowId, int col, Object val);
+	    /**
+	     * Sets a value.
+	     * @param rowId row to set
+	     * @param field field to set
+	     * @param val to set
+	     */
+	    void set(int rowId, String field, Object val);
+
+	    /**
+	     * Sets a value.
+	     * @param rowId row to set
+	     * @param col to set
+	     * @param val to set
+	     */
+	    void set(int rowId, int col, Object val);
 }

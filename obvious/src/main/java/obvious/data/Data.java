@@ -29,6 +29,8 @@ package obvious.data;
 
 /**
  * Overarching interface for all classes that contain data.
+ * @author obvious
+ * @version $Revision$
  */
 
 public interface Data {

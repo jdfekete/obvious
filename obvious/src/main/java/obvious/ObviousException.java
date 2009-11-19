@@ -28,7 +28,7 @@
 package obvious;
 
 /**
- * Class ObviousException
+ * Class ObviousException.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
@@ -43,7 +43,7 @@ public class ObviousException extends Exception {
     }
 
     /**
-     * @param arg0
+     * @param arg0 message
      */
     public ObviousException(String arg0) {
         super(arg0);
@@ -51,7 +51,7 @@ public class ObviousException extends Exception {
     }
 
     /**
-     * @param arg0
+     * @param arg0 Throwable
      */
     public ObviousException(Throwable arg0) {
         super(arg0);
@@ -59,8 +59,8 @@ public class ObviousException extends Exception {
     }
 
     /**
-     * @param arg0
-     * @param arg1
+     * @param arg0 message
+     * @param arg1 Throwable
      */
     public ObviousException(String arg0, Throwable arg1) {
         super(arg0, arg1);

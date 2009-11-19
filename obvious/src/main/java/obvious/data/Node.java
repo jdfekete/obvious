@@ -29,7 +29,7 @@ package obvious.data;
 
 
 /**
- * Class Node.
+ * Interface Node.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$

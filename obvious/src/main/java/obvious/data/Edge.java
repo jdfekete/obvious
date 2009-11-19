@@ -29,7 +29,7 @@ package obvious.data;
 
 
 /**
- * Class Edge.
+ * Interface Edge.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$

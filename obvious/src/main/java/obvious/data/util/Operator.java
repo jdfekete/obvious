@@ -30,16 +30,39 @@ package obvious.data.util;
 import java.util.Properties;
 import obvious.data.DataSet;
 
+
+/**
+ * Interface Operator.
+ *
+ * @author obvious
+ * @version $Revision$
+ */
 public interface Operator {
   // the data set the operator operates on
+  /**
+   * Gets the data set.
+   * @return data set
+   */
   DataSet getDataSet();
+
+  /**
+   * Sets data set.
+   * @param set data set to set
+   */
   void setDataSet(DataSet set);
 
   // basic operation
   // need arguments? e.g., transitionner to collect value updates?
+  /**
+   * Basic operation.
+   */
   void operate();
 
   // handle progress?
+  /**
+   * Handles progress.
+   * @return double
+   */
   double progress();
 
   // TODO: get/set dependencies (as path names?)
@@ -47,11 +70,29 @@ public interface Operator {
   // handle interruption?
   // it might make sense to put this at the level of an operator execution
   // manager?
+  /**
+   * Pauses.
+   */
   void pause();
+  /**
+   * Resumes.
+   */
   void resume();
+  /**
+   * Yields.
+   */
   void yield();
 
   // handle serialization?
+  /**
+   * Gets state.
+   * @return properties
+   */
   Properties getState();
+
+  /**
+   * Sets states.
+   * @param state to set
+   */
   void setState(Properties state);
 }

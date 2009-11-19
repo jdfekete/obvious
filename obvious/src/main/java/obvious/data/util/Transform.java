@@ -29,6 +29,18 @@ package obvious.data.util;
 
 import obvious.data.Table;
 
+/**
+ * Interface Transform.
+ *
+ * @author Jean-Daniel Fekete
+ * @version $Revision$
+ */
+
 public interface Transform {
+    /**
+     * Operates transformation on a table.
+     * @param t table to process
+     * @return derived table
+     */
     Table transform(Table t);
 }

@@ -29,10 +29,10 @@ package obvious.data;
 
 
 /**
- * Class Graph.
+ * Interface Graph.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
-public interface Network extends obvious.data.Graph<Node, Edge>{
+public interface Network extends obvious.data.Graph<Node, Edge> {
 }
