@@ -27,13 +27,36 @@
 
 package obvious.data;
 
+/**
+ * Interface DataSet.
+ *
+ * @author obvious
+ * @version $Revision$
+ */
 public interface DataSet {
 
-	Data get(String name);
-	Data get(String name, Class type);
-	void set(String name, Data data);
-	
-	// TODO: iterators?
-	// could enable easy iteration over multiple Data instances
-	
+  /**
+   * Gets data in the data set.
+   * @param name data to pick
+   * @return data
+   */
+  Data get(String name);
+
+  /**
+   * Gets data in the data set.
+   * @param name data to pick
+   * @param type data's type to pick
+   * @return data
+   */
+  Data get(String name, Class type);
+
+  /**
+   * Sets data.
+   * @param name data's name to set
+   * @param data data to set
+   */
+  void set(String name, Data data);
+
+  // TODO: iterators?
+  // could enable easy iteration over multiple Data instances
 }

@@ -30,12 +30,18 @@ package obvious.data.util;
 import obvious.data.Table;
 
 /**
- * Class Predicate.
+ * Interface Predicate.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
 
 public interface Predicate {
+    /**
+     * Applies a predicate on a table's row.
+     * @param table to process
+     * @param rowId row to process
+     * @return true if it applies
+     */
     boolean apply(Table table, int rowId);
 }

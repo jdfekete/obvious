@@ -30,22 +30,61 @@ package obvious.data;
 import java.util.Collection;
 
 /**
- * Class Tree.
+ * Interface Tree.
+ *
+ * @param <V> Vertex object
+ * @param <E> Edge object
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
-public interface Tree<V,E> extends Forest<V,E>
-{
-    public int getDepth(V node);
-    public int getHeight();
-    
-    public V getRoot();
-    
-    public V getParentNode(V node);
-    public E getParentEdge(V node);
-    
-    public Collection<V> getChildNodes(V node);
-    public Collection<E> getChildEdges(V node);
+public interface Tree<V, E> extends Forest<V, E> {
+
+    /**
+     * Gets depth of a node.
+     * @param node to inspect
+     * @return depth of the node
+     */
+    int getDepth(V node);
+
+    /**
+     * Gets height of the tree.
+     * @return the height of the tree.
+     */
+    int getHeight();
+
+    /**
+     * Gets the root of the tree.
+     * @return root node
+     */
+    V getRoot();
+
+    /**
+     * Gets the parent node of a node.
+     * @param node child node
+     * @return parent node
+     */
+    V getParentNode(V node);
+
+    /**
+     * Gets the parent edge of a node.
+     * @param node child node
+     * @return parent edge
+     */
+    E getParentEdge(V node);
+
+    /**
+     * Gets all the child nodes of a node.
+     * @param node parent node
+     * @return collection of child nodes
+     */
+    Collection<V> getChildNodes(V node);
+
+    /**
+     * Gets all the child edges of a node.
+     * @param node parent node
+     * @return collection of child edges
+     */
+    Collection<E> getChildEdges(V node);
 //    public int getChildCount(V node);
-} 
+}

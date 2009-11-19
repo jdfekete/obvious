@@ -31,13 +31,20 @@ import java.util.Collection;
 
 
 /**
- * Class Forest.
+ * Interface Forest.
+ *
+ * @param <V> Vertex object
+ * @param <E> Edge object
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
 
-public interface Forest<V,E> extends Graph<V,E> {
+public interface Forest<V, E> extends Graph<V, E> {
 
-    Collection<Tree<V,E>> getTrees();
+    /**
+     * Unknown.
+     * @return collection of trees
+     */
+    Collection<Tree<V, E>> getTrees();
 }
