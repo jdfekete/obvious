@@ -4,16 +4,16 @@ import obvious.data.Table;
 
 /**
  * Listener interface for monitoring changes to a table.
- * 
+ *
  * @author <a href="http://jheer.org">jeffrey heer</a>
  */
 public interface TableListener {
-    
+
     int ALL_COLUMN = -1;
-    
+
     int BEGIN_EDIT = -0;
     int END_EDIT = -0;
-    
+
     /**
      * Notification that a table has changed.
      * @param t the table that has changed
@@ -26,6 +26,6 @@ public interface TableListener {
      * {@link EventConstants#INSERT}, {@link EventConstants#DELETE}, or
      * {@link EventConstants#UPDATE}.
      */
-    public void tableChanged(Table t, int start, int end, int col, int type);
-    
+    void tableChanged(Table t, int start, int end, int col, int type);
+
 } // end of interface TableListener
