@@ -57,9 +57,14 @@ public class SchemaImpl implements Schema {
    * Contains default value of columns.
    */
   private ArrayList<Object> defaultValues;
-  
-  private Map<String,ArrayList> columns;
-  private Map<String,Integer> columnIndex;
+  /**
+   * Columns of the table associated to the schema.
+   */
+  private Map<String, ArrayList<Object>> columns;
+  /**
+   * Index of the columns of the table of the schema.
+   */
+  private Map<String, Integer> columnIndex;
 
     // ------------------------------------------------------------------------
     // Constructors

@@ -65,7 +65,7 @@ public interface Operator {
    */
   double progress();
 
-  // TODO: get/set dependencies (as path names?)
+  // TO DO: get/set dependencies (as path names?)
 
   // handle interruption?
   // it might make sense to put this at the level of an operator execution
