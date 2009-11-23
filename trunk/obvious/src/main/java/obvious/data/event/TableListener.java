@@ -25,12 +25,40 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.data.util;
+package obvious.data.event;
 
 import obvious.data.Table;
 
 /**
  * Listener interface for monitoring changes to a table.
+
+ * There are three different scenarios:
+ * <ol>
+ * <li>When the table structure is changed
+ * (e.g. when a column is created or deleted);
+ * <li>When some table metadata is changed
+ * (e.g. a column name changed);
+ * <li>When some data has changed (e.g. a
+ * row has been modified, added or deleted).
+ * </ol>
+ * <pre>
+ * //  The data, ie. all rows changed:
+ * tableChanged(source, 0, source.getRowCount()-1, ALL_COLUMN, UPDATE);
+ * // Structure change, reallocate TableColumns:
+ * tableChanged(source, -1, -1, ALL_COLUMN, UPDATE);
+ * // Metadata for column 3 has changed:
+ * tableChanged(source, -1, -1, 3, UPDATE);
+ * //  Row 1 changed:
+ * tableChanged(source, 1, 1, ALL_COLUMN, UPDATE);
+ * //  Rows 3 to 6 inclusive changed:
+ * tableChanged(source, 3, 6, ALL_COLUMN, UPDATE);
+ * //  Cell at (2, 6) changed:
+ * tableChanged(source, 2, 2, 6, UPDATE);
+ *  // Rows (3, 6) were inserted:
+ * tableChanged(source, 3, 6, ALL_COLUMNS, INSERT);
+ * // Rows (3, 6) were deleted:
+ * tableChanged(source, 3, 6, ALL_COLUMNS, DELETE);
+ * </pre>
  *
  * @author <a href="http://jheer.org">jeffrey heer</a>
  */
@@ -41,13 +69,16 @@ public interface TableListener {
     int ALL_COLUMN = -1;
 
     /**
-     * Constant.
+     * Specify that the following calls to
+     * tableChanged belong to the same transaction.
      */
-    int BEGIN_EDIT = -0;
+    void beginEdit();
+
     /**
-     * Constant.
+     * Specify that the calls to tableChanged belonging to
+     * the same transaction are finished.
      */
-    int END_EDIT = -0;
+    void endEdit();
 
     /**
      * Notification that a table has changed.

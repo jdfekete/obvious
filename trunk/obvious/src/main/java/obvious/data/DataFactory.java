@@ -55,7 +55,8 @@ public abstract class DataFactory {
         if (instance == null) {
             String className = System.getProperty("obvious.DataFactory");
             if (className == null) {
-                throw new ObviousException("Property obvious.DataFactory not set");
+                throw new ObviousException(
+                        "Property obvious.DataFactory not set");
             }
             try {
                 Class c = Class.forName(className);
@@ -72,17 +73,19 @@ public abstract class DataFactory {
      * @param name table's name
      * @param schema original schema for the table
      * @return table derived from the schema
-     * @throws ObviousException .
+     * @throws ObviousException when the table cannot be created.
      */
-    public abstract Table createTable(String name, Schema schema) throws ObviousException;
+    public abstract Table createTable(String name, Schema schema)
+        throws ObviousException;
 
     /**
      * Creates a table from an existing table object.
      * @param unerlyingTable original table
      * @return obvious table
-     * @throws ObviousException .
+     * @throws ObviousException when the table cannot be created.
      */
-    public abstract Table wrapTable(Object unerlyingTable) throws ObviousException;
+    public abstract Table wrapTable(Object unerlyingTable)
+        throws ObviousException;
 
     /**
      * Creates a network from an existing Schema instance.
@@ -90,16 +93,19 @@ public abstract class DataFactory {
      * @param nodeSchema original schema for nodes
      * @param edgeSchema original schema for edges
      * @return network derived from the network
-     * @throws ObviousException .
+     * @throws ObviousException when the table cannot be created.
      */
-    public abstract Network createGraph(String name, Schema nodeSchema, Schema edgeSchema) throws ObviousException;
+    public abstract Network createGraph(
+            String name, Schema nodeSchema, Schema edgeSchema)
+        throws ObviousException;
 
     /**
      * Creates a network from an existing graph/network object.
      * @param underlyingGraph original graph object
      * @return obvious network
-     * @throws ObviousException .
+     * @throws ObviousException when the table cannot be created.
      */
-    public abstract Network wrapGraph(Object underlyingGraph) throws ObviousException;
+    public abstract Network wrapGraph(Object underlyingGraph)
+        throws ObviousException;
 
 }
