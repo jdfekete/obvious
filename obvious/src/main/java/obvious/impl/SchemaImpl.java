@@ -27,12 +27,13 @@
 
 package obvious.impl;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 import obvious.data.Schema;
+import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
-import obvious.data.util.TableListener;
 
 /**
  * Class SchemaImpl.
@@ -56,6 +57,9 @@ public class SchemaImpl implements Schema {
    * Contains default value of columns.
    */
   private ArrayList<Object> defaultValues;
+  
+  private Map<String,ArrayList> columns;
+  private Map<String,Integer> columnIndex;
 
     // ------------------------------------------------------------------------
     // Constructors

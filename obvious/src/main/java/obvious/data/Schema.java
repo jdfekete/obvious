@@ -145,9 +145,8 @@ public interface Schema extends Table {
      * @param name the data field name for the column
      * @param type the data type, as a Java Class, for the column
      * @param defaultValue the default value for column data values
-     * @see prefuse.data.tuple.TupleSet#addColumn(java.lang.String, java.lang.Class, java.lang.Object)
      * @return the column index
-     * @throws Exception when the column name already exists.
+     * throws a runtime exception when the column name already exists.
      */
     int addColumn(String name, Class type, Object defaultValue);
 
@@ -156,7 +155,6 @@ public interface Schema extends Table {
 //     * dynamically calculate the column data values.
 //     * @param name the data field name for the column
 //     * @param expr the Expression that will determine the column values
-//     * @see prefuse.data.tuple.TupleSet#addColumn(java.lang.String, prefuse.data.expression.Expression)
 //     */
 //    public void addColumn(String name, Expression expr);
 

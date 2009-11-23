@@ -29,10 +29,10 @@ package obvious.data;
 
 import java.util.Collection;
 
+import obvious.ObviousException;
+import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
-import obvious.data.Schema;
-import obvious.data.util.TableListener;
-import obvious.data.Data;
+import obvious.data.util.MissingValue;
 
 /**
  * Interface Table.
@@ -42,173 +42,175 @@ import obvious.data.Data;
  */
 public interface Table extends Data {
     /**
-     * TO DO.
+     * Missing value.
      */
-	  static final Object MISSING_VALUE = new Object();//FIXME make it serializabe
-	    /**
-	     * Returns this Table's schema.
-	     * @return a copy of this Table's schema
-	     */
-	    Schema getSchema();
+    MissingValue MISSING_VALUE = MissingValue.getInstance();
 
-	    /**
-	     * Get the number of rows in the table.
-	     * @return the number of rows
-	     */
-	    int getRowCount();
+    /**
+     * Returns this Table's schema.
+     * @return a copy of this Table's schema
+     */
+    Schema getSchema();
 
-	    /**
-	     * Get an iterator over the row numbers of this table.
-	     * @return an iterator over the rows of this table
-	     */
-	    IntIterator rowIterator();
+    /**
+     * Get the number of rows in the table.
+     * @return the number of rows
+     */
+    int getRowCount();
 
-	    /**
-	     * Indicates if the given row number corresponds to a valid table row.
-	     * @param rowId the row number to check for validity
-	     * @return true if the row is valid, false if it is not
-	     */
-	    boolean isValidRow(int rowId);
-//	    /**
-//	     * Get the minimum row index currently in use by this Table.
-//	     * 
-//	     * @return the minimum row index
-//	     */
-//	    public int getMinimumRow();
-	//    
-//	    /**
-//	     * Get the maximum row index currently in use by this Table.
-//	     * @return the maximum row index
-//	     */
-//	    public int getMaximumRow();
+    /**
+     * Get an iterator over the row numbers of this table.
+     * @return an iterator over the rows of this table
+     */
+    IntIterator rowIterator();
 
-//	    /**
-//	     * Get the Tuple instance providing object-oriented access to the given
-//	     * table row.
-//	     * @param rowId the table row
-//	     * @return the Tuple for the given table row
-//	     */
-//	    public Tuple getTuple(int rowId);
+    /**
+     * Indicates if the given row number corresponds to a valid table row.
+     * @param rowId the row number to check for validity
+     * @return true if the row is valid, false if it is not
+     */
+    boolean isValidRow(int rowId);
+//    /**
+//     * Get the minimum row index currently in use by this Table.
+//     *
+//     * @return the minimum row index
+//     */
+//    public int getMinimumRow();
 //
-//	    /**
-//	     * Indicates if this table contains the given Tuple instance.
-//	     * @param t the Tuple to check for containment
-//	     * @return true if the Tuple represents a row of this table, false if
-//	     * it does not
-//	     * @see prefuse.data.tuple.TupleSet#containsTuple(prefuse.data.Tuple)
-//	     */
-//	    public boolean containsTuple(Tuple t);
+//    /**
+//     * Get the maximum row index currently in use by this Table.
+//     * @return the maximum row index
+//     */
+//    public int getMaximumRow();
+//    /**
+//     * Get the Tuple instance providing object-oriented access to the given
+//     * table row.
+//     * @param rowId the table row
+//     * @return the Tuple for the given table row
+//     */
+//    public Tuple getTuple(int rowId);
+//
+//    /**
+//     * Indicates if this table contains the given Tuple instance.
+//     * @param t the Tuple to check for containment
+//     * @return true if the Tuple represents a row of this table, false if
+//     * it does not
+//     * @see prefuse.data.tuple.TupleSet#containsTuple(prefuse.data.Tuple)
+//     */
+//    public boolean containsTuple(Tuple t);
 
-	    /**
-	     * Gets a specific value.
-	     * @param rowId spotted row
-	     * @param field dedicated to spotted column
-	     * @return value
-	     */
-	    Object getValue(int rowId, String field);
+    /**
+     * Gets a specific value.
+     * @param rowId spotted row
+     * @param field dedicated to spotted column
+     * @return value
+     */
+    Object getValue(int rowId, String field);
 
-	    /**
-	     * Gets a specific value.
-	     * @param rowId spotted row
-	     * @param col spotted
-	     * @return value
-	     */
-	    Object getValue(int rowId, int col);
+    /**
+     * Gets a specific value.
+     * @param rowId spotted row
+     * @param col spotted
+     * @return value
+     */
+    Object getValue(int rowId, int col);
 
-	    /**
-	     * Indicates if a given value is correct.
-	     * @param rowId spotted row
-	     * @param col spotted
-	     * @return true if the coordinates are valid
-	     */
-	    boolean isValueValid(int rowId, int col);
+    /**
+     * Indicates if a given value is correct.
+     * @param rowId spotted row
+     * @param col spotted
+     * @return true if the coordinates are valid
+     */
+    boolean isValueValid(int rowId, int col);
 
-	    /**
-	     * Indicates the beginning of a column edit.
-	     * @param col edited
-	     */
-	    void beginEdit(int col);
+    /**
+     * Indicates the beginning of a column edit.
+     * @param col edited
+     * @throws ObviousException if edition is not supported.
+     */
+    void beginEdit(int col) throws ObviousException;
 
-	    /**
-	     * Indicates the end of a column edit.
-	     * @param col edited
-	     */
-	    void endEdit(int col);
+    /**
+     * Indicates the end of a column edit.
+     * @param col edited
+     * @throws ObviousException if edition is not supported.
+     */
+    void endEdit(int col) throws ObviousException;
 
-	    /**
-	     * Indicates if a column is being edited.
-	     * @param col spotted
-	     * @return true if edited
-	     */
-	    boolean isEditing(int col);
+    /**
+     * Indicates if a column is being edited.
+     * @param col spotted
+     * @return true if edited
+     */
+    boolean isEditing(int col);
 
-	    /**
-	     * Adds a table listener.
-	     * @param listnr to add
-	     */
-	    void addTableListener(TableListener listnr);
+    /**
+     * Adds a table listener.
+     * @param listnr to add
+     */
+    void addTableListener(TableListener listnr);
 
-	    /**
-	     * Removes a table listener.
-	     * @param listnr to remove
-	     */
-	    void removeTableListener(TableListener listnr);
+    /**
+     * Removes a table listener.
+     * @param listnr to remove
+     */
+    void removeTableListener(TableListener listnr);
 
-	    /**
-	     * Gets all table listener.
-	     * @return a collection of table listeners.
-	     */
-	    Collection<TableListener> getTableListeners();
+    /**
+     * Gets all table listener.
+     * @return a collection of table listeners.
+     */
+    Collection<TableListener> getTableListeners();
 
-	    //Mutable methods
-	    /**
-	     * Indicates if possible to add rows.
-	     * @return true if possible
-	     */
-	    boolean canAddRow(); //FIXME
+    //Mutable methods
+    /**
+     * Indicates if possible to add rows.
+     * @return true if possible
+     */
+    boolean canAddRow(); //FIXME
 
-	    /**
-	     * Indicates if possible to remove rows.
-	     * @return true if possible
-	     */
-	    boolean canRemoveRow(); //FIXME
+    /**
+     * Indicates if possible to remove rows.
+     * @return true if possible
+     */
+    boolean canRemoveRow(); //FIXME
 
-	    /**
-	     * Adds a row.
-	     * @return number of rows?
-	     */
-	    int addRow();
+    /**
+     * Adds a row.
+     * @return number of rows?
+     */
+    int addRow();
 
-	    /**
-	     * Removes a row.
-	     * @param row to remove
-	     * @return true if done
-	     */
-	    boolean removeRow(int row);
+    /**
+     * Removes a row.
+     * @param row to remove
+     * @return true if done
+     */
+    boolean removeRow(int row);
 
-	    /**
-	     * Removes all the rows.
-	     *
-	     * <p>After this method, the table is almost in the same state as if
-	     * it had been created afresh except it contains the same columns as before
-	     * but they are all cleared.
-	     *
-	     */
-	    void removeAllRows();
+    /**
+     * Removes all the rows.
+     *
+     * <p>After this method, the table is almost in the same state as if
+     * it had been created afresh except it contains the same columns as before
+     * but they are all cleared.
+     *
+     */
+    void removeAllRows();
 
-	    /**
-	     * Sets a value.
-	     * @param rowId row to set
-	     * @param field field to set
-	     * @param val to set
-	     */
-	    void set(int rowId, String field, Object val);
+    /**
+     * Sets a value.
+     * @param rowId row to set
+     * @param field field to set
+     * @param val to set
+     */
+    void set(int rowId, String field, Object val);
 
-	    /**
-	     * Sets a value.
-	     * @param rowId row to set
-	     * @param col to set
-	     * @param val to set
-	     */
-	    void set(int rowId, int col, Object val);
+    /**
+     * Sets a value.
+     * @param rowId row to set
+     * @param col to set
+     * @param val to set
+     */
+    void set(int rowId, int col, Object val);
 }
