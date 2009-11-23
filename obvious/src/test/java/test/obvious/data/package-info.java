@@ -25,38 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.data;
-
 /**
- * Interface DataSet.
+ * <h1>Package test.obvious.data</h1>
  *
- * @author obvious
- * @version $Revision$
+ * TODO document the package.
  */
-public interface DataSet {
-
-  /**
-   * Gets data in the data set.
-   * @param name data to pick
-   * @return data
-   */
-  Data get(String name);
-
-  /**
-   * Gets data in the data set.
-   * @param name data to pick
-   * @param type data's type to pick
-   * @return data
-   */
-  Data get(String name, Class type);
-
-  /**
-   * Sets data.
-   * @param name data's name to set
-   * @param data data to set
-   */
-  void set(String name, Data data);
-
-  // TO DO: iterators?
-  // could enable easy iteration over multiple Data instances
-}
+package test.obvious.data;

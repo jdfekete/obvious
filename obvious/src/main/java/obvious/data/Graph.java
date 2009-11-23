@@ -96,7 +96,8 @@ public interface Graph<V, E> extends Data {
      */
     Collection<V> getIncidentNodes(E edge);
 
-    // TODO: do we want this method or to let the user call getConnectingEdges(v1, v2).iterator().next()?
+    // TO DO: do we want this method or to let
+    // the user call getConnectingEdges(v1, v2).iterator().next()?
 
     /**
      * Gets for two nodes the connecting edge.
