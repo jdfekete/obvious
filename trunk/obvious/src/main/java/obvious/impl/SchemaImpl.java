@@ -29,8 +29,11 @@ package obvious.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
+import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
@@ -46,13 +49,25 @@ import obvious.data.util.IntIterator;
 public class SchemaImpl implements Schema {
 
   /**
+   * Is the schema being edited.
+   */
+  private boolean editing;
+  /**
+   * Are rows removable.
+   */
+  private boolean canRemoveRow;
+  /**
+   * Are rows addable.
+   */
+  private boolean canAddRow;
+  /**
    * Contains name of columns.
    */
   private ArrayList<String> names;
   /**
    * Contains type of columns.
    */
-  private ArrayList<Class> types;
+  private ArrayList<Class<?>> types;
   /**
    * Contains default value of columns.
    */
@@ -60,22 +75,51 @@ public class SchemaImpl implements Schema {
   /**
    * Columns of the table associated to the schema.
    */
-  private Map<String, ArrayList<Object>> columns;
+  private Map<String, ArrayList<?>> columns;
   /**
    * Index of the columns of the table of the schema.
    */
   private Map<String, Integer> columnIndex;
+  /**
+   * ArrayList of listeners.
+   */
+  private ArrayList<TableListener> listener;
 
     // ------------------------------------------------------------------------
     // Constructors
 
   /**
-   * Constructor of SchemaImpl.
+   * Constructor of SchemaImpl with parameters.
+   * @param addable true if row addition possible
+   * @param removable true if row removal possible
+   */
+  public SchemaImpl(boolean addable, boolean removable) {
+    this.canAddRow = addable;
+    this.canRemoveRow = removable;
+    this.editing = false;
+    this.names = new ArrayList<String>();
+    this.types = new ArrayList<Class<?>>();
+    this.defaultValues = new ArrayList<Object>();
+    this.listener = new ArrayList<TableListener>();
+    columns.put(NAME, names);
+    columns.put(TYPE, types);
+    columns.put(DEFAULT_VALUE, defaultValues);
+  }
+
+  /**
+   * Constructor of SchemaImpl without parameters.
+   * Assumes table can not be changed.
    */
   public SchemaImpl() {
+    this.canAddRow = false;
+    this.canRemoveRow = false;
+    this.editing = false;
     this.names = new ArrayList<String>();
-    this.types = new ArrayList<Class>();
+    this.types = new ArrayList<Class<?>>();
     this.defaultValues = new ArrayList<Object>();
+    columns.put(NAME, names);
+    columns.put(TYPE, types);
+    columns.put(DEFAULT_VALUE, defaultValues);
   }
 
     // ------------------------------------------------------------------------
@@ -95,7 +139,7 @@ public class SchemaImpl implements Schema {
    * @param col the column index
    * @return the data type (as a Java Class) of the column
    */
-  public Class getColumnType(int col) {
+  public Class<?> getColumnType(int col) {
     return this.types.get(col);
   }
 
@@ -116,8 +160,8 @@ public class SchemaImpl implements Schema {
   public String getColumnName(int col) {
     try {
       return this.names.get(col);
-    } catch (IndexOutOfBoundsException e) { return null;}
-
+    } catch (IndexOutOfBoundsException e) { return null;
+    }
   }
 
   /**
@@ -183,9 +227,8 @@ public class SchemaImpl implements Schema {
    * @param name the data field name for the column
    * @param type the data type, as a Java Class, for the column
    * @param defaultValue the default value for column data values
-   * @see prefuse.data.tuple.TupleSet#addColumn(java.lang.String, java.lang.Class, java.lang.Object)
    * @return the column index
-   * @throws Exception when the column name already exists.
+   * an Exception when the column name already exists.
    */
   public int addColumn(String name, Class type, Object defaultValue) {
     this.names.add(name);
@@ -209,160 +252,255 @@ public class SchemaImpl implements Schema {
    * @return true if removed
    */
   public boolean removeColumn(String field) {
-  	if (hasColumn(field)) {
+    if (hasColumn(field)) {
       return removeColumn(getColumnIndex(field));
     } else {
       return false;
     }
   }
 
-    // ------------------------------------------------------------------------
-    // Methods inherited from Table
+  // ------------------------------------------------------------------------
+  // Methods inherited from Table
 
-    /**
-    /* Not implemented in this example.
-     * @return current schema
-     */
-    public Schema getSchema() {
-    	return this;
+  /**
+   * Returns this Table's schema.
+   * @return a copy of this Table's schema
+   */
+  public Schema getSchema() {
+    return this;
+  }
+
+  /**
+   * Get the number of rows in the table.
+   * @return the number of rows
+   */
+  public int getRowCount() {
+    int maxArraySize = 0;
+    for (Iterator<ArrayList<?>> i = columns.values().iterator(); i.hasNext();) {
+      ArrayList<?> currentArray = (ArrayList<?>) i.next();
+      if (currentArray.size() > maxArraySize) {
+        maxArraySize = currentArray.size();
+      }
     }
+    return maxArraySize;
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return 0
-     */
-    public int getRowCount() {
-    	return 0;
+  /**
+   * Get an iterator over the row numbers of this table.
+   * @return an iterator over the rows of this table
+   */
+  public IntIterator rowIterator() {
+    IntIterator intIterator = (IntIterator) columnIndex.values().iterator();
+    return intIterator;
+  }
+
+  /**
+   * Indicates if the given row number corresponds to a valid table row.
+   * @param rowId the row number to check for validity
+   * @return true if the row is valid, false if it is not
+   */
+  public boolean isValidRow(int rowId) {
+    boolean isValid = false;
+    if (rowId < this.getRowCount()) {
+      isValid = true;
     }
+    return isValid;
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return null
-     */
-    public IntIterator rowIterator() {
-    	return null;
+  /**
+   * Gets a specific value.
+   * @param rowId spotted row
+   * @param field dedicated to spotted column
+   * @return value
+   */
+  public Object getValue(int rowId, String field) {
+    ArrayList<?> spottedColumn = (ArrayList<?>) columns.get(field);
+    return spottedColumn.get(rowId);
+  }
+
+  /**
+   * Gets a specific value.
+   * @param rowId spotted row
+   * @param col spotted
+   * @return value
+   */
+  public Object getValue(int rowId, int col) {
+    Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
+    ArrayList<Map.Entry<String, Integer>> indexList =
+        new ArrayList<Map.Entry<String, Integer>>(mapSet);
+    for (Iterator<Map.Entry<String, Integer>> iter = indexList.iterator();
+        iter.hasNext();) {
+      Map.Entry<String, Integer> spottedEntry =
+        (Map.Entry<String, Integer>) (iter.next());
+      if (spottedEntry.getValue() == col) {
+        return this.getValue(rowId, spottedEntry.getKey());
+      }
     }
+    return null;
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return false
-     */
-    public boolean isValidRow(int rowId) {
-    	return false;
+  /**
+   * Indicates if a given value is correct.
+   * @param rowId spotted row
+   * @param col spotted
+   * @return true if the coordinates are valid
+   */
+  public boolean isValueValid(int rowId, int col) {
+    if (!this.isValidRow(rowId)) {
+      return false;
+    } else {
+      return columnIndex.containsValue(col);
     }
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return null
-     */
-    public Object getValue(int rowId, String field) {
-    	return null;
+  /**
+   * Indicates the beginning of a column edit.
+   * @param col edited
+   * @throws ObviousException if edition is not supported.
+   */
+  public void beginEdit(int col) throws ObviousException {
+    this.editing = true;
+  }
+
+  /**
+   * Indicates the end of a column edit.
+   * @param col edited
+   * @throws ObviousException if edition is not supported.
+   */
+  public void endEdit(int col) throws ObviousException {
+    this.editing = false;
+  }
+
+  /**
+   * Indicates if a column is being edited.
+   * @param col spotted
+   * @return true if edited
+   */
+  public boolean isEditing(int col) {
+    return this.editing;
+  }
+
+  /**
+   * Adds a table listener.
+   * @param listnr to add
+   */
+  public void addTableListener(TableListener listnr) {
+    listener.add(listnr);
+  }
+
+  /**
+   * Removes a table listener.
+   * @param listnr to remove
+   */
+  public void removeTableListener(TableListener listnr) {
+    listener.remove(listnr);
+  }
+
+  /**
+   * Gets all table listener.
+   * @return a collection of table listeners.
+   */
+  public Collection<TableListener> getTableListeners() {
+    return null;
+  }
+
+  /**
+   * Indicates if possible to add rows.
+   * @return true if possible
+   */
+  public boolean canAddRow() {
+    return this.canAddRow;
+  }
+
+  /**
+   * Indicates if possible to remove rows.
+   * @return true if possible
+   */
+  public boolean canRemoveRow() {
+    return this.canRemoveRow;
+  }
+
+  /**
+   * Adds a row.
+   * @return number of rows
+   */
+  public int addRow() {
+    if (this.canAddRow()) {
+      for (Iterator<ArrayList<?>> iter = columns.values().iterator();
+          iter.hasNext();) {
+        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+        spottedArray.add(null);
+      }
     }
+    return this.getRowCount();
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return null
-     */
-    public Object getValue(int rowId, int col) {
-    	return null;
+  /**
+  /* Removes a row in the schema's table.
+   * @param row the index of the row to remove
+   * @return true if removes, else false.
+   */
+  public boolean removeRow(int row) {
+    if (!this.canRemoveRow()) {
+      return false;
+    } else if (this.isValidRow(row)) {
+      for (Iterator<ArrayList<?>> iter = columns.values().iterator();
+          iter.hasNext();) {
+        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+        spottedArray.remove(row);
+      }
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    /**
-    /* Not implemented in this example.
-     * @return false
-     */
-    public boolean isValueValid(int rowId, int col) {
-    	return false;
+  /**
+   * Removes all the rows.
+   *
+   * <p>After this method, the table is almost in the same state as if
+   * it had been created afresh except it contains the same columns as before
+   * but they are all cleared.
+   *
+   */
+  public void removeAllRows() {
+    if (this.canRemoveRow()) {
+      for (Iterator<ArrayList<?>> iter = columns.values().iterator();
+          iter.hasNext();) {
+        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+        spottedArray.clear();
+      }
     }
+  }
 
-    /**
-    /* Not implemented in this example.
-     */
-    public void beginEdit(int col) {
+  /**
+   * Sets a value.
+   * @param rowId row to set
+   * @param field field to set
+   * @param val to set
+   */
+  public void set(int rowId, String field, Object val) {
+    ArrayList<Object> spottedArray = (ArrayList<Object>) columns.get(field);
+    spottedArray.set(rowId, val);
+  }
+
+  /**
+   * Sets a value.
+   * @param rowId row to set
+   * @param col to set
+   * @param val to set
+   */
+  public void set(int rowId, int col, Object val) {
+    Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
+    ArrayList<Map.Entry<String, Integer>> indexList =
+        new ArrayList<Map.Entry<String, Integer>>(mapSet);
+    for (Iterator<Map.Entry<String, Integer>> iter = indexList.iterator();
+        iter.hasNext();) {
+      Map.Entry<String, Integer> spottedEntry =
+          (Map.Entry<String, Integer>) (iter.next());
+      if (spottedEntry.getValue() == col) {
+        this.set(rowId, spottedEntry.getKey(), val);
+      }
     }
-
-    /**
-    /* Not implemented in this example.
-     */
-    public void endEdit(int col) {
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @return false
-     */
-    public boolean isEditing(int col) {
-    	return false;
-    }
-
-    /**
-    /* Not implemented in this example.
-     */
-    public void addTableListener(TableListener listnr) {
-    }
-
-    /**
-    /* Not implemented in this example.
-     */
-    public void removeTableListener(TableListener listnr) {
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @return null
-     */
-    public Collection<TableListener> getTableListeners() {
-    	return null;
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @return false
-     */
-    public boolean canAddRow() {
-    	return false;
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @return false
-     */
-    public boolean canRemoveRow() {
-    	return false;
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @return 0
-     */
-    public int addRow() {
-    	return 0;
-    }
-
-    /**
-    /* Not implemented in this example.
-     * @param row
-     * @return false
-     */
-    public boolean removeRow(int row) {
-    	return false;
-    }
-
-    /**
-    /* Not implemented in this example.
-     */
-    public void removeAllRows() { }
-
-    /**
-    /* Not implemented in this example.
-     */
-    public void set(int rowId, String field, Object val) {}
-
-    /**
-    /* Not implemented in this example.
-     * @param rowId
-     * @param col
-     * @param val
-     */
-    public void set(int rowId, int col, Object val) { }
+  }
 }
