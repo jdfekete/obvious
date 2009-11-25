@@ -48,7 +48,7 @@ public interface DataSet {
    * @param type data's type to pick
    * @return data
    */
-  Data get(String name, Class type);
+  Data get(String name, Class<?> type);
 
   /**
    * Sets data.

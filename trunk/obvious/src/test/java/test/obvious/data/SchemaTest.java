@@ -10,7 +10,7 @@
 *       notice, this list of conditions and the following disclaimer in the
 *       documentation and/or other materials provided with the distribution.
 *     * Neither the name of INRIA nor the names of its contributors may
-*       be used to endorse or promote products derived from this software 
+*       be used to endorse or promote products derived from this software
 *       without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY
@@ -29,7 +29,9 @@ package test.obvious.data;
 
 import obvious.data.Schema;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
@@ -128,9 +130,10 @@ public class SchemaTest {
    */
   @Test
   public void testRemoveColumnByIndex() {
+    final int falseIndex = 3;
     assertTrue(schema.removeColumn(0));
     assertTrue(schema.removeColumn(1));
-    assertFalse(schema.removeColumn(3));
+    assertFalse(schema.removeColumn(falseIndex));
   }
 
   /**

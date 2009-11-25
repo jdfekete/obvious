@@ -86,7 +86,7 @@ public interface Schema extends Table {
      * @param col the column index
      * @return the data type (as a Java Class) of the column
      */
-    Class getColumnType(int col);
+    Class<?> getColumnType(int col);
 
     /**
      * Gets the default value for a column.
@@ -101,7 +101,7 @@ public interface Schema extends Table {
      * @param type can be null
      * @return true if readable
      */
-    boolean canGet(int col, Class type);
+    boolean canGet(int col, Class<?> type);
 
     /**
      * Indicates if possible to write a column.
@@ -109,14 +109,14 @@ public interface Schema extends Table {
      * @param type can be null
      * @return true if writable
      */
-    boolean canSet(int col, Class type);
+    boolean canSet(int col, Class<?> type);
 
     /**
      * Get the data type of the column with the given data field name.
      * @param field the column / data field name
      * @return the data type (as a Java Class) of the column
      */
-    Class getColumnType(String field);
+    Class<?> getColumnType(String field);
 
     /**
      * Internal method indicating if the given data field is included as a
@@ -148,7 +148,7 @@ public interface Schema extends Table {
      * @return the column index
      * throws a runtime exception when the column name already exists.
      */
-    int addColumn(String name, Class type, Object defaultValue);
+    int addColumn(String name, Class<?> type, Object defaultValue);
 
 //    /**
 //     * Add a derived column to this table, using an Expression instance to

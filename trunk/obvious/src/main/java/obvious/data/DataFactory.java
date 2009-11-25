@@ -59,7 +59,7 @@ public abstract class DataFactory {
                         "Property obvious.DataFactory not set");
             }
             try {
-                Class c = Class.forName(className);
+                Class<?> c = Class.forName(className);
                 instance = (DataFactory) c.newInstance();
             } catch (Exception e) {
                 throw new ObviousException(e);

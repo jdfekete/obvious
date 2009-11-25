@@ -29,10 +29,6 @@ package obvious.data;
 
 import java.util.Date;
 
-import obvious.data.Schema;
-import obvious.data.Table;
-
-
 /**
  * Tuples are objects representing a row of a data table, providing
  * a simplified interface to table data. They maintain a pointer to a
@@ -76,7 +72,7 @@ public interface Tuple {
      * @param field to inspect
      * @return type of the field
      */
-    Class getColumnType(String field);
+    Class<?> getColumnType(String field);
 
     // ------------------------------------------------------------------------
     // Data Access Methods
@@ -92,7 +88,7 @@ public interface Tuple {
      * the {@link #get(String)} can be cast to the given type.
      * @see #get(String)
      */
-    boolean canGet(String field, Class type);
+    boolean canGet(String field, Class<?> type);
 
     /**
      * Check if the <code>set</code> method for the given data field can
@@ -105,7 +101,7 @@ public interface Tuple {
      * can be used as parameters of the {@link #set(String, Object)} method.
      * @see #set(String, Object)
      */
-    boolean canSet(String field, Class type);
+    boolean canSet(String field, Class<?> type);
 
     /**
      * Get the data value at the given field as an Object.

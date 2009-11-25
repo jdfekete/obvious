@@ -30,9 +30,12 @@ package test.obvious.data;
 import obvious.ObviousException;
 import obvious.data.Table;
 import obvious.data.DataFactory;
+// import obvious.data.event.TableListener;
 import obvious.impl.SchemaImpl;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
@@ -44,11 +47,14 @@ import static org.junit.Assert.*;
 
 public class TableTest implements TableTestData {
 
+  /**
+   * Table instance to test.
+   */
   private Table table;
 
   /**
   * @see junit.framework.TestCase#setUp()
-  * @throws ObviousException
+  * @throws ObviousException when problem occurs
   */
   @Before
   public void setUp() throws ObviousException {
@@ -57,7 +63,7 @@ public class TableTest implements TableTestData {
       schema.addColumn(HEADERS[i], TYPES[i], DEFAULTS[i]);
     }
     DataFactory factory = DataFactory.getInstance();
-    Table table = factory.createTable("table", schema);
+    table = factory.createTable("table", schema);
     table.addRow();
     table.addRow();
     table.addRow();
@@ -77,6 +83,29 @@ public class TableTest implements TableTestData {
     table = null;
   }
 
+/*
+  private class TableTestListener implements TableListener {
+
+    private boolean isEditing;
+
+    public TableTestListener() {
+      this.isEditing = false;
+    }
+
+    public void beginEdit() {
+      this.isEditing = true;
+    }
+
+    public void endEdit() {
+      this.isEditing = false;
+    }
+
+    public void tableChanged(Table t, int start, int end, int col, int type) {
+
+    }
+  }
+*/
+
 // Read-only test
 
   /**
@@ -92,9 +121,10 @@ public class TableTest implements TableTestData {
   */
   @Test
   public void testIsValidRow() {
+    final int falseIndex = 555;
     assertTrue(table.isValidRow(0));
     assertTrue(table.isValidRow(2));
-    assertFalse(table.isValidRow(555));
+    assertFalse(table.isValidRow(falseIndex));
   }
 
   /**
@@ -102,8 +132,9 @@ public class TableTest implements TableTestData {
   */
   @Test
   public void isValueValid() {
+    final int falseIndex = 4;
     assertTrue(table.isValueValid(0, 0));
-    assertFalse(table.isValueValid(4, 4));
+    assertFalse(table.isValueValid(falseIndex, falseIndex));
   }
 
   /**
@@ -111,12 +142,13 @@ public class TableTest implements TableTestData {
   */
   @Test
   public void testGetValue() {
+    final int falseIndex = 3;
     assertEquals("Hello", table.getValue(1, 0));
     assertEquals("Hello", table.getValue(1, "string"));
     assertEquals(1, table.getValue(0, 1));
     assertEquals(1, table.getValue(0, "integer"));
-    assertEquals(true, table.getValue(3, 2));
-    assertEquals(true, table.getValue(3, "boolean"));
+    assertEquals(true, table.getValue(falseIndex, 2));
+    assertEquals(true, table.getValue(falseIndex, "boolean"));
   }
 
 // Read-write test
@@ -170,6 +202,7 @@ public class TableTest implements TableTestData {
   */
   @Test
   public void testIsolation() {
+    //TableTestListener listener = new TableTestListener();
     for (int i = 0; i < NUMROW; i++) {
       assertFalse(table.isEditing(i));
     }
@@ -177,10 +210,10 @@ public class TableTest implements TableTestData {
       table.beginEdit(0);
       assertTrue(table.isEditing(0));
       table.endEdit(0);
-    }
-    catch(ObviousException e) {
+    } catch (ObviousException e) {
         // Edit not supported
-    } 
+      return;
+    }
 //    finally {
 //    }
   }
