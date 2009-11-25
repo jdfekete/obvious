@@ -1,4 +1,8 @@
 obvious
 obvious.data
+obvious.data.event
 obvious.data.util
 obvious.impl
+obvious.util
+obvious.view
+obvious.viz
