@@ -1,25 +1,61 @@
 package test.obvious.data;
 
+/**
+ * Interface to provide some data for testing Table class.
+ *
+ * @author Pierre-Luc Hemery
+ *
+ */
 public interface TableTestData {
 
-  public static final int NUMROW = 4;
-  public static final int NUMCOL = 3;
+  /**
+   * Number of rows of the table.
+   */
+  int NUMROW = 4;
+  /**
+   * Number of columns of the table.
+   */
+  int NUMCOL = 3;
 
-  public static final String[]  HEADERS
+  /**
+   * Headers of the columns.
+   */
+  String[]  HEADERS
     = {"string", "integer", "boolean"};
 
-  public static final Class[]  TYPES
+  /**
+   * Types for the columns.
+   */
+  Class<?>[]  TYPES
     = {String.class, Integer.class, Boolean.class};
-  
-  public static final Object[]  DEFAULTS
+
+  /**
+   * Default values for columns.
+   */
+  Object[]  DEFAULTS
   = {"", 0, false};
 
-  public static final String[] COLUMN1
+  /**
+   * Data set for the first column.
+   */
+  String[] COLUMN1
     = {"Bonjour", "Hello", "Hallo", "Nihaho"};
 
-  public static final Integer[] COLUMN2
+  /**
+   * Data set for the second column.
+   */
+  Integer[] COLUMN2
     = {1, 2, 3, 4};
 
-  public static final Boolean[] COLUMN3
+  /**
+   * Data set for the first column.
+   */
+  Boolean[] COLUMN3
   = {true, false, false, true};
+
+  /**
+   * To string method for the data set.
+   * @return string for the list of columns
+   */
+  String toString();
 }

@@ -35,6 +35,11 @@ package obvious;
  */
 public class ObviousException extends Exception {
 
+   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 1L;
+
     /**
      *
      */

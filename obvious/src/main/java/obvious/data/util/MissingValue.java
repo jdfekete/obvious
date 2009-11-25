@@ -18,6 +18,11 @@ import java.io.Serializable;
  * @version $Revision$
  */
 public final class MissingValue implements Serializable {
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
+
     /** The singleton value. */
     private static final MissingValue INSTANCE = new MissingValue();
 

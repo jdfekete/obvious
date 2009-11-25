@@ -179,7 +179,7 @@ public class SchemaImpl implements Schema {
    * @param type can be null
    * @return true if readable
    */
-  public boolean canGet(int col, Class type) {
+  public boolean canGet(int col, Class<?> type) {
     return false;
   }
 
@@ -189,7 +189,7 @@ public class SchemaImpl implements Schema {
    * @param type can be null
    * @return true if writable
    */
-  public boolean canSet(int col, Class type) {
+  public boolean canSet(int col, Class<?> type) {
     return false;
   }
 
@@ -213,7 +213,7 @@ public class SchemaImpl implements Schema {
    * @param field the column / data field name
    * @return the data type (as a Java Class) of the column
    */
-  public Class getColumnType(String field) {
+  public Class<?> getColumnType(String field) {
     if (hasColumn(field)) {
       int index = getColumnIndex(field);
       return types.get(index);
@@ -230,7 +230,7 @@ public class SchemaImpl implements Schema {
    * @return the column index
    * an Exception when the column name already exists.
    */
-  public int addColumn(String name, Class type, Object defaultValue) {
+  public int addColumn(String name, Class<?> type, Object defaultValue) {
     this.names.add(name);
     this.types.add(type);
     this.defaultValues.add(defaultValue);
@@ -479,6 +479,7 @@ public class SchemaImpl implements Schema {
    * @param field field to set
    * @param val to set
    */
+  @SuppressWarnings("unchecked")
   public void set(int rowId, String field, Object val) {
     ArrayList<Object> spottedArray = (ArrayList<Object>) columns.get(field);
     spottedArray.set(rowId, val);
