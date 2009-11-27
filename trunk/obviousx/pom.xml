@@ -5,4 +5,17 @@
   <name>obviousx</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>obvious advanced packages</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>milyn</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>1.6</version>
+  		<scope>import</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.sf.opencsv</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>2.0</version>
+  	</dependency>
+  </dependencies>
 </project>

@@ -28,8 +28,8 @@
 package obviousx;
 
 /**
- *
- * @author Pierre-Luc Hémery
+ * Obviousx exception.
+ * @author Pierre-Luc Hemery
  *
  */
 public class ObviousxException extends Exception {
