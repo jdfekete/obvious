@@ -52,7 +52,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class CSVImport {
 
   /**
-   * Table name
+   * Table name.
    */
   private String name;
 
@@ -83,7 +83,7 @@ public class CSVImport {
 
   /**
    * Constructor for CSVReader.
-   * @param name table name
+   * @param nameInput table name
    * @param fileCSV  Input CSV file
    * @param reference reference schema
    */
@@ -97,8 +97,12 @@ public class CSVImport {
    * Create an obvious schema from the CVS file.
    * @throws IOException for input problems
    * @throws ObviousxException when a bad schema structure is used in CSV.
+   * @throws ClassNotFoundException when a bad class name is given in CSV.
+   * @throws ParseException when a bad default value is given in CSV.
    */
-  public void createSchema() throws IOException, ObviousxException {
+  public void createSchema()
+      throws IOException, ObviousxException, ClassNotFoundException,
+              ParseException {
     CSVReader reader = new CSVReader(file);
     ArrayList<String[]> content =  (ArrayList<String[]>) reader.readAll();
     ArrayList<String> title = new ArrayList<String>();
@@ -119,7 +123,11 @@ public class CSVImport {
             }
             break;
           case 2 :
-            defaultValue.add(null);
+            FormatFactory factory = FormatFactory.getInstance();
+            Format format =
+                factory.getFormat(Class.forName(content.get(i - 1)[j]));
+            Object value = format.parseObject(content.get(i)[j]);
+            defaultValue.add(value);
             break;
           default :
             break;
@@ -159,22 +167,23 @@ public class CSVImport {
    * @throws IOException occurs when the CSV table has a bad format.
    * @throws ParseException  occurs when data contained in CSV have bad format.
    */
-  public void createTable() throws ObviousException, IOException, ParseException {
-	  if (!this.validateSchema()) {
-		  return;
-	  }
-	  DataFactory factory = DataFactory.getInstance();
-	  this.table = factory.createTable(this.name, this.refSchema);
-	  CSVReader reader = new CSVReader(file);
-	  ArrayList<String[]> content = (ArrayList<String[]>) reader.readAll();
-	  for (int i = HEADERSIZE; i < content.size(); i++) {
-	    int rowId = this.table.addRow();
-	    for (int j = 0; j < content.get(i).length; j++) {
-	      FormatFactory formatFactory = FormatFactory.getInstance();
-	      Format format = formatFactory.getFormat(schema.getColumnType(j));
-	      Object val = format.parseObject(content.get(i)[j]);
-	      this.table.set(rowId, j, val);
-	    }	    
-	  }
+  public void createTable()
+      throws ObviousException, IOException, ParseException {
+    if (!this.validateSchema()) {
+      return;
+    }
+    DataFactory factory = DataFactory.getInstance();
+    this.table = factory.createTable(this.name, this.refSchema);
+    CSVReader reader = new CSVReader(file);
+    ArrayList<String[]> content = (ArrayList<String[]>) reader.readAll();
+    for (int i = HEADERSIZE; i < content.size(); i++) {
+      int rowId = this.table.addRow();
+      for (int j = 0; j < content.get(i).length; j++) {
+        FormatFactory formatFactory = FormatFactory.getInstance();
+        Format format = formatFactory.getFormat(schema.getColumnType(j));
+        Object val = format.parseObject(content.get(i)[j]);
+        this.table.set(rowId, j, val);
+      }
+    }
   }
 }

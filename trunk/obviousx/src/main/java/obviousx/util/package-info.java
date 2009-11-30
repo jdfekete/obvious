@@ -25,39 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.util;
-
-import java.text.Format;
-
 /**
- * Factory for format.
- * @author Pierre-Luc Hemery
+ * <h1>Package obviousx.util</h1>
  *
+ * TODO document the package.
  */
-public abstract class FormatFactory {
-
-  /**
-   * Instance of the factory.
-   */
-  private static FormatFactory instance;
-
-  /**
-   * Private constructor.
-   */
-  private FormatFactory() { }
-
-  /**
-   * Allows access to the FormatFactory.
-   * @return FormatFactory instance
-   */
-  public static FormatFactory getInstance() {
-    return instance;
-  }
-
-  /**
-   * Gets the format from a class.
-   * @param spottedClass origin class for format.
-   * @return format associated to the class
-   */
-  public abstract Format getFormat(Class<?> spottedClass);
-}
+package obviousx.util;
