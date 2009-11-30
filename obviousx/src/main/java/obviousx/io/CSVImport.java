@@ -29,11 +29,16 @@ package obviousx.io;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.Format;
+import java.text.ParseException;
 import java.util.ArrayList;
 
+import obvious.ObviousException;
+import obvious.data.DataFactory;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obviousx.ObviousxException;
+import obviousx.util.FormatFactory;
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -45,6 +50,11 @@ import au.com.bytecode.opencsv.CSVReader;
  *
  */
 public class CSVImport {
+
+  /**
+   * Table name
+   */
+  private String name;
 
   /**
    * Obvious table to obtain.
@@ -73,10 +83,12 @@ public class CSVImport {
 
   /**
    * Constructor for CSVReader.
+   * @param name table name
    * @param fileCSV  Input CSV file
    * @param reference reference schema
    */
-  public CSVImport(FileReader fileCSV, Schema reference) {
+  public CSVImport(String nameInput, FileReader fileCSV, Schema reference) {
+    this.name = nameInput;
     this.file = fileCSV;
     this.refSchema = reference;
   }
@@ -143,7 +155,26 @@ public class CSVImport {
 
   /**
    * Creates table from the CVS description.
+ * @throws ObviousException occurs when table cannot be created.
+   * @throws IOException occurs when the CSV table has a bad format.
+   * @throws ParseException  occurs when data contained in CSV have bad format.
    */
-  public void createTable() {
+  public void createTable() throws ObviousException, IOException, ParseException {
+	  if (!this.validateSchema()) {
+		  return;
+	  }
+	  DataFactory factory = DataFactory.getInstance();
+	  this.table = factory.createTable(this.name, this.refSchema);
+	  CSVReader reader = new CSVReader(file);
+	  ArrayList<String[]> content = (ArrayList<String[]>) reader.readAll();
+	  for (int i = HEADERSIZE; i < content.size(); i++) {
+	    int rowId = this.table.addRow();
+	    for (int j = 0; j < content.get(i).length; j++) {
+	      FormatFactory formatFactory = FormatFactory.getInstance();
+	      Format format = formatFactory.getFormat(schema.getColumnType(j));
+	      Object val = format.parseObject(content.get(i)[j]);
+	      this.table.set(rowId, j, val);
+	    }	    
+	  }
   }
 }
