@@ -25,39 +25,20 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.util;
+package obviousx.io;
 
-import java.text.Format;
+import java.io.IOException;
 
 /**
- * Factory for format.
+ * A general interface to manage export from obvious to an external format.
  * @author Pierre-Luc Hemery
  *
  */
-public abstract class FormatFactory {
+public interface Exporter {
 
   /**
-   * Instance of the factory.
+   * Creates a file in an external from an Obvious description.
+   * @throws IOException when a bad input name for target file is given.
    */
-  private static FormatFactory instance;
-
-  /**
-   * Private constructor.
-   */
-  protected FormatFactory() { }
-
-  /**
-   * Allows access to the FormatFactory.
-   * @return FormatFactory instance
-   */
-  public static FormatFactory getInstance() {
-    return instance;
-  }
-
-  /**
-   * Gets the format from a class.
-   * @param spottedClass origin class for format.
-   * @return format associated to the class
-   */
-  public abstract Format getFormat(Class<?> spottedClass);
+  void createFile() throws IOException;
 }
