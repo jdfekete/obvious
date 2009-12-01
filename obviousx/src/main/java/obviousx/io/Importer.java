@@ -27,68 +27,40 @@
 
 package obviousx.io;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 
-import obvious.data.Table;
-import au.com.bytecode.opencsv.CSVWriter;
+import obvious.ObviousException;
+import obviousx.ObviousxException;
 
 /**
- * Export an obvious table in CSV format.
+ * A general interface to manage import from an external format to obvious.
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVExport implements Exporter {
+public interface Importer {
 
   /**
-   * Name to give to the CSV file.
+   * Creates an obvious schema from an external file.
+   * @throws ParseException when a bad default value is given in the file.
+   * @throws ClassNotFoundException when a bad class name is given in the file.
+   * @throws ObviousxException when a bad schema structure is used in the file.
+   * @throws IOException for input problems.
    */
-  private String name;
+  void createSchema() throws IOException, ObviousxException,
+         ClassNotFoundException, ParseException;
 
   /**
-   * Table to export in CSV.
+   * Compares and validates generated schema with a reference.
+   * @return true if schemas are the same.
    */
-  private Table table;
-
-
-  /**
-   * CSVExport constructor.
-   * @param nameInput name for the CSV file
-   * @param tableInput table to build in CSV
-   */
-  public CSVExport(String nameInput, Table tableInput) {
-    this.name = nameInput;
-    this.table = tableInput;
-  }
+  boolean validateSchema();
 
   /**
-   * Create a CSV file from the obvious table.
-   * @throws IOException when a bad input name for csv file is given.
+   * Creates an obvious table from the external format.
+   * @throws ParseException occurs when data of the file have bad format.
+   * @throws IOException occurs when the file  has a bad format.
+   * @throws ObviousException occurs when table cannot be created.
    */
-  public void createFile() throws IOException {
-    FileWriter file = new FileWriter(name + ".csv");
-    CSVWriter writer = new CSVWriter(file);
-    int numberColumn = this.table.getSchema().getColumnCount();
-    int numberRow = this.table.getRowCount();
-    String[] title = null;
-    String[] type = null;
-    String[] defaultValue = null;
-    // fill the schema in the csv file.
-    for (int i = 0; i < numberColumn; i++) {
-      title[i] = this.table.getSchema().getColumnName(i);
-      type[i] = this.table.getSchema().getColumnType(i).toString();
-      defaultValue[i] = this.table.getSchema().getColumnDefault(i).toString();
-    }
-    writer.writeNext(title);
-    writer.writeNext(type);
-    writer.writeNext(defaultValue);
-    // fill data in the csv file.
-    for (int i = 0; i < numberRow; i++) {
-      String [] currentRow = null;
-      for (int j = 0; j < numberColumn; j++) {
-        currentRow[j] = this.table.getValue(i, j).toString();
-      }
-      writer.writeNext(currentRow);
-    }
-  }
+  void createTable() throws ObviousException, IOException, ParseException;
 }

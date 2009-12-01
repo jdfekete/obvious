@@ -49,7 +49,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVImport {
+public class CSVImport implements Importer {
 
   /**
    * Table name.
@@ -163,7 +163,7 @@ public class CSVImport {
 
   /**
    * Creates table from the CVS description.
- * @throws ObviousException occurs when table cannot be created.
+   * @throws ObviousException occurs when table cannot be created.
    * @throws IOException occurs when the CSV table has a bad format.
    * @throws ParseException  occurs when data contained in CSV have bad format.
    */
