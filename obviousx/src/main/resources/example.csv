@@ -1,0 +1,8 @@
+Name,Age,Birthday
+java.lang.String,java.lang.Integer,java.util.Date
+"",0,01/01/1973
+Mike,23,02/03/1986
+Alice,2,09/09/2007
+Bob,5,08/10/2004
+Karl,10,07/06/1999
+Abraham,109,01/01/1900

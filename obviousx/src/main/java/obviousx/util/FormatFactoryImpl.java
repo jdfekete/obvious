@@ -129,7 +129,7 @@ public final class FormatFactoryImpl extends FormatFactory {
         || type.equals(Byte.class) || type.equals(Long.class)) {
       return new DecimalFormat();
     } else if (type.equals(Date.class)) {
-      return new SimpleDateFormat();
+      return new SimpleDateFormat("dd/MM/yyyy");
     } else if (type.equals(Boolean.class)) {
       return new BooleanFormat();
     } else if (type.equals(String.class)) {

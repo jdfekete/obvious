@@ -27,6 +27,7 @@
 
 package obviousx.io;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.Format;
@@ -37,6 +38,7 @@ import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 import au.com.bytecode.opencsv.CSVReader;
@@ -74,7 +76,17 @@ public class CSVImport implements Importer {
   /**
    * Input stream.
    */
-  private FileReader file;
+  private File file;
+
+  /**
+   * DataFactory used to create Table.
+   */
+  private DataFactory dataFactory;
+
+  /**
+   * FormatFactory.
+   */
+  private FormatFactory formatFactory;
 
   /**
    * Number of lines giving the schema in the CSV table.
@@ -82,15 +94,49 @@ public class CSVImport implements Importer {
   private static final int HEADERSIZE = 3;
 
   /**
+   * Separator for CSV.
+   */
+  private char separator;
+
+  /**
    * Constructor for CSVReader.
    * @param nameInput table name
    * @param fileCSV  Input CSV file
    * @param reference reference schema
+   * @param sep separator for CSV data
+   * @param dFactory DataFactory to use to build the table.
+   * @param fFactory FormatFactory to use to parse data in the CSV file.
    */
-  public CSVImport(String nameInput, FileReader fileCSV, Schema reference) {
+  public CSVImport(String nameInput, File fileCSV, Schema reference,
+          char sep, DataFactory dFactory, FormatFactory fFactory) {
     this.name = nameInput;
     this.file = fileCSV;
     this.refSchema = reference;
+    this.schema = new SchemaImpl(true, true);
+    this.dataFactory = dFactory;
+    this.formatFactory = fFactory;
+    this.separator = sep;
+  }
+
+  /**
+   * Constructor for CSVReader.
+   * @param nameInput table name
+   * @param fileCSV  Input CSV file
+   * @param reference reference schema
+   * @param dFactory DataFactory to use to build the table.
+   * @param fFactory FormatFactory to use to parse data in the CSV file.
+   */
+  public CSVImport(String nameInput, File fileCSV, Schema reference,
+      DataFactory dFactory, FormatFactory fFactory) {
+    this(nameInput, fileCSV, reference, ',', dFactory, fFactory);
+  }
+
+  /**
+   * Returns the table.
+   * @return the table associated to the CSV file.
+   */
+  public Table getTable() {
+    return this.table;
   }
 
   /**
@@ -103,13 +149,13 @@ public class CSVImport implements Importer {
   public void createSchema()
       throws IOException, ObviousxException, ClassNotFoundException,
               ParseException {
-    CSVReader reader = new CSVReader(file);
+    CSVReader reader = new CSVReader(new FileReader(file), separator);
     ArrayList<String[]> content =  (ArrayList<String[]>) reader.readAll();
     ArrayList<String> title = new ArrayList<String>();
     ArrayList<Class<?>> type = new ArrayList<Class<?>>();
     ArrayList<Object> defaultValue = new ArrayList<Object>();
     for (int i = 0; i < HEADERSIZE; i++) {
-      for (int j = 0; j < content.get(i).length - 1; j++) {
+      for (int j = 0; j < content.get(i).length; j++) {
         switch(i) {
           case 0 :
             title.add(content.get(i)[j]);
@@ -123,9 +169,8 @@ public class CSVImport implements Importer {
             }
             break;
           case 2 :
-            FormatFactory factory = FormatFactory.getInstance();
             Format format =
-                factory.getFormat(Class.forName(content.get(i - 1)[j]));
+              formatFactory.getFormat(Class.forName(content.get(i - 1)[j]));
             Object value = format.parseObject(content.get(i)[j]);
             defaultValue.add(value);
             break;
@@ -141,6 +186,7 @@ public class CSVImport implements Importer {
         throw new ObviousxException(e);
       }
     }
+    reader.close();
   }
 
   /**
@@ -169,21 +215,30 @@ public class CSVImport implements Importer {
    */
   public void createTable()
       throws ObviousException, IOException, ParseException {
-    if (!this.validateSchema()) {
-      return;
+    try {
+      this.createSchema();
+    } catch (ObviousxException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    DataFactory factory = DataFactory.getInstance();
-    this.table = factory.createTable(this.name, this.refSchema);
-    CSVReader reader = new CSVReader(file);
-    ArrayList<String[]> content = (ArrayList<String[]>) reader.readAll();
-    for (int i = HEADERSIZE; i < content.size(); i++) {
-      int rowId = this.table.addRow();
-      for (int j = 0; j < content.get(i).length; j++) {
-        FormatFactory formatFactory = FormatFactory.getInstance();
-        Format format = formatFactory.getFormat(schema.getColumnType(j));
-        Object val = format.parseObject(content.get(i)[j]);
-        this.table.set(rowId, j, val);
+    if (this.validateSchema()) {
+      this.table = dataFactory.createTable(this.name, this.refSchema);
+      CSVReader readerBis = new CSVReader(new FileReader(file), separator);
+      ArrayList<String[]> content = (ArrayList<String[]>) readerBis.readAll();
+      for (int i = HEADERSIZE; i < content.size(); i++) {
+        int rowId = this.table.addRow();
+        for (int j = 0; j < content.get(i).length; j++) {
+          Format format = formatFactory.getFormat(schema.getColumnType(j));
+          Object val = format.parseObject(content.get(i)[j]);
+          this.table.set(rowId - 1, j, val);
+        }
       }
+      readerBis.close();
+    } else {
+      throw new IOException("Reference schema doesn't match CSV schema!");
     }
   }
 }
