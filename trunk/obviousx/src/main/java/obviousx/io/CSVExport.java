@@ -27,10 +27,13 @@
 
 package obviousx.io;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.Format;
 
 import obvious.data.Table;
+import obviousx.util.FormatFactory;
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
@@ -50,15 +53,36 @@ public class CSVExport implements Exporter {
    */
   private Table table;
 
+  /**
+   * CSV file to create.
+   */
+  private File file;
+
+  /**
+   * CSVWriter to create CSVFile.
+   */
+  private CSVWriter writer;
+
+  /**
+   * Format Factory to create string from object.
+   */
+  private FormatFactory formatFactory;
 
   /**
    * CSVExport constructor.
    * @param nameInput name for the CSV file
    * @param tableInput table to build in CSV
+   * @param factory factory for Format
+   * @throws IOException when file creation failed.
    */
-  public CSVExport(String nameInput, Table tableInput) {
+  public CSVExport(String nameInput, Table tableInput, FormatFactory factory)
+      throws IOException {
     this.name = nameInput;
     this.table = tableInput;
+    file = new File(name + ".csv");
+    FileWriter fileWriter = new FileWriter(file);
+    writer = new CSVWriter(fileWriter);
+    this.formatFactory = factory;
   }
 
   /**
@@ -66,29 +90,36 @@ public class CSVExport implements Exporter {
    * @throws IOException when a bad input name for csv file is given.
    */
   public void createFile() throws IOException {
-    FileWriter file = new FileWriter(name + ".csv");
-    CSVWriter writer = new CSVWriter(file);
     int numberColumn = this.table.getSchema().getColumnCount();
     int numberRow = this.table.getRowCount();
-    String[] title = null;
-    String[] type = null;
-    String[] defaultValue = null;
+    String[] title =  new String[numberColumn];
+    String[] type = new String[numberColumn];
+    String[] defaultValue = new String[numberColumn];
     // fill the schema in the csv file.
     for (int i = 0; i < numberColumn; i++) {
       title[i] = this.table.getSchema().getColumnName(i);
       type[i] = this.table.getSchema().getColumnType(i).toString();
-      defaultValue[i] = this.table.getSchema().getColumnDefault(i).toString();
+      try {
+        Format format =
+          formatFactory
+            .getFormat(this.table.getSchema().getColumnDefault(i).getClass());
+        defaultValue[i] =
+          format.format(this.table.getSchema().getColumnDefault(i));
+      } catch (NullPointerException e) {
+        defaultValue[i] = "null";
+      }
     }
     writer.writeNext(title);
     writer.writeNext(type);
     writer.writeNext(defaultValue);
     // fill data in the csv file.
     for (int i = 0; i < numberRow; i++) {
-      String [] currentRow = null;
+      String[] currentRow = new String[numberColumn];
       for (int j = 0; j < numberColumn; j++) {
         currentRow[j] = this.table.getValue(i, j).toString();
       }
       writer.writeNext(currentRow);
     }
+    writer.close();
   }
 }
