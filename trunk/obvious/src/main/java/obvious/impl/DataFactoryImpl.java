@@ -25,9 +25,43 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * <h1>Package obvious.data</h1>
- *
- * This packages gives some simple implementation following obvious interfaces.
- */
 package obvious.impl;
+
+import obvious.ObviousException;
+import obvious.data.DataFactory;
+import obvious.data.Network;
+import obvious.data.Schema;
+import obvious.data.Table;
+
+/**
+ * Implements abstract class DataFactory.
+ * @author Pierre-Luc Hémery
+ *
+ */
+public class DataFactoryImpl extends DataFactory {
+
+  @Override
+  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+      throws ObviousException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Table createTable(String name, Schema schema) throws ObviousException {
+    return new TableImpl(schema);
+  }
+
+  @Override
+  public Network wrapGraph(Object underlyingGraph) throws ObviousException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Table wrapTable(Object unerlyingTable) throws ObviousException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+}

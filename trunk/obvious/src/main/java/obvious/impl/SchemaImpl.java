@@ -29,6 +29,7 @@ package obvious.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -101,6 +102,8 @@ public class SchemaImpl implements Schema {
     this.types = new ArrayList<Class<?>>();
     this.defaultValues = new ArrayList<Object>();
     this.listener = new ArrayList<TableListener>();
+    this.columns = new HashMap<String, ArrayList<?>>();
+    this.columnIndex = new HashMap<String, Integer>();
     columns.put(NAME, names);
     columns.put(TYPE, types);
     columns.put(DEFAULT_VALUE, defaultValues);
@@ -401,7 +404,7 @@ public class SchemaImpl implements Schema {
    * @return a collection of table listeners.
    */
   public Collection<TableListener> getTableListeners() {
-    return null;
+    return listener;
   }
 
   /**
