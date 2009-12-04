@@ -109,6 +109,7 @@ public class CSVImportExample2 {
     frame.pack();
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
   }
 }
