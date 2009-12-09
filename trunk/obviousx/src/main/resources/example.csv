@@ -1,5 +1,5 @@
 Name,Age,Birthday
-java.lang.String,java.lang.Integer,java.util.Date
+String,Integer,Date
 "",0,01/01/1973
 Mike,23,02/03/1986
 Alice,2,09/09/2007

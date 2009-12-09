@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.Date;
 
+import obviousx.text.TypedFormat;
+
 
 /**
  * Concrete implementation for FormatFactory.
@@ -21,7 +23,7 @@ public final class FormatFactoryImpl extends FormatFactory {
    * @author Pierre-Luc Hemery
    *
    */
-  public class StringFormat extends Format {
+  public class TypedStringFormat extends Format implements TypedFormat {
 
     /**
      * Serial UID.
@@ -31,7 +33,7 @@ public final class FormatFactoryImpl extends FormatFactory {
     /**
      * Constructor.
      */
-    public StringFormat() {
+    public TypedStringFormat() {
       super();
     }
 
@@ -63,6 +65,14 @@ public final class FormatFactoryImpl extends FormatFactory {
       return source;
     }
 
+    /**
+     * Returns String.class.
+     * @return formatted Type.
+     */
+    public Class<?> getFormattedClass() {
+      return String.class;
+    }
+
   }
 
   /**
@@ -70,7 +80,7 @@ public final class FormatFactoryImpl extends FormatFactory {
    * @author Pierre-Luc Hemery
    *
    */
-  public class BooleanFormat extends Format {
+  public class TypedBooleanFormat extends Format implements TypedFormat {
 
     /**
      * Serial UID.
@@ -80,7 +90,7 @@ public final class FormatFactoryImpl extends FormatFactory {
     /**
      * Constructor.
      */
-    public BooleanFormat() {
+    public TypedBooleanFormat() {
       super();
     }
 
@@ -120,23 +130,125 @@ public final class FormatFactoryImpl extends FormatFactory {
       }
     }
 
+    /**
+     * Returns Boolean.class.
+     * @return formatted Type.
+     */
+    public Class<?> getFormattedClass() {
+      return Boolean.class;
+    }
+
+  }
+
+  /**
+   * Inner class for Extended Decimal Format.
+   * @author Pierre-Luc Hemery
+   *
+   */
+  public class TypedDecimalFormat extends DecimalFormat implements TypedFormat {
+
+    /**
+     * UID.
+     */
+    private static final long serialVersionUID = 2140009303846156603L;
+
+    /**
+     * Type of the number.
+     */
+    private Class<?> type;
+
+    /**
+     * Constructor with accurate type paramater.
+     * @param numberType accurate Type of the Number
+     */
+    public TypedDecimalFormat(String numberType) {
+      super();
+      String typeLow = numberType.toLowerCase();
+      if (typeLow.equals("integer")) {
+        this.type = Integer.class;
+      } else if (typeLow.equals("double")) {
+        this.type = Double.class;
+      } else if (typeLow.equals("float")) {
+        this.type = Float.class;
+      } else if (typeLow.equals("short")) {
+        this.type = Short.class;
+      } else if (typeLow.equals("long")) {
+        this.type = Long.class;
+      } else if (typeLow.equals("byte")) {
+        this.type = Byte.class;
+      } else if (typeLow.equals("number")) {
+        this.type = Number.class;
+      } else {
+        throw new IllegalArgumentException(numberType
+            + " unknown type for the constructor!");
+      }
+    }
+
+    /**
+     * Constructor.
+     */
+    public TypedDecimalFormat() {
+      this("Number");
+    }
+
+
+    /**
+     * Returns Number.class.
+     * @return formatted Type.
+     */
+    public Class<?> getFormattedClass() {
+      return this.type;
+    }
+
+  }
+
+  /**
+   * Inner class for Extended SimpleDateFormat class.
+   * @author Pierre-Luc Hemery
+   *
+   */
+  public class TypedDateFormat extends SimpleDateFormat implements TypedFormat {
+
+    /**
+     * UID.
+     */
+    private static final long serialVersionUID = 7811185128843436214L;
+
+    /**
+     * Constructor.
+     * @param format format of the date.
+     */
+    public TypedDateFormat(String format) {
+      super(format);
+    }
+
+    /**
+     * Returns Date.class.
+     * @return formatted Type.
+     */
+    public Class<?> getFormattedClass() {
+      return Date.class;
+    }
   }
 
   @Override
-  public Format getFormat(Class<?> type) {
-    if (type.equals(Integer.class) || type.equals(Double.class)
-        || type.equals(Float.class) || type.equals(Short.class)
-        || type.equals(Byte.class) || type.equals(Long.class)) {
-      return new DecimalFormat();
-    } else if (type.equals(Date.class)) {
-      return new SimpleDateFormat("dd/MM/yyyy");
-    } else if (type.equals(Boolean.class)) {
-      return new BooleanFormat();
-    } else if (type.equals(String.class)) {
-      return new StringFormat();
+  public TypedFormat getFormat(String type) {
+    String typeLow = type.toLowerCase();
+    if (typeLow.equals("integer") || typeLow.equals("double")
+        || typeLow.equals("float") || typeLow.equals("short")
+        || typeLow.equals("byte") || typeLow.equals("long")
+        || typeLow.equals("number")) {
+      return new TypedDecimalFormat(type);
+    } else if (typeLow.equals("date")) {
+      return new TypedDateFormat("dd/MM/yyyy");
+    } else if (typeLow.equals("boolean")) {
+      return new TypedBooleanFormat();
+    } else if (typeLow.equals("string")) {
+      return new TypedStringFormat();
     } else {
       throw new
-        IllegalArgumentException("Cannot return a corresponding Format.");
+        IllegalArgumentException("Cannot return a corresponding Format for : "
+            + type);
     }
 
   }
