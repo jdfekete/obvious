@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.text.Format;
 
 import obvious.data.Table;
+import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -98,13 +99,14 @@ public class CSVExport implements Exporter {
     // fill the schema in the csv file.
     for (int i = 0; i < numberColumn; i++) {
       title[i] = this.table.getSchema().getColumnName(i);
-      type[i] = this.table.getSchema().getColumnType(i).toString();
+      type[i] = this.table.getSchema().getColumnType(i).getSimpleName();
       try {
-        Format format =
+        TypedFormat format =
           formatFactory
-            .getFormat(this.table.getSchema().getColumnDefault(i).getClass());
+            .getFormat(this.table.getSchema().getColumnDefault(i)
+                .getClass().getSimpleName());
         defaultValue[i] =
-          format.format(this.table.getSchema().getColumnDefault(i));
+          ((Format) format).format(this.table.getSchema().getColumnDefault(i));
       } catch (NullPointerException e) {
         defaultValue[i] = "null";
       }

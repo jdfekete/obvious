@@ -40,6 +40,7 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
+import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -152,7 +153,7 @@ public class CSVImport implements Importer {
     CSVReader reader = new CSVReader(new FileReader(file), separator);
     ArrayList<String[]> content =  (ArrayList<String[]>) reader.readAll();
     ArrayList<String> title = new ArrayList<String>();
-    ArrayList<Class<?>> type = new ArrayList<Class<?>>();
+    ArrayList<String> type = new ArrayList<String>();
     ArrayList<Object> defaultValue = new ArrayList<Object>();
     for (int i = 0; i < HEADERSIZE; i++) {
       for (int j = 0; j < content.get(i).length; j++) {
@@ -161,17 +162,12 @@ public class CSVImport implements Importer {
             title.add(content.get(i)[j]);
             break;
           case 1 :
-            try {
-              Class<?> className = Class.forName(content.get(i)[j]);
-              type.add(className);
-            } catch (Exception e) {
-              throw new IOException(e);
-            }
+              type.add(content.get(i)[j]);
             break;
           case 2 :
-            Format format =
-              formatFactory.getFormat(Class.forName(content.get(i - 1)[j]));
-            Object value = format.parseObject(content.get(i)[j]);
+            TypedFormat format =
+              formatFactory.getFormat(content.get(i - 1)[j]);
+            Object value = ((Format) format).parseObject(content.get(i)[j]);
             defaultValue.add(value);
             break;
           default :
@@ -180,11 +176,9 @@ public class CSVImport implements Importer {
       }
     }
     for (int i = 0; i < title.size(); i++) {
-      try {
-        this.schema.addColumn(title.get(i), type.get(i), defaultValue.get(i));
-      } catch (Exception e) {
-        throw new ObviousxException(e);
-      }
+      TypedFormat format = formatFactory.getFormat(type.get(i));
+      Class<?> spottedClass = format.getFormattedClass();
+      this.schema.addColumn(title.get(i), spottedClass, defaultValue.get(i));
     }
     reader.close();
   }
@@ -231,8 +225,9 @@ public class CSVImport implements Importer {
       for (int i = HEADERSIZE; i < content.size(); i++) {
         int rowId = this.table.addRow();
         for (int j = 0; j < content.get(i).length; j++) {
-          Format format = formatFactory.getFormat(schema.getColumnType(j));
-          Object val = format.parseObject(content.get(i)[j]);
+          TypedFormat format = formatFactory
+            .getFormat(schema.getColumnType(j).getSimpleName());
+          Object val = ((Format) format).parseObject(content.get(i)[j]);
           this.table.set(rowId - 1, j, val);
         }
       }

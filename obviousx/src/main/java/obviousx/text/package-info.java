@@ -25,56 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.util;
-
-import java.text.Format;
-
-import obviousx.ObviousxException;
-import obviousx.text.TypedFormat;
-
 /**
- * Factory for format.
- * @author Pierre-Luc Hemery
+ * <h1>Package obviousx.example</h1>
  *
+ * TODO document the package.
  */
-public abstract class FormatFactory {
-
-  /**
-   * Instance of the factory.
-   */
-  private static FormatFactory instance;
-
-  /**
-   * Private constructor.
-   */
-  protected FormatFactory() { }
-
-  /**
-   * Allows access to the FormatFactory.
-   * @return FormatFactory instance
-   * @throws ObviousxException if undefined system property
-   */
-  public static FormatFactory getInstance() throws ObviousxException {
-    if (instance == null) {
-      String className = System.getProperty("obviousx.FormatFactory");
-      if (className == null) {
-          throw new ObviousxException(
-                  "Property obviousx.FormatFactory not set");
-      }
-      try {
-          Class<?> c = Class.forName(className);
-          instance = (FormatFactory) c.newInstance();
-      } catch (Exception e) {
-          throw new ObviousxException(e);
-      }
-  }
-  return instance;
-  }
-
-  /**
-   * Gets the format from a class.
-   * @param spottedClass string class name to format.
-   * @return format associated to the class
-   */
-  public abstract TypedFormat getFormat(String spottedClass);
-}
+package obviousx.text;
