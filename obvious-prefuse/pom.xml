@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>obvious-prefuse</groupId>
+  <artifactId>obvious-prefuse</artifactId>
+  <name>obvious-prefuse</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>An Obvious implementation of prefuse toolkit</description>
+  <dependencies>
+    <dependency>
+      <groupId>obvious</groupId>
+      <artifactId>obvious</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.prefuse</groupId>
+    	<artifactId>prefuse</artifactId>
+    	<version>beta-20060220</version>
+    </dependency>
+  </dependencies>
+</project>
