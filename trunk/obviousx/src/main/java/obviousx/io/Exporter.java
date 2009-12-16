@@ -27,7 +27,8 @@
 
 package obviousx.io;
 
-import java.io.IOException;
+import obviousx.ObviousxException;
+import obviousx.util.FormatFactory;
 
 /**
  * A general interface to manage export from obvious to an external format.
@@ -37,8 +38,20 @@ import java.io.IOException;
 public interface Exporter {
 
   /**
-   * Creates a file in an external from an Obvious description.
-   * @throws IOException when a bad input name for target file is given.
+   * Get the FormatFactory associated to this Importer.
+   * @return the FormatFactory of this Importer
    */
-  void createFile() throws IOException;
+  FormatFactory getFormatFactory();
+
+  /**
+   * Sets for the Importer the format factory.
+   * @param formatFactory the factory to set
+   */
+  void setFormatFactory(FormatFactory formatFactory);
+
+  /**
+   * Creates a file in an external from an Obvious description.
+   * @throws ObviousxException when an exception occurs.
+   */
+  void createFile() throws ObviousxException;
 }

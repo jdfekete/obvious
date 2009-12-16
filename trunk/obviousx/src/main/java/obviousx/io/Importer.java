@@ -27,11 +27,8 @@
 
 package obviousx.io;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-import obvious.ObviousException;
 import obviousx.ObviousxException;
+import obviousx.util.FormatFactory;
 
 /**
  * A general interface to manage import from an external format to obvious.
@@ -41,26 +38,27 @@ import obviousx.ObviousxException;
 public interface Importer {
 
   /**
-   * Creates an obvious schema from an external file.
-   * @throws ParseException when a bad default value is given in the file.
-   * @throws ClassNotFoundException when a bad class name is given in the file.
+   * Get the FormatFactory associated to this Importer.
+   * @return the FormatFactory of this Importer
+   */
+  FormatFactory getFormatFactory();
+
+  /**
+   * Sets for the Importer the format factory.
+   * @param formatFactory the factory to set
+   */
+  void setFormatFactory(FormatFactory formatFactory);
+
+  /**
+   * Reads the schema of an external medium.
    * @throws ObviousxException when a bad schema structure is used in the file.
-   * @throws IOException for input problems.
    */
-  void createSchema() throws IOException, ObviousxException,
-         ClassNotFoundException, ParseException;
+  void readSchema() throws ObviousxException;
+
 
   /**
-   * Compares and validates generated schema with a reference.
-   * @return true if schemas are the same.
+   * Load the content of an external medium (file, db) into an Obvious Table.
+   * @throws ObviousxException when an exception occurs.
    */
-  boolean validateSchema();
-
-  /**
-   * Creates an obvious table from the external format.
-   * @throws ParseException occurs when data of the file have bad format.
-   * @throws IOException occurs when the file  has a bad format.
-   * @throws ObviousException occurs when table cannot be created.
-   */
-  void createTable() throws ObviousException, IOException, ParseException;
+  void loadTable() throws ObviousxException;
 }

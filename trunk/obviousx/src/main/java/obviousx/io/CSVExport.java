@@ -33,8 +33,10 @@ import java.io.IOException;
 import java.text.Format;
 
 import obvious.data.Table;
+import obviousx.ObviousxException;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
+import obviousx.util.FormatFactoryImpl;
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
@@ -73,24 +75,40 @@ public class CSVExport implements Exporter {
    * CSVExport constructor.
    * @param nameInput name for the CSV file
    * @param tableInput table to build in CSV
-   * @param factory factory for Format
    * @throws IOException when file creation failed.
    */
-  public CSVExport(String nameInput, Table tableInput, FormatFactory factory)
+  public CSVExport(String nameInput, Table tableInput)
       throws IOException {
     this.name = nameInput;
     this.table = tableInput;
     file = new File(name + ".csv");
     FileWriter fileWriter = new FileWriter(file);
     writer = new CSVWriter(fileWriter);
-    this.formatFactory = factory;
+    this.formatFactory = new FormatFactoryImpl();
+  }
+
+  /**
+   * Gets the FormatFactory of the importer.
+   * @return the FormatFactory attribute
+   */
+  public FormatFactory getFormatFactory() {
+    return this.formatFactory;
+  }
+
+  /**
+   * Sets the FormatFactory of the importer.
+   * @param inputFormatFactory the factory to set
+   */
+  public void setFormatFactory(FormatFactory inputFormatFactory) {
+    this.formatFactory = inputFormatFactory;
   }
 
   /**
    * Create a CSV file from the obvious table.
-   * @throws IOException when a bad input name for csv file is given.
+   * @throws ObviousxException if an exception occurs
    */
-  public void createFile() throws IOException {
+  public void createFile() throws ObviousxException {
+    try {
     int numberColumn = this.table.getSchema().getColumnCount();
     int numberRow = this.table.getRowCount();
     String[] title =  new String[numberColumn];
@@ -123,5 +141,8 @@ public class CSVExport implements Exporter {
       writer.writeNext(currentRow);
     }
     writer.close();
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
   }
 }

@@ -43,7 +43,7 @@ import obviousx.text.TypedFormat;
  * @author Pierre-Luc Hemery
  *
  */
-public final class FormatFactoryImpl extends FormatFactory {
+public final class FormatFactoryImpl implements FormatFactory {
 
   /**
    * Inner Class for String Format.
@@ -258,7 +258,15 @@ public final class FormatFactoryImpl extends FormatFactory {
     }
   }
 
-  @Override
+
+  /**
+   * Gives the associated TypedFormat object associated to a type entered as a
+   * String. This method in this implementation recognizes classic java types :
+   * String, boolean, numbers and date. This method is made to be overriden.
+   * @param type The type as a String.
+   * @return a TypedFormat object
+   *
+   */
   public TypedFormat getFormat(String type) {
     String typeLow = type.toLowerCase();
     if (typeLow.equals("integer") || typeLow.equals("double")
