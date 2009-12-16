@@ -83,13 +83,10 @@ public class CSVExportExample {
     table.set(2, 1, 37);
     table.set(2, 2, new Date(2560001));
 
-    // Create the format factory
-    System.setProperty("obviousx.FormatFactory",
-        "obviousx.util.FormatFactoryImpl");
-    FormatFactory fFactory = FormatFactoryImpl.getInstance();
-
     // Create the exporter to CSV.
-    CSVExport export = new CSVExport("C:\\outputObvious\\stupidtest\\testCSV", table, fFactory);
-    export.createFile();
+    String path = "C:\\outputObvious\\stupidtest\\test2CSV"; // set a path here
+    CSVExport exporter = new CSVExport(path, table);
+    exporter.createFile();
+    
   }
 }
