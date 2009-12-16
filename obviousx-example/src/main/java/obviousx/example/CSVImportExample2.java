@@ -35,6 +35,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import obvious.ObviousException;
 import obvious.data.DataFactory;
@@ -44,6 +45,7 @@ import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.io.CSVImport;
+import obviousx.io.ObviousTableModel;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 
@@ -68,38 +70,23 @@ public class CSVImportExample2 {
     // Load CSV File
     File inputFile = new File("src/main/resources/example.csv");
 
-    // Create Reference schema
+    // Create Table
     Schema schema = new SchemaImpl(true, true);
     schema.addColumn("Name", String.class, "");
     schema.addColumn("Age", Integer.class, 0);
     schema.addColumn("Birthday", Date.class, null);
-
-    // Create Factory
     System.setProperty("obvious.DataFactory", "obvious.impl.DataFactoryImpl");
-    System.setProperty("obviousx.FormatFactory",
-        "obviousx.util.FormatFactoryImpl");
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    FormatFactory fFactory = FormatFactoryImpl.getInstance();
+    Table table = dFactory.createTable("test", schema);
 
     // Create CSV Importer
-    CSVImport importer = new CSVImport("example", inputFile, schema,
-        dFactory, fFactory);
-    importer.createTable();
-    Table table = importer.getTable();
+    CSVImport importer = new CSVImport(inputFile, table, ',');
+    importer.loadTable();
 
-    // Create a JTable for the obvious table
-    String[] title = new String[table.getSchema().getColumnCount()];
-    Object[][] data =
-        new Object[table.getRowCount()][table.getSchema().getColumnCount()];
-    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-      title[i] = table.getSchema().getColumnName(i);
-    }
-    for (int i = 0; i < table.getRowCount(); i++) {
-      for (int j = 0; j < table.getSchema().getColumnCount(); j++) {
-        data[i][j] = table.getValue(i, j);
-      }
-    }
-    JTable jtable = new JTable(data, title);
+    // Display Obvious Table
+    
+    TableModel tableModeled = new ObviousTableModel(table);
+    JTable jtable = new JTable(tableModeled);
 
     JScrollPane scrollPane = new JScrollPane(jtable);
     jtable.setFillsViewportHeight(true);
