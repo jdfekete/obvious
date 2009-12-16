@@ -116,10 +116,7 @@ public interface Tuple {
     /**
      * Set the value of a given data field.
      * @param field the data field to set
-     * @param value the value for the field. If the concrete type of this
-     * Object is not compatible with the underlying data model, an
-     * Exception will be thrown. Use the {@link #canSet(String, Class)}
-     * method to check the type-safety ahead of time.
+     * @param value the value for the field.
      * @see #canSet(String, Class)
      * @see #getColumnType(String)
      */
@@ -138,10 +135,7 @@ public interface Tuple {
     /**
      * Set the value of at the given column number.
      * @param col the column number
-     * @param value the value for the field. If the concrete type of this
-     * Object is not compatible with the underlying data model, an
-     * Exception will be thrown. Use the {@link #canSet(String, Class)}
-     * method to check the type-safety ahead of time.
+     * @param value the value for the field.
      * @see #canSet(String, Class)
      * @see #getColumnType(String)
      */
