@@ -29,19 +29,16 @@ package obviousx.io;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.text.Format;
-import java.text.ParseException;
 import java.util.ArrayList;
 
-import obvious.ObviousException;
-import obvious.data.DataFactory;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
+import obviousx.util.FormatFactoryImpl;
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -55,37 +52,27 @@ import au.com.bytecode.opencsv.CSVReader;
 public class CSVImport implements Importer {
 
   /**
-   * Table name.
-   */
-  private String name;
-
-  /**
-   * Obvious table to obtain.
-   */
-  private Table table;
-
-  /**
-   * Schema deduced from the CSV table.
-   */
-  private Schema schema;
-
-  /**
-   * Reference schema to validate, table created from CSV description.
-   */
-  private Schema refSchema;
-
-  /**
-   * Input stream.
+   * Input file.
    */
   private File file;
 
   /**
-   * DataFactory used to create Table.
+   * Input table, that will be loaded with content of the external medium.
    */
-  private DataFactory dataFactory;
+  private Table table;
 
   /**
-   * FormatFactory.
+   * Schema of the table described by the file.
+   */
+  private Schema fileSchema;
+
+  /**
+   * Separator used in CSV.
+   */
+  private char separator;
+
+  /**
+   * FormatFactory of this Importer.
    */
   private FormatFactory formatFactory;
 
@@ -94,146 +81,115 @@ public class CSVImport implements Importer {
    */
   private static final int HEADERSIZE = 3;
 
-  /**
-   * Separator for CSV.
-   */
-  private char separator;
 
   /**
-   * Constructor for CSVReader.
-   * @param nameInput table name
-   * @param fileCSV  Input CSV file
-   * @param reference reference schema
-   * @param sep separator for CSV data
-   * @param dFactory DataFactory to use to build the table.
-   * @param fFactory FormatFactory to use to parse data in the CSV file.
+   * Constructor.
+   * @param inputFile external file to load
+   * @param inputTable table to fill with the content of the file.
+   * @param sep the separator char used for CSV
    */
-  public CSVImport(String nameInput, File fileCSV, Schema reference,
-          char sep, DataFactory dFactory, FormatFactory fFactory) {
-    this.name = nameInput;
-    this.file = fileCSV;
-    this.refSchema = reference;
-    this.schema = new SchemaImpl(true, true);
-    this.dataFactory = dFactory;
-    this.formatFactory = fFactory;
+  public CSVImport(File inputFile, Table inputTable, char sep) {
+    this.file = inputFile;
+    this.table = inputTable;
+    this.fileSchema = new SchemaImpl();
     this.separator = sep;
+    this.formatFactory = new FormatFactoryImpl();
   }
 
   /**
-   * Constructor for CSVReader.
-   * @param nameInput table name
-   * @param fileCSV  Input CSV file
-   * @param reference reference schema
-   * @param dFactory DataFactory to use to build the table.
-   * @param fFactory FormatFactory to use to parse data in the CSV file.
+   * Gets the FormatFactory of the importer.
+   * @return the FormatFactory attribute
    */
-  public CSVImport(String nameInput, File fileCSV, Schema reference,
-      DataFactory dFactory, FormatFactory fFactory) {
-    this(nameInput, fileCSV, reference, ',', dFactory, fFactory);
+  public FormatFactory getFormatFactory() {
+    return this.formatFactory;
   }
 
   /**
-   * Returns the table.
-   * @return the table associated to the CSV file.
+   * Sets the FormatFactory of the importer.
+   * @param inputFormatFactory the factory to set
+   */
+  public void setFormatFactory(FormatFactory inputFormatFactory) {
+    this.formatFactory = inputFormatFactory;
+  }
+
+  /**
+   * Gets the table attribute of the importer.
+   * @return the table attribute
    */
   public Table getTable() {
     return this.table;
   }
 
   /**
-   * Create an obvious schema from the CVS file.
-   * @throws IOException for input problems
-   * @throws ObviousxException when a bad schema structure is used in CSV.
-   * @throws ClassNotFoundException when a bad class name is given in CSV.
-   * @throws ParseException when a bad default value is given in CSV.
+   * Reads the schema of the file.
+   * @throws ObviousxException if an exception occurs.
    */
-  public void createSchema()
-      throws IOException, ObviousxException, ClassNotFoundException,
-              ParseException {
-    CSVReader reader = new CSVReader(new FileReader(file), separator);
-    ArrayList<String[]> content =  (ArrayList<String[]>) reader.readAll();
-    ArrayList<String> title = new ArrayList<String>();
-    ArrayList<String> type = new ArrayList<String>();
-    ArrayList<Object> defaultValue = new ArrayList<Object>();
-    for (int i = 0; i < HEADERSIZE; i++) {
-      for (int j = 0; j < content.get(i).length; j++) {
-        switch(i) {
-          case 0 :
-            title.add(content.get(i)[j]);
-            break;
-          case 1 :
-              type.add(content.get(i)[j]);
-            break;
-          case 2 :
-            TypedFormat format =
-              formatFactory.getFormat(content.get(i - 1)[j]);
-            Object value = ((Format) format).parseObject(content.get(i)[j]);
-            defaultValue.add(value);
-            break;
-          default :
-            break;
-        }
-      }
-    }
-    for (int i = 0; i < title.size(); i++) {
-      TypedFormat format = formatFactory.getFormat(type.get(i));
-      Class<?> spottedClass = format.getFormattedClass();
-      this.schema.addColumn(title.get(i), spottedClass, defaultValue.get(i));
-    }
-    reader.close();
-  }
-
-  /**
-   * Validates the created schema with the reference.
-   * @return true if the schema is equals to the reference.
-   */
-  public boolean validateSchema() {
-    if (this.schema.getColumnCount() != this.refSchema.getColumnCount()) {
-      return false;
-    } else {
-      for (int i = 0; i < this.schema.getRowCount(); i++) {
-        if (!schema.getColumnName(i).equals(refSchema.getColumnName(i))
-            || !schema.getColumnType(i).equals(refSchema.getColumnType(i))) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Creates table from the CVS description.
-   * @throws ObviousException occurs when table cannot be created.
-   * @throws IOException occurs when the CSV table has a bad format.
-   * @throws ParseException  occurs when data contained in CSV have bad format.
-   */
-  public void createTable()
-      throws ObviousException, IOException, ParseException {
+  public void readSchema() throws ObviousxException {
     try {
-      this.createSchema();
-    } catch (ObviousxException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    if (this.validateSchema()) {
-      this.table = dataFactory.createTable(this.name, this.refSchema);
-      CSVReader readerBis = new CSVReader(new FileReader(file), separator);
-      ArrayList<String[]> content = (ArrayList<String[]>) readerBis.readAll();
-      for (int i = HEADERSIZE; i < content.size(); i++) {
-        int rowId = this.table.addRow();
-        for (int j = 0; j < content.get(i).length; j++) {
-          TypedFormat format = formatFactory
-            .getFormat(schema.getColumnType(j).getSimpleName());
-          Object val = ((Format) format).parseObject(content.get(i)[j]);
-          this.table.set(rowId - 1, j, val);
+      CSVReader reader = new CSVReader(new FileReader(file), separator);
+      ArrayList<String> title = new ArrayList<String>();
+      ArrayList<String> type = new ArrayList<String>();
+      ArrayList<Object> defaultValue = new ArrayList<Object>();
+      String[] nextline = null;
+      Integer lineCount = 0;
+      while (lineCount < HEADERSIZE) {
+        nextline = reader.readNext();
+        for (int j = 0; j < nextline.length; j++) {
+          switch(lineCount) {
+            case 0 :
+              title.add(nextline[j]);
+              break;
+            case 1 :
+              type.add(nextline[j]);
+              break;
+            case 2 :
+              defaultValue.add(nextline[j]);
+              break;
+            default :
+              break;
+          }
         }
+        lineCount++;
       }
-      readerBis.close();
-    } else {
-      throw new IOException("Reference schema doesn't match CSV schema!");
+      for (int i = 0; i < title.size(); i++) {
+        TypedFormat format = formatFactory.getFormat(type.get(i));
+        Class<?> spottedClass = format.getFormattedClass();
+        this.fileSchema.addColumn(title.get(i), spottedClass,
+            defaultValue.get(i));
+
+      }
+      reader.close();
+    } catch (Exception e) {
+      throw new ObviousxException(e);
     }
   }
+
+  /**
+   * Loads the table with the data of the external file.
+   * @throws ObviousxException when exception occurs
+   */
+  public void loadTable() throws ObviousxException {
+    try {
+      this.readSchema();
+      CSVReader reader = new CSVReader(new FileReader(file), separator);
+      String[] nextline;
+      Integer lineCount = 0;
+      while ((nextline = reader.readNext()) != null) {
+        if (lineCount >= HEADERSIZE) {
+          int rowId = this.table.addRow();
+          for (int j = 0; j < nextline.length; j++) {
+            TypedFormat format = formatFactory
+              .getFormat(this.fileSchema.getColumnType(j).getSimpleName());
+            Object val = ((Format) format).parseObject(nextline[j]);
+            this.table.set(rowId - 1, j, val);
+          }
+        }
+        lineCount++;
+      }
+      reader.close();
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
+  }
+
 }
