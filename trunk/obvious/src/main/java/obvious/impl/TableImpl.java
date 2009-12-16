@@ -314,7 +314,7 @@ public class TableImpl implements Table {
    * Sets a value.
    * @param rowId row to set
    * @param field field to set
-   * @param val to set
+   * @param val value to set
    */
   @SuppressWarnings("unchecked")
   public void set(int rowId, String field, Object val) {

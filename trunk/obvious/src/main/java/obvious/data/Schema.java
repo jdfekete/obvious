@@ -96,20 +96,40 @@ public interface Schema extends Table {
     Object getColumnDefault(int col);
 
     /**
-     * Indicates if possible to read a column.
-     * @param col spotted
-     * @param type can be null
-     * @return true if readable
+     * Checks if the getValue method can return values that are compatibles
+     * with a given type.
+     * @param col Index of the column
+     * @param c Expected type to check
+     * @return true if the types are compatibles
      */
-    boolean canGet(int col, Class<?> type);
+    boolean canGet(int col, Class<?> c);
 
     /**
-     * Indicates if possible to write a column.
-     * @param col spotted
-     * @param type can be null
-     * @return true if writable
+     * Checks if the set method can accept for a specific column values that
+     * are compatible with a given type.
+     * @param col Index of the column
+     * @param c Expected type to check
+     * @return true if the types compatibles
      */
-    boolean canSet(int col, Class<?> type);
+    boolean canSet(int col, Class<?> c);
+
+    /**
+     * Checks if the getValue method can return values that are compatibles
+     * with a given type.
+     * @param field Name of the column
+     * @param c Expected type to check
+     * @return true if the types are compatibles
+     */
+    boolean canGet(String field, Class<?> c);
+
+    /**
+     * Checks if the set method can accept for a specific column values that
+     * are compatible with a given type.
+     * @param field Index of the column
+     * @param c Expected type to check
+     * @return true if the types compatibles
+     */
+    boolean canSet(String field, Class<?> c);
 
     /**
      * Get the data type of the column with the given data field name.

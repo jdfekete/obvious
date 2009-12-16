@@ -111,18 +111,10 @@ public class SchemaImpl implements Schema {
 
   /**
    * Constructor of SchemaImpl without parameters.
-   * Assumes table can not be changed.
+   * Assumes table can be changed.
    */
   public SchemaImpl() {
-    this.canAddRow = false;
-    this.canRemoveRow = false;
-    this.editing = false;
-    this.names = new ArrayList<String>();
-    this.types = new ArrayList<Class<?>>();
-    this.defaultValues = new ArrayList<Object>();
-    columns.put(NAME, names);
-    columns.put(TYPE, types);
-    columns.put(DEFAULT_VALUE, defaultValues);
+    this(true, true);
   }
 
     // ------------------------------------------------------------------------
@@ -177,23 +169,59 @@ public class SchemaImpl implements Schema {
   }
 
   /**
-   * Indicates if possible to read a column.
-   * @param col spotted
-   * @param type can be null
-   * @return true if readable
+   * Checks if the getValue method can return values that are compatibles
+   * with a given type.
+   * @param col Index of the column
+   * @param c Expected type to check
+   * @return true if the types are compatibles
    */
-  public boolean canGet(int col, Class<?> type) {
-    return false;
+  public boolean canGet(int col, Class<?> c) {
+    if (c == null) {
+      return false;
+    } else {
+        Class<?> columnType = this.getColumnType(col);
+        return c.isAssignableFrom(columnType);
+    }
   }
 
   /**
-   * Indicates if possible to write a column.
-   * @param col spotted
-   * @param type can be null
-   * @return true if writable
+   * Checks if the set method can accept for a specific column values that
+   * are compatible with a given type.
+   * @param col Index of the column
+   * @param type Expected type to check
+   * @return true if the types compatibles
    */
   public boolean canSet(int col, Class<?> type) {
-    return false;
+    if (type == null) {
+      return false;
+    } else {
+        Class<?> columnType = this.getColumnType(col);
+        return type.isAssignableFrom(columnType);
+    }
+  }
+
+  /**
+   * Checks if the getValue method can return values that are compatibles
+   * with a given type.
+   * @param field Name of the column
+   * @param c Expected type to check
+   * @return true if the types are compatibles
+   */
+  public boolean canGet(String field, Class<?> c) {
+    int col = this.getColumnIndex(field);
+    return this.canGet(col, c);
+  }
+
+  /**
+   * Checks if the set method can accept for a specific column values that
+   * are compatible with a given type.
+   * @param field Index of the column
+   * @param c Expected type to check
+   * @return true if the types compatibles
+   */
+  public boolean canSet(String field, Class<?> c) {
+    int col = this.getColumnIndex(field);
+    return this.canSet(col, c);
   }
 
   /**
@@ -507,4 +535,5 @@ public class SchemaImpl implements Schema {
       }
     }
   }
+
 }
