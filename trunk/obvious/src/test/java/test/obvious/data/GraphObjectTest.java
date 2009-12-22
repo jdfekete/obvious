@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
  * @version $Revision$
  */
 
-public class GraphObjectTest {
+public abstract class GraphObjectTest {
 
   /**
    * Graph to test.
@@ -51,7 +51,14 @@ public class GraphObjectTest {
    * @see junit.framework.TestCase#setUp()
    */
   public void setUp() {
+    this.graph = this.newInstance();
   }
+
+  /**
+   * Creates a suitable instance of graph.
+   * @return suitable graph implementation instance
+   */
+  public abstract Graph<String, String> newInstance();
 
   /**
    * @see junit.framework.TestCase#tearDown()

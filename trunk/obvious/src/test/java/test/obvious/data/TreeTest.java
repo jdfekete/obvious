@@ -42,7 +42,7 @@ import static org.junit.Assert.*;
  * @version $Revision$
  */
 
-public class TreeTest {
+public abstract class TreeTest {
 
   /**
    * Tree to test.
@@ -58,6 +58,7 @@ public class TreeTest {
    */
   @Before
   public void setUp() {
+    tree = this.newInstance();
     tree.addNode("president");
     tree.addNode("prime_minister");
     tree.addNode("minister_one");
@@ -75,6 +76,12 @@ public class TreeTest {
     tree.addEdge("min1-sec-dir",
         "minister_one", "secretary_one", Graph.EdgeType.DIRECTED);
   }
+
+  /**
+   * Creates a suitable instance of tree.
+   * @return suitable tree implementation instance
+   */
+  public abstract Tree<String, String> newInstance();
 
   /**
    * @see junit.framework.TestCase#tearDown()

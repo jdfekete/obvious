@@ -25,46 +25,27 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package test.obvious.data;
+package test.obvious.impl;
 
-import obvious.data.Tuple;
+import obvious.data.Schema;
+import obvious.impl.SchemaImpl;
 
-import org.junit.Before;
-import org.junit.After;
+import test.obvious.data.SchemaTest;
+import test.obvious.data.TableTestData;
 
 /**
- * Test class for Tuple class.
- *
+ * Implementation of the Schema test case for SchemaImpl implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public abstract class TupleTest {
+public class ImplSchemaTest extends SchemaTest implements TableTestData {
 
   /**
-   * Tuple to test.
+   * Creates a SchemaImpl instance.
+   * @return a TableImpl instance
    */
-  @SuppressWarnings("unused")
-  private Tuple tuple;
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Before
-  public void setUp() {
-    this.tuple = this.newInstance();
+  public Schema newInstance() {
+    return new SchemaImpl();
   }
 
-  /**
-   * Creates a suitable instance of tuple.
-   * @return suitable tuple implementation instance
-   */
-  public abstract Tuple newInstance();
-
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @After
-  public void tearDown() {
-    this.tuple = null;
-  }
 }

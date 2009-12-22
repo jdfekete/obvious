@@ -25,49 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package test.obvious.data;
-
-import obvious.ObviousException;
-import obvious.data.Network;
-import obvious.data.DataFactory;
-import obvious.impl.SchemaImpl;
-
-import org.junit.Before;
-import org.junit.After;
-
 /**
- * Class GraphObjectTest.
+ * <h1>Package test.obvious.impl</h1>
  *
- * @author Pierre-Luc Hemery
- * @version $Revision$
+ * TODO document the package.
  */
-
-public class GraphTableTest {
-
-  /**
-   * Network instance used for tests.
-   */
-  @SuppressWarnings("unused")
-  private Network network;
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   * @throws ObviousException when problem occurs.
-   */
-  @Before
-  public void setUp() throws ObviousException {
-    SchemaImpl nodeSchema = new SchemaImpl();
-    SchemaImpl edgeSchema = new SchemaImpl();
-    DataFactory factory = DataFactory.getInstance();
-    network = factory.createGraph("myGraph", nodeSchema, edgeSchema);
-  }
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @After
-  public void tearDown() {
-    network = null;
-  }
-
-}
+package test.obvious.impl;
