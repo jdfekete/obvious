@@ -27,44 +27,56 @@
 
 package test.obvious.data;
 
-import obvious.data.Tuple;
+import obvious.ObviousException;
+import obvious.data.Network;
+import obvious.data.Schema;
+import obvious.impl.SchemaImpl;
 
 import org.junit.Before;
 import org.junit.After;
 
 /**
- * Test class for Tuple class.
+ * Class GraphObjectTest.
  *
  * @author Pierre-Luc Hemery
- *
+ * @version $Revision$
  */
-public abstract class TupleTest {
+
+public abstract class NetworkTest {
 
   /**
-   * Tuple to test.
+   * Network instance used for tests.
    */
   @SuppressWarnings("unused")
-  private Tuple tuple;
+  private Network network;
+
+  /**
+   * @see junit.framework.TestCase#setUp()
+   * @throws ObviousException when problem occurs.
+   */
+  @Before
+  public void setUp() throws ObviousException {
+    Schema nodeSchema = new SchemaImpl();
+    Schema edgeSchema = new SchemaImpl();
+    this.network = this.newInstance(nodeSchema, edgeSchema);
+  }
+
+  /**
+   * Creates a suitable instance of network.
+   * @param nodeSchema schema for the nodes of the network
+   * @param edgeSchema schema for the edges of the network
+   * @return suitable network implementation instance
+   * @throws ObviousException if Network instantiation fails
+   */
+  public abstract Network newInstance(Schema nodeSchema, Schema edgeSchema)
+      throws ObviousException;
 
   /**
    * @see junit.framework.TestCase#setUp()
    */
-  @Before
-  public void setUp() {
-    this.tuple = this.newInstance();
-  }
-
-  /**
-   * Creates a suitable instance of tuple.
-   * @return suitable tuple implementation instance
-   */
-  public abstract Tuple newInstance();
-
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
   @After
   public void tearDown() {
-    this.tuple = null;
+    network = null;
   }
+
 }

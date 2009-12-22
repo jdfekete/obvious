@@ -28,9 +28,8 @@
 package test.obvious.data;
 
 import obvious.ObviousException;
+import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.data.DataFactory;
-// import obvious.data.event.TableListener;
 import obvious.impl.SchemaImpl;
 
 import org.junit.Before;
@@ -45,7 +44,7 @@ import static org.junit.Assert.*;
  * @version $Revision$
  */
 
-public class TableTest implements TableTestData {
+public abstract class TableTest implements TableTestData {
 
   /**
    * Table instance to test.
@@ -62,8 +61,7 @@ public class TableTest implements TableTestData {
     for (int i = 0; i < NUMCOL; i++) {
       schema.addColumn(HEADERS[i], TYPES[i], DEFAULTS[i]);
     }
-    DataFactory factory = DataFactory.getInstance();
-    table = factory.createTable("table", schema);
+    table = this.newInstance(schema);
     table.addRow();
     table.addRow();
     table.addRow();
@@ -76,37 +74,20 @@ public class TableTest implements TableTestData {
   }
 
   /**
+   * Creates a suitable instance of table.
+   * @param schema based schema to create the table
+   * @return suitable Table implementation instance
+   * @throws ObviousException if Table instantiation fails
+   */
+  public abstract Table newInstance(Schema schema) throws ObviousException;
+
+  /**
   * @see junit.framework.TestCase#tearDown()
   */
   @After
   public void tearDown() {
     table = null;
   }
-
-/*
-  private class TableTestListener implements TableListener {
-
-    private boolean isEditing;
-
-    public TableTestListener() {
-      this.isEditing = false;
-    }
-
-    public void beginEdit() {
-      this.isEditing = true;
-    }
-
-    public void endEdit() {
-      this.isEditing = false;
-    }
-
-    public void tableChanged(Table t, int start, int end, int col, int type) {
-
-    }
-  }
-*/
-
-// Read-only test
 
   /**
    * Test method for obvious.data.Table.getRowCount() method.

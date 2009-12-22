@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  * @author Pierre-Luc Hemery
  *
  */
-public class SchemaTest {
+public abstract class SchemaTest {
 
   /**
    * Schema instance for tests.
@@ -51,9 +51,16 @@ public class SchemaTest {
    */
   @Before
   public void setUp() {
+      this.schema = this.newInstance();
       schema.addColumn("col1", String.class, "");
       schema.addColumn("col2", Integer.class, 0);
   }
+
+  /**
+   * Creates a suitable instance of schema.
+   * @return suitable Schema implementation instance
+   */
+  public abstract Schema newInstance();
 
   /**
    * @see junit.framework.TestCase#tearDown()
@@ -132,7 +139,7 @@ public class SchemaTest {
   public void testRemoveColumnByIndex() {
     final int falseIndex = 3;
     assertTrue(schema.removeColumn(0));
-    assertTrue(schema.removeColumn(1));
+    assertTrue(schema.removeColumn(0));
     assertFalse(schema.removeColumn(falseIndex));
   }
 

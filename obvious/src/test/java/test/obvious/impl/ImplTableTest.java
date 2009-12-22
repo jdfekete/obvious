@@ -25,46 +25,34 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package test.obvious.data;
+package test.obvious.impl;
 
-import obvious.data.Tuple;
+import obvious.ObviousException;
+import obvious.data.DataFactory;
+import obvious.data.Schema;
+import obvious.data.Table;
+import obvious.impl.DataFactoryImpl;
 
-import org.junit.Before;
-import org.junit.After;
+import test.obvious.data.TableTest;
+import test.obvious.data.TableTestData;
 
 /**
- * Test class for Tuple class.
- *
+ * Implementation of the Table Test case for TableImpl implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public abstract class TupleTest {
+public class ImplTableTest extends TableTest implements TableTestData {
 
   /**
-   * Tuple to test.
+   * Creates a TableImpl instance.
+   * @param schema based schema to create the table
+   * @return a TableImpl instance
+   * @throws ObviousException if TableImpl instantiation failed
    */
-  @SuppressWarnings("unused")
-  private Tuple tuple;
-
-  /**
-   * @see junit.framework.TestCase#setUp()
-   */
-  @Before
-  public void setUp() {
-    this.tuple = this.newInstance();
+  public Table newInstance(Schema schema) throws ObviousException {
+    System.setProperty("obvious.DataFactory", "obvious.impl.DataFactoryImpl");
+    DataFactory dFactory = DataFactoryImpl.getInstance();
+    return dFactory.createTable("table", schema);
   }
 
-  /**
-   * Creates a suitable instance of tuple.
-   * @return suitable tuple implementation instance
-   */
-  public abstract Tuple newInstance();
-
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  @After
-  public void tearDown() {
-    this.tuple = null;
-  }
 }
