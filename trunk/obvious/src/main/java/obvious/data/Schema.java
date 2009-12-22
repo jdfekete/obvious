@@ -141,7 +141,7 @@ public interface Schema extends Table {
     /**
      * Internal method indicating if the given data field is included as a
      * data column.
-     * @param name to seek
+     * @param name name to seek
      * @return true if the name exists.
      */
     boolean hasColumn(String name);

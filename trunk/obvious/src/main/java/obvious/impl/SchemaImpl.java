@@ -188,15 +188,15 @@ public class SchemaImpl implements Schema {
    * Checks if the set method can accept for a specific column values that
    * are compatible with a given type.
    * @param col Index of the column
-   * @param type Expected type to check
+   * @param c Expected type to check
    * @return true if the types compatibles
    */
-  public boolean canSet(int col, Class<?> type) {
-    if (type == null) {
+  public boolean canSet(int col, Class<?> c) {
+    if (c == null) {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
-        return type.isAssignableFrom(columnType);
+        return c.isAssignableFrom(columnType);
     }
   }
 
@@ -227,7 +227,7 @@ public class SchemaImpl implements Schema {
   /**
    * Internal method indicating if the given data field is included as a
    * data column.
-   * @param name to seek
+   * @param name name to seek
    * @return true if the name exists.
    */
   public boolean hasColumn(String name) {
@@ -265,16 +265,23 @@ public class SchemaImpl implements Schema {
     this.names.add(name);
     this.types.add(type);
     this.defaultValues.add(defaultValue);
-    return getColumnIndex(name);
+    return this.getColumnIndex(name);
   }
 
   /**
    * Removes a column.
-   * @param col spotted
+   * @param col index of the column to remove
    * @return true if removed
    */
   public boolean removeColumn(int col) {
-    return false;
+    if (col >= this.getColumnCount()) {
+      return false;
+    } else {
+      names.remove(col);
+      types.remove(col);
+      defaultValues.remove(col);
+      return true;
+    }
   }
 
   /**
@@ -283,8 +290,8 @@ public class SchemaImpl implements Schema {
    * @return true if removed
    */
   public boolean removeColumn(String field) {
-    if (hasColumn(field)) {
-      return removeColumn(getColumnIndex(field));
+    if (this.hasColumn(field)) {
+      return removeColumn(this.getColumnIndex(field));
     } else {
       return false;
     }
