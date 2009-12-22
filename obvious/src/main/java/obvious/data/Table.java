@@ -152,7 +152,7 @@ public interface Table extends Data {
 
     /**
      * Removes a table listener.
-     * @param listnr to remove
+     * @param listnr listener to remove
      */
     void removeTableListener(TableListener listnr);
 
@@ -177,13 +177,13 @@ public interface Table extends Data {
 
     /**
      * Adds a row.
-     * @return number of rows?
+     * @return number of rows
      */
     int addRow();
 
     /**
      * Removes a row.
-     * @param row to remove
+     * @param row row to remove
      * @return true if done
      */
     boolean removeRow(int row);
@@ -202,15 +202,15 @@ public interface Table extends Data {
      * Sets a value.
      * @param rowId row to set
      * @param field field to set
-     * @param val to set
+     * @param val value to set
      */
     void set(int rowId, String field, Object val);
 
     /**
      * Sets a value.
      * @param rowId row to set
-     * @param col to set
-     * @param val to set
+     * @param col column to set
+     * @param val value to set
      */
     void set(int rowId, int col, Object val);
 }
