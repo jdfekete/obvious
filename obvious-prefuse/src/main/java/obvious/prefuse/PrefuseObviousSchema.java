@@ -61,7 +61,7 @@ public class PrefuseObviousSchema implements Schema {
     prefuse.data.Table prefuseSchemaTable =
       new prefuse.data.Table(this.schema.getColumnCount(), 3);
     prefuseSchemaTable.addColumn("Name", String.class);
-    prefuseSchemaTable.addColumn("Type", "Class");
+    prefuseSchemaTable.addColumn("Type", Class.class);
     prefuseSchemaTable.addColumn("Default Value", Object.class);
     for (int i = 0; i < this.schema.getColumnCount(); i++) {
       prefuseSchemaTable.set(i, "Name", this.schema.getColumnName(i));
@@ -84,23 +84,59 @@ public class PrefuseObviousSchema implements Schema {
   }
 
   /**
-   * Checks if it's possible to get this type from this column.
-   * @param col index of the column to check
-   * @param type type to test
-   * @return true if the types are compatible.
+   * Checks if the getValue method can return values that are compatibles
+   * with a given type.
+   * @param col Index of the column
+   * @param c Expected type to check
+   * @return true if the types are compatibles
    */
-  public boolean canGet(int col, Class<?> type) {
-    return this.getColumnDefault(col).equals(type);
+  public boolean canGet(int col, Class<?> c) {
+    if (c == null) {
+      return false;
+    } else {
+        Class<?> columnType = this.getColumnType(col);
+        return c.isAssignableFrom(columnType);
+    }
   }
 
   /**
-   * Checks if it's possible to set this type from this column.
-   * @param col index of the column to check
-   * @param type type to test
-   * @return true if the types are compatible.
+   * Checks if the set method can accept for a specific column values that
+   * are compatible with a given type.
+   * @param col Index of the column
+   * @param c Expected type to check
+   * @return true if the types compatibles
    */
-  public boolean canSet(int col, Class<?> type) {
-    return this.getColumnDefault(col).equals(type);
+  public boolean canSet(int col, Class<?> c) {
+    if (c == null) {
+      return false;
+    } else {
+        Class<?> columnType = this.getColumnType(col);
+        return c.isAssignableFrom(columnType);
+    }
+  }
+  
+  /**
+   * Checks if the getValue method can return values that are compatibles
+   * with a given type.
+   * @param field Name of the column
+   * @param c Expected type to check
+   * @return true if the types are compatibles
+   */
+  public boolean canGet(String field, Class<?> c) {
+    int col = this.getColumnIndex(field);
+    return this.canGet(col, c);
+  }
+
+  /**
+   * Checks if the set method can accept for a specific column values that
+   * are compatible with a given type.
+   * @param field Index of the column
+   * @param c Expected type to check
+   * @return true if the types compatibles
+   */
+  public boolean canSet(String field, Class<?> c) {
+    int col = this.getColumnIndex(field);
+    return this.canSet(col, c);
   }
 
   /**
@@ -189,86 +225,185 @@ public class PrefuseObviousSchema implements Schema {
   public boolean removeColumn(int col) {
     return false;
   }
-
-
+  
+  /**
+   * Adds a row.
+   * @return number of rows
+   */
   public int addRow() {
     return this.schemaTable.addRow();
   }
 
+  /**
+   * Adds a table listener.
+   * @param listnr to add
+   */
   public void addTableListener(TableListener listnr) {
     this.schemaTable.addTableListener(listnr);
   }
 
+  /**
+   * Indicates the beginning of a column edit.
+   * @param col edited
+   * @throws ObviousException if edition is not supported.
+   */
   public void beginEdit(int col) throws ObviousException {
     this.schemaTable.beginEdit(col);
   }
-
+  
+  /**
+   * Indicates if possible to add rows.
+   * @return true if possible
+   */
   public boolean canAddRow() {
     return this.schemaTable.canAddRow();
   }
 
+  /**
+   * Indicates if possible to remove rows.
+   * @return true if possible
+   */
   public boolean canRemoveRow() {
     return this.schemaTable.canRemoveRow();
   }
 
+  /**
+   * Indicates the end of a column edit.
+   * @param col edited
+   * @throws ObviousException if edition is not supported.
+   */
   public void endEdit(int col) throws ObviousException {
     this.schemaTable.endEdit(col);
   }
 
+  /**
+   * Get the number of rows in the table.
+   * @return the number of rows
+   */
   public int getRowCount() {
     return this.schemaTable.getRowCount();
   }
 
+  /**
+   * Returns this Table's schema.
+   * @return a copy of this Table's schema
+   */
   public Schema getSchema() {
     return this.schemaTable.getSchema();
   }
 
+  /**
+   * Gets all table listener.
+   * @return a collection of table listeners.
+   */
   public Collection<TableListener> getTableListeners() {
     return this.schemaTable.getTableListeners();
   }
 
+  /**
+   * Gets a specific value.
+   * @param rowId spotted row
+   * @param col spotted column
+   * @return value
+   */
   public Object getValue(int rowId, String field) {
     return this.schemaTable.getValue(rowId, field);
   }
 
+  /**
+   * Gets a specific value.
+   * @param rowId spotted row
+   * @param field dedicated to spotted column
+   * @return value
+   */
   public Object getValue(int rowId, int col) {
     return this.schemaTable.getValue(rowId, col);
   }
 
+  /**
+   * Indicates if a column is being edited.
+   * @param col spotted
+   * @return true if edited
+   */
   public boolean isEditing(int col) {
     return this.schemaTable.isEditing(col);
   }
 
+  /**
+   * Indicates if the given row number corresponds to a valid table row.
+   * @param rowId the row number to check for validity
+   * @return true if the row is valid, false if it is not
+   */
   public boolean isValidRow(int rowId) {
     return this.schemaTable.isValidRow(rowId);
   }
 
+  /**
+   * Indicates if a given value is correct.
+   * @param rowId spotted row
+   * @param col column spotted
+   * @return true if the coordinates are valid
+   */
   public boolean isValueValid(int rowId, int col) {
     return this.schemaTable.isValueValid(rowId, col);
   }
 
+  /**
+   * Removes all the rows.
+   *
+   * <p>After this method, the table is almost in the same state as if
+   * it had been created afresh except it contains the same columns as before
+   * but they are all cleared.
+   *
+   */
   public void removeAllRows() {
     this.schemaTable.removeAllRows();
   }
 
+  /**
+   * Removes a row.
+   * @param row row to remove
+   * @return true if done
+   */
   public boolean removeRow(int row) {
     return this.schemaTable.removeRow(row);
   }
 
+  /**
+   * Removes a table listener.
+   * @param listnr listener to remove
+   */
   public void removeTableListener(TableListener listnr) {
     this.schemaTable.removeTableListener(listnr);
   }
 
+  /**
+   * Get an iterator over the row numbers of this table.
+   * @return an iterator over the rows of this table
+   */
   public IntIterator rowIterator() {
     return this.schemaTable.rowIterator();
   }
 
+  /**
+   * Sets a value.
+   * @param rowId row to set
+   * @param field field to set
+   * @param val value to set
+   */
   public void set(int rowId, String field, Object val) {
     this.schemaTable.set(rowId, field, val);
   }
 
+  /**
+   * Sets a value.
+   * @param rowId row to set
+   * @param col column to set
+   * @param val value to set
+   */
   public void set(int rowId, int col, Object val) {
     this.schemaTable.set(rowId, col, val);
   }
+
 
 }
