@@ -139,9 +139,9 @@ public class TypedSQLFormat {
         this.type = Integer.class;
       } else if (typeLow.equals("smallint")) {
         this.type = Short.class;
-      } else if (typeLow.equals("smallint")) {
+      } /* else if (typeLow.equals("smallint")) {
         this.type = Byte.class;
-      } else {
+      } */ else {
         throw new IllegalArgumentException(typeString
             + " unknown type for the constructor!");
       }
