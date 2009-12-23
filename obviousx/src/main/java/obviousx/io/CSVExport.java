@@ -29,7 +29,6 @@ package obviousx.io;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.Format;
 
 import obvious.data.Table;
@@ -75,16 +74,20 @@ public class CSVExport implements Exporter {
    * CSVExport constructor.
    * @param nameInput name for the CSV file
    * @param tableInput table to build in CSV
-   * @throws IOException when file creation failed.
+   * @throws ObviousxException when file creation failed.
    */
   public CSVExport(String nameInput, Table tableInput)
-      throws IOException {
+      throws ObviousxException {
+    try {
     this.name = nameInput;
     this.table = tableInput;
     file = new File(name + ".csv");
     FileWriter fileWriter = new FileWriter(file);
     writer = new CSVWriter(fileWriter);
     this.formatFactory = new FormatFactoryImpl();
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
   }
 
   /**
