@@ -27,6 +27,8 @@
 
 package obvious.jdbc;
 
+import java.util.Date;
+
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 
@@ -35,9 +37,16 @@ import obviousx.util.FormatFactory;
  * @author Pierre-Luc Hemery
  *
  */
-public class FormatFactorySQL extends FormatFactory {
+public class FormatFactorySQL implements FormatFactory {
 
-  @Override
+  /**
+   * Gives the associated TypedFormat object associated to a type entered as a
+   * String. This method in this implementation recognizes classic java types :
+   * String, boolean, numbers and date. This method is made to be overriden.
+   * @param type The type as a String.
+   * @return a TypedFormat object
+   *
+   */
   public TypedFormat getFormat(String type) {
     TypedSQLFormat format = new TypedSQLFormat();
     String typeLow = type.toLowerCase();
@@ -65,6 +74,52 @@ public class FormatFactorySQL extends FormatFactory {
       throw new
       IllegalArgumentException("Cannot return a corresponding Format for : "
           + type);
+    }
+  }
+
+
+  /**
+   * Gives the corresponding SQL format for a Java class.
+   * This method should and could be overriden for particular JDBC / Obvious
+   * implementations.
+   * @param c Java class to "convert" in a SQL type
+   * @return a corresponding SQL type in String format
+   */
+  public String getSQLType(Class<?> c) {
+    if (c.equals(Integer.class)) {
+      return "INT";
+    } else if (c.equals(Long.class)) {
+      return "BIGINT";
+    } else if (c.equals(Double.class)) {
+      return "DOUBLE";
+    } else if (c.equals(Float.class)) {
+      return "FLOAT";
+    } else if (c.equals(Short.class)) {
+      return "SMALLINT";
+    } else if (c.equals(java.math.BigDecimal.class)) {
+      return "DECIMAL";
+    } else if (c.equals(Number.class)) {
+      return "NUMERIC";
+    } else if (c.equals(java.sql.Date.class) || c.equals(Date.class)) {
+      return "DATE";
+    } else if (c.equals(java.sql.Time.class)) {
+      return "TIME";
+    } else if (c.equals(java.sql.Timestamp.class)) {
+      return "TIMESTAMP";
+    } else if (c.equals(Boolean.class)) {
+      return "BIT";
+    } else if (c.equals(java.sql.Blob.class)) {
+      return "BLOB";
+    } else if (c.equals(java.sql.Clob.class)) {
+      return "CLOB";
+    } else if (c.equals(java.sql.Array.class)) {
+      return "ARRAY";
+    } else if (c.equals(java.sql.Ref.class)) {
+      return "REF";
+    } else if (c.equals(Byte[].class)) {
+      return "LONGVARBINARY";
+    } else {
+      return "OTHERS";
     }
   }
 

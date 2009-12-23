@@ -77,8 +77,8 @@ public class TableImportExample {
     System.setProperty("obviousx.FormatFactory",
         "obvious.jdbc.FormatFactorySQL");
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    FormatFactory fFactory = FormatFactorySQL.getInstance();
 
+/*
     // Create the database importer
     String driver = "com.mysql.jdbc.Driver";
     DatabaseImporter dbImporter = new DatabaseImporter(driver, url, userName,
@@ -122,5 +122,6 @@ public class TableImportExample {
       frame.setVisible(true);
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+    */
   }
 }
