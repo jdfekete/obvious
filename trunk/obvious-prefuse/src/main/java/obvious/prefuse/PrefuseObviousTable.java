@@ -48,11 +48,19 @@ public class PrefuseObviousTable implements Table {
   private prefuse.data.Table table;
 
   /**
-   * Constructor.
+   * Constructor that takes an existing Prefuse table as argument.
    * @param prefuseTable Prefuse table to wrap around Obvious Table.
    */
   public PrefuseObviousTable(prefuse.data.Table prefuseTable) {
     this.table = prefuseTable;
+  }
+  
+  public PrefuseObviousTable(Schema schema) {
+    this.table = new prefuse.data.Table(0, schema.getColumnCount());
+    for(int i = 0; i < schema.getColumnCount(); i++) {
+      this.table.addColumn(schema.getColumnName(i), schema.getColumnType(i),
+          schema.getColumnDefault(i));
+    }
   }
 
   /**
@@ -122,7 +130,7 @@ public class PrefuseObviousTable implements Table {
    * @return a copy of this Table's schema
    */
   public Schema getSchema() {
-    return (Schema) this.table.getSchema();
+    return new PrefuseObviousSchema(this.table.getSchema());
   }
 
   /**
