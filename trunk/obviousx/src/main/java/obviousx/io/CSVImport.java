@@ -176,7 +176,8 @@ public class CSVImport implements Importer {
       Integer lineCount = 0;
       while ((nextline = reader.readNext()) != null) {
         if (lineCount >= HEADERSIZE) {
-          int rowId = this.table.addRow();
+          this.table.addRow();
+          int rowId = this.table.getRowCount();
           for (int j = 0; j < nextline.length; j++) {
             TypedFormat format = formatFactory
               .getFormat(this.fileSchema.getColumnType(j).getSimpleName());
