@@ -12,5 +12,15 @@
       <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+    	<groupId>obvious-jdbc</groupId>
+    	<artifactId>obvious-jdbc</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>obvious-prefuse</groupId>
+    	<artifactId>obvious-prefuse</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

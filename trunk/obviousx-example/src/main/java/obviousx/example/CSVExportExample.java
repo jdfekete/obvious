@@ -39,8 +39,6 @@ import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.io.CSVExport;
-import obviousx.util.FormatFactory;
-import obviousx.util.FormatFactoryImpl;
 
 /**
  * Example class for CVExport.
@@ -57,7 +55,18 @@ public class CSVExportExample {
    * @throws ObviousxException when FormatFactory creation failed
    */
   public static void main(String[] args)
-      throws ObviousException, IOException, ObviousxException {
+      throws ObviousException, ObviousxException, IOException {
+
+    String filePath = "";
+    String factoryPath = "";
+
+    try {
+      filePath = args[0];
+      factoryPath = args[1];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      filePath = "C:\\outputObvious\\stupidtest\\DefaultTest.csv";
+      factoryPath = "obvious.impl.DataFactoryImpl";
+    }
 
     // Create the table to export in CSV format.
     Schema schema = new SchemaImpl(true, true);
@@ -65,7 +74,7 @@ public class CSVExportExample {
     schema.addColumn("Age", Integer.class, 0);
     schema.addColumn("Birthday", Date.class, null);
 
-    System.setProperty("obvious.DataFactory", "obvious.impl.DataFactoryImpl");
+    System.setProperty("obvious.DataFactory", factoryPath);
     DataFactory dFactory = DataFactoryImpl.getInstance();
     Table table = dFactory.createTable("table", schema);
 
@@ -84,9 +93,8 @@ public class CSVExportExample {
     table.set(2, 2, new Date(2560001));
 
     // Create the exporter to CSV.
-    String path = "C:\\outputObvious\\stupidtest\\test2CSV"; // set a path here
-    CSVExport exporter = new CSVExport(path, table);
+    CSVExport exporter = new CSVExport(filePath, table);
     exporter.createFile();
-    
+
   }
 }

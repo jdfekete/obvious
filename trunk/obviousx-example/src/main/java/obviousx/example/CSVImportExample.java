@@ -28,8 +28,6 @@
 package obviousx.example;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -45,8 +43,7 @@ import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.io.CSVImport;
 import obviousx.io.ObviousTableModel;
-import obviousx.util.FormatFactory;
-import obviousx.util.FormatFactoryImpl;
+
 
 /**
  * Example class for CVSImport.
@@ -58,13 +55,19 @@ public class CSVImportExample {
   /**
    * Main.
    * @param args arguments for main.
-   * @throws IOException Exception risen when bad input file.
-   * @throws ObviousException if DataFactory creation failed.
-   * @throws ParseException when CSV file is bad formatted.
-   * @throws ObviousxException  if FormatFactory creation failed.
+   * @throws ObviousxException  if an exceptions occurs when CSV is created
+   * @throws ObviousException  if an exception occurs when table is created
    */
-  public static void main(String[] args)
-    throws IOException, ObviousException, ParseException, ObviousxException {
+  public static void main(String[] args) throws ObviousxException,
+    ObviousException {
+
+    String factoryPath = "";
+
+    try {
+      factoryPath = args[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      factoryPath = "obvious.impl.DataFactoryImpl";
+    }
 
     // Load CSV File
     File inputFile = new File("src/main/resources/lri.csv");
@@ -74,7 +77,7 @@ public class CSVImportExample {
     schema.addColumn("Name", String.class, "");
     schema.addColumn("Lab", String.class, "");
     schema.addColumn("Status", String.class, "");
-    System.setProperty("obvious.DataFactory", "obvious.impl.DataFactoryImpl");
+    System.setProperty("obvious.DataFactory", factoryPath);
     DataFactory dFactory = DataFactoryImpl.getInstance();
     Table table = dFactory.createTable("test", schema);
 
@@ -84,14 +87,15 @@ public class CSVImportExample {
     importer.loadTable();
 
     // Display Obvious Table
-    
+
     TableModel tableModeled = new ObviousTableModel(table);
     JTable jtable = new JTable(tableModeled);
-    
+
     JScrollPane scrollPane = new JScrollPane(jtable);
     jtable.setFillsViewportHeight(true);
 
-    JFrame frame = new JFrame("Obvious CSV Example!");
+    JFrame frame = new JFrame("Obvious CSV Example implemented with "
+        + table.getClass().getSimpleName());
     frame.add(scrollPane);
     frame.pack();
     frame.setLocationRelativeTo(null);
