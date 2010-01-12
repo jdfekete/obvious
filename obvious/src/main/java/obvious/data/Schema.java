@@ -90,7 +90,7 @@ public interface Schema extends Table {
 
     /**
      * Gets the default value for a column.
-     * @param col spotted
+     * @param col column index
      * @return value default
      */
     Object getColumnDefault(int col);
@@ -98,17 +98,17 @@ public interface Schema extends Table {
     /**
      * Checks if the getValue method can return values that are compatibles
      * with a given type.
-     * @param col Index of the column
-     * @param c Expected type to check
-     * @return true if the types are compatibles
+     * @param col column index
+     * @param c type to check
+     * @return true if types are compatibles
      */
     boolean canGet(int col, Class<?> c);
 
     /**
      * Checks if the set method can accept for a specific column values that
      * are compatible with a given type.
-     * @param col Index of the column
-     * @param c Expected type to check
+     * @param col column index
+     * @param c type to check
      * @return true if the types compatibles
      */
     boolean canSet(int col, Class<?> c);
@@ -116,8 +116,8 @@ public interface Schema extends Table {
     /**
      * Checks if the getValue method can return values that are compatibles
      * with a given type.
-     * @param field Name of the column
-     * @param c Expected type to check
+     * @param field column name
+     * @param c type to check
      * @return true if the types are compatibles
      */
     boolean canGet(String field, Class<?> c);
@@ -125,15 +125,15 @@ public interface Schema extends Table {
     /**
      * Checks if the set method can accept for a specific column values that
      * are compatible with a given type.
-     * @param field Index of the column
-     * @param c Expected type to check
+     * @param field column name
+     * @param c type to check
      * @return true if the types compatibles
      */
     boolean canSet(String field, Class<?> c);
 
     /**
      * Get the data type of the column with the given data field name.
-     * @param field the column / data field name
+     * @param field the column name
      * @return the data type (as a Java Class) of the column
      */
     Class<?> getColumnType(String field);
@@ -148,7 +148,7 @@ public interface Schema extends Table {
 
     /**
      * Gets the column name.
-     * @param col spotted
+     * @param col column index
      * @return name of the column
      */
     String getColumnName(int col);
@@ -162,9 +162,9 @@ public interface Schema extends Table {
 
     /**
      * Add a column with the given name and data type to this table.
-     * @param name the data field name for the column
+     * @param name name of the column
      * @param type the data type, as a Java Class, for the column
-     * @param defaultValue the default value for column data values
+     * @param defaultValue the default value for the column
      * @return the column index
      * throws a runtime exception when the column name already exists.
      */
@@ -187,7 +187,7 @@ public interface Schema extends Table {
 
     /**
      * Removes a column.
-     * @param col spotted
+     * @param col column index
      * @return true if removed
      */
     boolean removeColumn(int col);

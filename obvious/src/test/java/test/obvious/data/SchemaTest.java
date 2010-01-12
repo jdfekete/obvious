@@ -47,6 +47,14 @@ public abstract class SchemaTest {
   private Schema schema;
 
   /**
+   * Gets the schema test instance.
+   * @return test schema instance
+   */
+  public Schema getSchema() {
+    return this.schema;
+  }
+
+  /**
    * @see junit.framework.TestCase#setUp()
    */
   @Before
@@ -79,6 +87,67 @@ public abstract class SchemaTest {
   }
 
   /**
+   * Test method for obvious.data.Schema.getColumnDefault(int, col) method.
+   */
+  @Test
+  public void testGetColumnDefault() {
+    assertEquals("", schema.getColumnDefault(0));
+    assertEquals(0, schema.getColumnDefault(1));
+  }
+
+  /**
+   * Test method for obvious.data.Schema.canGet(int, Class) method.
+   */
+  @Test
+  public void testCanGetByIndex() {
+    assertTrue(this.schema.canGet(0, Object.class));
+    assertTrue(this.schema.canGet(0, String.class));
+    assertTrue(this.schema.canGet(1, Integer.class));
+    assertTrue(this.schema.canGet(1, Number.class));
+    assertFalse(this.schema.canGet(1, Boolean.class));
+    assertFalse(this.schema.canGet(2, Object.class));
+  }
+
+  /**
+   * Test method for obvious.data.Schema.canGet(String, Class) method.
+   */
+  @Test
+  public void testCanGetByField() {
+    assertTrue(this.schema.canGet("col1", Object.class));
+    assertTrue(this.schema.canGet("col1", String.class));
+    assertTrue(this.schema.canGet("col2", Integer.class));
+    assertTrue(this.schema.canGet("col2", Number.class));
+    assertFalse(this.schema.canGet("col1", Boolean.class));
+    assertFalse(this.schema.canGet("col3", Object.class));
+  }
+
+  /**
+   * Test method for obvious.data.Schema.canGet(int, Class) method.
+   */
+  @Test
+  public void testCanSetByIndex() {
+    assertTrue(this.schema.canSet(0, Object.class));
+    assertTrue(this.schema.canSet(0, String.class));
+    assertTrue(this.schema.canSet(1, Integer.class));
+    assertTrue(this.schema.canSet(1, Number.class));
+    assertFalse(this.schema.canSet(1, Boolean.class));
+    assertFalse(this.schema.canSet(2, Object.class));
+  }
+
+  /**
+   * Test method for obvious.data.Schema.canGet(int, Class) method.
+   */
+  @Test
+  public void testCanSetByField() {
+    assertTrue(this.schema.canSet("col1", Object.class));
+    assertTrue(this.schema.canSet("col1", String.class));
+    assertTrue(this.schema.canSet("col2", Integer.class));
+    assertTrue(this.schema.canSet("col2", Number.class));
+    assertFalse(this.schema.canSet("col1", Boolean.class));
+    assertFalse(this.schema.canSet("col3", Object.class));
+  }
+
+  /**
    * Test method for obvious.data.Schema.getColumnType(int col) method.
    */
   @Test
@@ -94,15 +163,6 @@ public abstract class SchemaTest {
   public void testGetColumnTypeByField() {
     assertEquals(String.class, schema.getColumnType("col1"));
     assertEquals(Integer.class, schema.getColumnType("col2"));
-  }
-
-  /**
-   * Test method for obvious.data.Schema.getColumnDefault(int col) method.
-   */
-  @Test
-  public void testGetColumnDefault() {
-    assertEquals("", schema.getColumnDefault(0));
-    assertEquals(0, schema.getColumnDefault(1));
   }
 
   /**
@@ -133,6 +193,16 @@ public abstract class SchemaTest {
   }
 
   /**
+   * Test method for obvious.data.Schema.addColumn(String, Class, Object).
+   */
+  @Test
+  public void testAddColumn() {
+    int size = this.schema.getColumnCount();
+    this.schema.addColumn("addable", String.class, "default_value");
+    assertEquals(size + 1, this.schema.getColumnCount());
+  }
+
+  /**
    * Test method for obvious.data.Schema.removeColumn(int col) method.
    */
   @Test
@@ -146,6 +216,7 @@ public abstract class SchemaTest {
   /**
    * Test method for obvious.data.Schema.removeColumn(String field) method.
    */
+  @Test
   public void testRemoveColumnByField() {
     assertTrue(schema.removeColumn("col1"));
     assertTrue(schema.removeColumn("col2"));

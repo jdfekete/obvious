@@ -66,7 +66,7 @@ public interface Table extends Data {
 
     /**
      * Indicates if the given row number corresponds to a valid table row.
-     * @param rowId the row number to check for validity
+     * @param rowId row index
      * @return true if the row is valid, false if it is not
      */
     boolean isValidRow(int rowId);
@@ -100,59 +100,59 @@ public interface Table extends Data {
 //    public boolean containsTuple(Tuple t);
 
     /**
-     * Gets a specific value.
-     * @param rowId spotted row
-     * @param field dedicated to spotted column
-     * @return value
+     * Gets a specific value for a couple row/column.
+     * @param rowId row index
+     * @param field column name
+     * @return value for this couple
      */
     Object getValue(int rowId, String field);
 
     /**
-     * Gets a specific value.
-     * @param rowId spotted row
-     * @param col spotted
-     * @return value
+     * Gets a specific value row/column.
+     * @param rowId row index
+     * @param col column index
+     * @return value for this couple
      */
     Object getValue(int rowId, int col);
 
     /**
      * Indicates if a given value is correct.
-     * @param rowId spotted row
-     * @param col spotted
+     * @param rowId row index
+     * @param col column index
      * @return true if the coordinates are valid
      */
     boolean isValueValid(int rowId, int col);
 
     /**
      * Indicates the beginning of a column edit.
-     * @param col edited
+     * @param col column index
      * @throws ObviousException if edition is not supported.
      */
     void beginEdit(int col) throws ObviousException;
 
     /**
      * Indicates the end of a column edit.
-     * @param col edited
+     * @param col column index
      * @throws ObviousException if edition is not supported.
      */
     void endEdit(int col) throws ObviousException;
 
     /**
      * Indicates if a column is being edited.
-     * @param col spotted
+     * @param col column index
      * @return true if edited
      */
     boolean isEditing(int col);
 
     /**
      * Adds a table listener.
-     * @param listnr to add
+     * @param listnr an obvious table listener
      */
     void addTableListener(TableListener listnr);
 
     /**
      * Removes a table listener.
-     * @param listnr listener to remove
+     * @param listnr an obvious table listener
      */
     void removeTableListener(TableListener listnr);
 
@@ -183,7 +183,7 @@ public interface Table extends Data {
 
     /**
      * Removes a row.
-     * @param row row to remove
+     * @param row row index
      * @return true if done
      */
     boolean removeRow(int row);
@@ -200,16 +200,16 @@ public interface Table extends Data {
 
     /**
      * Sets a value.
-     * @param rowId row to set
-     * @param field field to set
+     * @param rowId row index
+     * @param field field index
      * @param val value to set
      */
     void set(int rowId, String field, Object val);
 
     /**
      * Sets a value.
-     * @param rowId row to set
-     * @param col column to set
+     * @param rowId row index
+     * @param col column index
      * @param val value to set
      */
     void set(int rowId, int col, Object val);

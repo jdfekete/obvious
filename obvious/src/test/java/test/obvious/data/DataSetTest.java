@@ -42,7 +42,7 @@ import static org.junit.Assert.*;
  * @version $Revision$
  */
 
-public class DataSetTest {
+public abstract class DataSetTest {
 
     /**
      * DatatSet to test.

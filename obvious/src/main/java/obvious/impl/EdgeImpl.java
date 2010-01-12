@@ -25,17 +25,26 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.data;
+package obvious.impl;
 
+import obvious.data.Edge;
+import obvious.data.Table;
 
 /**
- * Interface Edge.
- * This interface subclasses Tuple class. Edges are represented as tuples.
- * It should be used mainly with Graph, Network and Tree interfaces.
- * @see Tuple
+ * Example implementation of Interface Edge.
+ * It simply subclasses TupleImpl interface.
+ * @author Pierre-Luc Hemery.
  *
- * @author Jean-Daniel Fekete
- * @version $Revision$
  */
-public interface Edge extends Tuple {
+public class EdgeImpl extends TupleImpl implements Edge {
+
+  /**
+   * Constructor for Node.
+   * @param tableIn reference obvious table for this edge.
+   * @param rowId index of the row represented by this edge
+   */
+  public EdgeImpl(Table tableIn, int rowId) {
+    super(tableIn, rowId);
+  }
+
 }

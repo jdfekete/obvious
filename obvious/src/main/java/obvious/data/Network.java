@@ -29,8 +29,11 @@ package obvious.data;
 
 
 /**
- * Interface Graph.
- *
+ * Interface Network.
+ * It subclasses Graph Interface with Obvious compatible edge and node.
+ * @see Graph
+ * @see Node
+ * @see Edge
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */

@@ -110,12 +110,14 @@ public class TableImpl implements Table {
         spottedArray.add(null);
       }
     }
+    //this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
+    //    TableListener.ALL_COLUMN, TableListener.INSERT);
     return this.getRowCount();
   }
 
   /**
    * Adds a table listener.
-   * @param listnr to add
+   * @param listnr an Obvious TableListener
    */
   public void addTableListener(TableListener listnr) {
     listener.add(listnr);
@@ -123,7 +125,7 @@ public class TableImpl implements Table {
 
   /**
    * Indicates the beginning of a column edit.
-   * @param col edited
+   * @param col column index
    * @throws ObviousException if edition is not supported.
    */
   public void beginEdit(int col) throws ObviousException {
@@ -132,7 +134,7 @@ public class TableImpl implements Table {
 
   /**
    * Indicates the end of a column edit.
-   * @param col edited
+   * @param col column index
    * @throws ObviousException if edition is not supported.
    */
   public void endEdit(int col) throws ObviousException {
@@ -141,7 +143,7 @@ public class TableImpl implements Table {
 
   /**
    * Indicates if a column is being edited.
-   * @param col spotted
+   * @param col column index
    * @return true if edited
    */
   public boolean isEditing(int col) {
@@ -197,9 +199,9 @@ public class TableImpl implements Table {
 
   /**
    * Gets a specific value.
-   * @param rowId spotted row
-   * @param field dedicated to spotted column
-   * @return value
+   * @param rowId row index
+   * @param field column name
+   * @return value for this couple
    */
   public Object getValue(int rowId, String field) {
     ArrayList<?> spottedColumn = (ArrayList<?>) column.get(field);
@@ -208,9 +210,9 @@ public class TableImpl implements Table {
 
   /**
    * Gets a specific value.
-   * @param rowId spotted row
-   * @param col spotted
-   * @return value
+   * @param rowId row index
+   * @param col column index
+   * @return value for this couple
    */
   public Object getValue(int rowId, int col) {
     Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
@@ -230,7 +232,7 @@ public class TableImpl implements Table {
 
   /**
    * Indicates if the given row number corresponds to a valid table row.
-   * @param rowId the row number to check for validity
+   * @param rowId row index
    * @return true if the row is valid, false if it is not
    */
   public boolean isValidRow(int rowId) {
@@ -243,8 +245,8 @@ public class TableImpl implements Table {
 
   /**
    * Indicates if a given value is correct.
-   * @param rowId spotted row
-   * @param col spotted
+   * @param rowId row index
+   * @param col column index
    * @return true if the coordinates are valid
    */
   public boolean isValueValid(int rowId, int col) {
@@ -271,11 +273,13 @@ public class TableImpl implements Table {
         spottedArray.clear();
       }
     }
+    //this.fireTableEvent(0, this.getRowCount() - 1, TableListener.ALL_COLUMN,
+    //    TableListener.DELETE);
   }
 
   /**
   /* Removes a row in the schema's table.
-   * @param row the index of the row to remove
+   * @param row row index
    * @return true if removes, else false.
    */
   public boolean removeRow(int row) {
@@ -287,6 +291,8 @@ public class TableImpl implements Table {
         ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
         spottedArray.remove(row);
       }
+      //this.fireTableEvent(row, row, TableListener.ALL_COLUMN,
+      //    TableListener.DELETE);
       return true;
     } else {
       return false;
@@ -295,14 +301,14 @@ public class TableImpl implements Table {
 
   /**
    * Removes a table listener.
-   * @param listnr to remove
+   * @param listnr an Obvious TableListener
    */
   public void removeTableListener(TableListener listnr) {
     listener.remove(listnr);
   }
 
   /**
-   * Get an iterator over the row numbers of this table.
+   * Gets an iterator over the row numbers of this table.
    * @return an iterator over the rows of this table
    */
   public IntIterator rowIterator() {
@@ -312,8 +318,8 @@ public class TableImpl implements Table {
 
   /**
    * Sets a value.
-   * @param rowId row to set
-   * @param field field to set
+   * @param rowId row index
+   * @param field column name
    * @param val value to set
    */
   @SuppressWarnings("unchecked")
@@ -324,9 +330,9 @@ public class TableImpl implements Table {
 
   /**
    * Sets a value.
-   * @param rowId row to set
-   * @param col to set
-   * @param val to set
+   * @param rowId row index
+   * @param col column index
+   * @param val value to set
    */
   public void set(int rowId, int col, Object val) {
     Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
@@ -340,6 +346,22 @@ public class TableImpl implements Table {
         this.set(rowId, spottedEntry.getKey(), val);
       }
     }
+    //this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
   }
 
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  /*
+  protected void fireTableEvent(int start, int end, int col, int type) {
+    Iterator<TableListener> it = this.listener.iterator();
+    while (it.hasNext()) {
+      it.next().tableChanged(this, start, end, col, type);
+    }
+  }
+  */
 }

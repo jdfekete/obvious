@@ -31,6 +31,7 @@ import java.util.Collection;
 
 /**
  * Interface Graph.
+ *
  * @param <V> Vertex object
  * @param <E> Edge object
  *
@@ -49,6 +50,7 @@ public interface Graph<V, E> extends Data {
 
   /**
    * Describes two families of graphs.
+   * Graph with directed edges and ones with undirected edges.
    * @author obvious
    *
    */
@@ -76,22 +78,22 @@ public interface Graph<V, E> extends Data {
     Collection<V> getNodes();
 
     /**
-     * Gets the neighbors node (exact definition?).
-     * @param node central for the neighborhood
+     * Gets the neighbors node.
+     * @param node central node to determine the neighborhood
      * @return collection of nodes that are neighbors
      */
     Collection<V> getNeighbors(V node);
 
     /**
      * Gets incident edges for a spotted node.
-     * @param node spotted
+     * @param node a node of the graph
      * @return collection of incident edges
      */
     Collection<E> getIncidentEdges(V node);
 
     /**
      * Gets incident nodes for a spotted edge.
-     * @param edge spotted
+     * @param edge an edge of the graph
      * @return collection of incident nodes
      */
     Collection<V> getIncidentNodes(E edge);
@@ -101,114 +103,114 @@ public interface Graph<V, E> extends Data {
 
     /**
      * Gets for two nodes the connecting edge.
-     * @param v1 first node
-     * @param v2 second node
+     * @param v1 a node of the graph
+     * @param v2 another node of the graph
      * @return connecting edge
      */
     E getConnectingEdge(V v1, V v2);
 
     /**
      * Gets connecting edges between two nodes.
-     * @param v1 first node
-     * @param v2 second node
+     * @param v1 a node of the graph
+     * @param v2 another node of the graph
      * @return collection of connecting edges
      */
     Collection<E> getConnectingEdges(V v1, V v2);
 
     /**
      * Adds a node.
-     * @param node to add
-     * @return boolean status success
+     * @param node node to add
+     * @return true if added
      */
     boolean addNode(V node);
 
     /**
      * Removes a node.
-     * @param node to remove
-     * @return boolean status success
+     * @param node node to remove
+     * @return true if removed
      */
     boolean removeNode(V node);
 
     /**
      * Adds a hyperedge.
      * @param edge to add
-     * @param nodes concerned by add
-     * @param edgeType directed or not
-     * @return boolean status success
+     * @param nodes concerned by addition
+     * @param edgeType directed or undirected edge
+     * @return true if added
      */
     boolean addEdge(E edge, Collection<? extends V> nodes, EdgeType edgeType);
 
     /**
      * Convenience method for multigraphs.
-     * @param edge to add
-     * @param source node
-     * @param target node
-     * @param edgeType directed or not
-     * @return boolean status success
+     * @param edge edge to add
+     * @param source source node
+     * @param target target node
+     * @param edgeType directed or undirected edge
+     * @return true if added
      */
     boolean addEdge(E edge, V source, V target, EdgeType edgeType);
 
     /**
      * Removes an edge.
-     * @param edge to remove
-     * @return boolean status success
+     * @param edge edge to remove
+     * @return true if removed
      */
     boolean removeEdge(E edge);
 
     /**
-     * Get in edges.
-     * @param node spotted
-     * @return collection of in edges
+     * Gets in-linking edges for a specific node.
+     * @param node a node of the graph
+     * @return collection of in-linking edges
      */
     Collection<E> getInEdges(V node);
 
     /**
-     * Get out edges.
-     * @param node spotted
-     * @return collection of out edges
+     * Gets out-linking edges for a specific node.
+     * @param node a node of the graph
+     * @return collection of out-linking edges
      */
     Collection<E> getOutEdges(V node);
 
     /**
-     * Get predecessors nodes.
-     * @param node spotted
+     * Get predecessors nodes for a specific node.
+     * @param node  a node of the graph
      * @return collection of nodes
      */
     Collection<V> getPredecessors(V node);
 
     /**
      * Get successor nodes.
-     * @param node spotted
-     * @return collection of node
+     * @param node a node of the graph
+     * @return collection of nodes
      */
     Collection<V> getSuccessors(V node);
 
     /**
-     * Get the source of a directed edge.
-     * @param directedEdge spotted
+     * Gets the source of a directed edge.
+     * @param directedEdge a directed edge of the graph
      * @return source node
      */
     V getSource(E directedEdge);
 
     /**
      * Get the target of a directed edge.
-     * @param directedEdge spotted
+     * @param directedEdge a directed edge of the graph
      * @return target node
      */
     V getTarget(E directedEdge);
 
     /**
      * Get the opposite node for a couple (node,edge).
-     * @param node spotted
-     * @param edge spotted
-     * @return opposite node
+     * @param node a node of the graph
+     * @param edge an edge of the graph
+     * @return opposite node for this couple node/edge
      */
     V getOpposite(V node, E edge);
 
     /**
      * Get the edge type.
-     * @param edge spotted
-     * @return directed or indirected
+     * @param edge an edge of the graph
+     * @return directed or indirected {@link #EdgeType}
      */
     EdgeType getEdgeType(E edge);
 }

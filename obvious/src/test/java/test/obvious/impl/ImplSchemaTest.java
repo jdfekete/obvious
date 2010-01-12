@@ -31,14 +31,13 @@ import obvious.data.Schema;
 import obvious.impl.SchemaImpl;
 
 import test.obvious.data.SchemaTest;
-import test.obvious.data.TableTestData;
 
 /**
  * Implementation of the Schema test case for SchemaImpl implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public class ImplSchemaTest extends SchemaTest implements TableTestData {
+public class ImplSchemaTest extends SchemaTest {
 
   /**
    * Creates a SchemaImpl instance.

@@ -69,7 +69,7 @@ public interface Tuple {
 
     /**
      * Gets column type.
-     * @param field to inspect
+     * @param field field name
      * @return type of the field
      */
     Class<?> getColumnType(String field);
