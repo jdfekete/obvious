@@ -69,6 +69,21 @@ public interface TableListener {
     int ALL_COLUMN = -1;
 
     /**
+     * Indicates a data delete operation.
+     */
+    int DELETE = -1;
+
+    /**
+     * Indicates a data update operation.
+     */
+    int UPDATE = 0;
+
+    /**
+     * Indicates a data insert operation.
+     */
+    int INSERT = 1;
+
+    /**
      * Specify that the following calls to
      * tableChanged belong to the same transaction.
      */

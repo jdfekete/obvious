@@ -30,7 +30,7 @@ package obvious.data.util;
 import java.util.Iterator;
 
 /**
- * Class IntIterator.
+ * Interface IntIterator.
  *
  * @author Jean-Daniel Fekete
  * @version $Revision$
@@ -39,8 +39,8 @@ import java.util.Iterator;
 
 public interface IntIterator extends Iterator<Integer> {
     /**
-     * Iterator.
-     * @return integer
+     * Returns the next element in the iteration as an integer.
+     * @return an integer
      */
     int nextInt();
 }

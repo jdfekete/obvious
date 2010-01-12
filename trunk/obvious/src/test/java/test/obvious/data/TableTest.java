@@ -52,6 +52,14 @@ public abstract class TableTest implements TableTestData {
   private Table table;
 
   /**
+   * Gets the table test instance.
+   * @return test table instance
+   */
+  public Table getTable() {
+    return this.table;
+  }
+
+  /**
   * @see junit.framework.TestCase#setUp()
   * @throws ObviousException when problem occurs
   */
@@ -143,6 +151,18 @@ public abstract class TableTest implements TableTestData {
     assertEquals(NUMROW + 1, table.getRowCount());
   }
 
+
+//Read-write test
+
+  /**
+  * Test method for obvious.data.Table.removeRow() method.
+  */
+  @Test
+  public void testRemoveRow() {
+    table.removeRow(0);
+    assertEquals(NUMROW - 1, table.getRowCount());
+  }
+
   /**
   * Test method for obvious.data.Table.removeAllRows() method.
   */
@@ -162,8 +182,7 @@ public abstract class TableTest implements TableTestData {
   }
 
   /**
-   * Test method for obvious.data.Table.canRemoveRow()
-   * At the moment, not enough information about the method to write unit test.
+   * Test method for obvious.data.Table.canRemoveRow().
    */
   @Test
   public void testCanRemoveRow() {
@@ -177,10 +196,12 @@ public abstract class TableTest implements TableTestData {
   public void testCanAddRow() {
   }
 
+
   /**
   * Test method for testing isolation i.e.
   * obvious.data.Table.beginEdit(),isEditing() and endEdit()
   */
+  /*
   @Test
   public void testIsolation() {
     //TableTestListener listener = new TableTestListener();
@@ -198,5 +219,5 @@ public abstract class TableTest implements TableTestData {
 //    finally {
 //    }
   }
-
+*/
 }

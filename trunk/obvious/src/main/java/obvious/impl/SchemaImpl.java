@@ -131,38 +131,47 @@ public class SchemaImpl implements Schema {
 
   /**
    * Gets the data type of the column at the given column index.
-   * @param col the column index
+   * @param col  column index
    * @return the data type (as a Java Class) of the column
    */
   public Class<?> getColumnType(int col) {
-    return this.types.get(col);
-  }
-
-  /**
-   * Gets the default value for a column.
-   * @param col spotted
-   * @return value default
-   */
-  public Object getColumnDefault(int col) {
-    return this.defaultValues.get(col);
-  }
-
-  /**
-   * Gets the column name.
-   * @param col spotted
-   * @return name of the column
-   */
-  public String getColumnName(int col) {
     try {
-      return this.names.get(col);
-    } catch (IndexOutOfBoundsException e) { return null;
+      return this.types.get(col);
+    } catch (IndexOutOfBoundsException e) {
+      return null;
     }
   }
 
   /**
-   * Get the column number for a given data field name.
-   * @param field the name of the column to lookup
-   * @return the column number of the column, or -1 if the name is not found
+   * Gets the default value for a column.
+   * @param col column index
+   * @return value default value for this column
+   */
+  public Object getColumnDefault(int col) {
+    try {
+      return this.defaultValues.get(col);
+    } catch (IndexOutOfBoundsException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Gets the column name.
+   * @param col column index
+   * @return column name
+   */
+  public String getColumnName(int col) {
+    try {
+      return this.names.get(col);
+    } catch (IndexOutOfBoundsException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Gets the column number for a given data field name.
+   * @param field column name
+   * @return the column index, or -1 if the name is not found
    */
   public int getColumnIndex(String field) {
     return this.names.indexOf(field);
@@ -171,40 +180,40 @@ public class SchemaImpl implements Schema {
   /**
    * Checks if the getValue method can return values that are compatibles
    * with a given type.
-   * @param col Index of the column
-   * @param c Expected type to check
+   * @param col column index
+   * @param c type to check
    * @return true if the types are compatibles
    */
   public boolean canGet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col < 0) {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        return (columnType == null ? false : c.isAssignableFrom(columnType));
     }
   }
 
   /**
    * Checks if the set method can accept for a specific column values that
    * are compatible with a given type.
-   * @param col Index of the column
-   * @param c Expected type to check
+   * @param col column index
+   * @param c type to check
    * @return true if the types compatibles
    */
   public boolean canSet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col < 0) {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        return (columnType == null ? false : c.isAssignableFrom(columnType));
     }
   }
 
   /**
    * Checks if the getValue method can return values that are compatibles
    * with a given type.
-   * @param field Name of the column
-   * @param c Expected type to check
+   * @param field column name
+   * @param c type to check
    * @return true if the types are compatibles
    */
   public boolean canGet(String field, Class<?> c) {
@@ -215,8 +224,8 @@ public class SchemaImpl implements Schema {
   /**
    * Checks if the set method can accept for a specific column values that
    * are compatible with a given type.
-   * @param field Index of the column
-   * @param c Expected type to check
+   * @param field column index
+   * @param c type to check
    * @return true if the types compatibles
    */
   public boolean canSet(String field, Class<?> c) {
@@ -241,7 +250,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Get the data type of the column with the given data field name.
-   * @param field the column / data field name
+   * @param field column name
    * @return the data type (as a Java Class) of the column
    */
   public Class<?> getColumnType(String field) {
@@ -255,11 +264,10 @@ public class SchemaImpl implements Schema {
 
   /**
    * Add a column with the given name and data type to this table.
-   * @param name the data field name for the column
+   * @param name name of the column
    * @param type the data type, as a Java Class, for the column
-   * @param defaultValue the default value for column data values
-   * @return the column index
-   * an Exception when the column name already exists.
+   * @param defaultValue default value for the column
+   * @return column index
    */
   public int addColumn(String name, Class<?> type, Object defaultValue) {
     this.names.add(name);
@@ -334,7 +342,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Indicates if the given row number corresponds to a valid table row.
-   * @param rowId the row number to check for validity
+   * @param rowId row index
    * @return true if the row is valid, false if it is not
    */
   public boolean isValidRow(int rowId) {
@@ -347,8 +355,8 @@ public class SchemaImpl implements Schema {
 
   /**
    * Gets a specific value.
-   * @param rowId spotted row
-   * @param field dedicated to spotted column
+   * @param rowId row index
+   * @param field column name
    * @return value
    */
   public Object getValue(int rowId, String field) {
@@ -358,9 +366,9 @@ public class SchemaImpl implements Schema {
 
   /**
    * Gets a specific value.
-   * @param rowId spotted row
-   * @param col spotted
-   * @return value
+   * @param rowId row index
+   * @param col column index
+   * @return value for this couple
    */
   public Object getValue(int rowId, int col) {
     Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
@@ -379,8 +387,8 @@ public class SchemaImpl implements Schema {
 
   /**
    * Indicates if a given value is correct.
-   * @param rowId spotted row
-   * @param col spotted
+   * @param rowId row index
+   * @param col column index
    * @return true if the coordinates are valid
    */
   public boolean isValueValid(int rowId, int col) {
@@ -393,7 +401,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Indicates the beginning of a column edit.
-   * @param col edited
+   * @param col column index
    * @throws ObviousException if edition is not supported.
    */
   public void beginEdit(int col) throws ObviousException {
@@ -402,7 +410,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Indicates the end of a column edit.
-   * @param col edited
+   * @param col column index
    * @throws ObviousException if edition is not supported.
    */
   public void endEdit(int col) throws ObviousException {
@@ -411,7 +419,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Indicates if a column is being edited.
-   * @param col spotted
+   * @param col column index
    * @return true if edited
    */
   public boolean isEditing(int col) {
@@ -420,7 +428,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Adds a table listener.
-   * @param listnr to add
+   * @param listnr an obvious TableListener
    */
   public void addTableListener(TableListener listnr) {
     listener.add(listnr);
@@ -428,7 +436,7 @@ public class SchemaImpl implements Schema {
 
   /**
    * Removes a table listener.
-   * @param listnr to remove
+   * @param listnr an obvious TableListener
    */
   public void removeTableListener(TableListener listnr) {
     listener.remove(listnr);
@@ -475,7 +483,7 @@ public class SchemaImpl implements Schema {
 
   /**
   /* Removes a row in the schema's table.
-   * @param row the index of the row to remove
+   * @param row row index
    * @return true if removes, else false.
    */
   public boolean removeRow(int row) {
@@ -513,9 +521,9 @@ public class SchemaImpl implements Schema {
 
   /**
    * Sets a value.
-   * @param rowId row to set
-   * @param field field to set
-   * @param val to set
+   * @param rowId row index
+   * @param field column name
+   * @param val value to set
    */
   @SuppressWarnings("unchecked")
   public void set(int rowId, String field, Object val) {
@@ -525,9 +533,9 @@ public class SchemaImpl implements Schema {
 
   /**
    * Sets a value.
-   * @param rowId row to set
-   * @param col to set
-   * @param val to set
+   * @param rowId row index
+   * @param col column index
+   * @param val value to set
    */
   public void set(int rowId, int col, Object val) {
     Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();

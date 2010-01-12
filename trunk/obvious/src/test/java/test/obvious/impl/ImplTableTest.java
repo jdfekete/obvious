@@ -34,14 +34,13 @@ import obvious.data.Table;
 import obvious.impl.DataFactoryImpl;
 
 import test.obvious.data.TableTest;
-import test.obvious.data.TableTestData;
 
 /**
  * Implementation of the Table Test case for TableImpl implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public class ImplTableTest extends TableTest implements TableTestData {
+public class ImplTableTest extends TableTest {
 
   /**
    * Creates a TableImpl instance.

@@ -39,8 +39,8 @@ import obvious.data.Table;
 public interface Predicate {
     /**
      * Applies a predicate on a table's row.
-     * @param table to process
-     * @param rowId row to process
+     * @param table an obvious table
+     * @param rowId row index
      * @return true if it applies
      */
     boolean apply(Table table, int rowId);

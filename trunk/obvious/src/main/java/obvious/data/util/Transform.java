@@ -39,7 +39,7 @@ import obvious.data.Table;
 public interface Transform {
     /**
      * Operates transformation on a table.
-     * @param t table to process
+     * @param t an obvious table
      * @return derived table
      */
     Table transform(Table t);

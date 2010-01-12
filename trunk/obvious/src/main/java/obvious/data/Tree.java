@@ -31,6 +31,9 @@ import java.util.Collection;
 
 /**
  * Interface Tree.
+ * It subclasses obvious Forest interface.
+ * @see Graph
+ * @see Network
  *
  * @param <V> Vertex object
  * @param <E> Edge object
@@ -42,7 +45,7 @@ public interface Tree<V, E> extends Forest<V, E> {
 
     /**
      * Gets depth of a node.
-     * @param node to inspect
+     * @param node node to inspect
      * @return depth of the node
      */
     int getDepth(V node);

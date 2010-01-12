@@ -32,7 +32,8 @@ import java.util.Collection;
 
 /**
  * Interface Forest.
- *
+ * A forest instance is an union of one or several disconnected Tree.
+ * @see Tree
  * @param <V> Vertex object
  * @param <E> Edge object
  *
@@ -43,7 +44,7 @@ import java.util.Collection;
 public interface Forest<V, E> extends Graph<V, E> {
 
     /**
-     * Unknown.
+     * Gets all the tree contained in the Forest.
      * @return collection of trees
      */
     Collection<Tree<V, E>> getTrees();
