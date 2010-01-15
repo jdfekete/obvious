@@ -26,8 +26,8 @@
 */
 
 /**
- * <h1>Package obvious.prefuse</h1>
+ * <h1>Package test.obvious.prefuse</h1>
  *
  * TODO document the package.
  */
-package obvious.prefuse;
+package test.obvious.prefuse;

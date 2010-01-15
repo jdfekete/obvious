@@ -25,9 +25,33 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+package test.obvious.prefuse;
+
+import test.obvious.data.NetworkTest;
+
+import obvious.data.Network;
+import obvious.data.Schema;
+import obvious.prefuse.PrefuseObviousNetwork;
+
+
 /**
- * <h1>Package obvious.prefuse</h1>
+ * Implementation of  Table  test-case for PrefuseObviousTable implementation.
+ * @author Pierre-Luc Hemery
  *
- * TODO document the package.
  */
-package obvious.prefuse;
+public class PrefuseNetworkTest extends NetworkTest {
+
+  @Override
+  public Network newInstance(Schema nodeSchema, Schema edgeSchema) {
+    String defaultSource = prefuse.data.Graph.DEFAULT_SOURCE_KEY;
+    String defaultTarget = prefuse.data.Graph.DEFAULT_TARGET_KEY;
+    if (!edgeSchema.hasColumn(defaultSource)) {
+      edgeSchema.addColumn(defaultSource, int.class, 0);
+    }
+    if  (!edgeSchema.hasColumn(defaultTarget)) {
+      edgeSchema.addColumn(defaultTarget, int.class, 0);
+    }
+    return new PrefuseObviousNetwork(nodeSchema, edgeSchema);
+  }
+
+}
