@@ -25,9 +25,33 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+package test.obvious.prefuse;
+
+import obvious.ObviousException;
+import obvious.data.DataFactory;
+import obvious.data.Schema;
+import obvious.data.Table;
+import obvious.impl.DataFactoryImpl;
+import test.obvious.data.TableTest;
+
 /**
- * <h1>Package obvious.prefuse</h1>
+ * Implementation of  Table  test-case for PrefuseObviousTable implementation.
+ * @author Pierre-Luc Hemery
  *
- * TODO document the package.
  */
-package obvious.prefuse;
+public class PrefuseTableTest extends TableTest {
+
+  /**
+   * Creates a new instance of PrefuseObviousTable for test-case.
+   * @param schema obvious schema to create the Table instance
+   * @return an Obvious Table based on PrefuseObviousTable implementation
+   * @throws ObviousException if table creation failed
+   */
+  public Table newInstance(Schema schema) throws ObviousException {
+    System.setProperty("obvious.DataFactory",
+        "obvious.prefuse.PrefuseDataFactory");
+    DataFactory dFactory = DataFactoryImpl.getInstance();
+    return dFactory.createTable("table", schema);
+  }
+
+}

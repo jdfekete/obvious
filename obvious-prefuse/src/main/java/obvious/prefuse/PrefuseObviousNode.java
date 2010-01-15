@@ -25,9 +25,40 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * <h1>Package obvious.prefuse</h1>
- *
- * TODO document the package.
- */
 package obvious.prefuse;
+
+import obvious.data.Node;
+
+/**
+ * Implementation of an Obvious Node based on Prefuse toolkit.
+ * It subclasses PrefuseObviousTuple.
+ * This class is mainly a factory to build Obvious compatible node from
+ * Prefuse node.
+ * @author Pierre-Luc Hemery
+ *
+ */
+public class PrefuseObviousNode extends PrefuseObviousTuple implements Node {
+
+  /**
+   * Constructor for PrefuseObviousNode.
+   * @param node a prefuse Node
+   */
+  public PrefuseObviousNode(prefuse.data.Node node) {
+    super(node);
+  }
+
+  /*
+   * Indicates if the current node is equals to this object.
+   * For a PrefuseObviousNode its means that their node id/key are the same.
+   * @param obj test object
+   * @return true if the two nodes id/keys are equal
+   */
+  public boolean equals(Object obj) {
+    try {
+      return this.getRow() == ((PrefuseObviousNode) obj).getRow();
+    } catch (ClassCastException e) {
+      return false;
+    }
+  }
+
+}

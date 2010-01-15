@@ -43,7 +43,7 @@ import obvious.data.util.IntIterator;
 public class PrefuseObviousSchema implements Schema {
 
   /**
-   * Prefuse schema.
+   * Prefuse schema wrapped around obvious schema.
    */
   private prefuse.data.Schema schema;
 
@@ -53,13 +53,26 @@ public class PrefuseObviousSchema implements Schema {
   private obvious.data.Table schemaTable;
 
   /**
-   * Constructor.
+   * Number of column in the schema's table.
+   */
+  private static final Integer SCHEMA_COL_NUMBER = 3;
+
+  /**
+   * Default Constructor.
+   * It creates an empty Obvious Schema.
+   */
+  public PrefuseObviousSchema() {
+    this(new prefuse.data.Schema(0));
+  }
+
+  /**
+   * Constructor from a prefuse schema instance.
    * @param prefuseSchema A prefuse schema to wrap around Obvious schema.
    */
   public PrefuseObviousSchema(prefuse.data.Schema prefuseSchema) {
     this.schema = prefuseSchema;
     prefuse.data.Table prefuseSchemaTable =
-      new prefuse.data.Table(this.schema.getColumnCount(), 3);
+      new prefuse.data.Table(this.schema.getColumnCount(), SCHEMA_COL_NUMBER);
     prefuseSchemaTable.addColumn("Name", String.class);
     prefuseSchemaTable.addColumn("Type", Class.class);
     prefuseSchemaTable.addColumn("Default Value", Object.class);
@@ -91,11 +104,15 @@ public class PrefuseObviousSchema implements Schema {
    * @return true if the types are compatibles
    */
   public boolean canGet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col < 0) {
       return false;
     } else {
+      try {
         Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        return (columnType == null ? false : c.isAssignableFrom(columnType));
+      } catch (Exception e) {
+        return false;
+      }
     }
   }
 
@@ -107,14 +124,18 @@ public class PrefuseObviousSchema implements Schema {
    * @return true if the types compatibles
    */
   public boolean canSet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col < 0) {
       return false;
     } else {
-        Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        try {
+          Class<?> columnType = this.getColumnType(col);
+          return (columnType == null ? false : c.isAssignableFrom(columnType));
+        } catch (Exception e) {
+          return false;
+        }
     }
   }
-  
+
   /**
    * Checks if the getValue method can return values that are compatibles
    * with a given type.
@@ -225,7 +246,7 @@ public class PrefuseObviousSchema implements Schema {
   public boolean removeColumn(int col) {
     return false;
   }
-  
+
   /**
    * Adds a row.
    * @return number of rows
@@ -250,7 +271,7 @@ public class PrefuseObviousSchema implements Schema {
   public void beginEdit(int col) throws ObviousException {
     this.schemaTable.beginEdit(col);
   }
-  
+
   /**
    * Indicates if possible to add rows.
    * @return true if possible
@@ -303,7 +324,7 @@ public class PrefuseObviousSchema implements Schema {
   /**
    * Gets a specific value.
    * @param rowId spotted row
-   * @param col spotted column
+   * @param field field dedicated to spotted column
    * @return value
    */
   public Object getValue(int rowId, String field) {
@@ -313,7 +334,7 @@ public class PrefuseObviousSchema implements Schema {
   /**
    * Gets a specific value.
    * @param rowId spotted row
-   * @param field dedicated to spotted column
+   * @param col spotted column
    * @return value
    */
   public Object getValue(int rowId, int col) {

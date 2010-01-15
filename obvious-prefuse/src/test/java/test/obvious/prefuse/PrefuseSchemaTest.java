@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2010, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,9 +25,38 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+package test.obvious.prefuse;
+
+import static org.junit.Assert.assertFalse;
+import obvious.data.Schema;
+import obvious.prefuse.PrefuseObviousSchema;
+import test.obvious.data.SchemaTest;
+
 /**
- * <h1>Package obvious.prefuse</h1>
+ * Implementation of SchemaTest.
+ * @author Pierre-Luc Hémery
  *
- * TODO document the package.
  */
-package obvious.prefuse;
+public class PrefuseSchemaTest extends SchemaTest {
+
+  @Override
+  public Schema newInstance() {
+    return new PrefuseObviousSchema();
+  }
+
+  @Override
+  public void testRemoveColumnByIndex() {
+    final int falseIndex = 3;
+    assertFalse(this.getSchema().removeColumn(0));
+    assertFalse(this.getSchema().removeColumn(0));
+    assertFalse(this.getSchema().removeColumn(falseIndex));
+  }
+
+  @Override
+  public void testRemoveColumnByField() {
+    assertFalse(this.getSchema().removeColumn("col1"));
+    assertFalse(this.getSchema().removeColumn("col2"));
+    assertFalse(this.getSchema().removeColumn("foo"));
+  }
+
+}
