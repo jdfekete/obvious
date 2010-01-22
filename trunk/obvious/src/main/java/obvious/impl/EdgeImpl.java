@@ -47,4 +47,41 @@ public class EdgeImpl extends TupleImpl implements Edge {
     super(tableIn, rowId);
   }
 
+  /*
+   * Indicates if the current edge is equals to this object.
+   * It compares the schema, and the value for each column of the schema.
+   * @param o test object
+   * @return true if the two edges are equal
+   */
+  @Override
+  public boolean equals(Object o) {
+    try {
+      Edge edge = (Edge) o;
+      if (getSchema().getColumnCount() != edge.getSchema().getColumnCount()) {
+        return false;
+      } else {
+        boolean equals = true;
+        for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
+          if (!get(i).equals(edge.get(this.getSchema().getColumnName(i)))) {
+            equals = false;
+          }
+        }
+        return equals;
+      }
+    } catch (ClassCastException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    final int startValue = 7;
+    final int multiplier = 11;
+    int result = startValue;
+    for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
+      result = result * multiplier + this.get(i).hashCode();
+    }
+    return result;
+  }
+
 }

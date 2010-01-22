@@ -94,9 +94,9 @@ public abstract class TreeTest {
     nodeSchema.addColumn("nodeName", String.class, "node_default");
     Schema edgeSchema = new SchemaImpl();
     edgeSchema.addColumn("edgeName", String.class, "edge_default");
+    this.tree = this.newInstance(nodeSchema, edgeSchema);
     nodeTable = new TableImpl(nodeSchema);
     edgeTable = new TableImpl(edgeSchema);
-    this.tree = this.newInstance(nodeSchema, edgeSchema);
     for (int i = 0; i < NODENUMBER; i++) {
       nodeTable.addRow();
       nodeTable.set(i, 0, "node_" + String.valueOf(i));
