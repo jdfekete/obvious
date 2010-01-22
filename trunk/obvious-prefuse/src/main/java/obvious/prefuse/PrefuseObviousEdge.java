@@ -28,7 +28,6 @@
 package obvious.prefuse;
 
 import obvious.data.Edge;
-import prefuse.util.PrefuseConfig;
 
 /**
  * Implementation of an Obvious Edge based on Prefuse toolkit.
@@ -39,16 +38,6 @@ import prefuse.util.PrefuseConfig;
  *
  */
 public class PrefuseObviousEdge extends PrefuseObviousTuple implements Edge {
-
-  /**
-   * Source Node column name in prefuse edge table.
-   */
-  private String sourceColumnName = PrefuseConfig.get("data.graph.sourceKey");
-
-  /**
-   * Target Node column name in prefuse edge table.
-   */
-  private String targetColumnName = PrefuseConfig.get("data.graph.targetKey");
 
   /**
    * Constructor for PrefuseObviousEdge.
@@ -64,14 +53,22 @@ public class PrefuseObviousEdge extends PrefuseObviousTuple implements Edge {
    * @param obj test object
    * @return true if the two nodes id/keys are equal
    */
+  @Override
   public boolean equals(Object obj) {
     try {
-      PrefuseObviousEdge edge = (PrefuseObviousEdge) obj;
       boolean rowEqual = this.getRow() == ((PrefuseObviousEdge) obj).getRow();
       return rowEqual;
     } catch (ClassCastException e) {
       return false;
     }
+  }
+
+  @Override
+  public int hashCode() {
+    final int startValue = 7;
+    int result = startValue;
+    final int multiplier = 11;
+    return result * multiplier + this.getRow();
   }
 
 }

@@ -47,18 +47,21 @@ public class PrefuseObviousNode extends PrefuseObviousTuple implements Node {
     super(node);
   }
 
-  /*
-   * Indicates if the current node is equals to this object.
-   * For a PrefuseObviousNode its means that their node id/key are the same.
-   * @param obj test object
-   * @return true if the two nodes id/keys are equal
-   */
+  @Override
   public boolean equals(Object obj) {
     try {
       return this.getRow() == ((PrefuseObviousNode) obj).getRow();
     } catch (ClassCastException e) {
       return false;
     }
+  }
+
+  @Override
+  public int hashCode() {
+    final int startValue = 3;
+    int result = startValue;
+    final int multiplier = 5;
+    return result * multiplier + this.getRow();
   }
 
 }
