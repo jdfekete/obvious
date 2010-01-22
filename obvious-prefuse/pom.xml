@@ -11,10 +11,20 @@
     	<artifactId>prefuse</artifactId>
     	<version>beta-20060220</version>
     </dependency>
-    <dependency>
-    	<groupId>obvious</groupId>
-    	<artifactId>obvious</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-   </dependencies>
+
+  	<dependency> <!-- reuse src/main/java code from moduleA, normal dependencies --> 
+  	<groupId>obvious</groupId>
+  	<artifactId>obvious</artifactId>
+  	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+
+	<dependency> <!-- reuse src/test/java code from moduleA! -->
+  	<groupId>obvious</groupId>
+  	<artifactId>obvious</artifactId>
+  	  <version>0.0.1-SNAPSHOT</version>
+  	  	<type>test-jar</type>
+	<scope>test</scope>
+	</dependency>
+  </dependencies>  
+   
 </project>
