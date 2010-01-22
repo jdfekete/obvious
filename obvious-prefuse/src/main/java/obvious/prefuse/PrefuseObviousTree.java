@@ -85,6 +85,42 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
   }
 
   /**
+   * Adds an edge to the graph.
+   * @param edge edge to add
+   * @param source source node
+   * @param target target node
+   * @param edgeType unused parameter
+   * @return boolean status success
+   */
+  @Override
+  public boolean addEdge(Edge edge, Node source, Node target,
+      obvious.data.Graph.EdgeType edgeType) {
+    try {
+      // prefuse creates a new edge, so will have to fill it with
+      // existing informations of the parameter edge.
+      prefuse.data.Edge prefEdge = getPrefuseGraph().getEdge(
+          getPrefuseGraph().addEdge(source.getRow(), target.getRow()));
+      // graph.getEdge(source.getRow(), target.getRow()));
+      // harvesting informations from parameter edge...
+      for (int i = 0; i < prefEdge.getColumnCount(); i++) {
+        String colName = prefEdge.getColumnName(i);
+        String sourceTreeName = prefuse.data.Tree.DEFAULT_SOURCE_KEY;
+        String targetTreeName = prefuse.data.Tree.DEFAULT_TARGET_KEY;
+        Boolean treeCol = colName.equals(sourceTreeName) || colName.equals(
+            targetTreeName);
+        // preventing overriding of prefuse internal values for graph model!
+        if (!treeCol && edge.get(colName) != null) {
+          prefEdge.set(colName, edge.get(colName));
+        }
+      }
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  /**
    * Gets a collection of child Edges of a node in the tree.
    * @param node a node of the tree
    * @return child edges of the tree
@@ -132,7 +168,9 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
       int depth = 0;
       for (int i = n.getRow(); i != getRoot().getRow() && i >= 0; ++depth, i =
           getParentNode(new PrefuseObviousNode(
-              getPrefuseGraph().getNode(i))).getRow());
+              getPrefuseGraph().getNode(i))).getRow()) {
+        continue;
+      }
       return depth;
     }
   }

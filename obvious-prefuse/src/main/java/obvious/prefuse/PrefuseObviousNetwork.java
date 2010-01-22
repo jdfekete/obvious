@@ -95,14 +95,25 @@ public class PrefuseObviousNetwork implements Network {
   /**
    * Unused in this implementation : hyperedge (and hypergraph) are
    * not supported by prefuse.data.Graph class.
-   * @param edge unused parameter
-   * @param nodes unused paramater
+   * @param edge edge to add
+   * @param nodes one or two nodes to link (collection)
    * @param edgeType unused parameter
-   * @return false
+   * @return true if added
    */
   public boolean addEdge(Edge edge, Collection<? extends Node> nodes,
       obvious.data.Graph.EdgeType edgeType) {
-    return false;
+    if (null == nodes) {
+      throw new IllegalArgumentException("'nodes' parameter must not be null");
+    } else if (nodes.size() == 2) {
+      Node[] nodeArray = nodes.toArray(new Node[2]);
+      return this.addEdge(edge, nodeArray[0], nodeArray[1], edgeType);
+    } else if (nodes.size() == 1) {
+      Node[] nodeArray = nodes.toArray(new Node[1]);
+      return this.addEdge(edge, nodeArray[0], nodeArray[0], edgeType);
+    } else {
+      throw new IllegalArgumentException("Networks connect 1 or 2 nodes,"
+          + "'nodes' size is " + nodes.size());
+    }
   }
 
   /**
@@ -111,7 +122,7 @@ public class PrefuseObviousNetwork implements Network {
    * @param source source node
    * @param target target node
    * @param edgeType unused parameter
-   * @return boolean status success
+   * @return true if added
    */
   public boolean addEdge(Edge edge, Node source, Node target,
       obvious.data.Graph.EdgeType edgeType) {
@@ -124,16 +135,12 @@ public class PrefuseObviousNetwork implements Network {
       // harvesting informations from parameter edge...
       for (int i = 0; i < prefEdge.getColumnCount(); i++) {
         String colName = prefEdge.getColumnName(i);
-        String sourceTreeName = prefuse.data.Tree.DEFAULT_SOURCE_KEY;
-        String targetTreeName = prefuse.data.Tree.DEFAULT_TARGET_KEY;
         String sourceGraphName = prefuse.data.Graph.DEFAULT_SOURCE_KEY;
         String targetGraphName = prefuse.data.Graph.DEFAULT_TARGET_KEY;
-        Boolean treeCol = colName.equals(sourceTreeName) || colName.equals(
-            targetTreeName);
         Boolean graphCol = colName.equals(sourceGraphName) || colName.equals(
             targetGraphName);
         // preventing overriding of prefuse internal values for graph model!
-        if (!treeCol && !graphCol && edge.get(colName) != null) {
+        if (!graphCol && edge.get(colName) != null) {
           prefEdge.set(colName, edge.get(colName));
         }
       }

@@ -35,7 +35,7 @@ import obvious.prefuse.PrefuseObviousNetwork;
 
 
 /**
- * Implementation of  Table  test-case for PrefuseObviousTable implementation.
+ * Implementation of  Table  test-case for PrefuseObviousNetwork implementation.
  * @author Pierre-Luc Hemery
  *
  */
