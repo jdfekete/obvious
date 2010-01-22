@@ -30,9 +30,7 @@ package obvious.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import obvious.ObviousException;
 import obvious.data.Schema;
@@ -71,7 +69,7 @@ public class TableImpl implements Table {
   /**
    * Columns of the table.
    */
-  private Map<String, ArrayList<?>> column;
+  private Map<String, ArrayList<Object>> column;
 
   /**
    * Index of the columns of the table of the schema.
@@ -89,7 +87,7 @@ public class TableImpl implements Table {
    */
   public TableImpl(Schema schemaIn) {
     this.schema = schemaIn;
-    this.column = new HashMap<String, ArrayList<?>>();
+    this.column = new HashMap<String, ArrayList<Object>>();
     this.columnIndex = new HashMap<String, Integer>();
     for (int i = 0; i < schema.getColumnCount(); i++) {
       String title = schema.getColumnName(i);
@@ -104,10 +102,9 @@ public class TableImpl implements Table {
    */
   public int addRow() {
     if (this.canAddRow()) {
-      for (Iterator<ArrayList<?>> iter = column.values().iterator();
-          iter.hasNext();) {
-        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
-        spottedArray.add(null);
+      for (Map.Entry<String, ArrayList<Object>> e : column.entrySet()) {
+        e.getValue().add(schema.getColumnDefault(
+            schema.getColumnIndex(e.getKey())));
       }
     }
     //this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
@@ -172,8 +169,8 @@ public class TableImpl implements Table {
    */
   public int getRowCount() {
     int maxArraySize = 0;
-    for (Iterator<ArrayList<?>> i = column.values().iterator(); i.hasNext();) {
-      ArrayList<?> currentArray = (ArrayList<?>) i.next();
+    for (Map.Entry<String, ArrayList<Object>> e : column.entrySet()) {
+      ArrayList<Object> currentArray = (ArrayList<Object>) e.getValue();
       if (currentArray.size() > maxArraySize) {
         maxArraySize = currentArray.size();
       }
@@ -204,8 +201,7 @@ public class TableImpl implements Table {
    * @return value for this couple
    */
   public Object getValue(int rowId, String field) {
-    ArrayList<?> spottedColumn = (ArrayList<?>) column.get(field);
-    return spottedColumn.get(rowId);
+    return column.get(field).get(rowId);
   }
 
   /**
@@ -215,15 +211,9 @@ public class TableImpl implements Table {
    * @return value for this couple
    */
   public Object getValue(int rowId, int col) {
-    Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
-    ArrayList<Map.Entry<String, Integer>> indexList =
-        new ArrayList<Map.Entry<String, Integer>>(mapSet);
-    for (Iterator<Map.Entry<String, Integer>> iter = indexList.iterator();
-        iter.hasNext();) {
-      Map.Entry<String, Integer> spottedEntry =
-        (Map.Entry<String, Integer>) (iter.next());
-      if (spottedEntry.getValue() == col) {
-        return this.getValue(rowId, spottedEntry.getKey());
+    for (Map.Entry<String, Integer> e : columnIndex.entrySet()) {
+      if (e.getValue() == col) {
+        return this.getValue(rowId, e.getKey());
       }
     }
     return null;
@@ -267,9 +257,8 @@ public class TableImpl implements Table {
    */
   public void removeAllRows() {
     if (this.canRemoveRow()) {
-      for (Iterator<ArrayList<?>> iter = column.values().iterator();
-          iter.hasNext();) {
-        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+      for (Map.Entry<String, ArrayList<Object>> e : column.entrySet()) {
+        ArrayList<Object> spottedArray = (ArrayList<Object>) e.getValue();
         spottedArray.clear();
       }
     }
@@ -286,9 +275,8 @@ public class TableImpl implements Table {
     if (!this.canRemoveRow()) {
       return false;
     } else if (this.isValidRow(row)) {
-      for (Iterator<ArrayList<?>> iter = column.values().iterator();
-          iter.hasNext();) {
-        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+      for (Map.Entry<String, ArrayList<Object>> e : column.entrySet()) {
+        ArrayList<?> spottedArray = (ArrayList<Object>) e.getValue();
         spottedArray.remove(row);
       }
       //this.fireTableEvent(row, row, TableListener.ALL_COLUMN,
@@ -322,10 +310,8 @@ public class TableImpl implements Table {
    * @param field column name
    * @param val value to set
    */
-  @SuppressWarnings("unchecked")
   public void set(int rowId, String field, Object val) {
-    ArrayList<Object> spottedArray = (ArrayList<Object>) column.get(field);
-    spottedArray.set(rowId, val);
+    column.get(field).set(rowId, val);
   }
 
   /**
@@ -335,15 +321,9 @@ public class TableImpl implements Table {
    * @param val value to set
    */
   public void set(int rowId, int col, Object val) {
-    Set<Map.Entry<String, Integer>> mapSet = columnIndex.entrySet();
-    ArrayList<Map.Entry<String, Integer>> indexList =
-        new ArrayList<Map.Entry<String, Integer>>(mapSet);
-    for (Iterator<Map.Entry<String, Integer>> iter = indexList.iterator();
-        iter.hasNext();) {
-      Map.Entry<String, Integer> spottedEntry =
-          (Map.Entry<String, Integer>) (iter.next());
-      if (spottedEntry.getValue() == col) {
-        this.set(rowId, spottedEntry.getKey(), val);
+    for (Map.Entry<String, Integer> e : columnIndex.entrySet()) {
+      if (e.getValue() == col) {
+        this.set(rowId, e.getKey(), val);
       }
     }
     //this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);

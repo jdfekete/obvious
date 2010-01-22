@@ -28,7 +28,6 @@
 package test.obvious.data;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import obvious.ObviousException;
 import obvious.data.Edge;
@@ -36,7 +35,6 @@ import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.data.Tree;
 import obvious.data.Graph.EdgeType;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
@@ -66,22 +64,22 @@ public abstract class NetworkTest {
   /**
    * Number of nodes of the test network.
    */
-  private static final int NODENUMBER = 7;
+  public static final int NODENUMBER = 7;
 
   /**
    * Number of edges of the test network.
    */
-  private static final int EDGENUMBER = 6;
+  public static final int EDGENUMBER = 6;
 
   /**
    * Node table used to build the example tree.
    */
-  private Table nodeTable;
+  protected Table nodeTable;
 
   /**
    * Edge table uses to build the example tree.
    */
-  private Table edgeTable;
+  protected Table edgeTable;
 
   /**
    * Gets the network test instance.
@@ -101,9 +99,9 @@ public abstract class NetworkTest {
     nodeSchema.addColumn("nodeName", String.class, "node_default");
     Schema edgeSchema = new SchemaImpl();
     edgeSchema.addColumn("edgeName", String.class, "edge_default");
+    this.network = this.newInstance(nodeSchema, edgeSchema);
     nodeTable = new TableImpl(nodeSchema);
     edgeTable = new TableImpl(edgeSchema);
-    this.network = this.newInstance(nodeSchema, edgeSchema);
     for (int i = 0; i < NODENUMBER; i++) {
       nodeTable.addRow();
       nodeTable.set(i, 0, "node_" + String.valueOf(i));
@@ -123,7 +121,7 @@ public abstract class NetworkTest {
         new NodeImpl(nodeTable, 4), EdgeType.UNDIRECTED);
     network.addEdge(new EdgeImpl(edgeTable,4), new NodeImpl(nodeTable, 3),
         new NodeImpl(nodeTable, 4), EdgeType.UNDIRECTED);
-    boolean net = network.addEdge(new EdgeImpl(edgeTable,5), new NodeImpl(nodeTable, 4),
+    network.addEdge(new EdgeImpl(edgeTable,5), new NodeImpl(nodeTable, 4),
         new NodeImpl(nodeTable, 5), EdgeType.UNDIRECTED);
   }
 
@@ -231,7 +229,7 @@ public abstract class NetworkTest {
    */
   @Test
   public void testGetConnectingEdge() {
-    // this method returns the firts connecting edge between two nodes.
+    // this method returns the first connecting edge between two nodes.
     // In this test, couple of nodes only have one edge between them. So,
     // we can predict, the edge returned by the method.
     assertEquals("edge_0", network.getConnectingEdge(new NodeImpl(nodeTable, 0),
@@ -285,6 +283,14 @@ public abstract class NetworkTest {
    */
   @Test
   public void testGetOpposite() {
+    /*
+    for (int i = 0; i < edgeTable.getRowCount(); i++) {
+      for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+        System.out.print(edgeTable.getValue(i,j) + " ; ");
+      }
+      System.out.println("");
+    }
+    */
     assertEquals("node_1", network.getOpposite(new NodeImpl(nodeTable, 0),
         new EdgeImpl(edgeTable, 0)).get("nodeName"));
     assertEquals("node_0", network.getOpposite(new NodeImpl(nodeTable, 1),
@@ -341,6 +347,7 @@ public abstract class NetworkTest {
         new EdgeImpl(edgeTable, 0));
     for (Node node : incident) {
       String nodeName = node.getString("nodeName");
+      //System.out.println(nodeName);
       assertTrue(nodeName.equals("node_0") || nodeName.equals("node_1"));
     }
   }

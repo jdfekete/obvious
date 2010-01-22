@@ -149,6 +149,10 @@ public abstract class TableTest implements TableTestData {
   public void testAddRow() {
     table.addRow();
     assertEquals(NUMROW + 1, table.getRowCount());
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      assertEquals(table.getValue(table.getRowCount() - 1, i),
+          table.getSchema().getColumnDefault(i));
+    }
   }
 
 
