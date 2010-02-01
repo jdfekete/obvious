@@ -35,6 +35,7 @@ import java.util.Map;
 import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 
@@ -97,7 +98,7 @@ public class TableImpl implements Table {
   }
 
   /**
-   * Adds a row.
+   * Adds a row with default value.
    * @return number of rows
    */
   public int addRow() {
@@ -109,6 +110,20 @@ public class TableImpl implements Table {
     }
     //this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
     //    TableListener.ALL_COLUMN, TableListener.INSERT);
+    return this.getRowCount();
+  }
+
+  /**
+   * Adds a row corresponding to the input tuple.
+   * @param tuple tuple to insert in the table
+   * @return number of rows
+   */
+  public int addRow(Tuple tuple) {
+    if (this.canAddRow()) {
+      for (Map.Entry<String, ArrayList<Object>> e : column.entrySet()) {
+        e.getValue().add(tuple.get(e.getKey()));
+      }
+    }
     return this.getRowCount();
   }
 
@@ -288,20 +303,20 @@ public class TableImpl implements Table {
   }
 
   /**
-   * Removes a table listener.
-   * @param listnr an Obvious TableListener
-   */
-  public void removeTableListener(TableListener listnr) {
-    listener.remove(listnr);
-  }
-
-  /**
    * Gets an iterator over the row numbers of this table.
    * @return an iterator over the rows of this table
    */
   public IntIterator rowIterator() {
     IntIterator intIterator = (IntIterator) columnIndex.values().iterator();
     return intIterator;
+  }
+
+  /**
+   * Removes a table listener.
+   * @param listnr an Obvious TableListener
+   */
+  public void removeTableListener(TableListener listnr) {
+    listener.remove(listnr);
   }
 
   /**

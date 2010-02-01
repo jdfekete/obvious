@@ -40,6 +40,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obvious.impl.TableImpl;
+import obvious.impl.TupleImpl;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -90,21 +91,40 @@ public abstract class TreeTest {
    */
   @Before
   public void setUp() {
+    // Creating the starting schema for node and edges
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeName", String.class, "node_default");
     Schema edgeSchema = new SchemaImpl();
     edgeSchema.addColumn("edgeName", String.class, "edge_default");
+    // Requesting a tree instance corresponding to these schemas.
     this.tree = this.newInstance(nodeSchema, edgeSchema);
+    // Creating the table that will feed the tree.
     nodeTable = new TableImpl(nodeSchema);
     edgeTable = new TableImpl(edgeSchema);
+    // Adding node to tree
     for (int i = 0; i < NODENUMBER; i++) {
-      nodeTable.addRow();
-      nodeTable.set(i, 0, "node_" + String.valueOf(i));
+      Object[] nodeValue = new Object[nodeTable.getSchema().getColumnCount()];
+      for (int j = 0; j < nodeTable.getSchema().getColumnCount(); j++) {
+        if (nodeTable.getSchema().getColumnName(j).equals("nodeName")) {
+          nodeValue[j] = "node_" + i;
+        } else {
+          nodeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+        }
+      }
+      nodeTable.addRow(new TupleImpl(nodeTable.getSchema(), nodeValue));
       this.tree.addNode(new NodeImpl(nodeTable, i));
     }
+    // Adding edge to the tree.
     for (int i = 0; i < EDGENUMBER; i++) {
-      edgeTable.addRow();
-      edgeTable.set(i, "edgeName", "edge_" + String.valueOf(i));
+      Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+      for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+        if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+          edgeValue[j] = "edge_" + i;
+        } else {
+          edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+        }
+      }
+      edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     }
     tree.addEdge(new EdgeImpl(edgeTable, 0), new NodeImpl(nodeTable, 0),
         new NodeImpl(nodeTable, 1), EdgeType.UNDIRECTED);

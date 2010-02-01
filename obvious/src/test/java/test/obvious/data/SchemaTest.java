@@ -53,6 +53,13 @@ public abstract class SchemaTest {
   public Schema getSchema() {
     return this.schema;
   }
+  /**
+   * Sets the schema test instance.
+   * @param inSchema input schema to set
+   */
+  public void setSchema(Schema inSchema) {
+    this.schema = inSchema;
+  }
 
   /**
    * @see junit.framework.TestCase#setUp()

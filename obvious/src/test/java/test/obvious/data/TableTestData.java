@@ -35,6 +35,19 @@ public interface TableTestData {
   Object[]  DEFAULTS
   = {"", 0, false};
 
+
+  Object[] ROW1 =
+    {"Bonjour", 1, true};
+
+  Object[] ROW2 = 
+    {"Hello", 2, false};
+
+  Object[] ROW3 = 
+    {"Hallo", 3, false};
+
+  Object[] ROW4 =
+    {"Nihaho", 4, true};
+
   /**
    * Data set for the first column.
    */

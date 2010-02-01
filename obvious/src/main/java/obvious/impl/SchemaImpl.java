@@ -36,6 +36,7 @@ import java.util.Set;
 
 import obvious.ObviousException;
 import obvious.data.Schema;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 
@@ -549,6 +550,22 @@ public class SchemaImpl implements Schema {
         this.set(rowId, spottedEntry.getKey(), val);
       }
     }
+  }
+
+  /**
+   * Unused method.
+   * @param tuple tuple to insert in the schema table
+   * @return column count
+   */
+  public int addRow(Tuple tuple) {
+    if (this.canAddRow()) {
+      for (Iterator<ArrayList<?>> iter = columns.values().iterator();
+          iter.hasNext();) {
+        ArrayList<?> spottedArray = (ArrayList<?>) iter.next();
+        spottedArray.add(null);
+      }
+    }
+    return this.getRowCount();
   }
 
 }
