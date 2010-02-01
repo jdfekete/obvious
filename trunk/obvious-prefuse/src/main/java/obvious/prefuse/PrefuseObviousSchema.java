@@ -31,6 +31,7 @@ import java.util.Collection;
 
 import obvious.ObviousException;
 import obvious.data.Schema;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 
@@ -424,6 +425,15 @@ public class PrefuseObviousSchema implements Schema {
    */
   public void set(int rowId, int col, Object val) {
     this.schemaTable.set(rowId, col, val);
+  }
+
+  /**
+   * Adds a row to the table.
+   * @param tuple tuple to add to the table
+   * @return number of rows
+   */
+  public int addRow(Tuple tuple) {
+    return this.schemaTable.addRow(tuple);
   }
 
 
