@@ -32,6 +32,7 @@ import java.util.Collection;
 import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 
@@ -265,6 +266,19 @@ public class PrefuseObviousTable implements Table {
    */
   public void set(int rowId, int col, Object val) {
     this.table.setValueAt(rowId, col, val);
+  }
+
+  /**
+   * Adds a row to the table (tuple).
+   * @param tuple tuple to insert in the table.
+   * @return row count
+   */
+  public int addRow(Tuple tuple) {
+    int r = addRow();
+    for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
+      this.set(r, tuple.getSchema().getColumnName(i), tuple.get(i));
+    }
+    return r;
   }
 
 }
