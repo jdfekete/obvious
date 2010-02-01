@@ -32,6 +32,7 @@ import obvious.data.Schema;
 import obvious.data.Graph.EdgeType;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
+import obvious.impl.TupleImpl;
 import obvious.jung.data.JungObviousNetwork;
 import test.obvious.data.NetworkTest;
 
@@ -58,8 +59,7 @@ public class JungNetworkTest extends NetworkTest {
   @Override
   public void testGetSource() {
     assertEquals(null, getNetwork().getSource(new EdgeImpl(edgeTable, 0)));
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_" + EDGENUMBER);
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
@@ -70,8 +70,7 @@ public class JungNetworkTest extends NetworkTest {
   @Override
   public void testGetTarget() {
     assertEquals(null, getNetwork().getTarget(new EdgeImpl(edgeTable, 0)));
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_" + EDGENUMBER);
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
@@ -87,15 +86,11 @@ public class JungNetworkTest extends NetworkTest {
         .size(), getNetwork().getPredecessors(new NodeImpl(nodeTable, 1))
         .size());
     // then we add two directed edges for a same node
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, NODENUMBER - 1), new NodeImpl(nodeTable, 0),
         EdgeType.DIRECTED);
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, NODENUMBER - 1), new NodeImpl(nodeTable, 1),
         EdgeType.DIRECTED);
@@ -112,15 +107,11 @@ public class JungNetworkTest extends NetworkTest {
         .size(), getNetwork().getPredecessors(new NodeImpl(nodeTable, 1))
         .size());
     // then we add two directed edges for a same node
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 1), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
@@ -137,15 +128,11 @@ public class JungNetworkTest extends NetworkTest {
         .size(), getNetwork().getInEdges(new NodeImpl(nodeTable, 1))
         .size());
     // then we add two directed edges for a same node
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, NODENUMBER - 1), new NodeImpl(nodeTable, 0),
         EdgeType.DIRECTED);
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, NODENUMBER - 1), new NodeImpl(nodeTable, 1),
         EdgeType.DIRECTED);
@@ -162,20 +149,31 @@ public class JungNetworkTest extends NetworkTest {
         .size(), getNetwork().getOutEdges(new NodeImpl(nodeTable, 1))
         .size());
     // then we add two directed edges for a same node
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
-    edgeTable.addRow();
-    edgeTable.set(EDGENUMBER, "edgeName", "edge_"
-        + new Integer(edgeTable.getRowCount() - 1));
+    addRow();
     getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
         new NodeImpl(nodeTable, 1), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.DIRECTED);
     assertEquals(getNetwork().getIncidentEdges(new NodeImpl(nodeTable,
         NODENUMBER - 1)).size() - 2, getNetwork().getOutEdges(new NodeImpl(
             nodeTable, NODENUMBER - 1)).size());
+  }
+
+  /**
+   * Adds a row to edgeTable.
+   */
+  public void addRow() {
+    Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+    for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+      if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+        edgeValue[j] = "edge_" + new Integer(edgeTable.getRowCount() - 1);
+      } else {
+        edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+      }
+    }
+    edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
   }
 }
