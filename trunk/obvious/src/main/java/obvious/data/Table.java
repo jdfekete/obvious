@@ -176,10 +176,17 @@ public interface Table extends Data {
     boolean canRemoveRow(); //FIXME
 
     /**
-     * Adds a row.
+     * Adds a row filled with default values.
      * @return number of rows
      */
     int addRow();
+
+    /**
+     * Adds a row with the value of the tuple.
+     * @param tuple tuple to insert in the table
+     * @return number of rows
+     */
+    int addRow(Tuple tuple);
 
     /**
      * Removes a row.

@@ -40,6 +40,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obvious.impl.TableImpl;
+import obvious.impl.TupleImpl;
 
 
 import org.junit.Before;
@@ -95,21 +96,40 @@ public abstract class NetworkTest {
    */
   @Before
   public void setUp() throws ObviousException {
+    // Creating the starting schema for node and edges
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeName", String.class, "node_default");
     Schema edgeSchema = new SchemaImpl();
     edgeSchema.addColumn("edgeName", String.class, "edge_default");
+    // Requesting a network instance corresponding to these schemas.
     this.network = this.newInstance(nodeSchema, edgeSchema);
+    // Creating the table that will feed the network.
     nodeTable = new TableImpl(nodeSchema);
     edgeTable = new TableImpl(edgeSchema);
+    // Adding nodes to the network
     for (int i = 0; i < NODENUMBER; i++) {
-      nodeTable.addRow();
-      nodeTable.set(i, 0, "node_" + String.valueOf(i));
+      Object[] nodeValue = new Object[nodeTable.getSchema().getColumnCount()];
+      for (int j = 0; j < nodeTable.getSchema().getColumnCount(); j++) {
+        if (nodeTable.getSchema().getColumnName(j).equals("nodeName")) {
+          nodeValue[j] = "node_" + i;
+        } else {
+          nodeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+        }
+      }
+      nodeTable.addRow(new TupleImpl(nodeTable.getSchema(), nodeValue));
       this.network.addNode(new NodeImpl(nodeTable, i));
     }
+    // Adding edges to the network
     for (int i = 0; i < EDGENUMBER; i++) {
-      edgeTable.addRow();
-      edgeTable.set(i, "edgeName", "edge_" + String.valueOf(i));
+      Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+      for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+        if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+          edgeValue[j] = "edge_" + i;
+        } else {
+          edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+        }
+      }
+      edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     }
     network.addEdge(new EdgeImpl(edgeTable, 0), new NodeImpl(nodeTable, 0),
         new NodeImpl(nodeTable, 1), EdgeType.UNDIRECTED);
@@ -174,9 +194,15 @@ public abstract class NetworkTest {
    */
   @Test
   public void testAddNode() {
-    nodeTable.addRow();
-    nodeTable.set(nodeTable.getRowCount() - 1, "nodeName", "node_"
-        + NODENUMBER);
+    Object[] nodeValue = new Object[nodeTable.getSchema().getColumnCount()];
+    for (int i = 0; i < nodeTable.getSchema().getColumnCount(); i++) {
+      if (nodeTable.getSchema().getColumnName(i).equals("nodeName")) {
+        nodeValue[i] = "node_" + NODENUMBER;
+      } else {
+        nodeValue[i] = nodeTable.getSchema().getColumnDefault(i);
+      }
+    }
+    nodeTable.addRow(new TupleImpl(nodeTable.getSchema(), nodeValue));
     assertTrue(this.network.addNode(new NodeImpl(nodeTable, NODENUMBER)));
     assertEquals(NODENUMBER + 1, this.network.getNodes().size());
   }
@@ -186,9 +212,15 @@ public abstract class NetworkTest {
    */
   @Test
   public void testRemoveNode() {
-    nodeTable.addRow();
-    nodeTable.set(nodeTable.getRowCount() - 1, "nodeName", "node_"
-        + NODENUMBER);
+    Object[] nodeValue = new Object[nodeTable.getSchema().getColumnCount()];
+    for (int i = 0; i < nodeTable.getSchema().getColumnCount(); i++) {
+      if (nodeTable.getSchema().getColumnName(i).equals("nodeName")) {
+        nodeValue[i] = "node_" + NODENUMBER;
+      } else {
+        nodeValue[i] = nodeTable.getSchema().getColumnDefault(i);
+      }
+    }
+    nodeTable.addRow(new TupleImpl(nodeTable.getSchema(), nodeValue));
     // node not in the graph
     assertFalse(network.removeNode(new NodeImpl(nodeTable, NODENUMBER)));
     // node in the graph
@@ -201,9 +233,15 @@ public abstract class NetworkTest {
    */
   @Test
   public void testAddEge() {
-    edgeTable.addRow();
-    edgeTable.set(edgeTable.getRowCount() - 1, "edgeName", "edge_"
-        + EDGENUMBER);
+    Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+    for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+      if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+        edgeValue[j] = "edge_" + EDGENUMBER;
+      } else {
+        edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+      }
+    }
+    edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     assertTrue(network.addEdge(new EdgeImpl(edgeTable, EDGENUMBER),
         new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
         EdgeType.UNDIRECTED));
@@ -215,9 +253,15 @@ public abstract class NetworkTest {
    */
   @Test
   public void testRemoveEdge() {
-    edgeTable.addRow();
-    edgeTable.set(edgeTable.getRowCount() - 1, "edgeName", "edge_"
-        + EDGENUMBER);
+    Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+    for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+      if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+        edgeValue[j] = "edge_" + EDGENUMBER;
+      } else {
+        edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+      }
+    }
+    edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     // Edge not in the graph
     assertFalse(network.removeEdge(new EdgeImpl(edgeTable, EDGENUMBER)));
     // Edge in the graph
@@ -255,9 +299,15 @@ public abstract class NetworkTest {
     // this method is useful for multigraphs. By default, our graph is not a
     // multigraph. So, first, this test add an edge to an existing linked nodes
     // couple to be able to test this method.
-    edgeTable.addRow();
-    edgeTable.set(edgeTable.getRowCount() - 1, "edgeName", "edge_"
-        + EDGENUMBER);
+    Object[] edgeValue = new Object[edgeTable.getSchema().getColumnCount()];
+    for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
+      if (edgeTable.getSchema().getColumnName(j).equals("edgeName")) {
+        edgeValue[j] = "edge_" + EDGENUMBER;
+      } else {
+        edgeValue[j] = nodeTable.getSchema().getColumnDefault(j);
+      }
+    }
+    edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     network.addEdge(new EdgeImpl(edgeTable, EDGENUMBER),
         new NodeImpl(nodeTable, 1), new NodeImpl(nodeTable, 3),
         EdgeType.UNDIRECTED);
@@ -283,14 +333,6 @@ public abstract class NetworkTest {
    */
   @Test
   public void testGetOpposite() {
-    /*
-    for (int i = 0; i < edgeTable.getRowCount(); i++) {
-      for (int j = 0; j < edgeTable.getSchema().getColumnCount(); j++) {
-        System.out.print(edgeTable.getValue(i,j) + " ; ");
-      }
-      System.out.println("");
-    }
-    */
     assertEquals("node_1", network.getOpposite(new NodeImpl(nodeTable, 0),
         new EdgeImpl(edgeTable, 0)).get("nodeName"));
     assertEquals("node_0", network.getOpposite(new NodeImpl(nodeTable, 1),

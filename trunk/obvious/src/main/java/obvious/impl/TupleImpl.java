@@ -27,6 +27,7 @@
 
 package obvious.impl;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class TupleImpl implements Tuple  {
   private Map<Integer, Object> tuple;
 
   /**
-   * Constructor.
+   * Constructor from a table.
    * @param tableIn reference table for this tuple.
    * @param rowId row represented by this tuple.
    */
@@ -70,6 +71,28 @@ public class TupleImpl implements Tuple  {
       Object data = this.table.getValue(rowId, i);
       tuple.put(i, data);
     }
+  }
+
+  /**
+   * Constructor from a schema with input values.
+   * The values have to be ordered in the correct order for the schema.
+   * @param schema schema for the tuple
+   * @param values value for the tuple
+   */
+  public TupleImpl(Schema schema, Object[] values) {
+    Table tableIn = new TableImpl(schema);
+    for (int i = 0; i < schema.getColumnCount(); i++) {
+      tableIn.addRow();
+      tableIn.set(0, i, values[i]);
+    }
+    this.table = tableIn;
+    this.row = 0;
+    tuple = new HashMap<Integer, Object>();
+    for (int i = 0; i < this.table.getSchema().getColumnCount(); i++) {
+      Object data = this.table.getValue(0, i);
+      tuple.put(i, data);
+    }
+
   }
 
   /**

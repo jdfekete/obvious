@@ -31,6 +31,7 @@ import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
+import obvious.impl.TupleImpl;
 
 import org.junit.Before;
 import org.junit.After;
@@ -70,15 +71,10 @@ public abstract class TableTest implements TableTestData {
       schema.addColumn(HEADERS[i], TYPES[i], DEFAULTS[i]);
     }
     table = this.newInstance(schema);
-    table.addRow();
-    table.addRow();
-    table.addRow();
-    table.addRow();
-    for (int i = 0; i < NUMROW; i++) {
-      table.set(i, 0, COLUMN1[i]);
-      table.set(i, 1, COLUMN2[i]);
-      table.set(i, 2, COLUMN3[i]);
-    }
+    table.addRow(new TupleImpl(schema, ROW1));
+    table.addRow(new TupleImpl(schema, ROW2));
+    table.addRow(new TupleImpl(schema, ROW3));
+    table.addRow(new TupleImpl(schema, ROW4));
   }
 
   /**
@@ -147,7 +143,11 @@ public abstract class TableTest implements TableTestData {
   */
   @Test
   public void testAddRow() {
-    table.addRow();
+    Object[] defaultValue = new Object[NUMCOL];
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      defaultValue[i] = table.getSchema().getColumnDefault(i);
+    }
+    table.addRow(new TupleImpl(table.getSchema(), defaultValue));
     assertEquals(NUMROW + 1, table.getRowCount());
     for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
       assertEquals(table.getValue(table.getRowCount() - 1, i),
