@@ -59,7 +59,7 @@ public interface Table extends Data {
     int getRowCount();
 
     /**
-     * Get an iterator over the row numbers of this table.
+     * Gets an iterator over the row numbers of this table.
      * @return an iterator over the rows of this table
      */
     IntIterator rowIterator();

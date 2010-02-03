@@ -61,6 +61,15 @@ public abstract class TableTest implements TableTestData {
   }
 
   /**
+   * Sets the table test instance.
+   * @param inTable table to set
+   */
+  public void setTable(Table inTable) {
+    this.table = null;
+  }
+
+
+  /**
   * @see junit.framework.TestCase#setUp()
   * @throws ObviousException when problem occurs
   */
@@ -129,11 +138,11 @@ public abstract class TableTest implements TableTestData {
   public void testGetValue() {
     final int falseIndex = 3;
     assertEquals("Hello", table.getValue(1, 0));
-    assertEquals("Hello", table.getValue(1, "string"));
+    assertEquals("Hello", table.getValue(1, "col1"));
     assertEquals(1, table.getValue(0, 1));
-    assertEquals(1, table.getValue(0, "integer"));
+    assertEquals(1, table.getValue(0, "col2"));
     assertEquals(true, table.getValue(falseIndex, 2));
-    assertEquals(true, table.getValue(falseIndex, "boolean"));
+    assertEquals(true, table.getValue(falseIndex, "col3"));
   }
 
 // Read-write test
@@ -198,6 +207,16 @@ public abstract class TableTest implements TableTestData {
    */
   @Test
   public void testCanAddRow() {
+  }
+
+  /**
+   * Test method for obvious.data.Table.rowIterator().
+   */
+  @Test
+  public void testRowIterator() {
+    for (int i = 0; i < table.getRowCount(); i++) {
+      assertTrue(table.rowIterator().hasNext());
+    }
   }
 
 
