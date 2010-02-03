@@ -21,7 +21,7 @@ public interface TableTestData {
    * Headers of the columns.
    */
   String[]  HEADERS
-    = {"string", "integer", "boolean"};
+    = {"col1", "col2", "col3"};
 
   /**
    * Types for the columns.
@@ -33,18 +33,29 @@ public interface TableTestData {
    * Default values for columns.
    */
   Object[]  DEFAULTS
-  = {"", 0, false};
+  = {"Hi", 0, false};
 
-
+  /**
+   * Data Set for the first row.
+   */
   Object[] ROW1 =
     {"Bonjour", 1, true};
 
-  Object[] ROW2 = 
+  /**
+   * Data Set for the second row.
+   */
+  Object[] ROW2 =
     {"Hello", 2, false};
 
-  Object[] ROW3 = 
+  /**
+   * Data Set for the third row.
+   */
+  Object[] ROW3 =
     {"Hallo", 3, false};
 
+  /**
+   * Data Set for the fourth row.
+   */
   Object[] ROW4 =
     {"Nihaho", 4, true};
 

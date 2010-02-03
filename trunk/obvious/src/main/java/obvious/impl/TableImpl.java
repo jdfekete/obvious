@@ -307,7 +307,8 @@ public class TableImpl implements Table {
    * @return an iterator over the rows of this table
    */
   public IntIterator rowIterator() {
-    IntIterator intIterator = (IntIterator) columnIndex.values().iterator();
+    IntIterator intIterator = new IntIteratorImpl(
+        columnIndex.values().iterator());
     return intIterator;
   }
 
