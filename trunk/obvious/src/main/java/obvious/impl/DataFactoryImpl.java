@@ -27,6 +27,8 @@
 
 package obvious.impl;
 
+import java.util.Map;
+
 import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Network;
@@ -34,17 +36,26 @@ import obvious.data.Schema;
 import obvious.data.Table;
 
 /**
- * Implements abstract class DataFactory.
+ * Implements abstract class DataFactory for the Obvious Impl implementation.
  * @author Pierre-Luc Hémery
  *
  */
 public class DataFactoryImpl extends DataFactory {
 
+  /**
+   * Obvious Impl does not have its own implementation of network.
+   * So this method is unused and always throws an ObviousException.
+   * @param name name of the network
+   * @param nodeSchema original schema for the node
+   * @param edgeSchema original schema for the edge
+   * @return nothing unimplemented
+   * @throws ObviousException always throws an ObviousException
+   */
   @Override
   public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ObviousException("Can't create a network Obvious Impl doest not"
+        + "support network!");
   }
 
   @Override
@@ -52,16 +63,66 @@ public class DataFactoryImpl extends DataFactory {
     return new TableImpl(schema);
   }
 
+  /**
+   * Returns a Network instance if the underlyingGraph is an instance of
+   * an implementation of Network. Else, it will rise an exception.
+   * @param underlyingGraph a candidate Network
+   * @return an Obvious Network
+   * @throws ObviousException if Network creation failed
+   */
   @Override
   public Network wrapGraph(Object underlyingGraph) throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    if (underlyingGraph instanceof Network) {
+      return (Network) underlyingGraph;
+    } else {
+      throw new ObviousException("Can't create network from this input object");
+    }
   }
 
+  /**
+   * Returns a Network instance if the underlyingTable is an instance of
+   * an implementation of Table. Else, it will rise an exception.
+   * @param underlyingTable a candidate Table
+   * @return an Obvious Table
+   * @throws ObviousException if Table creation failed
+   */
+  public Table wrapTable(Object underlyingTable) throws ObviousException {
+    if (underlyingTable instanceof Table) {
+      return (Table) underlyingTable;
+    } else {
+      throw new ObviousException("Can't create table from this input object");
+    }
+  }
+
+  /**
+   * Obvious Impl does not have its own implementation of network.
+   * So this method is unused and always throws an ObviousException.
+   * @param name name of the network
+   * @param nodeSchema original schema for the node
+   * @param edgeSchema original schema for the edge
+   * @param param unused parameter
+   * @return nothing unimplemented
+   * @throws ObviousException always throws an ObviousException
+   */
   @Override
-  public Table wrapTable(Object unerlyingTable) throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+      Map<String, Object> param) throws ObviousException {
+    return createGraph(name, nodeSchema, edgeSchema);
+  }
+
+  /**
+   * Returns an Obvious Table. Obvious Impl tables only use schema
+   * as constructor's parameter.
+   * @param name name of the table
+   * @param schema schema of the table
+   * @param param unused parameter
+   * @return an Obvious Table
+   * @throws ObviousException if table creation failed
+   */
+  @Override
+  public Table createTable(String name, Schema schema,
+      Map<String, Object> param) throws ObviousException {
+    return createTable(name, schema, param);
   }
 
 }

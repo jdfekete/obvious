@@ -27,10 +27,16 @@
 
 package obvious.data;
 
+import java.util.Map;
+
 import obvious.ObviousException;
 
 /**
- * Class DataFactory.
+ * Abstract Class DataFactory.
+ * A factory that can create Network and Table instances. Several methods
+ * are proposed to build such instances from existing instances of other
+ * tables or from Obvious Schema(s).
+ * Each implementation of Obvious should implement this class.
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
@@ -79,12 +85,25 @@ public abstract class DataFactory {
         throws ObviousException;
 
     /**
+     * Creates a table from an existing Schema instance.
+     * This method allows the use of specific parameters placed in param
+     * collection.
+     * @param name table's name
+     * @param schema original schema for the table
+     * @param param a collection of parameter for underlying constructors.
+     * @throws ObviousException when the table cannot be created.
+     * @return table derived from the schema
+     */
+    public abstract Table createTable(String name, Schema schema,
+        Map<String, Object> param) throws ObviousException;
+
+    /**
      * Creates a table from an existing table object.
-     * @param unerlyingTable original table
+     * @param underlyingTable original table
      * @return obvious table
      * @throws ObviousException when the table cannot be created.
      */
-    public abstract Table wrapTable(Object unerlyingTable)
+    public abstract Table wrapTable(Object underlyingTable)
         throws ObviousException;
 
     /**
@@ -98,6 +117,21 @@ public abstract class DataFactory {
     public abstract Network createGraph(
             String name, Schema nodeSchema, Schema edgeSchema)
         throws ObviousException;
+
+    /**
+     * Creates a network from an existing Schema instance.
+     * This method allows the use of specific parameters placed in param
+     * collection.
+     * @param name network's name
+     * @param nodeSchema original schema for nodes
+     * @param edgeSchema original schema for edges
+     * @param param a collection of parameter for underlying constructors.
+     * @return network derived from the network
+     * @throws ObviousException when the table cannot be created.
+     */
+    public abstract Network createGraph(String name, Schema nodeSchema,
+            Schema edgeSchema, Map<String, Object> param)
+            throws ObviousException;
 
     /**
      * Creates a network from an existing graph/network object.
