@@ -50,6 +50,28 @@ public class PrefuseObviousNetwork implements Network {
   private prefuse.data.Graph graph;
 
   /**
+   * Constructor from obvious schemas and extra parameters.
+   * @param nodeSchema original schema for the nodes
+   * @param edgeSchema original schema for the edges
+   * @param directed boolean indicating if the graph is directed or not
+   * @param nodeKey nodeKey data field used to uniquely identify a node. If this
+   * field is null, the node table row numbers will be used
+   * @param sourceKey data field used to denote the source node in an edge
+   * table
+   * @param targetKey data field used to denote the target node in an edge
+   * table
+   */
+  public PrefuseObviousNetwork(Schema nodeSchema, Schema edgeSchema,
+      boolean directed, String nodeKey, String sourceKey, String targetKey) {
+    Table node = new PrefuseObviousTable(nodeSchema);
+    Table edge = new PrefuseObviousTable(edgeSchema);
+    this.graph = new prefuse.data.Graph((
+        (PrefuseObviousTable) node).getPrefuseTable(),
+        ((PrefuseObviousTable) edge).getPrefuseTable(), false,
+        nodeKey, sourceKey, targetKey);
+  }
+
+  /**
    * Constructor from Obvious Schemas.
    * @param nodeSchema original schema for the nodes.
    * @param edgeSchema original schema for the edges.

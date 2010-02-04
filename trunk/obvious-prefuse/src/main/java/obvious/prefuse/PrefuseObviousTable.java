@@ -35,6 +35,7 @@ import obvious.data.Table;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.impl.IntIteratorImpl;
 
 /**
  * Implementation of an Obvious Table based on prefuse toolkit.
@@ -243,9 +244,9 @@ public class PrefuseObviousTable implements Table {
    * Get an iterator over the row numbers of this table.
    * @return an iterator over the rows of this table
    */
+  @SuppressWarnings("unchecked")
   public IntIterator rowIterator() {
-    // TODO Auto-generated method stub
-    return null;
+    return new IntIteratorImpl(this.table.rows());
   }
 
   /**
