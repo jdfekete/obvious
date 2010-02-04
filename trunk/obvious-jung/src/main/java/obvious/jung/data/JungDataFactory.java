@@ -27,15 +27,23 @@
 
 package obvious.jung.data;
 
+import java.util.Map;
+
 import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Node;
+import obvious.data.Edge;
+import obvious.impl.TableImpl;
 
 /**
  * Implementation of Obvious DataFactoryInterface.
- * Use this class to build Obvious Table and Graph with Jung toolkit.
+ * Use this class to build Obvious Network with Jung toolkit.
+ * This factory can be used to build Obvious Table using the TableImpl from
+ * Obvious package. So for tables, no extra parameters are used in the factory,
+ * only schema.
  * @author Pierre-Luc Hemery
  *
  */
@@ -44,26 +52,76 @@ public class JungDataFactory extends DataFactory {
   @Override
   public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    return new JungObviousNetwork(nodeSchema, edgeSchema);
   }
 
   @Override
   public Table createTable(String name, Schema schema) throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    return new TableImpl(schema);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Network wrapGraph(Object underlyingGraph) throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    if (underlyingGraph instanceof Network) {
+      return (Network) underlyingGraph;
+    } else if (underlyingGraph instanceof edu.uci.ics.jung.graph.Graph<?, ?>) {
+      try {
+      return new JungObviousNetwork(
+          (edu.uci.ics.jung.graph.Graph<Node, Edge>) underlyingGraph);
+      } catch (Exception e) {
+        throw new ObviousException(e);
+      }
+    } else {
+      throw new ObviousException("Can't create network from this input object");
+    }
   }
 
+  /**
+   * Returns a Network instance if the underlyingTable is an instance of
+   * an implementation of Table. Else, it will rise an exception.
+   * @param underlyingTable a candidate Table
+   * @return an Obvious Table
+   * @throws ObviousException if Table creation failed
+   */
   @Override
-  public Table wrapTable(Object unerlyingTable) throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+  public Table wrapTable(Object underlyingTable) throws ObviousException {
+    if (underlyingTable instanceof Table) {
+      return (Table) underlyingTable;
+    } else {
+      throw new ObviousException("Can't create table from this input object");
+    }
+  }
+
+  /**
+   * Returns an Obvious Network. Obvious Jung networks only use schemas
+   * as constructor's parameter.
+   * @param name name of the table
+   * @param nodeSchema original schema for nodes
+   * @param edgeSchema original schema for edges
+   * @param param unused parameter
+   * @return an Obvious Table
+   * @throws ObviousException if table creation failed
+   */
+  @Override
+  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+      Map<String, Object> param) throws ObviousException {
+    return createGraph(name, nodeSchema, edgeSchema);
+  }
+
+  /**
+   * Returns an Obvious Table. Obvious Jung tables only use schema
+   * as constructor's parameter.
+   * @param name name of the table
+   * @param schema schema of the table
+   * @param param unused parameter
+   * @return an Obvious Table
+   * @throws ObviousException if table creation failed
+   */
+  @Override
+  public Table createTable(String name, Schema schema,
+      Map<String, Object> param) throws ObviousException {
+    return new TableImpl(schema);
   }
 
 }
