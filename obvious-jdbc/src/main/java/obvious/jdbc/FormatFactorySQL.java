@@ -80,7 +80,7 @@ public class FormatFactorySQL implements FormatFactory {
 
   /**
    * Gives the corresponding SQL format for a Java class.
-   * This method should and could be overriden for particular JDBC / Obvious
+   * This method should and could be overridden for particular JDBC / Obvious
    * implementations.
    * @param c Java class to "convert" in a SQL type
    * @return a corresponding SQL type in String format
@@ -118,6 +118,8 @@ public class FormatFactorySQL implements FormatFactory {
       return "REF";
     } else if (c.equals(Byte[].class)) {
       return "LONGVARBINARY";
+    } else if (c.equals(String.class)) {
+      return "TEXT";
     } else {
       return "OTHERS";
     }

@@ -84,7 +84,7 @@ public class TypedSQLFormat {
      * @return StringBuffer appended with the original string.
      */
     public StringBuffer format(String obj, StringBuffer toAppendTo) {
-      toAppendTo.append(obj);
+      toAppendTo.append("'" + obj + "'");
       return toAppendTo;
     }
 

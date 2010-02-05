@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2010, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -27,19 +27,28 @@
 
 package obvious.jdbc;
 
+import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.sql.ResultSet;
 
 import obvious.ObviousException;
+import obvious.ObviousRuntimeException;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.impl.IntIteratorImpl;
+import obviousx.text.TypedFormat;
 
 /**
  *
@@ -48,11 +57,6 @@ import obvious.data.util.IntIterator;
  *
  */
 public class JDBCObviousTable implements Table {
-
-  /**
-   * JDBC connection.
-   */
-  private Connection con;
 
   /**
    * JDBC Table name.
@@ -65,22 +69,193 @@ public class JDBCObviousTable implements Table {
   private Schema schema;
 
   /**
+   * URL for the database.
+   */
+  private String url;
+
+  /**
+   * User name for the database.
+   */
+  private String username;
+
+  /**
+   * Password for the database.
+   */
+  private String password;
+  /**
    * Table Listeners.
    */
   private Collection<TableListener> listener;
 
   /**
-   * Constructor for JDBCObviousTable.
-   * @param connection a JDBC connection instance
-   * @param tName the Table SQL name
-   * @throws ObviousException if something bad happens with the JDBC link.
+   * SQL Format Factory.
    */
-  public JDBCObviousTable(Connection connection, String tName)
-      throws ObviousException {
-    this.con = connection;
+  private FormatFactorySQL formatFactory;
+
+  /**
+   * Name of the column that is the primary key of the table.
+   * To work as an obvious Table, the table behind this JDBC implementation
+   * must have a column that builds a primary key.
+   */
+  private String primaryKey;
+
+  /**
+   * Map that links row Index to the value of their primary key.
+   */
+  private Map<Integer, Object> rowIndexMap;
+
+  /**
+   * Is the schema being edited.
+   */
+  private boolean editing = false;
+
+  /**
+   * Constructor for an Obvious table based on JDBC.
+   * @param inSchema an Obvious schema
+   * @param driver driver for the database (JDBC)
+   * @param inUrl URL to access to the database
+   * @param inUsername user name to access to the database
+   * @param inPswd password to access to the database
+   * @param tName table name
+   * @param inKeyColumn name of column used as a primary key
+   */
+  public JDBCObviousTable(Schema inSchema, String driver, String inUrl,
+      String inUsername, String inPswd, String tName, String inKeyColumn) {
+    // Initialize attributes.
     this.tableName = tName;
-    this.schema = new JDBCObviousSchema(this.con, this.tableName);
+    this.schema = inSchema;
+    this.url = inUrl;
+    this.username = inUsername;
+    this.password = inPswd;
+    this.formatFactory = new FormatFactorySQL();
     this.listener = new ArrayList<TableListener>();
+    this.primaryKey = inKeyColumn;
+    this.rowIndexMap = new HashMap<Integer, Object>();
+    // Creating table
+    if (!tableExist()) {
+      Connection con = null;
+      PreparedStatement pStatement = null;
+      try {
+        con = DriverManager.getConnection(url, username, password);
+        String request = "CREATE TABLE " + this.tableName + " (";
+        for (int i = 0; i < inSchema.getColumnCount(); i++) {
+          String typeSQL = formatFactory.getSQLType(inSchema.getColumnType(i));
+          request += inSchema.getColumnName(i) + " " + typeSQL;
+          if (i < inSchema.getColumnCount() - 1) {
+            request += ", ";
+          } else {
+            request += ")";
+          }
+        }
+        pStatement = con.prepareStatement(request);
+        pStatement.executeUpdate(request);
+      } catch (SQLException e) {
+        System.err.println("SQLException: " + e.getMessage());
+      } finally {
+        try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+        try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      }
+    }
+    // Load the JDBC driver.
+    try {
+      Class.forName(driver);
+    } catch (ClassNotFoundException e) {
+      System.err.print("ClassNotFoundException: ");
+      System.err.println(e.getMessage());
+    }
+  }
+
+  /**
+   * Constructor for an Obvious table based on JDBC. This constructor
+   * tries to resolve itself the primary key of the Table.
+   * @param inSchema an Obvious schema
+   * @param driver driver for the database (JDBC)
+   * @param inUrl URL to access to the database
+   * @param inUsername user name to access to the database
+   * @param inPswd password to access to the database
+   * @param tName table name
+   * @throws ObviousException when obvious table creation failed
+   */
+  public JDBCObviousTable(Schema inSchema, String driver, String inUrl,
+      String inUsername, String inPswd, String tName) throws ObviousException {
+    this(inSchema, driver, inUrl, inUsername, inPswd, tName,
+        getPrimaryKey(driver, inUrl, inUsername, inPswd, tName));
+  }
+
+  /**
+   * Checks if the table already exist in the database.
+   * @return true if table already created
+   */
+  public boolean tableExist() {
+    // There are two levels of table, a JDBC one and an obvious. Sometimes, dev
+    // or user want to create both at the same time, sometimes they just want
+    // to convert an existing JDBC table to Obvious. Constructors support both
+    // cases, they determine which one to use with the result of this method.
+    Connection con = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      DatabaseMetaData  metadata = con.getMetaData();
+      String[] myTables = {"TABLE"};
+      ResultSet tables = metadata.getTables(null,
+      null, "%", myTables);
+      boolean existingTable = false;
+      while (tables.next()) {
+        if (tables.getString("TABLE_NAME").equalsIgnoreCase(tableName)) {
+          existingTable = true;
+          break;
+        }
+      }
+      return existingTable;
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return false;
+    } finally {
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
+  }
+
+  /**
+   * Gets the attribute primaryKey. Fails if the table has zero or two or more
+   * columns as primary key.
+   * @param inDriver driver for the JDBC database
+   * @param inUrl URL to access to the database
+   * @param inUser user name to access to the database
+   * @param inPswd password to access to the database
+   * @param tName table name
+   * @return name of the column used as primary key.
+   * @throws ObviousException if table has zero or two (more) columns for PK.
+   */
+  public static String getPrimaryKey(String inDriver,
+      String inUrl, String inUser, String inPswd,
+      String tName) throws ObviousException {
+    Connection con = null;
+    ResultSet result = null;
+    String primKey = "";
+    try {
+      con = DriverManager.getConnection(inUrl, inUser, inPswd);
+      DatabaseMetaData meta = con.getMetaData();
+      result = meta.getPrimaryKeys(null, null, tName);
+      if (result == null) {
+        throw new ObviousException("The table " + tName
+            + " doesn't define a primary key!");
+      } else {
+        int count = 0;
+        while (result.next()) {
+          primKey = result.getString(count);
+          if (count > 1) {
+            throw new ObviousException("The Table " + tName
+                + " should have an unique column as primary key!");
+          }
+          count++;
+        }
+      }
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
+    return primKey;
   }
 
   /**
@@ -88,21 +263,12 @@ public class JDBCObviousTable implements Table {
    * @return the number of row in the database.
    */
   public int addRow() {
-    try {
-    String request = "SELECT * FROM " + this.tableName;
-    Statement stmt = this.con.createStatement();
-    ResultSet result = stmt.executeQuery(request);
-    result.last();
-    result.insertRow();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
     return this.getRowCount();
   }
 
   /**
    * Adds an indicated table listener.
-   * @param listnr given table listnr
+   * @param listnr given table listener
    */
   public void addTableListener(TableListener listnr) {
     if (!listener.contains(listnr)) {
@@ -110,9 +276,16 @@ public class JDBCObviousTable implements Table {
     }
   }
 
+  /**
+   * Indicates the beginning of a column edit.
+   * @param col column index
+   * @throws ObviousException if edition is not supported.
+   */
   public void beginEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
-    
+    this.editing = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.beginEdit();
+    }
   }
 
   /**
@@ -123,25 +296,33 @@ public class JDBCObviousTable implements Table {
    */
   public boolean canAddRow() {
     Boolean addable = true;
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
     try {
-      DatabaseMetaData metadata = this.con.getMetaData();
+      con = DriverManager.getConnection(url, username, password);
+      DatabaseMetaData metadata = con.getMetaData();
       if (metadata.isReadOnly()) {
         addable = false;
       } else {
         String request = "SELECT * FROM " + this.tableName;
-        Statement stmt = this.con.createStatement();
-        ResultSet result = stmt.executeQuery(request);
+        pStatement = con.prepareStatement(request);
+        result = pStatement.executeQuery(request);
         ResultSetMetaData setMetadata = result.getMetaData();
-        for (int i = 0; i < setMetadata.getColumnCount(); i++) {
+        for (int i = 1; i <= setMetadata.getColumnCount(); i++) {
          if (setMetadata.isReadOnly(i)) {
            addable = false;
          }
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+      return addable;
+    }  catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return false;
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return addable;
   }
 
   /**
@@ -154,8 +335,16 @@ public class JDBCObviousTable implements Table {
     return this.canAddRow();
   }
 
+  /**
+   * Indicates the end of a column edit.
+   * @param col column index
+   * @throws ObviousException if edition is not supported.
+   */
   public void endEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
+    this.editing = false;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.endEdit();
+    }
   }
 
   /**
@@ -163,16 +352,27 @@ public class JDBCObviousTable implements Table {
    * @return number of line in the table
    */
   public int getRowCount() {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
     try {
+      con = DriverManager.getConnection(url, username, password);
       String request = "SELECT * FROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
-      result.last();
-      return result.getRow();
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      int rowCount = 0;
+      while (result.next()) {
+        rowCount++;
+      }
+      return rowCount;
     } catch (Exception e) {
-      e.printStackTrace();
+      System.err.println("SQLException: " + e.getMessage());
+      return 0;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return 0;
   }
 
   /**
@@ -198,21 +398,34 @@ public class JDBCObviousTable implements Table {
    * @return the value described by rowId and field
    */
   public Object getValue(int rowId, String field) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
     try {
-      String request = "SELECT " + field + " FROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
-      Integer count = 0;
-      while (result.next()) {
-        if (count == rowId) {
-          return result.getObject(field);
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+      con = DriverManager.getConnection(url, username, password);
+      String request = "SELECT " + field + " FROM " + tableName + " WHERE "
+        + primaryKey + " = ";
+      TypedFormat formatSQL = formatFactory.
+        getFormat(getColumnSQLType(schema.getColumnIndex(primaryKey)));
+      StringBuffer tupleSQL = formatSQL.format(rowIndexMap.get(rowId),
+          new StringBuffer(), new FieldPosition(0));
+      request += tupleSQL;
+      System.out.println(request);
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      // result must have an unique row, cause it has been built with a primary
+      // key as parameter.
+      result.next();
+      return result.getObject(field);
+    }  catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return null;
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return null;
   }
+
 
   /**
    * Gets a specified value in the database.
@@ -225,9 +438,13 @@ public class JDBCObviousTable implements Table {
     return this.getValue(rowId, field);
   }
 
+  /**
+   * Indicates if a column is being edited.
+   * @param col column index
+   * @return true if edited
+   */
   public boolean isEditing(int col) {
-    // TODO Auto-generated method stub
-    return false;
+    return editing;
   }
 
   /**
@@ -236,19 +453,7 @@ public class JDBCObviousTable implements Table {
    * @return true if valid
    */
   public boolean isValidRow(int rowId) {
-    boolean valid = true;
-    try {
-      String request = "SELECT * FFROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
-      result.last();
-      if (result.getRow() < rowId) {
-        valid = false;
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return valid;
+    return rowIndexMap.containsKey(rowId);
   }
 
   /**
@@ -271,15 +476,25 @@ public class JDBCObviousTable implements Table {
    * Removes all the rows in the table.
    */
   public void removeAllRows() {
+    Connection con = null;
+    PreparedStatement pStatement = null;
     if (this.canRemoveRow()) {
       try {
+        con = DriverManager.getConnection(url, username, password);
         String request = "DELETE FROM " + this.tableName;
-        Statement stmt = this.con.createStatement();
-        stmt.executeUpdate(request);
+        pStatement = con.prepareStatement(request);
+        pStatement.executeUpdate(request);
+
+        rowIndexMap.clear();
+      }  catch (SQLException e) {
+        System.err.println("SQLException: " + e.getMessage());
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new ObviousRuntimeException(e);
+      } finally {
+        try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+        try { con.close(); } catch (Exception e) { e.printStackTrace(); }
       }
-      }
+    }
   }
 
   /**
@@ -288,25 +503,29 @@ public class JDBCObviousTable implements Table {
    * @return true if deleted
    */
   public boolean removeRow(int row) {
-    if (this.canRemoveRow()) {
-      try {
-        String request = "SELECT * FROM " + this.tableName;
-        Statement stmt = this.con.createStatement();
-        ResultSet result = stmt.executeQuery(request);
-        int count = 0;
-        while (result.next()) {
-          if (count == row) {
-            result.deleteRow();
-            return true;
-          }
-          count++;
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      String request = "DELETE FROM " + tableName + " WHERE " + primaryKey
+        + " = ";
+      TypedFormat formatSQL = formatFactory.
+      getFormat(getColumnSQLType(schema.getColumnIndex(primaryKey)));
+      StringBuffer tupleSQL = formatSQL.format(rowIndexMap.get(row),
+          new StringBuffer(), new FieldPosition(0));
+      request += tupleSQL;
+      pStatement = con.prepareStatement(request);
+      pStatement.execute(request);
+      rowIndexMap.remove(row);
+      return true;
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
       return false;
-    } else {
-      return false;
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -318,9 +537,12 @@ public class JDBCObviousTable implements Table {
     listener.remove(listnr);
   }
 
+  /**
+   * Gets an iterator over the row numbers of this table.
+   * @return an iterator over the rows of this table
+   */
   public IntIterator rowIterator() {
-    // TODO Auto-generated method stub
-    return null;
+    return new IntIteratorImpl(rowIndexMap.keySet().iterator());
   }
 
   /**
@@ -330,18 +552,27 @@ public class JDBCObviousTable implements Table {
    * @param val value to set in the database
    */
   public void set(int rowId, String field, Object val) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
     try {
-      String request = "SELECT " + field + " FROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
-      Integer count = 0;
-      while (result.next()) {
-        if (count == val) {
-          result.updateObject(field, val);
-        }
-      }
+      con = DriverManager.getConnection(url, username, password);
+      String request = "UPDATE " + tableName + " SET " + field + " = ";
+      TypedFormat formatSQL = formatFactory.getFormat(
+          getColumnSQLType(schema.getColumnIndex(field)));
+      StringBuffer newValue = formatSQL.format(val,
+          new StringBuffer(), new FieldPosition(0));
+      StringBuffer formerValue = formatSQL.format(this.getValue(rowId, field),
+          new StringBuffer(), new FieldPosition(0));
+      request += newValue + " WHERE " + field + " = " + formerValue;
+      pStatement = con.prepareStatement(request);
+      pStatement.executeUpdate(request);
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
     } catch (Exception e) {
-      e.printStackTrace();
+      new ObviousRuntimeException(e);
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -354,6 +585,82 @@ public class JDBCObviousTable implements Table {
   public void set(int rowId, int col, Object val) {
     String field = this.getSchema().getColumnName(col);
     this.set(rowId, field, val);
+  }
+
+  /**
+   * Adds a row corresponding to a certain tuple in the database.
+   * @param tuple tuple to add in the table
+   * @return number of rows
+   */
+  public int addRow(Tuple tuple) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      Object primaryValue = null;
+      String request = "INSERT INTO " + tableName + " (";
+      for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
+        request += tuple.getSchema().getColumnName(i);
+        if (i == tuple.getSchema().getColumnCount() - 1) {
+          request += ") VALUES (";
+        } else {
+          request += ", ";
+        }
+      }
+      for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
+        TypedFormat formatSQL = formatFactory.getFormat(getColumnSQLType(i));
+        StringBuffer tupleSQL = formatSQL.format(tuple.get(i),
+            new StringBuffer(), new FieldPosition(0));
+        request += tupleSQL;
+        if (tuple.getSchema().getColumnName(i).equals(primaryKey)) {
+          primaryValue = tuple.get(i);
+        }
+        if (i == tuple.getSchema().getColumnCount() - 1) {
+          request += ")";
+        } else {
+          request += ", ";
+        }
+      }
+      System.out.println(request);
+      pStatement = con.prepareStatement(request);
+      pStatement.executeUpdate(request);
+      rowIndexMap.put(this.getRowCount() - 1, primaryValue);
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+    } catch (Exception e) {
+      new ObviousRuntimeException(e);
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
+    return this.getRowCount();
+  }
+
+  /**
+   * Return the corresponding SQL Type as a string for a column in the schema.
+   * This method should not be called directly by the programmer.
+   * @param col column index
+   * @return SQL type of the column (string)
+   */
+  private String getColumnSQLType(int col) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      String request = "SELECT * FROM " + tableName;
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      ResultSetMetaData setMetadata = result.getMetaData();
+      return setMetadata.getColumnTypeName(col + 1); // JDBC cols start from 1
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return null;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2010, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -27,18 +27,23 @@
 
 package obvious.jdbc;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import obvious.ObviousException;
+import obvious.ObviousRuntimeException;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 
@@ -51,19 +56,19 @@ import obvious.data.util.IntIterator;
 public class JDBCObviousSchema implements Schema {
 
   /**
-   * JDBC connection.
+   * URL for the database.
    */
-  private Connection con;
+  private String url;
 
   /**
-   * JDBC Table metadata.
+   * Username for the database.
    */
-  private DatabaseMetaData metadata;
+  private String username;
 
   /**
-   * JDBC Table name.
+   * Password for the database.
    */
-  private String tableName;
+  private String password;
 
   /**
    * SQL Format Factory.
@@ -76,20 +81,64 @@ public class JDBCObviousSchema implements Schema {
   private Table schemaTable;
 
   /**
-   * Constructor.
-   * @param connection JDBC connection to use for this schema.
-   * @param tName name of the table to examine
-   * @throws ObviousException if something bad happens during metadata harvest.
+   * Name of the table associated to the schema.
    */
-  public JDBCObviousSchema(Connection connection, String tName)
-      throws ObviousException {
-    try {
-    this.con = connection;
-    this.metadata = con.getMetaData();
-    this.formatFactory = new FormatFactorySQL();
+  private String tableName;
+
+  /**
+   * Map between Column and their default value.
+   */
+  private Map<String, Object> defaultValues;
+
+  /**
+   * Constructor.
+   * @param driver driver for this database
+   * @param inUrl url for the database
+   * @param inUsername user name for the database
+   * @param inPswd password for the database
+   * @param tName of the table associated to this schema
+   */
+  public JDBCObviousSchema(String driver, String inUrl, String inUsername,
+      String inPswd, String tName) {
+    this.url = inUrl;
+    this.username = inUsername;
+    this.password = inPswd;
     this.tableName = tName;
-    } catch (Exception e) {
-      throw new ObviousException(e);
+    this.formatFactory = new FormatFactorySQL();
+    this.defaultValues = new HashMap<String, Object>();
+    try {
+      Class.forName(driver);
+    } catch (ClassNotFoundException e) {
+      System.err.print("ClassNotFoundException: ");
+      System.err.println(e.getMessage());
+    }
+  }
+
+  /**
+   * Checks if the table already exist in the database.
+   * @return true if already created
+   */
+  public boolean tableExist() {
+    Connection con = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      DatabaseMetaData  metadata = con.getMetaData();
+      String[] myTables = {"TABLE"};
+      ResultSet tables = metadata.getTables(null,
+      null, "%", myTables);
+      boolean existingTable = false;
+      while (tables.next()) {
+        if (tables.getString("TABLE_NAME").equalsIgnoreCase(tableName)) {
+          existingTable = true;
+          break;
+        }
+      }
+      return existingTable;
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return false;
+    } finally {
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -101,15 +150,32 @@ public class JDBCObviousSchema implements Schema {
    * @return the number of column if succeed else -1
    */
   public int addColumn(String name, Class<?> type, Object defaultValue) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
     try {
-    String typeSQL = this.formatFactory.getSQLType(type);
-    String request = "ALTER TABLE " + this.tableName + " ADD " + name + " "
-        + typeSQL;
-    Statement stmt = this.con.createStatement();
-    stmt.executeUpdate(request);
-    return this.getColumnCount();
+      con = DriverManager.getConnection(url, username, password);
+      String typeSQL = this.formatFactory.getSQLType(type);
+      String request = "";
+      // creating the table if not existing
+      if (!tableExist()) {
+        request = "CREATE TABLE " + this.tableName + " (" + name + " "
+          + typeSQL + ")";
+      } else {
+        request = "ALTER TABLE " + this.tableName + " ADD " + name + " "
+          + typeSQL;
+      }
+      pStatement = con.prepareStatement(request);
+      pStatement.executeUpdate(request);
+      defaultValues.put(name, defaultValue);
+      return this.getColumnCount();
     } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
       return -1;
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -121,11 +187,11 @@ public class JDBCObviousSchema implements Schema {
    * @return true if the types are compatibles
    */
   public boolean canGet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col >= this.getColumnCount()) {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        return (columnType == null ? false : c.isAssignableFrom(columnType));
     }
   }
 
@@ -138,7 +204,7 @@ public class JDBCObviousSchema implements Schema {
    */
   public boolean canGet(String field, Class<?> c) {
     int col = this.getColumnIndex(field);
-    return this.canGet(col, c);
+    return (col == -1 ? false : this.canGet(col, c));
   }
 
   /**
@@ -149,11 +215,11 @@ public class JDBCObviousSchema implements Schema {
    * @return true if the types compatibles
    */
   public boolean canSet(int col, Class<?> c) {
-    if (c == null) {
+    if (c == null || col >= this.getColumnCount()) {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
-        return c.isAssignableFrom(columnType);
+        return (columnType == null ? false : c.isAssignableFrom(columnType));
     }
   }
 
@@ -166,7 +232,7 @@ public class JDBCObviousSchema implements Schema {
    */
   public boolean canSet(String field, Class<?> c) {
     int col = this.getColumnIndex(field);
-    return this.canGet(col, c);
+    return (col == -1 ? false : this.canSet(col, c));
   }
 
   /**
@@ -175,15 +241,25 @@ public class JDBCObviousSchema implements Schema {
    * @return number of columns
    */
   public int getColumnCount() {
-    try {
-    int columnCount = 0;
-    ResultSet setColumn = metadata.getColumns(null, null, "%", null);
-    while (setColumn.next()) {
-      columnCount++;
+    if (!tableExist()) {
+      return 0;
     }
-    return columnCount;
-    } catch (Exception e) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      String request = "SELECT * FROM " + this.tableName;
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      return result.getMetaData().getColumnCount();
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
       return -1;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -193,7 +269,12 @@ public class JDBCObviousSchema implements Schema {
    * @return null for it's unused in this implementation
    */
   public Object getColumnDefault(int col) {
-    return null;
+    if (col < 0 || col >= this.getColumnCount()) {
+      return null;
+    } else {
+      String colName = this.getColumnName(col);
+      return colName == null ? null : defaultValues.get(colName);
+    }
   }
 
   /**
@@ -203,21 +284,29 @@ public class JDBCObviousSchema implements Schema {
    *
    */
   public int getColumnIndex(String field) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
     try {
-    String request = "SELECT * FROM " + this.tableName;
-    Statement stmt = this.con.createStatement();
-    ResultSet result = stmt.executeQuery(request);
-    ResultSetMetaData setMetadata = result.getMetaData();
-    for (int i = 0; i < setMetadata.getColumnCount(); i++) {
-      if (setMetadata.getColumnName(i).equals(field)) {
-        return i;
+      con = DriverManager.getConnection(url, username, password);
+      String request = "SELECT * FROM " + this.tableName;
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      ResultSetMetaData setMetadata = result.getMetaData();
+      for (int i = 1; i < setMetadata.getColumnCount() + 1; i++) {
+        if (setMetadata.getColumnName(i).equalsIgnoreCase(field)) {
+          return i - 1; // Obvious begins indexation with 0, JDBC with 1
+        }
       }
-    }
-    return -1;
+      return -1;
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println("SQLException: " + e.getMessage());
+      return -1;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return -1;
   }
 
   /**
@@ -226,16 +315,27 @@ public class JDBCObviousSchema implements Schema {
    * @return the name of the column
    */
   public String getColumnName(int col) {
-    try {
-      String request = "SELECT * FROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
-      ResultSetMetaData setMetadata = result.getMetaData();
-      return setMetadata.getColumnName(col);
-    } catch (SQLException e) {
-      e.printStackTrace();
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
+    if (col > this.getColumnCount() || !tableExist()) {
+      return null;
     }
-    return null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      String request = "SELECT * FROM " + this.tableName;
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
+      ResultSetMetaData setMetadata = result.getMetaData();
+      return setMetadata.getColumnName(col + 1);
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return null;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
   }
 
   /**
@@ -244,17 +344,27 @@ public class JDBCObviousSchema implements Schema {
    * @return a Java class
    */
   public Class<?> getColumnType(int col) {
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    ResultSet result = null;
     try {
+      con = DriverManager.getConnection(url, username, password);
       String request = "SELECT * FROM " + this.tableName;
-      Statement stmt = this.con.createStatement();
-      ResultSet result = stmt.executeQuery(request);
+      pStatement = con.prepareStatement(request);
+      result = pStatement.executeQuery(request);
       ResultSetMetaData setMetadata = result.getMetaData();
-      String className =  setMetadata.getColumnClassName(col);
+      String className =  setMetadata.getColumnClassName(col + 1);
       return Class.forName(className);
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return null;
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ObviousRuntimeException(e);
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return null;
   }
 
   /**
@@ -274,13 +384,21 @@ public class JDBCObviousSchema implements Schema {
    * @return true if the name exists.
    */
   public boolean hasColumn(String name) {
+    Connection con = null;
     ResultSet result = null;
     try {
+       con = DriverManager.getConnection(url, username, password);
+       DatabaseMetaData metadata = con.getMetaData();
        result = metadata.getColumns(null, null, this.tableName, name);
-    } catch (Exception e) {
-      e.printStackTrace();
+       return result == null;
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return false;
+    } finally {
+      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
-    return result == null;
+
   }
 
   /**
@@ -289,13 +407,29 @@ public class JDBCObviousSchema implements Schema {
    * @return true if removed
    */
   public boolean removeColumn(String field) {
-    try {
-    String request = "ALTER TABLE " + this.tableName + "DROP COLUMN " + field;
-      Statement stmt = this.con.createStatement();
-      stmt.executeUpdate(request);
-      return true;
-    } catch (SQLException e) {
+    if (!tableExist() || field == null) {
       return false;
+    }
+    Connection con = null;
+    PreparedStatement pStatement = null;
+    try {
+      con = DriverManager.getConnection(url, username, password);
+      String request = "";
+      if (this.getColumnCount() > 1) {
+        request = "ALTER TABLE " + this.tableName + " DROP COLUMN " + field;
+      } else  {
+        request = "DROP TABLE " + this.tableName;
+      }
+        pStatement = con.prepareStatement(request);
+        pStatement.executeUpdate(request);
+        defaultValues.remove(field);
+        return true;
+    } catch (SQLException e) {
+      System.err.println("SQLException: " + e.getMessage());
+      return false;
+    } finally {
+      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -407,6 +541,11 @@ public class JDBCObviousSchema implements Schema {
   public void set(int rowId, int col, Object val) {
     // TODO Auto-generated method stub
     
+  }
+
+  public int addRow(Tuple tuple) {
+    // TODO Auto-generated method stub
+    return 0;
   }
 
 }
