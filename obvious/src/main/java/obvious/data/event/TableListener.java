@@ -84,14 +84,20 @@ public interface TableListener {
     int INSERT = 1;
 
     /**
-     * Specify that the following calls to
-     * tableChanged belong to the same transaction.
+     * Specify that the following calls to tableChanged belong to the same
+     * transaction. It disables notifications.
+     * <p>
+     * This method could be used when a large number of modification
+     * are made on a Table and notifying everything would be time expansive.
+     * </p>
+     *
      */
     void beginEdit();
 
     /**
-     * Specify that the calls to tableChanged belonging to
-     * the same transaction are finished.
+     * Specify that the calls to tableChanged belonging to the same transaction
+     * are finished. It re-enables notifications
+     *
      */
     void endEdit();
 
@@ -103,9 +109,7 @@ public interface TableListener {
      * @param col the column that has changed, or
      * {@link EventConstants#ALL_COLUMNS} if the operation affects all
      * columns
-     * @param type the type of modification, one of
-     * {@link EventConstants#INSERT}, {@link EventConstants#DELETE}, or
-     * {@link EventConstants#UPDATE}.
+     * @param type the type of modification
      */
     void tableChanged(Table t, int start, int end, int col, int type);
 

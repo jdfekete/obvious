@@ -55,7 +55,6 @@ public class TableImpl implements Table {
   /**
    * Is the schema being edited.
    */
-
   private boolean editing;
   /**
    * Are rows removable.
@@ -90,6 +89,7 @@ public class TableImpl implements Table {
     this.schema = schemaIn;
     this.column = new HashMap<String, ArrayList<Object>>();
     this.columnIndex = new HashMap<String, Integer>();
+    this.listener = new ArrayList<TableListener>();
     for (int i = 0; i < schema.getColumnCount(); i++) {
       String title = schema.getColumnName(i);
       column.put(title, new ArrayList<Object>());
@@ -142,6 +142,9 @@ public class TableImpl implements Table {
    */
   public void beginEdit(int col) throws ObviousException {
     this.editing = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.beginEdit();
+    }
   }
 
   /**
@@ -151,6 +154,9 @@ public class TableImpl implements Table {
    */
   public void endEdit(int col) throws ObviousException {
     this.editing = false;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.endEdit();
+    }
   }
 
   /**
@@ -277,8 +283,8 @@ public class TableImpl implements Table {
         spottedArray.clear();
       }
     }
-    //this.fireTableEvent(0, this.getRowCount() - 1, TableListener.ALL_COLUMN,
-    //    TableListener.DELETE);
+    this.fireTableEvent(0, this.getRowCount() - 1, TableListener.ALL_COLUMN,
+        TableListener.DELETE);
   }
 
   /**
@@ -294,8 +300,8 @@ public class TableImpl implements Table {
         ArrayList<?> spottedArray = (ArrayList<Object>) e.getValue();
         spottedArray.remove(row);
       }
-      //this.fireTableEvent(row, row, TableListener.ALL_COLUMN,
-      //    TableListener.DELETE);
+      this.fireTableEvent(row, row, TableListener.ALL_COLUMN,
+          TableListener.DELETE);
       return true;
     } else {
       return false;
@@ -342,7 +348,7 @@ public class TableImpl implements Table {
         this.set(rowId, e.getKey(), val);
       }
     }
-    //this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
+    this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
   }
 
   /**
@@ -352,12 +358,12 @@ public class TableImpl implements Table {
    * @param col the column that has changed
    * @param type the type of modification
    */
-  /*
   protected void fireTableEvent(int start, int end, int col, int type) {
-    Iterator<TableListener> it = this.listener.iterator();
-    while (it.hasNext()) {
-      it.next().tableChanged(this, start, end, col, type);
-    }
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
   }
-  */
 }
