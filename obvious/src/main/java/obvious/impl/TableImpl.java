@@ -108,8 +108,8 @@ public class TableImpl implements Table {
             schema.getColumnIndex(e.getKey())));
       }
     }
-    //this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
-    //    TableListener.ALL_COLUMN, TableListener.INSERT);
+    this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
+        TableListener.ALL_COLUMN, TableListener.INSERT);
     return this.getRowCount();
   }
 
@@ -143,7 +143,7 @@ public class TableImpl implements Table {
   public void beginEdit(int col) throws ObviousException {
     this.editing = true;
     for (TableListener listnr : this.getTableListeners()) {
-      listnr.beginEdit();
+      listnr.beginEdit(col);
     }
   }
 
@@ -155,7 +155,7 @@ public class TableImpl implements Table {
   public void endEdit(int col) throws ObviousException {
     this.editing = false;
     for (TableListener listnr : this.getTableListeners()) {
-      listnr.endEdit();
+      listnr.endEdit(col);
     }
   }
 
