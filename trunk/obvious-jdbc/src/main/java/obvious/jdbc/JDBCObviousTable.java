@@ -284,7 +284,7 @@ public class JDBCObviousTable implements Table {
   public void beginEdit(int col) throws ObviousException {
     this.editing = true;
     for (TableListener listnr : this.getTableListeners()) {
-      listnr.beginEdit();
+      listnr.beginEdit(col);
     }
   }
 
@@ -343,7 +343,7 @@ public class JDBCObviousTable implements Table {
   public void endEdit(int col) throws ObviousException {
     this.editing = false;
     for (TableListener listnr : this.getTableListeners()) {
-      listnr.endEdit();
+      listnr.endEdit(col);
     }
   }
 
