@@ -85,21 +85,34 @@ public interface TableListener {
 
     /**
      * Specify that the following calls to tableChanged belong to the same
-     * transaction. It disables notifications.
+     * transaction.
      * <p>
      * This method could be used when a large number of modification
      * are made on a Table and notifying everything would be time expansive.
+     * For instance, it could disable notifications. The behavior of this
+     * method clearly depends of the purpose of the Obvious implementation.
      * </p>
+     * @param context an integer used, if needed, to identify the edition
+     * context of the edit.
      *
      */
-    void beginEdit();
+    void beginEdit(int context);
 
     /**
      * Specify that the calls to tableChanged belonging to the same transaction
-     * are finished. It re-enables notifications
-     *
+     * are finished.
+     * <p>
+     * This function could be used to re-enabled notifications for the current
+     * TableListener if they were disabled. It could also replay a stored
+     * context of the period where the notifications where disabled. The
+     * behavior of this method clearly depends of the purpose of the Obvious
+     * implementation.
+     * </p>
+     * @param context an integer used, if needed, to retrieve the edition
+     * context It could be used to execute further operations on the table
+     * (for instance replaying sequence of events).
      */
-    void endEdit();
+    void endEdit(int context);
 
     /**
      * Notification that a table has changed.
