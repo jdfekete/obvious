@@ -78,7 +78,7 @@ public class JungDataFactory extends DataFactory {
   }
 
   /**
-   * Returns a Network instance if the underlyingTable is an instance of
+   * Returns a Table instance if the underlyingTable is an instance of
    * an implementation of Table. Else, it will rise an exception.
    * @param underlyingTable a candidate Table
    * @return an Obvious Table
