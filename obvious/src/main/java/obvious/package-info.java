@@ -28,6 +28,15 @@
 /**
  * <h1>Package obvious</h1>
  *
- * TODO document the package.
+ * This package contains at the root level two exceptions : <br\>
+ * -) ObviousException to catch expected exception for each implementation <br\>
+ * -) ObviousRuntimeException to catch unexpected exceptions (implementation) <br\>
+ * 
+ * It contains the following sub-package : <br\>
+ * -) obvious.data : data model, see corresponding doc <br\>
+ * -) obvious.impl : basic implementation, see corresponding doc <br\>
+ * -) obvious.util : util package, see corresponding doc <br\>
+ * -) obvious.view : view management package, see corresponding doc <br\>
+ * -) obvious.viz : visualization package, see corresponding doc <br\>
  */
 package obvious;

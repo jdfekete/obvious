@@ -29,5 +29,6 @@
  * <h1>Package obvious.data</h1>
  *
  * This packages gives some simple implementation following obvious interfaces.
+ * They are used mainly as bootstrap for unit testing.
  */
 package obvious.impl;

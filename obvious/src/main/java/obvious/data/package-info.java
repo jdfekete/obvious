@@ -28,6 +28,10 @@
 /**
  * <h1>Package obvious.data</h1>
  *
- * TODO document the package.
+ * This package contains the standard interfaces for the Obvious data model.
+ * <p\>
+ * It contains the following sub-package : <br\>
+ * -) obvious.data.event : event package, see corresponding doc <br\>
+ * -) obvious.data.util : util package, see corresponding doc <br\>
  */
 package obvious.data;

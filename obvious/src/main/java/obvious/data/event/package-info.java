@@ -28,6 +28,6 @@
 /**
  * <h1>Package obvious.data.event</h1>
  *
- * TODO document the package.
+ * This package contains listener used for event management.
  */
 package obvious.data.event;

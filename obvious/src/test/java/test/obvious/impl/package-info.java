@@ -28,6 +28,7 @@
 /**
  * <h1>Package test.obvious.impl</h1>
  *
- * TODO document the package.
+ * This package contains unit test for TableImpl and SchemaImpl implementation.
+ * It illustrates also how to use the unit tests given in Obvious.
  */
 package test.obvious.impl;

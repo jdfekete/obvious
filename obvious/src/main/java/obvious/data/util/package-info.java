@@ -28,6 +28,7 @@
 /**
  * <h1>Package obvious.data.util</h1>
  *
- * TODO document the package.
+ * This package contains util interfaces for data model such as Iterator
+ * and Operator. 
  */
 package obvious.data.util;
