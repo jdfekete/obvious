@@ -50,7 +50,13 @@ import obviousx.io.ObviousTableModel;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVImportExample {
+public final class CSVImportExample {
+
+  /**
+   * Constructor.
+   */
+  private CSVImportExample() {
+  }
 
   /**
    * Main.

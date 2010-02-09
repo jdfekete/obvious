@@ -46,15 +46,19 @@ import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
 import obviousx.io.CSVImport;
 import obviousx.io.ObviousTableModel;
-import obviousx.util.FormatFactory;
-import obviousx.util.FormatFactoryImpl;
 
 /**
  * Second example for CVSImport use.
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVImportExample2 {
+public final class CSVImportExample2 {
+
+  /**
+   * Constructor.
+   */
+  private CSVImportExample2() {
+  }
 
   /**
    * Main.
