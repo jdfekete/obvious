@@ -28,6 +28,7 @@
 /**
  * <h1>Package obviousx.example</h1>
  *
- * TODO document the package.
+ * This package contains an implementation of java.text.Format.
+ * This is used for retrieved formats during import and export.
  */
 package obviousx.text;

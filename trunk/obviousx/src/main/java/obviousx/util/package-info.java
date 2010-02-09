@@ -28,6 +28,8 @@
 /**
  * <h1>Package obviousx.util</h1>
  *
- * TODO document the package.
+ * This package contains the FormatFactory class and some implementations of
+ * it. This class should be used to retrieve the good implementation of
+ * TypedFormat.
  */
 package obviousx.util;

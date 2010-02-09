@@ -28,6 +28,7 @@
 /**
  * <h1>Package obviousx</h1>
  *
- * TODO document the package.
+ * This package contains several importer for well known formats such as
+ * CSV and GraphML.
  */
 package obviousx.io;
