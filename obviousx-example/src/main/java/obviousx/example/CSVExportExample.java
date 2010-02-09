@@ -45,7 +45,13 @@ import obviousx.io.CSVExport;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVExportExample {
+public final class CSVExportExample {
+
+  /**
+   * Constructor.
+   */
+  private CSVExportExample() {
+  }
 
   /**
    * Main.
