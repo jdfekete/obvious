@@ -28,6 +28,7 @@
 /**
  * <h1>Package obvious.jung.data</h1>
  *
- * TODO document the package.
+ * This package contains Jung based Obvious implementation of Tree and
+ * Network Interfaces.
  */
 package obvious.jung.data;

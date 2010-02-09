@@ -28,6 +28,7 @@
 /**
  * <h1>Package obvious.jung</h1>
  *
- * TODO document the package.
+ *  This package contains unit test for JungObviousTree and JungObviousNetwork
+ *  implementation.
  */
 package test.obvious.jung;
