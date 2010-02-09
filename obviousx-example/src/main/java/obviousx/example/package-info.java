@@ -28,6 +28,9 @@
 /**
  * <h1>Package obviousx.example</h1>
  *
- * TODO document the package.
+ * This package contains examples of Obviousx methods usage.
+ * It takes the form of main methods.
+ * <p\>
+ * Relatives files are including in src/main/resources directory.
  */
 package obviousx.example;
