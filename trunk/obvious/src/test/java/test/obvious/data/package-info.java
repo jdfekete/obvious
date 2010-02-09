@@ -28,6 +28,9 @@
 /**
  * <h1>Package test.obvious.data</h1>
  *
- * TODO document the package.
+ * This package defines for each interface of the data model abstract classes
+ * that describes unit tests for each interface. They can be derivated for each
+ * implementation to accelerate unit test development when creating a new
+ * Obvious Implementation.
  */
 package test.obvious.data;
