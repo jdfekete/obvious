@@ -30,6 +30,7 @@ package obvious.prefuse;
 import java.util.Collection;
 
 import obvious.ObviousException;
+import obvious.ObviousRuntimeException;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tuple;
@@ -82,10 +83,14 @@ public class PrefuseObviousTable implements Table {
    * @return number of rows
    */
   public int addRow() {
-    if (this.canAddRow()) {
-      return this.table.addRow();
-    } else {
-      return -1;
+    try {
+      if (this.canAddRow()) {
+        return this.table.addRow();
+      } else {
+        return -1;
+      }
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
     }
   }
 
@@ -212,10 +217,13 @@ public class PrefuseObviousTable implements Table {
    *
    */
   public void removeAllRows() {
-    if (this.canRemoveRow()) {
-        this.table.clear();
+    try {
+      if (this.canRemoveRow()) {
+          this.table.clear();
       }
-
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -225,10 +233,14 @@ public class PrefuseObviousTable implements Table {
    * row was already invalid
    */
   public boolean removeRow(int row) {
-    if (this.canRemoveRow()) {
-      return this.table.removeRow(row);
-    } else {
-      return false;
+    try {
+      if (this.canRemoveRow()) {
+        return this.table.removeRow(row);
+      } else {
+        return false;
+      }
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
     }
   }
 
@@ -256,7 +268,11 @@ public class PrefuseObviousTable implements Table {
    * @param val value to set
    */
   public void set(int rowId, String field, Object val) {
-    this.table.set(rowId, field, val);
+    try {
+      this.table.set(rowId, field, val);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -266,7 +282,11 @@ public class PrefuseObviousTable implements Table {
    * @param val to set
    */
   public void set(int rowId, int col, Object val) {
-    this.table.setValueAt(rowId, col, val);
+    try {
+      this.table.setValueAt(rowId, col, val);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -275,11 +295,15 @@ public class PrefuseObviousTable implements Table {
    * @return row count
    */
   public int addRow(Tuple tuple) {
+    try {
     int r = addRow();
     for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
       this.set(r, tuple.getSchema().getColumnName(i), tuple.get(i));
     }
     return r;
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
 }

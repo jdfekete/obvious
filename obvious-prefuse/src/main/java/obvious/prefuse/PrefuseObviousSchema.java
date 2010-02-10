@@ -30,6 +30,7 @@ package obvious.prefuse;
 import java.util.Collection;
 
 import obvious.ObviousException;
+import obvious.ObviousRuntimeException;
 import obvious.data.Schema;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
@@ -93,8 +94,12 @@ public class PrefuseObviousSchema implements Schema {
    * @return the number of columns in the schema
    */
   public int addColumn(String name, Class<?> type, Object defaultValue) {
-    this.schema.addColumn(name, type, defaultValue);
-    return this.getColumnCount();
+    try {
+      this.schema.addColumn(name, type, defaultValue);
+      return this.getColumnCount();
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -253,7 +258,11 @@ public class PrefuseObviousSchema implements Schema {
    * @return number of rows
    */
   public int addRow() {
-    return this.schemaTable.addRow();
+    try {
+      return this.schemaTable.addRow();
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**

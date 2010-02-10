@@ -30,6 +30,7 @@ package obvious.prefuse;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import obvious.ObviousRuntimeException;
 import obvious.data.Edge;
 import obvious.data.Node;
 import obvious.data.Schema;
@@ -115,8 +116,7 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
       }
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
-      return false;
+      throw new ObviousRuntimeException(e);
     }
   }
 
