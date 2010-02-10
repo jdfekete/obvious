@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import obvious.ObviousRuntimeException;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
@@ -124,17 +125,22 @@ public class PrefuseObviousNetwork implements Network {
    */
   public boolean addEdge(Edge edge, Collection<? extends Node> nodes,
       obvious.data.Graph.EdgeType edgeType) {
-    if (null == nodes) {
-      throw new IllegalArgumentException("'nodes' parameter must not be null");
-    } else if (nodes.size() == 2) {
-      Node[] nodeArray = nodes.toArray(new Node[2]);
-      return this.addEdge(edge, nodeArray[0], nodeArray[1], edgeType);
-    } else if (nodes.size() == 1) {
-      Node[] nodeArray = nodes.toArray(new Node[1]);
-      return this.addEdge(edge, nodeArray[0], nodeArray[0], edgeType);
-    } else {
-      throw new IllegalArgumentException("Networks connect 1 or 2 nodes,"
-          + "'nodes' size is " + nodes.size());
+    try {
+      if (null == nodes) {
+        throw new IllegalArgumentException(
+            "'nodes' parameter must not be null");
+      } else if (nodes.size() == 2) {
+        Node[] nodeArray = nodes.toArray(new Node[2]);
+        return this.addEdge(edge, nodeArray[0], nodeArray[1], edgeType);
+      } else if (nodes.size() == 1) {
+        Node[] nodeArray = nodes.toArray(new Node[1]);
+        return this.addEdge(edge, nodeArray[0], nodeArray[0], edgeType);
+      } else {
+        throw new IllegalArgumentException("Networks connect 1 or 2 nodes,"
+            + "'nodes' size is " + nodes.size());
+      }
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
     }
   }
 
@@ -168,8 +174,7 @@ public class PrefuseObviousNetwork implements Network {
       }
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
-      return false;
+      throw new ObviousRuntimeException(e);
     }
   }
 
@@ -188,8 +193,7 @@ public class PrefuseObviousNetwork implements Network {
       }
       return true;
     } catch (Exception e) {
-      // if the node in parameter is not compatible with the current graph
-      return false;
+      throw new ObviousRuntimeException(e);
     }
   }
 
@@ -452,7 +456,11 @@ public class PrefuseObviousNetwork implements Network {
    * @return true if removed
    */
   public boolean removeEdge(Edge edge) {
-    return this.graph.removeEdge(edge.getRow());
+    try {
+      return this.graph.removeEdge(edge.getRow());
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -461,7 +469,11 @@ public class PrefuseObviousNetwork implements Network {
    * @return true if removed
    */
   public boolean removeNode(Node node) {
-    return this.graph.removeNode(node.getRow());
+    try {
+      return this.graph.removeNode(node.getRow());
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
 }
