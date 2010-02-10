@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 import edu.uci.ics.jung.graph.AbstractGraph;
 import edu.uci.ics.jung.graph.util.Pair;
 
+import obvious.ObviousRuntimeException;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
@@ -85,12 +86,16 @@ public class JungObviousNetwork implements Network {
    */
   public boolean addEdge(Edge edge, Collection<? extends Node> nodes,
       obvious.data.Graph.EdgeType edgeType) {
-    edu.uci.ics.jung.graph.util.EdgeType type =
-      edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED;
-    if (edgeType == obvious.data.Graph.EdgeType.DIRECTED) {
-      type = edu.uci.ics.jung.graph.util.EdgeType.DIRECTED;
+    try {
+      edu.uci.ics.jung.graph.util.EdgeType type =
+        edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED;
+      if (edgeType == obvious.data.Graph.EdgeType.DIRECTED) {
+        type = edu.uci.ics.jung.graph.util.EdgeType.DIRECTED;
+      }
+      return this.jungGraph.addEdge(edge, nodes, type);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
     }
-    return this.jungGraph.addEdge(edge, nodes, type);
   }
 
   /**
@@ -103,12 +108,16 @@ public class JungObviousNetwork implements Network {
    */
   public boolean addEdge(Edge edge, Node source, Node target,
       obvious.data.Graph.EdgeType edgeType) {
-    edu.uci.ics.jung.graph.util.EdgeType type =
-      edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED;
-    if (edgeType == obvious.data.Graph.EdgeType.DIRECTED) {
-      type = edu.uci.ics.jung.graph.util.EdgeType.DIRECTED;
+    try {
+      edu.uci.ics.jung.graph.util.EdgeType type =
+        edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED;
+      if (edgeType == obvious.data.Graph.EdgeType.DIRECTED) {
+        type = edu.uci.ics.jung.graph.util.EdgeType.DIRECTED;
+      }
+      return this.jungGraph.addEdge(edge, source, target, type);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
     }
-    return this.jungGraph.addEdge(edge, source, target, type);
   }
 
   /**
@@ -117,7 +126,11 @@ public class JungObviousNetwork implements Network {
    * @return true if added
    */
   public boolean addNode(Node node) {
-    return this.jungGraph.addVertex(node);
+    try {
+      return this.jungGraph.addVertex(node);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -267,7 +280,11 @@ public class JungObviousNetwork implements Network {
    * @return true if removed
    */
   public boolean removeEdge(Edge edge) {
-    return this.jungGraph.removeEdge(edge);
+    try {
+      return this.jungGraph.removeEdge(edge);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
@@ -276,7 +293,11 @@ public class JungObviousNetwork implements Network {
    * @return true if removed
    */
   public boolean removeNode(Node node) {
+    try {
     return this.jungGraph.removeVertex(node);
+    } catch (Exception e) {
+      throw new ObviousRuntimeException(e);
+    }
   }
 
   /**
