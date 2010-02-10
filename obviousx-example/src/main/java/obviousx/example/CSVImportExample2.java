@@ -88,7 +88,7 @@ public final class CSVImportExample2 {
     importer.loadTable();
 
     // Display Obvious Table
-    
+
     TableModel tableModeled = new ObviousTableModel(table);
     JTable jtable = new JTable(tableModeled);
 
