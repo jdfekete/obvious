@@ -33,9 +33,12 @@ import java.text.ParsePosition;
 import java.util.HashMap;
 import java.util.Map;
 
+import obvious.data.Network;
+import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
+import obvious.impl.TupleImpl;
 import obviousx.ObviousxException;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
@@ -72,7 +75,7 @@ public class GraphMLImport implements Importer {
   /**
    * Input table, that will be loaded with content of the external medium.
    */
-  private Table table;
+  private Network network;
 
   /**
    * FormatFactory of this Importer.
@@ -100,19 +103,25 @@ public class GraphMLImport implements Importer {
   private String targetCol;
 
   /**
+   * Is the schema loaded?
+   */
+  private boolean schemaLoaded = false;
+
+  /**
    * Constructor for GraphMLImport.
    * @param inputFile external file to load
-   * @param inputTable table to fill with the content of the file
+   * @param inputNetwork network to fill with the content of the file
    * @param source sourceNode column name in edgeSchema
    * @param target targetNode column name in edgeSchema
    * @throws ObviousxException if failed to create XML Pull parser
    */
-  public GraphMLImport(File inputFile, Table inputTable, String source,
+  public GraphMLImport(File inputFile, Network inputNetwork, String source,
       String target) throws ObviousxException {
     try {
       this.file = inputFile;
       this.nodeSchema = new SchemaImpl();
       this.edgeSchema = new SchemaImpl();
+      this.network = inputNetwork;
       this.formatFactory = new FormatFactoryImpl();
       this.sourceCol = source;
       this.targetCol = target;
@@ -125,7 +134,11 @@ public class GraphMLImport implements Importer {
       throw new ObviousxException(e);
     }
   }
-  
+
+  /**
+   * Returns node schema.
+   * @return node schema
+   */
   public Schema getNodeSchema() {
     return nodeSchema;
   }
@@ -143,7 +156,22 @@ public class GraphMLImport implements Importer {
    * @throws ObviousxException when exception occurs
    */
   public void loadTable() throws ObviousxException {
-    // TODO Auto-generated method stub
+    try {
+      if (!schemaLoaded) {
+        readSchema();
+      }
+      int eventType = xpp.getEventType();
+      do {
+        if (eventType == XmlPullParser.START_TAG
+            && xpp.getName().equals("graph")) {
+          processGraphElement();
+        } else {
+          eventType = xpp.nextTag();
+        }
+      } while (eventType != XmlPullParser.END_DOCUMENT);
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
   }
 
   /**
@@ -154,7 +182,6 @@ public class GraphMLImport implements Importer {
     try {
       int eventType = xpp.getEventType();
       do {
-        System.out.println(xpp.getName());
         if (eventType == XmlPullParser.START_DOCUMENT) {
           eventType = xpp.nextTag();
         } else if (eventType == XmlPullParser.START_TAG
@@ -166,6 +193,7 @@ public class GraphMLImport implements Importer {
           eventType = xpp.nextTag();
         }
       } while (!xpp.getName().equals("graph"));
+      schemaLoaded = true;
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -183,7 +211,7 @@ public class GraphMLImport implements Importer {
    * Process a "key" element in GraphML file.
    * It will load the metadata (e.g. name, type, default value) in the
    * corresponding schema.
-   * @throws ObviousxException if parsing failed
+   * @throws ObviousxException when parsing failed
    */
   private void processKeyElement() throws ObviousxException {
     try {
@@ -219,15 +247,85 @@ public class GraphMLImport implements Importer {
       } else {
         currentSchema = edgeSchema;
       }
-      System.out.println(columnName + ", " + type + ", " + defaultValue);
       TypedFormat format = formatFactory.getFormat(type);
       Object value = format.parseObject(defaultValue, new ParsePosition(0));
       currentSchema.addColumn(columnName, format.getFormattedClass(), value);
       idToName.put(id, columnName);
-      System.out.println("here we are");
       xpp.nextTag();
       xpp.nextTag();
-      System.out.println(xpp.getName());
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
+  }
+
+  /**
+   * Process a "graph" element in the graph.
+   * @throws ObviousxException when parsing failed
+   */
+  private void processGraphElement() throws ObviousxException {
+    try {
+      int eventType = xpp.nextTag();
+      if (xpp.getName().equals("node")) {
+        processNodeElement();
+      } else if (xpp.getName().equals("edge")) {
+        processEdgeElement();
+      } else {
+        xpp.nextTag();
+      }
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
+  }
+
+  /**
+   * Process a "node" element in the graph.
+   * @throws ObviousxException when parsing failed
+   */
+  private void processNodeElement() throws ObviousxException {
+    try {
+      Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
+      for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
+        nodeAttr[i] = nodeSchema.getColumnDefault(i);
+      }
+      int eventType = xpp.nextTag();
+      do {
+        if (xpp.getName().equals("data")
+            && eventType == XmlPullParser.START_TAG) {
+          for (int i = 0; i < xpp.getAttributeCount(); i++) {
+            if (xpp.getAttributeName(i).equals("id")) {
+              String colName = idToName.get(xpp.getAttributeValue(i));
+              String stringValue = xpp.nextText();
+              TypedFormat format = formatFactory.getFormat(
+                  nodeSchema.getColumnType(colName).getName());
+              Object value = format.parseObject(stringValue,
+                  new ParsePosition(0));
+              nodeAttr[nodeSchema.getColumnIndex(colName)] = value;
+              break;
+            }
+          }
+          eventType = xpp.nextTag();
+        } else {
+          eventType = xpp.nextTag();
+        }
+      } while (!xpp.getName().equals("node"));
+      Node node = (Node) new TupleImpl(nodeSchema, nodeAttr);
+      network.addNode(node);
+      xpp.nextTag();
+    } catch (Exception e) {
+      throw new ObviousxException(e);
+    }
+  }
+
+  /**
+   * Process an "edge" element of the graph.
+   * @throws ObviousxException when parsing failed
+   */
+  private void processEdgeElement() throws ObviousxException {
+    try {
+      Object[] edgeAttr = new Object[edgeSchema.getColumnCount()];
+      for (int i = 0; i < edgeSchema.getColumnCount(); i++) {
+        edgeAttr[i] = edgeSchema.getColumnDefault(i);
+      }
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
