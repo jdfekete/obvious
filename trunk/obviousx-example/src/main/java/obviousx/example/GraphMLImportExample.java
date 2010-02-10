@@ -54,6 +54,7 @@ public final class GraphMLImportExample {
    * @throws ObviousxException when importation failed
    */
   public static void main(String[] args) throws ObviousxException {
+    String[] t = new String[3];
 
     // Load GraphML File
     File inputFile = new File("src/main/resources/example.graphML");
@@ -65,8 +66,6 @@ public final class GraphMLImportExample {
         "target");
     importer.readSchema();
     Schema nodeSchema = importer.getNodeSchema();
-
-    System.out.println("toto");
 
     for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
       System.out.print(nodeSchema.getColumnName(i) + ", ");
