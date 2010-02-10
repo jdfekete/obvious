@@ -185,13 +185,13 @@ public final class FormatFactoryImpl implements FormatFactory {
     private Class<?> type;
 
     /**
-     * Constructor with accurate type paramater.
+     * Constructor with accurate type parameter.
      * @param numberType accurate Type of the Number
      */
     public TypedDecimalFormat(String numberType) {
       super();
       String typeLow = numberType.toLowerCase();
-      if (typeLow.equals("integer")) {
+      if (typeLow.equals("integer") || typeLow.equals("int")) {
         this.type = Integer.class;
       } else if (typeLow.equals("double")) {
         this.type = Double.class;
@@ -272,7 +272,7 @@ public final class FormatFactoryImpl implements FormatFactory {
     if (typeLow.equals("integer") || typeLow.equals("double")
         || typeLow.equals("float") || typeLow.equals("short")
         || typeLow.equals("byte") || typeLow.equals("long")
-        || typeLow.equals("number")) {
+        || typeLow.equals("number") || typeLow.equals("int")) {
       return new TypedDecimalFormat(type);
     } else if (typeLow.equals("date")) {
       return new TypedDateFormat("dd/MM/yyyy");
