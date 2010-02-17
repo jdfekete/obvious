@@ -51,21 +51,40 @@ public class PrefuseObviousNetwork implements Network {
   private prefuse.data.Graph graph;
 
   /**
+   * Column used as node id, when default prefuse parameters
+   * are overriden.
+   */
+  private String nodeKey;
+
+  /**
+   * Column used in edgeTable to identify sourceNode.
+   */
+  private String sourceKey;
+
+  /**
+   * Column used in edgeTable to identify sourceNode.
+   */
+  private String targetKey;
+
+  /**
    * Constructor from obvious schemas and extra parameters.
    * @param nodeSchema original schema for the nodes
    * @param edgeSchema original schema for the edges
    * @param directed boolean indicating if the graph is directed or not
-   * @param nodeKey nodeKey data field used to uniquely identify a node. If this
+   * @param nodeId nodeKey data field used to uniquely identify a node. If this
    * field is null, the node table row numbers will be used
-   * @param sourceKey data field used to denote the source node in an edge
+   * @param sourceId data field used to denote the source node in an edge
    * table
-   * @param targetKey data field used to denote the target node in an edge
+   * @param targetId data field used to denote the target node in an edge
    * table
    */
   public PrefuseObviousNetwork(Schema nodeSchema, Schema edgeSchema,
-      boolean directed, String nodeKey, String sourceKey, String targetKey) {
+      boolean directed, String nodeId, String sourceId, String targetId) {
     Table node = new PrefuseObviousTable(nodeSchema);
     Table edge = new PrefuseObviousTable(edgeSchema);
+    this.nodeKey = nodeId;
+    this.sourceKey = sourceId;
+    this.targetKey = targetId;
     this.graph = new prefuse.data.Graph((
         (PrefuseObviousTable) node).getPrefuseTable(),
         ((PrefuseObviousTable) edge).getPrefuseTable(), false,
@@ -78,11 +97,9 @@ public class PrefuseObviousNetwork implements Network {
    * @param edgeSchema original schema for the edges.
    */
   public PrefuseObviousNetwork(Schema nodeSchema , Schema edgeSchema) {
-    Table node = new PrefuseObviousTable(nodeSchema);
-    Table edge = new PrefuseObviousTable(edgeSchema);
-    this.graph = new prefuse.data.Graph((
-        (PrefuseObviousTable) node).getPrefuseTable(),
-        ((PrefuseObviousTable) edge).getPrefuseTable(), false);
+    this(nodeSchema, edgeSchema, false, prefuse.data.Graph.DEFAULT_NODE_KEY,
+        prefuse.data.Graph.DEFAULT_SOURCE_KEY,
+        prefuse.data.Graph.DEFAULT_TARGET_KEY);
   }
 
   /**
@@ -91,6 +108,9 @@ public class PrefuseObviousNetwork implements Network {
    */
   public PrefuseObviousNetwork(prefuse.data.Graph prefGraph) {
     this.graph = prefGraph;
+    this.nodeKey = prefGraph.getNodeKeyField();
+    this.sourceKey = prefGraph.getEdgeSourceField();
+    this.nodeKey = prefGraph.getEdgeTargetField();
   }
 
   /**
@@ -157,16 +177,13 @@ public class PrefuseObviousNetwork implements Network {
     try {
       // prefuse creates a new edge, so will have to fill it with
       // existing informations of the parameter edge.
-      prefuse.data.Edge prefEdge = this.graph.getEdge(
-          graph.addEdge(source.getRow(), target.getRow()));
-      // graph.getEdge(source.getRow(), target.getRow()));
+      prefuse.data.Edge prefEdge = graph.addEdge(graph.getNode(source.getRow()),
+          graph.getNode(target.getRow()));
       // harvesting informations from parameter edge...
       for (int i = 0; i < prefEdge.getColumnCount(); i++) {
         String colName = prefEdge.getColumnName(i);
-        String sourceGraphName = prefuse.data.Graph.DEFAULT_SOURCE_KEY;
-        String targetGraphName = prefuse.data.Graph.DEFAULT_TARGET_KEY;
-        Boolean graphCol = colName.equals(sourceGraphName) || colName.equals(
-            targetGraphName);
+        Boolean graphCol = colName.equals(sourceKey) || colName.equals(
+            targetKey);
         // preventing overriding of prefuse internal values for graph model!
         if (!graphCol && edge.get(colName) != null) {
           prefEdge.set(colName, edge.get(colName));
@@ -177,6 +194,7 @@ public class PrefuseObviousNetwork implements Network {
       throw new ObviousRuntimeException(e);
     }
   }
+
 
   /**
    * Adds a given node to the current graph.
@@ -189,7 +207,7 @@ public class PrefuseObviousNetwork implements Network {
       // i.e their schema are compatible.
       prefuse.data.Node prefNode = this.graph.addNode();
       for (int i = 0; i < node.getTable().getSchema().getColumnCount(); i++) {
-        prefNode.setValueAt(i, node.get(i));
+        prefNode.set(node.getSchema().getColumnName(i), node.get(i));
       }
       return true;
     } catch (Exception e) {
