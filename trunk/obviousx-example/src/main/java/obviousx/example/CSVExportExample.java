@@ -41,7 +41,7 @@ import obviousx.ObviousxException;
 import obviousx.io.CSVExport;
 
 /**
- * Example class for CVExport.
+ * Example class for CSVExport.
  * @author Pierre-Luc Hemery
  *
  */
@@ -70,7 +70,7 @@ public final class CSVExportExample {
       filePath = args[0];
       factoryPath = args[1];
     } catch (ArrayIndexOutOfBoundsException e) {
-      filePath = "C:\\outputObvious\\stupidtest\\DefaultTest.csv";
+      filePath = "C:\\outputObvious\\DefaultTest";
       factoryPath = "obvious.impl.DataFactoryImpl";
     }
 
