@@ -28,6 +28,7 @@
 package obvious.impl;
 
 import obvious.data.Node;
+import obvious.data.Schema;
 import obvious.data.Table;
 
 /**
@@ -47,7 +48,17 @@ public class NodeImpl extends TupleImpl implements Node {
     super(tableIn, rowId);
   }
 
-  /*
+  /**
+   * Constructor from a schema with input values.
+   * The values have to be ordered in the correct order for the schema.
+   * @param schema schema for the tuple
+   * @param values value for the tuple
+   */
+  public NodeImpl(Schema schema, Object[] values) {
+    super(schema, values);
+  }
+
+  /**
    * Indicates if the current node is equals to this object.
    * It compares the schema, and the value for each column of the schema.
    * @param o test object
