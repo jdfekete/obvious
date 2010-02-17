@@ -122,10 +122,8 @@ public class CSVExport implements Exporter {
       title[i] = this.table.getSchema().getColumnName(i);
       type[i] = this.table.getSchema().getColumnType(i).getSimpleName();
       try {
-        TypedFormat format =
-          formatFactory
-            .getFormat(this.table.getSchema().getColumnDefault(i)
-                .getClass().getSimpleName());
+        TypedFormat format = formatFactory.getFormat(
+            table.getSchema().getColumnDefault(i).getClass().getSimpleName());
         defaultValue[i] =
           ((Format) format).format(this.table.getSchema().getColumnDefault(i));
       } catch (NullPointerException e) {
