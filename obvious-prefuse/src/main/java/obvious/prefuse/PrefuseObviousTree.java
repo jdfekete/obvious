@@ -51,17 +51,26 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
   private Collection<Tree<Node, Edge>> forest;
 
   /**
-   * Constructor from Obvious schema(s) for edges and nodes.
+   * Constructor from Obvious schema(s) for edges and nodes with specific
+   * id.
    * @param nodeSchema original node schema
    * @param edgeSchema original edge schema
+   * @param nodeId nodeKey data field used to uniquely identify a node. If this
+   * field is null, the node table row numbers will be used
+   * @param source data field used to identify the source node in an edge
+   * table
+   * @param target data field used to identify the target node in an edge
+   * table
    */
-  public PrefuseObviousTree(Schema nodeSchema , Schema edgeSchema) {
+  public PrefuseObviousTree(Schema nodeSchema , Schema edgeSchema,
+      String nodeId, String source, String target) {
     super();
     Table node = new PrefuseObviousTable(nodeSchema);
     Table edge = new PrefuseObviousTable(edgeSchema);
     prefuse.data.Tree prefTree = new prefuse.data.Tree(
         ((PrefuseObviousTable) node).getPrefuseTable(),
-        ((PrefuseObviousTable) edge).getPrefuseTable());
+        ((PrefuseObviousTable) edge).getPrefuseTable(), nodeId, source,
+        target);
     this.setPrefuseGraph(prefTree);
     if (this.forest == null) {
       this.forest = new ArrayList<Tree<Node, Edge>>();
@@ -69,6 +78,17 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
     if (!this.forest.contains(this)) {
       this.forest.add(this);
     }
+  }
+
+  /**
+   * Constructor from Obvious schema(s) for edges and nodes.
+   * @param nodeSchema original node schema
+   * @param edgeSchema original edge schema
+   */
+  public PrefuseObviousTree(Schema nodeSchema , Schema edgeSchema) {
+    this(nodeSchema, edgeSchema, prefuse.data.Tree.DEFAULT_NODE_KEY,
+        prefuse.data.Tree.DEFAULT_SOURCE_KEY,
+        prefuse.data.Tree.DEFAULT_TARGET_KEY);
   }
 
   /**
@@ -82,41 +102,6 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
     }
     if (!this.forest.contains(this)) {
       this.forest.add(this);
-    }
-  }
-
-  /**
-   * Adds an edge to the graph.
-   * @param edge edge to add
-   * @param source source node
-   * @param target target node
-   * @param edgeType unused parameter
-   * @return boolean status success
-   */
-  @Override
-  public boolean addEdge(Edge edge, Node source, Node target,
-      obvious.data.Graph.EdgeType edgeType) {
-    try {
-      // prefuse creates a new edge, so will have to fill it with
-      // existing informations of the parameter edge.
-      prefuse.data.Edge prefEdge = getPrefuseGraph().getEdge(
-          getPrefuseGraph().addEdge(source.getRow(), target.getRow()));
-      // graph.getEdge(source.getRow(), target.getRow()));
-      // harvesting informations from parameter edge...
-      for (int i = 0; i < prefEdge.getColumnCount(); i++) {
-        String colName = prefEdge.getColumnName(i);
-        String sourceTreeName = prefuse.data.Tree.DEFAULT_SOURCE_KEY;
-        String targetTreeName = prefuse.data.Tree.DEFAULT_TARGET_KEY;
-        Boolean treeCol = colName.equals(sourceTreeName) || colName.equals(
-            targetTreeName);
-        // preventing overriding of prefuse internal values for graph model!
-        if (!treeCol && edge.get(colName) != null) {
-          prefEdge.set(colName, edge.get(colName));
-        }
-      }
-      return true;
-    } catch (Exception e) {
-      throw new ObviousRuntimeException(e);
     }
   }
 
