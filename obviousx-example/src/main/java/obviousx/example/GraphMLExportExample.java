@@ -27,59 +27,68 @@
 
 package obviousx.example;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Edge;
+import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.impl.DataFactoryImpl;
+import obvious.impl.EdgeImpl;
+import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.GraphMLImport;
-
-import org.xmlpull.v1.XmlPullParserFactory;
+import obviousx.io.GraphMLExport;
 
 /**
- * Example of GraphMLImport usage.
+ * Example class for GraphMLExport.
  * @author Pierre-Luc Hemery
  *
  */
-public final class GraphMLImportExample {
+public final class GraphMLExportExample {
+
+  /**
+   * Number of nodes.
+   */
+  public static final int NODENUMBER = 6;
+  
+  /**
+   * Number of nodes.
+   */
+  public static final int EDGENUMBER = 6;
 
   /**
    * Constructor.
    */
-  private GraphMLImportExample() {
+  private GraphMLExportExample() {
   }
 
   /**
-   * Main method.
-   * @param args argument of the main
-   * @throws ObviousxException when importation failed
-   * @throws ObviousException when importation failed
+   * Main.
+   * @param args arguments for the main.
+   * @throws ObviousException when Network creation failed
+   * @throws ObviousxException when export failed
    */
-  public static void main(String[] args) throws ObviousxException,
-      ObviousException {
+  public static void main(String[] args) throws ObviousException,
+      ObviousxException {
 
+    // Preparing file creation
+    String filePath = "";
     String factoryPath = "";
 
     try {
-      factoryPath = args[0];
+      filePath = args[0];
+      factoryPath = args[1];
     } catch (ArrayIndexOutOfBoundsException e) {
+      filePath = "C:\\outputObvious\\DefaultTest.graphml";
       factoryPath = "obvious.prefuse.PrefuseDataFactory";
     }
 
-    // Load GraphML File
-    File inputFile = new File("src/main/resources/example.graphML");
-    System.setProperty(XmlPullParserFactory.PROPERTY_NAME,
-        "org.kxml2.io.KXmlParser");
-
-    // Create network
+    // Preparing network to export in GraphML
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeId", int.class, 0);
     nodeSchema.addColumn("color", String.class, "yellow");
@@ -97,27 +106,36 @@ public final class GraphMLImportExample {
     paramMap.put("nodeKey", "nodeId");
     Network network = dFactory.createGraph("net", nodeSchema,
         edgeSchema, paramMap);
-    // Create GraphMLImporter
-    GraphMLImport importer = new GraphMLImport(inputFile, network, "sourceNode",
-        "targetNode", "nodeId");
-    importer.readSchema();
-    importer.loadTable();
 
-    System.out.println("Nodes : ");
-    for (Node node : network.getNodes()) {
-      for (int i = 0; i < node.getSchema().getColumnCount(); i++) {
-        System.out.print(node.get(i) + ", ");
-      }
-      System.out.println();
+    // Creating and adding nodes to the network
+    String[] color = {"blue", "red", "green", "indigo", "pink", "grey"};
+
+    for (int i = 0; i < NODENUMBER; i++) {
+      Object[] values = {i, color[i]};
+      Node node = new NodeImpl(nodeSchema, values);
+      network.addNode(node);
     }
 
-    System.out.println("Edges : ");
-    for (Edge edge : network.getEdges()) {
-      for (int i = 0; i < edge.getSchema().getColumnCount(); i++) {
-        System.out.print(edge.get(i) + ", ");
+    // Creating and adding edges to the network
+    Object[][] edgeValue = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}};
+
+    for (int i = 0; i < EDGENUMBER; i++) {
+      Edge edge = new EdgeImpl(edgeSchema, edgeValue[i]);
+      Node sourceNode = null, targetNode = null;
+      for (Node node : network.getNodes()) {
+        if (node.get("nodeId").equals(edgeValue[i][0])) {
+          sourceNode = node;
+        }
+        if (node.get("nodeId").equals(edgeValue[i][1])) {
+          targetNode = node;
+        }
       }
-      System.out.println();
+      network.addEdge(edge, sourceNode, targetNode, Graph.EdgeType.UNDIRECTED);
     }
+
+    // Creating exporter
+    GraphMLExport exporter = new GraphMLExport(filePath, network,
+        nodeSchema, edgeSchema);
+    exporter.createFile();
   }
-
 }
