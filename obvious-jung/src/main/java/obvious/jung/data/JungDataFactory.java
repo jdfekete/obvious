@@ -94,8 +94,8 @@ public class JungDataFactory extends DataFactory {
   }
 
   /**
-   * Returns an Obvious Network. Obvious Jung networks only use schemas
-   * as constructor's parameter.
+   * Returns an Obvious Network. Obvious Jung networks accepts column names
+   * id for edge schema to identify source and target nodes.
    * @param name name of the table
    * @param nodeSchema original schema for nodes
    * @param edgeSchema original schema for edges
@@ -106,7 +106,14 @@ public class JungDataFactory extends DataFactory {
   @Override
   public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
-    return createGraph(name, nodeSchema, edgeSchema);
+    if (!param.containsKey("sourceKey")) {
+      param.put("sourceKey", JungObviousNetwork.JungGraph.SRCNODE);
+    }
+    if (!param.containsKey("targetKey")) {
+      param.put("targetKey",  JungObviousNetwork.JungGraph.DESTNODE);
+    }
+    return new JungObviousNetwork(nodeSchema, edgeSchema,
+        (String) param.get("sourceKey"), (String) param.get("targetKey"));
   }
 
   /**

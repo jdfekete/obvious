@@ -78,6 +78,19 @@ public class JungObviousNetwork implements Network {
   }
 
   /**
+   * Constructor from Obvious Schema.
+   * @param nodeSchema schema for the node Table
+   * @param edgeSchema schema for the edge Table
+   * @param source column name used in edge schema to identify source node
+   * @param target column name used in edge schema to identify target node
+   */
+  public JungObviousNetwork(Schema nodeSchema, Schema edgeSchema,
+      String source, String target) {
+    JungGraph graph = new JungGraph(nodeSchema, edgeSchema, source, target);
+    this.jungGraph = graph;
+  }
+
+  /**
    * Adds a hyperedge.
    * @param edge to add
    * @param nodes concerned by addition
@@ -163,7 +176,7 @@ public class JungObviousNetwork implements Network {
     if (type == edu.uci.ics.jung.graph.util.EdgeType.DIRECTED) {
       return obvious.data.Graph.EdgeType.DIRECTED;
     } else {
-      return obvious.data.Graph.EdgeType.DIRECTED;
+      return obvious.data.Graph.EdgeType.UNDIRECTED;
     }
   }
 
@@ -324,6 +337,16 @@ public class JungObviousNetwork implements Network {
     protected Map<Edge, edu.uci.ics.jung.graph.util.EdgeType> edgeTypeMap;
 
     /**
+     * Column used to spot source node in edge table.
+     */
+    private String sourceCol;
+
+    /**
+     * Column used to spot target node in edge table.
+     */
+    private String targetCol;
+
+    /**
      * Name for the Source Node index in edgeSchema.
      */
     public static final String SRCNODE = "SRCNODE";
@@ -337,15 +360,29 @@ public class JungObviousNetwork implements Network {
      * Constructor for Jung Graph.
      * @param nodeSchema schema for the nodeTable
      * @param edgeSchema schema for the edgeTable
+     * @param source column name used in edge schema to identify source node
+     * @param target column name used in edge schema to identify target node
      */
-    protected JungGraph(Schema nodeSchema, Schema edgeSchema) {
+    protected JungGraph(Schema nodeSchema, Schema edgeSchema,
+        String source, String target) {
       this.nodeTable = new TableImpl(nodeSchema);
       this.edgeTable = new TableImpl(edgeSchema);
+      this.sourceCol = source;
+      this.targetCol = target;
       this.edgeTypeMap =
         new HashMap<Edge, edu.uci.ics.jung.graph.util.EdgeType>();
       for (int i = 0; i < edgeTable.getRowCount(); i++) {
         this.edgeTypeMap.put(new EdgeImpl(edgeTable, i), getDefaultEdgeType());
       }
+    }
+
+    /**
+     * Constructor for Jung Graph.
+     * @param nodeSchema schema for the nodeTable
+     * @param edgeSchema schema for the edgeTable
+     */
+    protected JungGraph(Schema nodeSchema, Schema edgeSchema) {
+      this(nodeSchema, edgeSchema, SRCNODE, DESTNODE);
     }
 
     @Override
@@ -356,15 +393,15 @@ public class JungObviousNetwork implements Network {
         return false;
       } else {
         edgeTable.addRow();
-        edge.set(SRCNODE, nodes.getFirst().getRow());
-        edge.set(DESTNODE, nodes.getSecond().getRow());
-        edgeTable.set(edgeTable.getRowCount() - 1, SRCNODE,
+        edge.set(sourceCol, nodes.getFirst().getRow());
+        edge.set(targetCol, nodes.getSecond().getRow());
+        edgeTable.set(edgeTable.getRowCount() - 1, sourceCol,
             nodes.getFirst().getRow());
-        edgeTable.set(edgeTable.getRowCount() - 1, DESTNODE,
+        edgeTable.set(edgeTable.getRowCount() - 1, targetCol,
             nodes.getSecond().getRow());
         for (int i = 0; i < edgeTable.getSchema().getColumnCount(); i++) {
-          if (!edgeTable.getSchema().getColumnName(i).equals(SRCNODE)
-              && !edgeTable.getSchema().getColumnName(i).equals(DESTNODE)) {
+          if (!edgeTable.getSchema().getColumnName(i).equals(sourceCol)
+              && !edgeTable.getSchema().getColumnName(i).equals(targetCol)) {
             edgeTable.set(edgeTable.getRowCount() - 1, i,
                 edge.get(edgeTable.getSchema().getColumnName(i)));
           }
@@ -394,7 +431,7 @@ public class JungObviousNetwork implements Network {
           || !containsEdge(e)) {
         return null;
       } else {
-        return new NodeImpl(nodeTable, e.getInt(DESTNODE));
+        return new NodeImpl(nodeTable, e.getInt(targetCol));
       }
     }
 
@@ -405,8 +442,8 @@ public class JungObviousNetwork implements Network {
      */
     public Pair<Node> getEndpoints(Edge edge) {
       Pair<Node> endpoint =
-        new Pair<Node>(new NodeImpl(nodeTable, edge.getInt(SRCNODE)),
-            new NodeImpl(nodeTable, edge.getInt(DESTNODE)));
+        new Pair<Node>(new NodeImpl(nodeTable, edge.getInt(sourceCol)),
+            new NodeImpl(nodeTable, edge.getInt(targetCol)));
       return endpoint;
     }
 
@@ -421,12 +458,12 @@ public class JungObviousNetwork implements Network {
           : edgeTypeMap.entrySet()) {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)) {
-          if (e.getKey().getInt(DESTNODE) == node.getRow()) {
+          if (e.getKey().getInt(targetCol) == node.getRow()) {
             inEdges.add(e.getKey());
           }
         } else {
-          if (e.getKey().getInt(DESTNODE) == node.getRow()
-              || e.getKey().getInt(SRCNODE) == node.getRow()) {
+          if (e.getKey().getInt(targetCol) == node.getRow()
+              || e.getKey().getInt(sourceCol) == node.getRow()) {
             inEdges.add(e.getKey());
           }
         }
@@ -445,12 +482,12 @@ public class JungObviousNetwork implements Network {
           : edgeTypeMap.entrySet()) {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)) {
-          if (e.getKey().getInt(SRCNODE) == node.getRow()) {
+          if (e.getKey().getInt(sourceCol) == node.getRow()) {
             outEdges.add(e.getKey());
           }
         } else {
-          if (e.getKey().getInt(DESTNODE) == node.getRow()
-              || e.getKey().getInt(SRCNODE) == node.getRow()) {
+          if (e.getKey().getInt(targetCol) == node.getRow()
+              || e.getKey().getInt(sourceCol) == node.getRow()) {
             outEdges.add(e.getKey());
           }
         }
@@ -472,12 +509,12 @@ public class JungObviousNetwork implements Network {
           : edgeTypeMap.entrySet()) {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)
-            && node.getRow() == e.getKey().getInt(DESTNODE)) {
-          preds.add(new NodeImpl(nodeTable, e.getKey().getInt(SRCNODE)));
+            && node.getRow() == e.getKey().getInt(targetCol)) {
+          preds.add(new NodeImpl(nodeTable, e.getKey().getInt(sourceCol)));
         } else if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED)
-             && (node.getRow() == e.getKey().getInt(SRCNODE)
-              || node.getRow() == e.getKey().getInt(DESTNODE))) {
+             && (node.getRow() == e.getKey().getInt(sourceCol)
+              || node.getRow() == e.getKey().getInt(targetCol))) {
           preds.add(new NodeImpl(nodeTable, getOpposite(node,
               e.getKey()).getRow()));
         }
@@ -495,7 +532,7 @@ public class JungObviousNetwork implements Network {
           || !containsEdge(e)) {
         return null;
       } else {
-        return new NodeImpl(nodeTable, e.getInt(SRCNODE));
+        return new NodeImpl(nodeTable, e.getInt(sourceCol));
       }
     }
 
@@ -513,12 +550,12 @@ public class JungObviousNetwork implements Network {
           : edgeTypeMap.entrySet()) {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)
-            && node.getRow() == e.getKey().getInt(SRCNODE)) {
+            && node.getRow() == e.getKey().getInt(sourceCol)) {
           succs.add(new NodeImpl(nodeTable, e.getKey().getInt(DESTNODE)));
         } else if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED)
-             && (node.getRow() == e.getKey().getInt(SRCNODE)
-              || node.getRow() == e.getKey().getInt(DESTNODE))) {
+             && (node.getRow() == e.getKey().getInt(sourceCol)
+              || node.getRow() == e.getKey().getInt(targetCol))) {
           succs.add(new NodeImpl(nodeTable, getOpposite(node,
               e.getKey()).getRow()));
         }
@@ -683,8 +720,8 @@ public class JungObviousNetwork implements Network {
     public Collection<Edge> getIncidentEdges(Node node) {
       Collection<Edge> incidentEdge = new ArrayList<Edge>();
       for (int i = 0; i < edgeTable.getRowCount(); i++) {
-        if (edgeTable.getValue(i, SRCNODE).equals(node.getRow())
-            || edgeTable.getValue(i, DESTNODE).equals(node.getRow())) {
+        if (edgeTable.getValue(i, sourceCol).equals(node.getRow())
+            || edgeTable.getValue(i, targetCol).equals(node.getRow())) {
           incidentEdge.add(new EdgeImpl(edgeTable, i));
         }
       }
@@ -699,12 +736,12 @@ public class JungObviousNetwork implements Network {
     public Collection<Node> getNeighbors(Node node) {
      Collection<Node> neighbors = new ArrayList<Node>();
      for (int i = 0; i < edgeTable.getRowCount(); i++) {
-       if (edgeTable.getValue(i, SRCNODE).equals(node.getRow())) {
+       if (edgeTable.getValue(i, sourceCol).equals(node.getRow())) {
          neighbors.add(new NodeImpl(nodeTable,
-             (Integer) edgeTable.getValue(i, DESTNODE)));
-       } else if (edgeTable.getValue(i, DESTNODE).equals(node.getRow())) {
+             (Integer) edgeTable.getValue(i, targetCol)));
+       } else if (edgeTable.getValue(i, targetCol).equals(node.getRow())) {
          neighbors.add(new NodeImpl(nodeTable,
-             (Integer) edgeTable.getValue(i, SRCNODE)));
+             (Integer) edgeTable.getValue(i, sourceCol)));
        }
      }
       return neighbors;
@@ -758,8 +795,8 @@ public class JungObviousNetwork implements Network {
           nodeTable.removeRow(node.getRow());
           // removing the associated edge
           for (int i = 0; i < edgeTable.getRowCount(); i++) {
-            if (edgeTable.getValue(i, SRCNODE).equals(node.getRow())
-                || edgeTable.getValue(i, DESTNODE).equals(node.getRow())) {
+            if (edgeTable.getValue(i, sourceCol).equals(node.getRow())
+                || edgeTable.getValue(i, targetCol).equals(node.getRow())) {
               edgeTable.removeRow(i);
             }
           }
