@@ -27,68 +27,55 @@
 
 package obviousx.example;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Edge;
-import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.impl.DataFactoryImpl;
-import obvious.impl.EdgeImpl;
-import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.GraphMLExport;
+import obviousx.io.CSVGraphImport;
 
 /**
- * Example class for GraphMLExport.
+ * Example of CSVGraphImport usage.
  * @author Pierre-Luc Hemery
  *
  */
-public final class GraphMLExportExample {
-
-  /**
-   * Number of nodes.
-   */
-  public static final int NODENUMBER = 6;
-
-  /**
-   * Number of nodes.
-   */
-  public static final int EDGENUMBER = 6;
+public final class CSVGraphExample {
 
   /**
    * Constructor.
    */
-  private GraphMLExportExample() {
+  private CSVGraphExample() {
   }
 
   /**
-   * Main.
-   * @param args arguments for the main.
-   * @throws ObviousException when Network creation failed
-   * @throws ObviousxException when export failed
+   * Main method.
+   * @param args argument of the main
+   * @throws ObviousxException when importation failed
+   * @throws ObviousException when importation failed
    */
-  public static void main(String[] args) throws ObviousException,
-      ObviousxException {
-
-    // Preparing file creation
-    String filePath = "";
+  public static void main(String[] args) throws ObviousxException,
+      ObviousException {
     String factoryPath = "";
 
     try {
-      filePath = args[0];
-      factoryPath = args[1];
+      factoryPath = args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
-      filePath = "C:\\outputObvious\\DefaultTest.graphml";
       factoryPath = "obvious.prefuse.PrefuseDataFactory";
     }
 
-    // Preparing network to export in GraphML
+    // Load CSV files (nodes and edges)
+    File nodeFile = new File("src/main/resources/nodes.csv");
+    File edgeFile = new File("src/main/resources/edges.csv");
+
+    // Create network
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeId", int.class, 0);
     nodeSchema.addColumn("color", String.class, "yellow");
@@ -107,35 +94,28 @@ public final class GraphMLExportExample {
     Network network = dFactory.createGraph("net", nodeSchema,
         edgeSchema, paramMap);
 
-    // Creating and adding nodes to the network
-    String[] color = {"blue", "red", "green", "indigo", "pink", "grey"};
+    // Create Importer
+    CSVGraphImport importer = new CSVGraphImport(nodeFile, edgeFile, network,
+        "sourceNode", "targetNode", "nodeId", ',');
 
-    for (int i = 0; i < NODENUMBER; i++) {
-      Object[] values = {i, color[i]};
-      Node node = new NodeImpl(nodeSchema, values);
-      network.addNode(node);
-    }
+    importer.readSchema();
+    importer.loadTable();
 
-    // Creating and adding edges to the network
-    Object[][] edgeValue = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}};
-
-    for (int i = 0; i < EDGENUMBER; i++) {
-      Edge edge = new EdgeImpl(edgeSchema, edgeValue[i]);
-      Node sourceNode = null, targetNode = null;
-      for (Node node : network.getNodes()) {
-        if (node.get("nodeId").equals(edgeValue[i][0])) {
-          sourceNode = node;
-        }
-        if (node.get("nodeId").equals(edgeValue[i][1])) {
-          targetNode = node;
-        }
+    System.out.println("Nodes : ");
+    for (Node node : network.getNodes()) {
+      for (int i = 0; i < node.getSchema().getColumnCount(); i++) {
+        System.out.print(node.get(i) + ", ");
       }
-      network.addEdge(edge, sourceNode, targetNode, Graph.EdgeType.UNDIRECTED);
+      System.out.println();
     }
 
-    // Creating exporter
-    GraphMLExport exporter = new GraphMLExport(filePath, network,
-        nodeSchema, edgeSchema);
-    exporter.createFile();
+    System.out.println("Edges : ");
+    for (Edge edge : network.getEdges()) {
+      for (int i = 0; i < edge.getSchema().getColumnCount(); i++) {
+        System.out.print(edge.get(i) + ", ");
+      }
+      System.out.println();
+    }
   }
+
 }
