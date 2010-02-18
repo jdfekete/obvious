@@ -121,6 +121,14 @@ public class CSVImport implements Importer {
   }
 
   /**
+   * Gets the schema attribute of the importer.
+   * @return the schema attribute
+   */
+  public Schema getSchema() {
+    return this.fileSchema;
+  }
+
+  /**
    * Reads the schema of the file.
    * @throws ObviousxException if an exception occurs.
    */

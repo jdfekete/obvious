@@ -76,7 +76,7 @@ public class GraphMLImport implements Importer {
   private Schema edgeSchema;
 
   /**
-   * Input table, that will be loaded with content of the external medium.
+   * Input network, that will be loaded with content of the external medium.
    */
   private Network network;
 
@@ -205,7 +205,7 @@ public class GraphMLImport implements Importer {
   }
 
   /**
-   * Reads the schema of the file.
+   * Reads the schema for nodes and edges described the GraphML file.
    * @throws ObviousxException if an exception occurs.
    */
   public void readSchema() throws ObviousxException {
