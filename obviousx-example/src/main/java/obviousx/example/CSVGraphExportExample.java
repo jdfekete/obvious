@@ -27,32 +27,44 @@
 
 package obviousx.example;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Edge;
+import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.impl.DataFactoryImpl;
+import obvious.impl.EdgeImpl;
+import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.CSVGraphImport;
+import obviousx.io.CSVGraphExport;
 
 /**
- * Example of CSVGraphImport usage.
+ * Example of CSVGraphExport usage.
  * @author Pierre-Luc Hemery
  *
  */
-public final class CSVGraphExample {
+public final class CSVGraphExportExample {
+
+  /**
+   * Number of nodes.
+   */
+  public static final int NODENUMBER = 6;
+
+  /**
+   * Number of nodes.
+   */
+  public static final int EDGENUMBER = 6;
 
   /**
    * Constructor.
    */
-  private CSVGraphExample() {
+  private CSVGraphExportExample() {
   }
 
   /**
@@ -63,19 +75,23 @@ public final class CSVGraphExample {
    */
   public static void main(String[] args) throws ObviousxException,
       ObviousException {
+
+    // Preparing file creation
+    String nodeFilePath = "";
+    String edgeFilePath = "";
     String factoryPath = "";
 
     try {
-      factoryPath = args[0];
+      nodeFilePath = args[0];
+      edgeFilePath = args[1];
+      factoryPath = args[2];
     } catch (ArrayIndexOutOfBoundsException e) {
+      nodeFilePath = "C:\\outputObvious\\nodeFile";
+      edgeFilePath = "C:\\outputObvious\\edgeFile";
       factoryPath = "obvious.prefuse.PrefuseDataFactory";
     }
 
-    // Load CSV files (nodes and edges)
-    File nodeFile = new File("src/main/resources/nodes.csv");
-    File edgeFile = new File("src/main/resources/edges.csv");
-
-    // Create network
+    // Preparing network to export in GraphML
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeId", int.class, 0);
     nodeSchema.addColumn("color", String.class, "yellow");
@@ -94,28 +110,36 @@ public final class CSVGraphExample {
     Network network = dFactory.createGraph("net", nodeSchema,
         edgeSchema, paramMap);
 
-    // Create Importer
-    CSVGraphImport importer = new CSVGraphImport(nodeFile, edgeFile, network,
-        "sourceNode",  "targetNode", "nodeId", ',');
+    // Creating and adding nodes to the network
+    String[] color = {"blue", "red", "green", "indigo", "pink", "grey"};
 
-    importer.readSchema();
-    importer.loadTable();
-
-    System.out.println("Nodes : ");
-    for (Node node : network.getNodes()) {
-      for (int i = 0; i < node.getSchema().getColumnCount(); i++) {
-        System.out.print(node.get(i) + ", ");
-      }
-      System.out.println();
+    for (int i = 0; i < NODENUMBER; i++) {
+      Object[] values = {i, color[i]};
+      Node node = new NodeImpl(nodeSchema, values);
+      network.addNode(node);
     }
 
-    System.out.println("Edges : ");
-    for (Edge edge : network.getEdges()) {
-      for (int i = 0; i < edge.getSchema().getColumnCount(); i++) {
-        System.out.print(edge.get(i) + ", ");
+    // Creating and adding edges to the network
+    Object[][] edgeValue = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}};
+
+    for (int i = 0; i < EDGENUMBER; i++) {
+      Edge edge = new EdgeImpl(edgeSchema, edgeValue[i]);
+      Node sourceNode = null, targetNode = null;
+      for (Node node : network.getNodes()) {
+        if (node.get("nodeId").equals(edgeValue[i][0])) {
+          sourceNode = node;
+        }
+        if (node.get("nodeId").equals(edgeValue[i][1])) {
+          targetNode = node;
+        }
       }
-      System.out.println();
+      network.addEdge(edge, sourceNode, targetNode, Graph.EdgeType.UNDIRECTED);
     }
+
+
+    // Create Exporter
+    CSVGraphExport exporter = new CSVGraphExport(
+        nodeFilePath, edgeFilePath, network, nodeSchema, edgeSchema);
+    exporter.createFile();
   }
-
 }
