@@ -99,6 +99,14 @@ public class CSVExport implements Exporter {
   }
 
   /**
+   * Gets the CSV file.
+   * @return the CSV file for the table attribute
+   */
+  public Table getTable() {
+    return this.getTable();
+  }
+
+  /**
    * Sets the FormatFactory of the importer.
    * @param inputFormatFactory the factory to set
    */

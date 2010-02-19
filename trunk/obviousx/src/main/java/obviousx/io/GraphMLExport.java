@@ -57,7 +57,7 @@ import obviousx.util.FormatFactoryImpl;
 public class GraphMLExport implements Exporter {
 
   /**
-   * Name to give to the CSV file.
+   * Name to give to the GraphML file.
    */
   private String name;
 

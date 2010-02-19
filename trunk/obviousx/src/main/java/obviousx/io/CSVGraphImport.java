@@ -45,7 +45,7 @@ import obviousx.util.FormatFactoryImpl;
 
 /**
  * CSV to graph Import class.
- * Allows to convert a grahp described by two CSV files, one for nodes other
+ * Allows to convert a graph described by two CSV files, one for nodes other
  * for edges, as an Obvious Network.
  *
  * @author Pierre-Luc Hemery
