@@ -60,7 +60,7 @@ public abstract class NetworkTest {
   /**
    * Network instance used for tests.
    */
-  private Network network;
+  protected Network network;
 
   /**
    * Number of nodes of the test network.

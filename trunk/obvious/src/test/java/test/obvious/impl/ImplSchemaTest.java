@@ -41,7 +41,7 @@ public class ImplSchemaTest extends SchemaTest {
 
   /**
    * Creates a SchemaImpl instance.
-   * @return a TableImpl instance
+   * @return a SchemaImpl instance
    */
   public Schema newInstance() {
     return new SchemaImpl();

@@ -127,15 +127,15 @@ public abstract class TreeTest {
       edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     }
     tree.addEdge(new EdgeImpl(edgeTable, 0), new NodeImpl(nodeTable, 0),
-        new NodeImpl(nodeTable, 1), EdgeType.UNDIRECTED);
+        new NodeImpl(nodeTable, 1), EdgeType.DIRECTED);
     tree.addEdge(new EdgeImpl(edgeTable, 1), new NodeImpl(nodeTable, 0),
-        new NodeImpl(nodeTable, 2), EdgeType.UNDIRECTED);
+        new NodeImpl(nodeTable, 2), EdgeType.DIRECTED);
     tree.addEdge(new EdgeImpl(edgeTable, 2), new NodeImpl(nodeTable, 1),
-        new NodeImpl(nodeTable, 3), EdgeType.UNDIRECTED);
+        new NodeImpl(nodeTable, 3), EdgeType.DIRECTED);
     tree.addEdge(new EdgeImpl(edgeTable,3), new NodeImpl(nodeTable, 1),
-        new NodeImpl(nodeTable, 4), EdgeType.UNDIRECTED);
+        new NodeImpl(nodeTable, 4), EdgeType.DIRECTED);
     tree.addEdge(new EdgeImpl(edgeTable,4), new NodeImpl(nodeTable, 4),
-        new NodeImpl(nodeTable, 5), EdgeType.UNDIRECTED);
+        new NodeImpl(nodeTable, 5), EdgeType.DIRECTED);
   }
 
   /**

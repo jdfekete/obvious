@@ -91,7 +91,7 @@ public interface Schema extends Table {
     /**
      * Gets the default value for a column.
      * @param col column index
-     * @return value default
+     * @return default value for the specified column
      */
     Object getColumnDefault(int col);
 
@@ -161,12 +161,12 @@ public interface Schema extends Table {
     int getColumnIndex(String field);
 
     /**
-     * Add a column with the given name and data type to this table.
+     * Add a column with the given name and data type to this schema.
+     * It throws a runtime exception when the column name already exists.
      * @param name name of the column
      * @param type the data type, as a Java Class, for the column
      * @param defaultValue the default value for the column
      * @return the column index
-     * throws a runtime exception when the column name already exists.
      */
     int addColumn(String name, Class<?> type, Object defaultValue);
 
