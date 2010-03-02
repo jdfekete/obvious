@@ -90,7 +90,11 @@ public class NodeImpl extends TupleImpl implements Node {
     final int multiplier = 5;
     int result = startValue;
     for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
-      result = result * multiplier + this.get(i).hashCode();
+      if (this.get(i) != null) {
+        result = result * multiplier + this.get(i).hashCode();
+      } else {
+        result = result * multiplier;
+      }
     }
     return result;
   }

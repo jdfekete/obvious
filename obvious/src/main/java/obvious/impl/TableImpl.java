@@ -56,6 +56,7 @@ public class TableImpl implements Table {
    * Is the schema being edited.
    */
   private boolean editing;
+
   /**
    * Are rows removable.
    */
@@ -124,6 +125,8 @@ public class TableImpl implements Table {
         e.getValue().add(tuple.get(e.getKey()));
       }
     }
+    this.fireTableEvent(this.getRowCount() - 1, this.getRowCount() - 1,
+        TableListener.ALL_COLUMN, TableListener.INSERT);
     return this.getRowCount();
   }
 
@@ -185,7 +188,7 @@ public class TableImpl implements Table {
   }
 
   /**
-   * Get the number of rows in the table.
+   * Gets the number of rows in the table.
    * @return the number of rows
    */
   public int getRowCount() {
@@ -200,7 +203,7 @@ public class TableImpl implements Table {
   }
 
   /**
-   * Returns this Table's schema.
+   * Returns this table's schema.
    * @return the schema of the table.
    */
   public Schema getSchema() {

@@ -90,7 +90,11 @@ public class EdgeImpl extends TupleImpl implements Edge {
     final int multiplier = 11;
     int result = startValue;
     for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
-      result = result * multiplier + this.get(i).hashCode();
+      if (this.get(i) != null) {
+        result = result * multiplier + this.get(i).hashCode();
+      } else {
+        result = result * multiplier;
+      }
     }
     return result;
   }
