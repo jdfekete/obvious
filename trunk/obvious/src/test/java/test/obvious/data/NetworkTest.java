@@ -65,7 +65,7 @@ public abstract class NetworkTest {
   /**
    * Number of nodes of the test network.
    */
-  public static final int NODENUMBER = 7;
+  public static final int NODENUMBER = 6;
 
   /**
    * Number of edges of the test network.

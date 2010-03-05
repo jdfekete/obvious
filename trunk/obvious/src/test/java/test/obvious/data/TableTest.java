@@ -173,7 +173,7 @@ public abstract class TableTest implements TableTestData {
   @Test
   public void testRemoveRow() {
     table.removeRow(0);
-    //assertEquals(NUMROW - 1, table.getRowCount());
+    assertEquals(NUMROW - 1, table.getRowCount());
   }
 
   /**
