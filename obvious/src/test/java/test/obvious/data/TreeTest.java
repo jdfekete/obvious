@@ -28,7 +28,6 @@
 package test.obvious.data;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import obvious.data.Edge;
 import obvious.data.Node;
@@ -69,7 +68,7 @@ public abstract class TreeTest {
   /**
    * Number of nodes of the test tree.
    */
-  private static final int NODENUMBER = 7;
+  private static final int NODENUMBER = 6;
 
   /**
    * Number of edges of the test tree.
