@@ -410,7 +410,6 @@ public class JDBCObviousTable implements Table {
       StringBuffer tupleSQL = formatSQL.format(rowIndexMap.get(rowId),
           new StringBuffer(), new FieldPosition(0));
       request += tupleSQL;
-      System.out.println(request);
       pStatement = con.prepareStatement(request);
       result = pStatement.executeQuery(request);
       // result must have an unique row, cause it has been built with a primary
@@ -621,7 +620,6 @@ public class JDBCObviousTable implements Table {
           request += ", ";
         }
       }
-      System.out.println(request);
       pStatement = con.prepareStatement(request);
       pStatement.executeUpdate(request);
       rowIndexMap.put(this.getRowCount() - 1, primaryValue);
