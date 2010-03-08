@@ -114,9 +114,15 @@ public class PrefuseObviousNetwork implements Network {
   }
 
   /**
-   * Default constructor.
+   * Constructor for derivated classes.
+   * @param sourceId data field used to denote the source node in an edge
+   * table
+   * @param targetId data field used to denote the target node in an edge
+   * table
    */
-  protected PrefuseObviousNetwork() {
+  protected PrefuseObviousNetwork(String sourceId, String targetId) {
+    this.sourceKey = sourceId;
+    this.targetKey = targetId;
   }
 
   /**
