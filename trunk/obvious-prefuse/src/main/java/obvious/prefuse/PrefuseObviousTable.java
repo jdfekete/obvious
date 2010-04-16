@@ -51,6 +51,12 @@ public class PrefuseObviousTable implements Table {
   private prefuse.data.Table table;
 
   /**
+   * Is the schema being edited.
+   */
+  private boolean editing = false;
+
+
+  /**
    * Constructor that takes an existing Prefuse table as argument.
    * @param prefuseTable Prefuse table to wrap around Obvious Table.
    */
@@ -108,7 +114,10 @@ public class PrefuseObviousTable implements Table {
    * @throws ObviousException if edition is not supported.
    */
   public void beginEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
+    this.editing = false;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.beginEdit(col);
+    }
   }
 
   /**
@@ -133,7 +142,10 @@ public class PrefuseObviousTable implements Table {
    * @throws ObviousException if edition is not supported.
    */
   public void endEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
+    this.editing = false;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.endEdit(col);
+    }
   }
 
   /**
@@ -183,10 +195,10 @@ public class PrefuseObviousTable implements Table {
   /**
    * Indicates if a column is being edited.
    * @param col column to check
-   * @return true if the colum is being edited
+   * @return true if the column is being edited
    */
   public boolean isEditing(int col) {
-    return false;
+    return this.editing;
   }
 
   /**
