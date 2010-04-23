@@ -1,0 +1,11 @@
+#summary Javadoc links for Obvious implementations.
+#labels Phase-Implementation,Phase-Support,Phase-QA
+= Introduction =
+
+Find all javadoc links here.
+
+
+= Details =
+
+  * <a href="http://obvious.googlecode.com/svn/trunk/obvious/target/site/apidocs/index.html"> Obvious (API)</a>
+  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-ivtk/target/site/apidocs/index.html"> Obvious infovis implementation (API)</a>
