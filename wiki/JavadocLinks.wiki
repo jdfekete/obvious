@@ -8,4 +8,6 @@ Find all javadoc links here.
 = Details =
 
   * <a href="http://obvious.googlecode.com/svn/trunk/obvious/target/site/apidocs/index.html"> Obvious (API)</a>
-  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-ivtk/target/site/apidocs/index.html"> Obvious infovis implementation (API)</a>
+  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-ivtk/target/site/apidocs/index.html"> Obvious infovis implementation</a>
+  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-jung/target/site/apidocs/index.html"> Obvious Jung implementation</a>
+  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-prefuse/target/site/apidocs/index.html"> Obvious Prefuse implementation</a>
