@@ -1,0 +1,24 @@
+-classpath
+'C:/Documents and Settings/plhemery/Mes documents/Workspace/obvious/target/classes;C:/Documents and Settings/plhemery/.m2/repository/junit/junit/4.7/junit-4.7.jar'
+-encoding
+'Cp1252'
+-protected
+-sourcepath
+'C:/Documents and Settings/plhemery/Mes documents/Workspace/obvious/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2010. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Documents and Settings/plhemery/Mes documents/Workspace/obvious/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'obvious 0.0.1-SNAPSHOT API'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-use
+-version
+-windowtitle
+'obvious 0.0.1-SNAPSHOT API'
