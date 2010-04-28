@@ -34,6 +34,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.Date;
 
+import obviousx.ObviousxRuntimeException;
 import obviousx.text.TypedFormat;
 
 
@@ -210,6 +211,35 @@ public final class FormatFactoryImpl implements FormatFactory {
             + " unknown type for the constructor!");
       }
     }
+
+    @Override
+    public Number parse(String val, ParsePosition p) {
+      try {
+        if (val == "null" || val == "" || val == null) {
+          return null;
+        }
+        if (type.equals(Integer.class) || type.equals(int.class)) {
+          return Integer.parseInt(val);
+        } else if (type.equals(Double.class) || type.equals(double.class)) {
+          return Double.parseDouble(val);
+        } else if (type.equals(Float.class) || type.equals(float.class)) {
+          return Float.parseFloat(val);
+        } else if (type.equals(Short.class) || type.equals(short.class)) {
+          return Short.parseShort(val);
+        } else if (type.equals(Long.class) || type.equals(long.class)) {
+          return Long.parseLong(val);
+        } else if (type.equals(Byte.class) || type.equals(byte.class)) {
+          return Byte.parseByte(val);
+        } else if (type.equals(Number.class)) {
+          return super.parse(val);
+        } else {
+          throw new ObviousxRuntimeException(
+              "Can't parse " + val + " to a number");
+        }
+      } catch (Exception e) {
+        throw new ObviousxRuntimeException(e);
+      }
+     }
 
     /**
      * Constructor.
