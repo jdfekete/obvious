@@ -20,14 +20,14 @@
 	<scope>test</scope>
 	</dependency>
     <dependency>
-    	<groupId>obviousx</groupId>
-    	<artifactId>obviousx</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
     	<groupId>infovis</groupId>
     	<artifactId>infovis</artifactId>
     	<version>0.10-alpha-2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>obviousx</groupId>
+    	<artifactId>obviousx</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
