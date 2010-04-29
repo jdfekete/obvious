@@ -27,7 +27,9 @@
 
 package obvious.prefuse;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
@@ -37,6 +39,7 @@ import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.impl.IntIteratorImpl;
+import prefuse.data.util.TableIterator;
 
 /**
  * Implementation of an Obvious Table based on prefuse toolkit.
@@ -54,6 +57,11 @@ public class PrefuseObviousTable implements Table {
    * Is the schema being edited.
    */
   private boolean editing = false;
+
+  /**
+   * ArrayList of listeners.
+   */
+  private ArrayList<TableListener> listener = new ArrayList<TableListener>();
 
 
   /**
@@ -91,7 +99,10 @@ public class PrefuseObviousTable implements Table {
   public int addRow() {
     try {
       if (this.canAddRow()) {
-        return this.table.addRow();
+        int r = this.table.addRow();
+        this.fireTableEvent(r, r, TableListener.ALL_COLUMN,
+            TableListener.INSERT);
+        return r;
       } else {
         return -1;
       }
@@ -101,11 +112,11 @@ public class PrefuseObviousTable implements Table {
   }
 
   /**
-   * Add a table listener to this table.
-   * @param listnr the listener to add
+   * Adds a table listener.
+   * @param listnr an Obvious TableListener
    */
   public void addTableListener(TableListener listnr) {
-    this.table.addTableListener((prefuse.data.event.TableListener) listnr);
+    listener.add(listnr);
   }
 
   /**
@@ -165,11 +176,11 @@ public class PrefuseObviousTable implements Table {
   }
 
   /**
-   * Not implemented yet.
-   * @return null
+   * Gets all table listener.
+   * @return a collection of table listeners.
    */
   public Collection<TableListener> getTableListeners() {
-    return null;
+    return listener;
   }
 
   /**
@@ -232,6 +243,8 @@ public class PrefuseObviousTable implements Table {
     try {
       if (this.canRemoveRow()) {
           this.table.clear();
+          this.fireTableEvent(0, getLastRowIndex(),
+              TableListener.ALL_COLUMN, TableListener.DELETE);
       }
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -247,6 +260,8 @@ public class PrefuseObviousTable implements Table {
   public boolean removeRow(int row) {
     try {
       if (this.canRemoveRow()) {
+        this.fireTableEvent(row, row,
+            TableListener.ALL_COLUMN, TableListener.DELETE);
         return this.table.removeRow(row);
       } else {
         return false;
@@ -257,11 +272,11 @@ public class PrefuseObviousTable implements Table {
   }
 
   /**
-   * Remove a table listener from this table.
-   * @param listnr the listener to remove
+   * Removes a table listener.
+   * @param listnr an Obvious TableListener
    */
   public void removeTableListener(TableListener listnr) {
-    this.table.removeTableListener((prefuse.data.event.TableListener) listnr);
+    listener.remove(listnr);
   }
 
   /**
@@ -282,6 +297,8 @@ public class PrefuseObviousTable implements Table {
   public void set(int rowId, String field, Object val) {
     try {
       this.table.set(rowId, field, val);
+      this.fireTableEvent(rowId, rowId, this.getSchema().getColumnIndex(field),
+          TableListener.UPDATE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -296,6 +313,7 @@ public class PrefuseObviousTable implements Table {
   public void set(int rowId, int col, Object val) {
     try {
       this.table.setValueAt(rowId, col, val);
+      this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -316,6 +334,37 @@ public class PrefuseObviousTable implements Table {
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
+  }
+
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  protected void fireTableEvent(int start, int end, int col, int type) {
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
+  }
+
+  /**
+   * Returns the last valid row of this table.
+   * @return the last valid row of this table
+   */
+  private int getLastRowIndex() {
+    int lastValidRow = 0;
+    for (TableIterator iter = table.iterator(); iter.hasNext();) {
+      int i = iter.nextInt();
+      if (table.isValidRow(i)) {
+        lastValidRow = i;
+      }
+    }
+    return lastValidRow;
   }
 
 }
