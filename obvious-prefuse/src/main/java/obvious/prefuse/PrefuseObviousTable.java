@@ -29,7 +29,6 @@ package obvious.prefuse;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
@@ -326,10 +325,13 @@ public class PrefuseObviousTable implements Table {
    */
   public int addRow(Tuple tuple) {
     try {
-    int r = addRow();
+    this.beginEdit(TableListener.ALL_COLUMN);
+    int r = table.addRow();
     for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
       this.set(r, tuple.getSchema().getColumnName(i), tuple.get(i));
     }
+    this.endEdit(TableListener.ALL_COLUMN);
+    this.fireTableEvent(r, r, TableListener.ALL_COLUMN, TableListener.INSERT);
     return r;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
