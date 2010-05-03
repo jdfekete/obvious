@@ -206,6 +206,8 @@ public final class FormatFactoryImpl implements FormatFactory {
         this.type = Byte.class;
       } else if (typeLow.equals("number")) {
         this.type = Number.class;
+      } else if (typeLow.equals("bigdecimal")) {
+        this.type = java.math.BigDecimal.class;
       } else {
         throw new IllegalArgumentException(numberType
             + " unknown type for the constructor!");
@@ -232,6 +234,8 @@ public final class FormatFactoryImpl implements FormatFactory {
           return Byte.parseByte(val);
         } else if (type.equals(Number.class)) {
           return super.parse(val);
+        } else if (type.equals(java.math.BigDecimal.class)) {
+          return new java.math.BigDecimal(val);
         } else {
           throw new ObviousxRuntimeException(
               "Can't parse " + val + " to a number");
@@ -302,7 +306,8 @@ public final class FormatFactoryImpl implements FormatFactory {
     if (typeLow.equals("integer") || typeLow.equals("double")
         || typeLow.equals("float") || typeLow.equals("short")
         || typeLow.equals("byte") || typeLow.equals("long")
-        || typeLow.equals("number") || typeLow.equals("int")) {
+        || typeLow.equals("number") || typeLow.equals("int")
+        || typeLow.equals("bigdecimal")) {
       return new TypedDecimalFormat(type);
     } else if (typeLow.equals("date")) {
       return new TypedDateFormat("dd/MM/yyyy");
