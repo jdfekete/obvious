@@ -369,4 +369,16 @@ public class PrefuseObviousTable implements Table {
     return lastValidRow;
   }
 
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return prefuse table instance or null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(prefuse.data.Table.class)) {
+      return table;
+    }
+    return null;
+  }
+
 }
