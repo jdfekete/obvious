@@ -184,12 +184,17 @@ public class IvtkObviousTable implements Table {
     try {
       if (canAddRow()) {
         int rowId = table.addRow();
+        table.setSize(table.size() + 1);
         for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
           TypedFormat format = formatFactory.getFormat(
              tuple.getSchema().getColumnType(i).getSimpleName());
+          if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
+            table.setValueAt(tuple.get(i).toString(), rowId, i);
+          } else {
           StringBuffer v = format.format(tuple.get(i),
               new StringBuffer(), new FieldPosition(0));
           table.setValueAt(v.toString(), rowId, i);
+          }
         }
         this.fireTableEvent(table.getLastRow(), table.getLastRow(),
             TableListener.ALL_COLUMN, TableListener.INSERT);
@@ -401,14 +406,19 @@ public class IvtkObviousTable implements Table {
   public void set(int rowId, int col, Object val) {
     try {
       if (val != null) {
-      TypedFormat format = formatFactory.getFormat(
-          val.getClass().getSimpleName());
-      StringBuffer v = format.format(val,
-          new StringBuffer(), new FieldPosition(0));
-      table.setValueAt(v.toString(), rowId, col);
+        TypedFormat format = formatFactory.getFormat(
+            val.getClass().getSimpleName());
+        if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
+          table.setValueAt(val.toString(), rowId, col);
+        } else {
+        //StringBuffer v = format.format(val,
+        //    new StringBuffer(), new FieldPosition(0));
+        table.setValueAt(val.toString(), rowId, col);
+        }
       } else {
         table.setValueAt(val, rowId, col);
       }
+
       this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -483,6 +493,15 @@ public class IvtkObviousTable implements Table {
     public void remove() {
       it.remove();
     }
+  }
+
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
   }
 
 }
