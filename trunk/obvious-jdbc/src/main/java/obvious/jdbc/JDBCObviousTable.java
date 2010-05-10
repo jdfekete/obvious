@@ -661,4 +661,14 @@ public class JDBCObviousTable implements Table {
     }
   }
 
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }
