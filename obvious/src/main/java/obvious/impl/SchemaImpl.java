@@ -568,4 +568,13 @@ public class SchemaImpl implements Schema {
     return this.getRowCount();
   }
 
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
+
 }

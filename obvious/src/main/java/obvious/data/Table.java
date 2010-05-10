@@ -33,6 +33,7 @@ import obvious.ObviousException;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.MissingValue;
+import obvious.util.Adaptable;
 
 /**
  * Interface Table.
@@ -40,7 +41,7 @@ import obvious.data.util.MissingValue;
  * @author obvious
  * @version $Revision$
  */
-public interface Table extends Data {
+public interface Table extends Data, Adaptable {
     /**
      * Missing value.
      */

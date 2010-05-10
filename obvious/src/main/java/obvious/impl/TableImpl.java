@@ -369,4 +369,13 @@ public class TableImpl implements Table {
      listnr.tableChanged(this, start, end, col, type);
    }
   }
+
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
 }
