@@ -339,8 +339,14 @@ public class IvtkObviousTable implements Table {
    */
   public void removeAllRows() {
     try {
-      table.clear();
-      this.fireTableEvent(0, table.getLastRow(),
+      int lastRow = table.getLastRow();
+      TableIterator it = new TableIterator(0,
+          table.getLastRow() + 1);
+      while (it.hasNext()) {
+        int rowId = it.nextRow();
+        table.removeRow(rowId);
+      }
+      this.fireTableEvent(0, lastRow,
           TableListener.ALL_COLUMN, TableListener.DELETE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -383,7 +389,7 @@ public class IvtkObviousTable implements Table {
    */
   public IntIterator rowIterator() {
     TableIterator it = new TableIterator(0,
-        table.getLastRow());
+        table.getLastRow() + 1);
     return new IvtkIntIterator(it);
   }
 
