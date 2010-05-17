@@ -29,6 +29,8 @@ package obvious.data;
 
 import java.util.Collection;
 
+import obvious.util.Adaptable;
+
 /**
  * Interface Graph.
  *
@@ -45,7 +47,7 @@ import java.util.Collection;
 //(2) Node and edge types?
 //(3) Explicit Table-related methods?
 
-public interface Graph<V, E> extends Data {
+public interface Graph<V, E> extends Data, Adaptable {
 
 
   /**
