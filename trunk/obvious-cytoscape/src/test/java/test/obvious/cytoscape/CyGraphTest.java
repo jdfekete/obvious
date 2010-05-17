@@ -33,6 +33,7 @@ import org.cytoscape.event.CyEvent;
 import org.cytoscape.event.CyListener;
 import org.cytoscape.event.CyEventHelper;
 
+
 import test.obvious.data.AbstractGraphTest;
 import obvious.cytoscape.CyGraph;
 
@@ -67,4 +68,5 @@ public class CyGraphTest extends AbstractGraphTest {
     public <E extends CyEvent, L extends CyListener> void
     fireAsynchronousEvent(final E event, final Class<L> listener) { }
   }
+
 }

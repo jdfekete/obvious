@@ -320,4 +320,13 @@ public class CyGraph<V, E> implements Graph<V, E> {
     return (
         em.get(edge).isDirected() ? EdgeType.DIRECTED : EdgeType.UNDIRECTED);
   }
+
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return Cytoscape graph instance or null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
 }
