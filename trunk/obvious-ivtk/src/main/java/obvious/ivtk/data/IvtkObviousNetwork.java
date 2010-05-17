@@ -611,4 +611,13 @@ public class IvtkObviousNetwork implements Network {
     return id;
   }
 
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return Ivtk graph instance or null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
+
 }
