@@ -500,4 +500,13 @@ public class PrefuseObviousNetwork implements Network {
     }
   }
 
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return Prefuse graph instance or null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
+
 }
