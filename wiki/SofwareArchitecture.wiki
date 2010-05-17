@@ -1,0 +1,22 @@
+#summary Description of the software architecture of Obvious API.
+
+= Introduction =
+
+This pages describes the content of the Obvious project. First, it gives informations about each sub-project of Obvious. It clarifies also dependancy and licenses problems.
+
+The Obvious API used the BSD license. It could be used in non-commercial and commercial projects.
+
+= Details =
+
+Most of sub-projects implements Obvious interfaces and its sub-packages (obvious.data, obvious.viz, obvious.view and obvious.utils).
+
+ * <b> obvious-api </b> : initial version of the obvious API. It has been written during the workshop (in Paris December 2008).
+ * <b> obvious </b> : current version of the obvious API. It uses the structure given in the introduction. 
+ * <b> obvious-cytoscape </b> : implementation using <a href ="http://cytoscape.org/">Cytoscape framework </a>. Dependancies are : obvious and cytoscape framework (under GNU Library or Lesser General Public License (LGPL))
+ * <b> obvious-ivtk </b> : implementation using <a href ="http://ivtk.sourceforge.net/">infovis toolkit framework </a>. Dependancies are : obvious and infovis toolkit framework (under MIT license)
+ * <b> obvious-jdbc </b> : experimental project. BSD license.
+ * <b> obvious-jung </b> : implementation using <a href ="http://jung.sourceforge.net/"> JUNG framework </a>. Dependancies are : obvious and Jung framework (under BSD license).
+ * <b> obvious-prefuse </b> : implementation using <a href ="http://prefuse.org/"> Prefuse framework </a>. Dependancies are : obvious and Prefuse framework (under BSD license).
+ * <b> obviousx </b> : it is an utils package. It contains mainly reader and writer for CSV and GraphML.
+ * <b> obviousx-example </b> :it contains example for the obviousx package.
+ * <b> obviousx-jdbc </b> : experimental project. BSD license.
