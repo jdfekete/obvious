@@ -805,4 +805,13 @@ public class JungObviousNetwork implements Network {
     }
 
   }
+
+  /**
+   * Return the underlying implementation.
+   * @param type targeted class
+   * @return Cytoscape graph instance or null
+   */
+  public Object getUnderlyingImpl(Class<?> type) {
+    return null;
+  }
 }
