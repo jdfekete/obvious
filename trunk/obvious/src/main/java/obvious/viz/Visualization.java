@@ -3,6 +3,8 @@ package obvious.viz;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import obvious.data.Data;
+import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
 import obvious.util.Adaptable;
@@ -15,7 +17,7 @@ import obvious.util.Adaptable;
 public abstract class Visualization implements Adaptable {
 
   /**
-   * Visualization technic name.
+   * Visualization technique name.
    */
   private String visualizatioName;
 
@@ -25,9 +27,14 @@ public abstract class Visualization implements Adaptable {
   private Predicate pred;
 
   /**
-   * Backing table.
+   * Backing table (if needed).
    */
-  private Table table;
+  private Data data;
+
+  /**
+   * Backing network (if needed).
+   */
+  private Network network;
 
   /**
    * Constructor.
@@ -36,9 +43,21 @@ public abstract class Visualization implements Adaptable {
    * @param visName Visualization technic name
    */
   public Visualization(Table parentTable, Predicate predicate, String visName) {
-    this.table = parentTable;
+    this.data = parentTable;
     this.pred = predicate;
     this.visualizatioName = visName;
+  }
+
+  /**
+   * Constructor.
+   * @param parentNetwork Obvious data network
+   * @param predicate Obvious predicate (i.e. filter)
+   * @param visName Visualization technique name
+   */
+  public Visualization(Network parentNetwork, Predicate predicate,
+      String visName) {
+    this.data = parentNetwork;
+    this.pred = predicate;
   }
 
   /**
@@ -66,11 +85,11 @@ public abstract class Visualization implements Adaptable {
       Rectangle2D hitBox, Rectangle2D bounds);
 
   /**
-   * Gets the obvious table associated to this visualization.
-   * @return the obvious table associated to this visualization
+   * Gets the obvious data associated to this visualization.
+   * @return the obvious data associated to this visualization
    */
-  public Table getTable() {
-    return this.table;
+  public Data getData() {
+    return this.data;
   }
 
   /**
