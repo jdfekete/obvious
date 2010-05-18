@@ -506,6 +506,9 @@ public class PrefuseObviousNetwork implements Network {
    * @return Prefuse graph instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(prefuse.data.Graph.class)) {
+      return graph;
+    }
     return null;
   }
 
