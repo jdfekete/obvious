@@ -7,5 +7,6 @@
 	<classpathentry exported="true" kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/obvious"/>
+	<classpathentry kind="src" path="/obvious-prefuse"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

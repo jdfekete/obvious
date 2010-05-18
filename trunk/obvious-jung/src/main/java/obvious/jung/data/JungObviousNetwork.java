@@ -46,6 +46,7 @@ import obvious.data.Table;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.TableImpl;
+import obvious.prefuse.PrefuseObviousTable;
 
 /**
  * Implementation of an Obvious Network based on Jung toolkit.
@@ -91,6 +92,21 @@ public class JungObviousNetwork implements Network {
   }
 
   /**
+   * Constructor from Obvious Schema.
+   * @param nodeSchema schema for the node Table
+   * @param edgeSchema schema for the edge Table
+   * @param node column name used in node schema to spot a node (can be null)
+   * @param source column name used in edge schema to identify source node
+   * @param target column name used in edge schema to identify target node
+   */
+  public JungObviousNetwork(Schema nodeSchema, Schema edgeSchema, String node,
+      String source, String target) {
+    JungGraph graph = new JungGraph(nodeSchema, edgeSchema, node, source,
+        target);
+    this.jungGraph = graph;
+  }
+
+  /**
    * Adds a hyperedge.
    * @param edge to add
    * @param nodes concerned by addition
@@ -127,7 +143,8 @@ public class JungObviousNetwork implements Network {
       if (edgeType == obvious.data.Graph.EdgeType.DIRECTED) {
         type = edu.uci.ics.jung.graph.util.EdgeType.DIRECTED;
       }
-      return this.jungGraph.addEdge(edge, source, target, type);
+      Pair<Node> nodes = new Pair<Node>(source, target);
+      return this.jungGraph.addEdge(edge, nodes, type);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -347,6 +364,11 @@ public class JungObviousNetwork implements Network {
     private String targetCol;
 
     /**
+     * Column used to spot a node in node table.
+     */
+    private String nodeCol = null;
+
+    /**
      * Name for the Source Node index in edgeSchema.
      */
     public static final String SRCNODE = "SRCNODE";
@@ -365,8 +387,8 @@ public class JungObviousNetwork implements Network {
      */
     protected JungGraph(Schema nodeSchema, Schema edgeSchema,
         String source, String target) {
-      this.nodeTable = new TableImpl(nodeSchema);
-      this.edgeTable = new TableImpl(edgeSchema);
+      this.nodeTable = new PrefuseObviousTable(nodeSchema);
+      this.edgeTable = new PrefuseObviousTable(edgeSchema);
       this.sourceCol = source;
       this.targetCol = target;
       this.edgeTypeMap =
@@ -385,6 +407,20 @@ public class JungObviousNetwork implements Network {
       this(nodeSchema, edgeSchema, SRCNODE, DESTNODE);
     }
 
+    /**
+     * Constructor from Obvious Schema.
+     * @param nodeSchema schema for the node Table
+     * @param edgeSchema schema for the edge Table
+     * @param node column name used in node schema to spot a node (can be null)
+     * @param source column name used in edge schema to identify source node
+     * @param target column name used in edge schema to identify target node
+     */
+    protected JungGraph(Schema nodeSchema, Schema edgeSchema, String node,
+        String source, String target) {
+      this(nodeSchema, edgeSchema, source, target);
+      this.nodeCol = node;
+    }
+
     @Override
     public boolean addEdge(Edge edge, Pair<? extends Node> nodes,
         edu.uci.ics.jung.graph.util.EdgeType type) {
@@ -392,21 +428,21 @@ public class JungObviousNetwork implements Network {
           || !containsVertex(nodes.getSecond())) {
         return false;
       } else {
-        edgeTable.addRow();
-        edge.set(sourceCol, nodes.getFirst().getRow());
-        edge.set(targetCol, nodes.getSecond().getRow());
-        edgeTable.set(edgeTable.getRowCount() - 1, sourceCol,
-            nodes.getFirst().getRow());
-        edgeTable.set(edgeTable.getRowCount() - 1, targetCol,
-            nodes.getSecond().getRow());
+        int r = edgeTable.addRow();
+        Object source = edge.get(sourceCol) != null ? edge.get(sourceCol)
+            : nodes.getFirst().getRow();
+        Object target = edge.get(targetCol) != null ? edge.get(targetCol)
+            : nodes.getSecond().getRow();
+        edgeTable.set(r, sourceCol, source);
+        edgeTable.set(r, targetCol, target);
         for (int i = 0; i < edgeTable.getSchema().getColumnCount(); i++) {
           if (!edgeTable.getSchema().getColumnName(i).equals(sourceCol)
               && !edgeTable.getSchema().getColumnName(i).equals(targetCol)) {
-            edgeTable.set(edgeTable.getRowCount() - 1, i,
+            edgeTable.set(r, i,
                 edge.get(edgeTable.getSchema().getColumnName(i)));
           }
         }
-        setType(edge, type);
+        setType(new EdgeImpl(edgeTable, r), type);
         return true;
       }
     }
@@ -454,16 +490,17 @@ public class JungObviousNetwork implements Network {
      */
     public Collection<Edge> getInEdges(Node node) {
       Collection<Edge> inEdges = new ArrayList<Edge>();
+      int nodeId = nodeCol != null ? node.getInt(nodeCol) : node.getRow();
       for (Map.Entry<Edge, edu.uci.ics.jung.graph.util.EdgeType> e
           : edgeTypeMap.entrySet()) {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)) {
-          if (e.getKey().getInt(targetCol) == node.getRow()) {
+          if (e.getKey().getInt(targetCol) == nodeId) {
             inEdges.add(e.getKey());
           }
         } else {
-          if (e.getKey().getInt(targetCol) == node.getRow()
-              || e.getKey().getInt(sourceCol) == node.getRow()) {
+          if (e.getKey().getInt(targetCol) == nodeId
+              || e.getKey().getInt(sourceCol) == nodeId) {
             inEdges.add(e.getKey());
           }
         }
@@ -478,16 +515,18 @@ public class JungObviousNetwork implements Network {
      */
     public Collection<Edge> getOutEdges(Node node) {
       Collection<Edge> outEdges = new ArrayList<Edge>();
+      int nodeId = nodeCol != null ? node.getInt(nodeCol) : node.getRow();
       for (Map.Entry<Edge, edu.uci.ics.jung.graph.util.EdgeType> e
           : edgeTypeMap.entrySet()) {
+        int source = e.getKey().getInt(sourceCol);
+        int target = e.getKey().getInt(targetCol);
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)) {
-          if (e.getKey().getInt(sourceCol) == node.getRow()) {
+          if (source == nodeId) {
             outEdges.add(e.getKey());
           }
         } else {
-          if (e.getKey().getInt(targetCol) == node.getRow()
-              || e.getKey().getInt(sourceCol) == node.getRow()) {
+          if (target == nodeId || source == nodeId) {
             outEdges.add(e.getKey());
           }
         }
