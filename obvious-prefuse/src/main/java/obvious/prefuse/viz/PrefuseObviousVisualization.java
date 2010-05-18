@@ -2,15 +2,22 @@ package obvious.prefuse.viz;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Edge;
+import obvious.data.Graph;
+import obvious.data.Network;
+import obvious.data.Node;
+import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
 import obvious.impl.TupleImpl;
+import obvious.prefuse.PrefuseObviousNetwork;
 import obvious.prefuse.PrefuseObviousTable;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
@@ -54,6 +61,20 @@ public class PrefuseObviousVisualization extends Visualization {
   }
 
   /**
+   * Constructor.
+   * @param parentNetwork an Obvious Network
+   * @param predicate a Predicate used to filter the table
+   * @param visName name of the visualization technique to used (if needed)
+   * @param param parameters of the visualization
+   * null if custom
+   */
+  public PrefuseObviousVisualization(Network parentNetwork, Predicate predicate,
+      String visName, Map<String, Object> param) {
+    super(parentNetwork, predicate, visName);
+    initVisualization(param);
+  }
+
+  /**
    * Inits a standard prefuse visualization.
    * @param param param of the visualization.
    */
@@ -63,7 +84,11 @@ public class PrefuseObviousVisualization extends Visualization {
       groupName = (String) param.get(GROUP_NAME);
     }
     vis = new prefuse.Visualization();
-    vis.add(groupName, getPrefuseTable());
+    if (this.getData() instanceof Table) {
+      vis.add(groupName, getPrefuseTable());
+    } else if (this.getData() instanceof Network) {
+      vis.add(groupName, getPrefuseNetwork());
+    }
   }
 
   /**
@@ -128,11 +153,26 @@ public class PrefuseObviousVisualization extends Visualization {
    * @return corresponding prefuse table
    */
   protected prefuse.data.Table getPrefuseTable() {
-    if (this.getTable().getUnderlyingImpl(prefuse.data.Table.class) != null) {
+    if (((Table) this.getData()).getUnderlyingImpl(prefuse.data.Table.class)
+        != null) {
       return (prefuse.data.Table)
-          this.getTable().getUnderlyingImpl(prefuse.data.Table.class);
+          ((Table) this.getData()).getUnderlyingImpl(prefuse.data.Table.class);
     } else {
-      return convertToPrefuseTable(this.getTable());
+      return convertToPrefuseTable((Table) this.getData());
+    }
+  }
+
+  /**
+   * Gets the corresponding prefuse network.
+   * @return corresponding prefuse network
+   */
+  protected prefuse.data.Graph getPrefuseNetwork() {
+    if (((Network) this.getData()).getUnderlyingImpl(prefuse.data.Graph.class)
+        != null) {
+      return (prefuse.data.Graph)
+          ((Network) getData()).getUnderlyingImpl(prefuse.data.Graph.class);
+    } else {
+      return convertToPrefuseGraph((Network) this.getData());
     }
   }
 
@@ -151,9 +191,52 @@ public class PrefuseObviousVisualization extends Visualization {
     TableListener listnr = new ObviousLinkListener(otherTable);
     TableListener listnr2 = new ObviousLinkListener(obviousPrefuseTable);
     obviousPrefuseTable.addTableListener(listnr);
-    getTable().addTableListener(listnr2);
+    ((Table) this.getData()).addTableListener(listnr2);
     return (prefuse.data.Table)
         obvPrefTable.getUnderlyingImpl(prefuse.data.Table.class);
+  }
+
+  /**
+   * Converts an Obvious Network to a prefuse network.
+   * @param network network to convert
+   * @return the converted prefuse network
+   */
+  private prefuse.data.Graph convertToPrefuseGraph(Network network) {
+    if (network.getEdges().size() != 0 && network.getNodes().size() != 0) {
+      Schema nodeSchema = network.getNodes().iterator().next().getSchema();
+      Schema edgeSchema = network.getEdges().iterator().next().getSchema();
+      Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema);
+      for (Node node : network.getNodes()) {
+        prefNetwork.addNode(node);
+      }
+      for (Edge edge : network.getEdges()) {
+        if (network.getEdgeType(edge) == Graph.EdgeType.DIRECTED) {
+          prefNetwork.addEdge(edge, network.getSource(edge),
+              network.getTarget(edge), network.getEdgeType(edge));
+        } else {
+          Node firstNode = null;
+          Node secondNode = null;
+          int count = 0;
+          System.out.println(network.getIncidentNodes(edge).size());
+          for (Node node : network.getIncidentNodes(edge)) {
+            if (count == 0) {
+              firstNode = node;
+            } else if (count == 1) {
+              secondNode = node;
+              break;
+            }
+            count++;
+          }
+          System.out.println(firstNode.get("name") + " : " + secondNode.get("name"));
+          prefNetwork.addEdge(edge, firstNode, secondNode,
+              network.getEdgeType(edge));
+        }
+      }
+      return (prefuse.data.Graph)
+          prefNetwork.getUnderlyingImpl(prefuse.data.Graph.class);
+    } else {
+      throw new ObviousRuntimeException("Empty graph!");
+    }
   }
 
 }
