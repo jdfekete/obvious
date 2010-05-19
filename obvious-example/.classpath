@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="/obvious"/>
 	<classpathentry kind="src" path="/obvious-prefuse"/>
 	<classpathentry kind="src" path="/obvious-jung"/>
+	<classpathentry kind="src" path="/obvious-ivtk"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
