@@ -45,6 +45,11 @@ import static org.junit.Assert.*;
  */
 public class JungNetworkTest extends NetworkTest {
 
+  /**
+   * Implementation schema for edge.
+   */
+  private Schema customEdgeSchema;
+
   @Override
   public Network newInstance(Schema nSchema, Schema eSchema) {
     if (!eSchema.hasColumn("SRCNODE")) {
@@ -53,29 +58,20 @@ public class JungNetworkTest extends NetworkTest {
     if  (!eSchema.hasColumn("DESTNODE")) {
       eSchema.addColumn("DESTNODE", Integer.class, new Integer(0));
     }
+    this.customEdgeSchema = eSchema;
     return new JungObviousNetwork(nSchema, eSchema);
   }
 
   @Override
   public void testGetSource() {
-    assertEquals(null, getNetwork().getSource(new EdgeImpl(edgeTable, 0)));
-    addRow();
-    getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
-        new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
-        EdgeType.DIRECTED);
-    assertEquals(new NodeImpl(nodeTable, 0),
-        getNetwork().getSource(new EdgeImpl(edgeTable, EDGENUMBER)));
+    assertEquals(null, getNetwork().getSource(new EdgeImpl(customEdgeSchema,
+        new Object[] {"edge0", 0, 1})));
   }
 
   @Override
   public void testGetTarget() {
-    assertEquals(null, getNetwork().getTarget(new EdgeImpl(edgeTable, 0)));
-    addRow();
-    getNetwork().addEdge(new EdgeImpl(edgeTable, edgeTable.getRowCount() - 1),
-        new NodeImpl(nodeTable, 0), new NodeImpl(nodeTable, NODENUMBER - 1),
-        EdgeType.DIRECTED);
-    assertEquals(new NodeImpl(nodeTable, NODENUMBER - 1),
-        getNetwork().getTarget(new EdgeImpl(edgeTable, EDGENUMBER)));
+    assertEquals(null, getNetwork().getTarget(new EdgeImpl(customEdgeSchema,
+        new Object[] {"edge0", 0, 1})));
   }
 
   @Override
@@ -160,6 +156,24 @@ public class JungNetworkTest extends NetworkTest {
     assertEquals(getNetwork().getIncidentEdges(new NodeImpl(nodeTable,
         NODENUMBER - 1)).size() - 2, getNetwork().getOutEdges(new NodeImpl(
             nodeTable, NODENUMBER - 1)).size());
+  }
+
+  @Override
+  public void testGetOpposite() {
+    assertEquals("node_1", network.getOpposite(new NodeImpl(nodeTable, 0),
+        new EdgeImpl(customEdgeSchema,
+            new Object[] {"edge0", 0, 1})).get("nodeName"));
+    assertEquals("node_0", network.getOpposite(new NodeImpl(nodeTable, 1),
+        new EdgeImpl(customEdgeSchema,
+            new Object[] {"edge0", 0, 1})).get("nodeName"));
+  }
+
+  @Override
+  public void testGetIncidentNodes() {
+    assertEquals(2, network.getIncidentNodes(new EdgeImpl(customEdgeSchema,
+        new Object[] {"edge0", 0, 1})).size());
+    assertEquals(2, network.getIncidentNodes(new EdgeImpl(customEdgeSchema,
+        new Object[] {"edge1", 0, 2})).size());
   }
 
   /**
