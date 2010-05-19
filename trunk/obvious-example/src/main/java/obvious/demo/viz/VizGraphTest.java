@@ -117,7 +117,8 @@ public final class VizGraphTest {
   display.addControlListener(new ZoomControl());
 
   //create a new window to hold the visualization
-  JFrame frame = new JFrame("prefuse example");
+  JFrame frame = new JFrame("DataModel : Obvious-prefuse"
+      + " | Visu : Obvious-Prefuse | View : Prefuse");
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   frame.add(display);
   frame.pack();
