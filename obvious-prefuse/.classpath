@@ -8,6 +8,5 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/obvious"/>
-	<classpathentry kind="src" path="/obvious-ivtk"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
