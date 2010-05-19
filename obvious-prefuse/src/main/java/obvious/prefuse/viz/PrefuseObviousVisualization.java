@@ -217,7 +217,6 @@ public class PrefuseObviousVisualization extends Visualization {
           Node firstNode = null;
           Node secondNode = null;
           int count = 0;
-          System.out.println(network.getIncidentNodes(edge).size());
           for (Node node : network.getIncidentNodes(edge)) {
             if (count == 0) {
               firstNode = node;
@@ -227,7 +226,6 @@ public class PrefuseObviousVisualization extends Visualization {
             }
             count++;
           }
-          System.out.println(firstNode.get("name") + " : " + secondNode.get("name"));
           prefNetwork.addEdge(edge, firstNode, secondNode,
               network.getEdgeType(edge));
         }
