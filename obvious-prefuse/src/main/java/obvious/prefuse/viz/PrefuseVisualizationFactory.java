@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
@@ -58,7 +59,7 @@ public class PrefuseVisualizationFactory extends VisualizationFactory {
   @Override
   public Visualization createVisualization(Table table, Predicate pred,
       String visName, Map<String, Object> param) {
-    if (visName == null || availableVis.contains(visName)) {
+    if (visName == null) {
       return new PrefuseObviousVisualization(table, pred, visName, param);
     } else if (visName.toLowerCase().equals("scatterplot")) {
       return new PrefuseScatterPlotViz(table, pred, visName, param);
@@ -76,6 +77,17 @@ public class PrefuseVisualizationFactory extends VisualizationFactory {
       }
     }
     return availableVis;
+  }
+
+  @Override
+  public Visualization createVisualization(Network network, Predicate pred,
+      String visName, Map<String, Object> param) {
+    if (visName == null) {
+      return new PrefuseObviousVisualization(network, pred, visName, param);
+    } else {
+      throw new ObviousRuntimeException("Unsupported visualization technique"
+          + " : " + visName);
+    }
   }
 
 }
