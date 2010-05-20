@@ -32,19 +32,15 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
-import obvious.data.Edge;
-import obvious.data.Graph;
 import obvious.data.Network;
-import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.event.TableListener;
-import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
-import obvious.impl.TupleImpl;
 import obvious.prefuse.PrefuseObviousNetwork;
 import obvious.prefuse.PrefuseObviousTable;
+import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
@@ -208,18 +204,14 @@ public class PrefuseObviousVisualization extends Visualization {
    * @return the converted prefuse table
    */
   private prefuse.data.Table convertToPrefuseTable(Table otherTable) {
-    Table obvPrefTable = new PrefuseObviousTable(otherTable.getSchema());
-    obviousPrefuseTable = obvPrefTable;
-    for (IntIterator it = otherTable.rowIterator(); it.hasNext();) {
-      int rowId = it.nextInt();
-      obvPrefTable.addRow(new TupleImpl(otherTable, rowId));
-    }
+    obviousPrefuseTable = new PrefuseObviousTable(otherTable.getSchema());
+    ObviousLib.fillTable(otherTable, obviousPrefuseTable);
     TableListener listnr = new ObviousLinkListener(otherTable);
     TableListener listnr2 = new ObviousLinkListener(obviousPrefuseTable);
     obviousPrefuseTable.addTableListener(listnr);
     ((Table) this.getData()).addTableListener(listnr2);
     return (prefuse.data.Table)
-        obvPrefTable.getUnderlyingImpl(prefuse.data.Table.class);
+        obviousPrefuseTable.getUnderlyingImpl(prefuse.data.Table.class);
   }
 
   /**
@@ -232,30 +224,7 @@ public class PrefuseObviousVisualization extends Visualization {
       Schema nodeSchema = network.getNodes().iterator().next().getSchema();
       Schema edgeSchema = network.getEdges().iterator().next().getSchema();
       Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema);
-      for (Node node : network.getNodes()) {
-        prefNetwork.addNode(node);
-      }
-      for (Edge edge : network.getEdges()) {
-        if (network.getEdgeType(edge) == Graph.EdgeType.DIRECTED) {
-          prefNetwork.addEdge(edge, network.getSource(edge),
-              network.getTarget(edge), network.getEdgeType(edge));
-        } else {
-          Node firstNode = null;
-          Node secondNode = null;
-          int count = 0;
-          for (Node node : network.getIncidentNodes(edge)) {
-            if (count == 0) {
-              firstNode = node;
-            } else if (count == 1) {
-              secondNode = node;
-              break;
-            }
-            count++;
-          }
-          prefNetwork.addEdge(edge, firstNode, secondNode,
-              network.getEdgeType(edge));
-        }
-      }
+      ObviousLib.fillNetwork(network, prefNetwork);
       return (prefuse.data.Graph)
           prefNetwork.getUnderlyingImpl(prefuse.data.Graph.class);
     } else {
