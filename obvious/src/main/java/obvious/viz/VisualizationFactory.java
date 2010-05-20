@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import obvious.ObviousException;
+import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
 
@@ -64,5 +65,15 @@ public abstract class VisualizationFactory {
    */
   public abstract Visualization createVisualization(
       Table table, Predicate pred, String visName, Map<String, Object> param);
+  /**
+   * Creates an instance of Visualization.
+   * @param network parent network
+   * @param pred a predicate to filter the table
+   * @param visName visualization technique name
+   * @param param parameters of the visualization
+   * @return an instance of Visualization
+   */
+  public abstract Visualization createVisualization(Network network,
+      Predicate pred, String visName, Map<String, Object> param);
 
 }
