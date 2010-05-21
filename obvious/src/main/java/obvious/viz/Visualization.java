@@ -4,8 +4,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import obvious.data.Data;
+import obvious.data.Edge;
 import obvious.data.Network;
+import obvious.data.Node;
 import obvious.data.Table;
+import obvious.data.Tree;
 import obvious.data.util.Predicate;
 import obvious.util.Adaptable;
 
@@ -57,6 +60,19 @@ public abstract class Visualization implements Adaptable {
   public Visualization(Network parentNetwork, Predicate predicate,
       String visName) {
     this.data = parentNetwork;
+    this.pred = predicate;
+    this.visualizatioName = visName;
+  }
+
+  /**
+   * Constructor.
+   * @param parentTree Obvious data tree
+   * @param predicate Obvious predicate (i.e. filter)
+   * @param visName Visualization technique name
+   */
+  public Visualization(Tree<Node, Edge> parentTree, Predicate predicate,
+      String visName) {
+    this.data = parentTree;
     this.pred = predicate;
   }
 
