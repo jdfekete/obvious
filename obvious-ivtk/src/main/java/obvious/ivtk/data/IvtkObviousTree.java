@@ -117,6 +117,10 @@ public class IvtkObviousTree implements Tree<Node, Edge> {
     }
   }
 
+  public IvtkObviousTree(infovis.Tree tree) {
+    this.tree = tree;
+  }
+
   /**
    * Gets a collection of child Edges of a node in the tree.
    * @param node a node of the tree
@@ -615,6 +619,9 @@ public class IvtkObviousTree implements Tree<Node, Edge> {
    * @return Cytoscape graph instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
+    if  (type.equals(infovis.Tree.class)) {
+      return tree;
+    }
     return null;
   }
 

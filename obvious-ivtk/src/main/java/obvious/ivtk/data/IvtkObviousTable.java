@@ -194,7 +194,6 @@ public class IvtkObviousTable implements Table {
               new StringBuffer(), new FieldPosition(0));
           table.setValueAt(v.toString(), rowId, i);
           }
-          System.out.println(table.getColumnCount());
         }
         this.fireTableEvent(table.getLastRow(), table.getLastRow(),
             TableListener.ALL_COLUMN, TableListener.INSERT);
