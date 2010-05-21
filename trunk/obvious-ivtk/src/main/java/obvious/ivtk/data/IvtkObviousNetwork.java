@@ -617,6 +617,9 @@ public class IvtkObviousNetwork implements Network {
    * @return Ivtk graph instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(infovis.Graph.class)) {
+      return graph;
+    }
     return null;
   }
 
