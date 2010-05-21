@@ -184,7 +184,6 @@ public class IvtkObviousTable implements Table {
     try {
       if (canAddRow()) {
         int rowId = table.addRow();
-        table.setSize(table.size() + 1);
         for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
           TypedFormat format = formatFactory.getFormat(
              tuple.getSchema().getColumnType(i).getSimpleName());
@@ -195,6 +194,7 @@ public class IvtkObviousTable implements Table {
               new StringBuffer(), new FieldPosition(0));
           table.setValueAt(v.toString(), rowId, i);
           }
+          System.out.println(table.getColumnCount());
         }
         this.fireTableEvent(table.getLastRow(), table.getLastRow(),
             TableListener.ALL_COLUMN, TableListener.INSERT);
@@ -507,6 +507,10 @@ public class IvtkObviousTable implements Table {
    * @return null
    */
   public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(infovis.Table.class) || type.equals(
+        infovis.table.DefaultDynamicTable.class)) {
+      return table;
+    }
     return null;
   }
 
