@@ -95,10 +95,12 @@ public final class VizJungGraphTest {
     Node node1 = new NodeImpl(nodeSchema, new Object[] {"1", 0});
     Node node2 = new NodeImpl(nodeSchema, new Object[] {"2", 1});
     Node node3 = new NodeImpl(nodeSchema, new Object[] {"3", 2});
+    Node node4 = new NodeImpl(nodeSchema, new Object[] {"4", 3});
 
     Edge edge1 = new EdgeImpl(edgeSchema, new Object[] {0, 1});
     Edge edge2 = new EdgeImpl(edgeSchema, new Object[] {1, 2});
     Edge edge3 = new EdgeImpl(edgeSchema, new Object[] {2, 0});
+    Edge edge4 = new EdgeImpl(edgeSchema, new Object[] {3, 1});
 
     // Building the network
     Network jungNetwork = new JungObviousNetwork(nodeSchema, edgeSchema,
@@ -106,10 +108,12 @@ public final class VizJungGraphTest {
     jungNetwork.addNode(node1);
     jungNetwork.addNode(node2);
     jungNetwork.addNode(node3);
+    jungNetwork.addNode(node4);
 
     jungNetwork.addEdge(edge1, node1, node2, Graph.EdgeType.UNDIRECTED);
     jungNetwork.addEdge(edge2, node2, node3, Graph.EdgeType.UNDIRECTED);
     jungNetwork.addEdge(edge3, node3, node1, Graph.EdgeType.UNDIRECTED);
+    jungNetwork.addEdge(edge4, node4, node2, Graph.EdgeType.UNDIRECTED);
 
     // Param for the prefuse visualization (simply group name).
     Map<String, Object> param = new HashMap<String, Object>();
