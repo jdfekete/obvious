@@ -1,0 +1,10 @@
+#summary Compilation guide for Obvious Project.
+
+= Introduction =
+
+Each Obvious implementation is a Maven Project. So, in a maven environment, maven will resolve with the pom.xml file all the dependancies and build the correct java classpath.
+
+
+= Details =
+
+To compile, your implementation just run the maven build command from eclipse or the command line.
