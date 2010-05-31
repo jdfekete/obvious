@@ -1,0 +1,3 @@
+#summary How to extract Javadoc from Obvious.
+
+Each Obvious implementation is a maven project. So in a maven environment, to extract the Javadoc, just run the javadoc maven command to extract the javadoc.
