@@ -38,6 +38,7 @@ import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tree;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
@@ -208,7 +209,6 @@ public class IvtkObviousVisualization extends Visualization {
   private infovis.Table convertToIvtkTable(Table table) {
     Table ivtkObviousTable = new IvtkObviousTable(table.getSchema());
     ObviousLib.fillTable(table, ivtkObviousTable);
-    System.out.println(table.getRowCount());
     TableListener listnr = new ObviousLinkListener(table);
     TableListener listnr2 = new ObviousLinkListener(ivtkObviousTable);
     ivtkObviousTable.addTableListener(listnr);
@@ -251,5 +251,33 @@ public class IvtkObviousVisualization extends Visualization {
     } else {
       throw new ObviousRuntimeException("Empty tree!");
     }
+  }
+
+  @Override
+  public Object getAttributeValuetAt(Tuple tuple, String alias) {
+    int colId = -1;
+    for (int i = 0; i < vis.getTable().getColumnCount(); i++) {
+      if (vis.getVisualColumn(getAliasMap().get(alias)) != null
+          && vis.getTable().getColumnName(i).equals(
+          vis.getVisualColumn(getAliasMap().get(alias)).getName())) {
+        colId = i;
+        break;
+      }
+    }
+    if (colId != -1) {
+      return vis.getTable().getValueAt(tuple.getRow(), colId);
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public void initAliasMap() {
+    this.getAliasMap().put(VISUAL_COLOR, infovis.Visualization.VISUAL_COLOR);
+    this.getAliasMap().put(VISUAL_LABEL, infovis.Visualization.VISUAL_LABEL);
+    this.getAliasMap().put(VISUAL_SHAPE, infovis.Visualization.VISUAL_SHAPE);
+    this.getAliasMap().put(VISUAL_SIZE, infovis.Visualization.VISUAL_SIZE);
+    this.getAliasMap().put(VISUAL_VALIDATED,
+        infovis.Visualization.VISUAL_FILTER);
   }
 }
