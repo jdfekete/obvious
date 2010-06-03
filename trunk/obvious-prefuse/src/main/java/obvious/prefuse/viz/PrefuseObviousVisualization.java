@@ -35,6 +35,7 @@ import obvious.ObviousRuntimeException;
 import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
@@ -44,6 +45,9 @@ import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
+import obvious.data.Node;
+import prefuse.visual.VisualTable;
+
 
 
 /**
@@ -57,6 +61,11 @@ public class PrefuseObviousVisualization extends Visualization {
    * Group name key field.
    */
   public static final String GROUP_NAME = "group";
+
+  /**
+   * Main group name for the prefuse visualization.
+   */
+  private String groupName;
 
   /**
    * Wrapped prefuse visualization.
@@ -101,7 +110,7 @@ public class PrefuseObviousVisualization extends Visualization {
    * @param param param of the visualization.
    */
   protected void initVisualization(Map<String, Object> param) {
-    String groupName = "tupleset";
+    groupName = "tupleset";
     if (param != null && param.containsKey(GROUP_NAME)) {
       groupName = (String) param.get(GROUP_NAME);
     }
@@ -230,6 +239,39 @@ public class PrefuseObviousVisualization extends Visualization {
     } else {
       throw new ObviousRuntimeException("Empty graph!");
     }
+  }
+
+  @Override
+  public Object getAttributeValuetAt(Tuple tuple, String alias) {
+    prefuse.data.tuple.TupleSet tupleSet = vis.getVisualGroup(groupName);
+    prefuse.visual.VisualTable visualTable;
+    if (tupleSet instanceof prefuse.visual.VisualTable) {
+      visualTable = (prefuse.visual.VisualTable) tupleSet;
+    } else if (tupleSet instanceof prefuse.data.Graph) {
+      prefuse.data.Graph g = (prefuse.data.Graph) tupleSet;
+      visualTable = (VisualTable)(tuple instanceof Node ? g.getNodeTable()
+          : g.getEdgeTable());
+    } else {
+      return null;
+    }
+    if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
+        != -1) {
+    return visualTable.get(tuple.getRow(), getAliasMap().get(alias));
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public void initAliasMap() {
+    this.getAliasMap().put(VISUAL_COLOR, prefuse.visual.VisualItem.FILLCOLOR);
+    this.getAliasMap().put(VISUAL_LABEL, prefuse.visual.VisualItem.LABEL);
+    this.getAliasMap().put(VISUAL_SHAPE, prefuse.visual.VisualItem.SHAPE);
+    this.getAliasMap().put(VISUAL_SIZE, prefuse.visual.VisualItem.SIZE);
+    this.getAliasMap().put(VISUAL_VALIDATED,
+        prefuse.visual.VisualItem.VALIDATED);
+    this.getAliasMap().put(VISUAL_X, prefuse.visual.VisualItem.X);
+    this.getAliasMap().put(VISUAL_Y, prefuse.visual.VisualItem.Y);
   }
 
 }
