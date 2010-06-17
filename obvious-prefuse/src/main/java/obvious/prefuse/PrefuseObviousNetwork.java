@@ -54,7 +54,7 @@ public class PrefuseObviousNetwork implements Network {
    * Column used as node id, when default prefuse parameters
    * are overriden.
    */
-  private String nodeKey;
+  private String nodeKey = null;
 
   /**
    * Column used in edgeTable to identify sourceNode.
@@ -190,8 +190,21 @@ public class PrefuseObviousNetwork implements Network {
         String colName = prefEdge.getColumnName(i);
         Boolean graphCol = colName.equals(sourceKey) || colName.equals(
             targetKey);
-        // preventing overriding of prefuse internal values for graph model!
-        if (!graphCol && edge.get(colName) != null) {
+        if (colName == null || edge.get(colName) == null) {
+          break;
+        }
+        if (graphCol && edge.get(colName).equals(sourceKey)
+            && nodeKey != null) {
+          prefEdge.set(colName, source.get(nodeKey));
+        } else if (graphCol && edge.get(colName).equals(targetKey)
+            && nodeKey != null) {
+          prefEdge.set(colName, target.get(nodeKey));
+        } else if (graphCol && edge.get(colName).equals(sourceKey)
+            && nodeKey == null) {
+          prefEdge.set(colName, source.getRow());
+        } else if (graphCol && edge.get(colName).equals(targetKey)) {
+          prefEdge.set(colName, target.getRow());
+        } else {
           prefEdge.set(colName, edge.get(colName));
         }
       }
@@ -360,7 +373,7 @@ public class PrefuseObviousNetwork implements Network {
     Collection<Node> neighbor = new ArrayList<Node>();
     prefuse.data.Node prefNode = this.graph.getNodeFromKey(
         this.graph.getKey(node.getRow()));
-    Iterator<Node> i = this.graph.neighbors(prefNode);
+    Iterator<prefuse.data.Node> i = this.graph.neighbors(prefNode);
     while (i.hasNext()) {
       neighbor.add(new PrefuseObviousNode((prefuse.data.Node) i.next()));
     }
@@ -373,8 +386,12 @@ public class PrefuseObviousNetwork implements Network {
    */
   public Collection<Node> getNodes() {
     Collection<Node> node = new ArrayList<Node>();
-    for (int i = 0; i < this.graph.getNodeCount(); i++) {
-      node.add(new PrefuseObviousNode(this.graph.getNode(i)));
+    prefuse.util.collections.IntIterator it = graph.nodeRows();
+    while (it.hasNext()) {
+      int currentId = (Integer) it.next();
+      if (this.graph.getNodeTable().isValidRow(currentId)) {
+        node.add(new PrefuseObviousNode(this.graph.getNode(currentId)));
+      }
     }
     return node;
   }
