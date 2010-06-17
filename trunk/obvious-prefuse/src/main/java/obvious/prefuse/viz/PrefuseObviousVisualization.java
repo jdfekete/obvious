@@ -29,9 +29,11 @@ package obvious.prefuse.viz;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.data.Table;
@@ -46,6 +48,7 @@ import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 import obvious.data.Node;
+import prefuse.data.util.TableIterator;
 import prefuse.visual.VisualTable;
 
 
@@ -63,9 +66,49 @@ public class PrefuseObviousVisualization extends Visualization {
   public static final String GROUP_NAME = "group";
 
   /**
+   * Directed key field.
+   */
+  public static final String DIRECTED = "directed";
+
+  /**
+   * Node key column key field.
+   */
+  public static final String NODE_KEY = "nodeKey";
+
+  /**
+   * Source key column key field.
+   */
+  public static final String SOURCE_KEY = "sourceKey";
+
+  /**
+   * Target key column key field.
+   */
+  public static final String TARGET_KEY = "targetKey";
+
+  /**
    * Main group name for the prefuse visualization.
    */
   private String groupName;
+
+  /**
+   * Boolean indicating if the prefuse graph is directed.
+   */
+  private boolean directed = false;
+
+  /**
+   * Node key for prefuse obvious graph.
+   */
+  private String nodeKey = prefuse.data.Graph.DEFAULT_NODE_KEY;
+
+  /**
+   * Source node key for prefuse obvious graph.
+   */
+  private String sourceKey = prefuse.data.Graph.DEFAULT_SOURCE_KEY;
+
+  /**
+   * Target node key for prefuse obvious graph.
+   */
+  private String targetKey = prefuse.data.Graph.DEFAULT_TARGET_KEY;
 
   /**
    * Wrapped prefuse visualization.
@@ -111,8 +154,22 @@ public class PrefuseObviousVisualization extends Visualization {
    */
   protected void initVisualization(Map<String, Object> param) {
     groupName = "tupleset";
-    if (param != null && param.containsKey(GROUP_NAME)) {
-      groupName = (String) param.get(GROUP_NAME);
+    if (param != null) {
+      if (param.containsKey(GROUP_NAME)) {
+        groupName = (String) param.get(GROUP_NAME);
+      }
+      if (param.containsKey(DIRECTED)) {
+        directed = (Boolean) param.get(DIRECTED);
+      }
+      if (param.containsKey(NODE_KEY)) {
+        nodeKey = (String) param.get(NODE_KEY);
+      }
+      if (param.containsKey(SOURCE_KEY)) {
+        sourceKey = (String) param.get(SOURCE_KEY);
+      }
+      if (param.containsKey(TARGET_KEY)) {
+        targetKey = (String) param.get(TARGET_KEY);
+      }
     }
     vis = new prefuse.Visualization();
     if (this.getData() instanceof Table) {
@@ -229,10 +286,14 @@ public class PrefuseObviousVisualization extends Visualization {
    * @return the converted prefuse network
    */
   private prefuse.data.Graph convertToPrefuseGraph(Network network) {
-    if (network.getEdges().size() != 0 && network.getNodes().size() != 0) {
-      Schema nodeSchema = network.getNodes().iterator().next().getSchema();
-      Schema edgeSchema = network.getEdges().iterator().next().getSchema();
-      Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema);
+    Collection<Node> nodes = network.getNodes();
+    Collection<Edge> edges = network.getEdges();
+    if (edges.size() != 0 && nodes.size() != 0) {
+      Schema nodeSchema = nodes.iterator().next().getSchema();
+      Schema edgeSchema = edges.iterator().next().getSchema();
+      System.out.println("OK");
+      Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema,
+          directed, nodeKey, sourceKey, targetKey);
       ObviousLib.fillNetwork(network, prefNetwork);
       return (prefuse.data.Graph)
           prefNetwork.getUnderlyingImpl(prefuse.data.Graph.class);
@@ -256,7 +317,24 @@ public class PrefuseObviousVisualization extends Visualization {
     }
     if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
         != -1) {
-    return visualTable.get(tuple.getRow(), getAliasMap().get(alias));
+      TableIterator iter = visualTable.iterator();
+      while (iter.hasNext()) {
+        int row = iter.nextInt();
+        boolean find = true;
+        for (int i = 0; i < visualTable.getColumnCount(); i++) {
+          if (tuple.getSchema().hasColumn(visualTable.getColumnName(i))) {
+            if (!visualTable.get(row, visualTable.getColumnName(i)).equals(
+                tuple.get(visualTable.getColumnName(i)))) {
+              find = false;
+              break;
+            }
+          }
+        }
+        if (find) {
+          return visualTable.get(row, alias);
+        }
+      }
+      return null;
     } else {
       return null;
     }
