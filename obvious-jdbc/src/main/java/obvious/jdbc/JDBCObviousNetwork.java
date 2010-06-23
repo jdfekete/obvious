@@ -158,7 +158,7 @@ public class JDBCObviousNetwork implements Network {
    */
   private void loadStructure() throws SQLException {
     String request = "SELECT " + edgeKey + ", " + sourceCol + "," + targetCol
-        + " FROM " + edgeTable + " ORDER BY " + edgeKey;
+        + " FROM " + edgeTable + " WHERE EDGE_ID < 123000 ORDER BY " + edgeKey;
     Statement stmt = con.createStatement();
     ResultSet rslt = stmt.executeQuery(request);
     while (rslt.next()) {
@@ -313,7 +313,7 @@ public class JDBCObviousNetwork implements Network {
           colNames += " ";
         }
       }
-      request = request + colNames + " FROM " + edgeTable;
+      request = request + colNames + " FROM " + edgeTable + " WHERE EDGE_ID < 123000";
       Statement stmt = con.createStatement();
       ResultSet rslt = stmt.executeQuery(request);
       while (rslt.next()) {
