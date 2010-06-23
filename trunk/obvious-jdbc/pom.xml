@@ -29,6 +29,11 @@
   	  	<type>test-jar</type>
 	<scope>test</scope>
 	</dependency>
+	<dependency>
+		<groupId>oracle</groupId>
+		<artifactId>oracle</artifactId>
+		<version>6.0</version>
+	</dependency>
   	
   	
   </dependencies>
