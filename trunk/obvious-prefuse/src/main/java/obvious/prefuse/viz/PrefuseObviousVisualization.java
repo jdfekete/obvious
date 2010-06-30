@@ -318,16 +318,21 @@ public class PrefuseObviousVisualization extends Visualization {
     if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
         != -1) {
       TableIterator iter = visualTable.iterator();
+      int schemaSize = visualTable.getColumnCount() - 1;
+      Boolean[] schemaBoolean = new Boolean[schemaSize + 1];
+      String[] schemaCol = new String[schemaSize + 1];
+      for (int i = schemaSize; i >= 0; i--) {
+        schemaBoolean[i] = tuple.getSchema().hasColumn(visualTable.getColumnName(i));
+        schemaCol[i] = visualTable.getColumnName(i);
+      }
       while (iter.hasNext()) {
         int row = iter.nextInt();
         boolean find = true;
-        for (int i = 0; i < visualTable.getColumnCount(); i++) {
-          if (tuple.getSchema().hasColumn(visualTable.getColumnName(i))) {
-            if (!visualTable.get(row, visualTable.getColumnName(i)).equals(
-                tuple.get(visualTable.getColumnName(i)))) {
+        for (int i = schemaSize; i >= 0; i--) {
+          if (schemaBoolean[i] &&  !visualTable.get(row, schemaCol[i]).equals(
+                tuple.get(schemaCol[i]))) {
               find = false;
               break;
-            }
           }
         }
         if (find) {
