@@ -35,6 +35,7 @@ import oblivion.lp.Prototype;
 import oblivion.lp.Variable;
 import oblivion.lp.VariableEvent;
 import oblivion.lp.VariableListener;
+import oblivion.lpui.meta.World;
 import obvious.data.Table;
 import obvious.data.event.TableListener;
 
@@ -76,6 +77,7 @@ public class ImproviseObviousListener implements TableListener {
         new Data(mTable));
     var = new Variable(new Prototype(LexicalData.class, lexData));
     var.addVariableListener(listener);
+    World.world(var);
   }
 
   @Override
@@ -94,6 +96,8 @@ public class ImproviseObviousListener implements TableListener {
   @Override
   public void tableChanged(Table t, int start, int end, int col, int type) {
     if (inhibitNotify != 0) {
+      return;
+    } else {  
       VariableEvent event = new VariableEvent(var, VariableEvent.VALUE_CHANGED);
       listener.variableChanged(event);
     }
