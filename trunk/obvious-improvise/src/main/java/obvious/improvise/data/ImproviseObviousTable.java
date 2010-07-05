@@ -102,6 +102,7 @@ public class ImproviseObviousTable implements Table {
       record.setValue(i, tuple.get(i));
     }
     oblivionTable.add(record);
+    this.fireTableEvent(record.getID(), record.getID(), TableListener.ALL_COLUMN, TableListener.INSERT);
     return record.getID();
   }
 
@@ -189,16 +190,22 @@ public class ImproviseObviousTable implements Table {
 
   @Override
   public void removeAllRows() {
+    int lastId = 0;
     TableIterator it = oblivionTable.scan();
     while (it.hasMoreElements()) {
       Record currentRecord = it.getRecord();
+      lastId = currentRecord.getID();
       oblivionTable.remove(currentRecord);
     }
+    this.fireTableEvent(0, lastId,
+        TableListener.ALL_COLUMN, TableListener.DELETE);
   }
 
   @Override
   public boolean removeRow(int row) {
     oblivionTable.remove(row);
+    this.fireTableEvent(row, row,
+        TableListener.ALL_COLUMN, TableListener.DELETE);
     return !isValidRow(row);
   }
 
@@ -221,6 +228,7 @@ public class ImproviseObviousTable implements Table {
   public void set(int rowId, int col, Object val) {
     Record record = oblivionTable.at(rowId);
     record.setValue(col, val);
+    this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
   }
 
   @Override
