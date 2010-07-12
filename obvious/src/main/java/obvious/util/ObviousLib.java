@@ -73,7 +73,7 @@ public final class ObviousLib {
     }
     for (Edge edge : sourceNet.getEdges()) {
       if (sourceNet.getEdgeType(edge) == Graph.EdgeType.DIRECTED) {
-        filledNet.addEdge(edge, filledNet.getSource(edge),
+        filledNet.addEdge(edge, sourceNet.getSource(edge),
             sourceNet.getTarget(edge), sourceNet.getEdgeType(edge));
       } else {
         Node firstNode = null;
