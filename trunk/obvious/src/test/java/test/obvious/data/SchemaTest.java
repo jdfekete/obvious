@@ -216,7 +216,7 @@ public abstract class SchemaTest {
   public void testRemoveColumnByIndex() {
     final int falseIndex = 3;
     assertTrue(schema.removeColumn(0));
-    assertTrue(schema.removeColumn(0));
+    assertTrue(schema.removeColumn(1));
     assertFalse(schema.removeColumn(falseIndex));
   }
 

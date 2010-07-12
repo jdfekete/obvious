@@ -117,6 +117,8 @@ public abstract class TableTest implements TableTestData {
   public void testIsValidRow() {
     final int falseIndex = 555;
     assertTrue(table.isValidRow(0));
+    assertTrue(table.isValidRow(1));
+    assertTrue(table.isValidRow(3));
     assertTrue(table.isValidRow(2));
     assertFalse(table.isValidRow(falseIndex));
   }
@@ -159,9 +161,6 @@ public abstract class TableTest implements TableTestData {
     table.addRow(new TupleImpl(table.getSchema(), defaultValue));
     assertEquals(NUMROW + 1, table.getRowCount());
     for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-      System.out.println(table.getValue(table.getRowCount() - 1, i) + " : " +
-          table.getValue(table.getRowCount() - 1, i).getClass() + " : " +
-          table.getSchema().getColumnDefault(i).getClass());
       assertEquals(table.getValue(table.getRowCount() - 1, i),
           table.getSchema().getColumnDefault(i));
     }
@@ -176,7 +175,6 @@ public abstract class TableTest implements TableTestData {
   @Test
   public void testRemoveRow() {
     table.removeRow(0);
-    System.out.println(table.isValidRow(0));
     assertFalse(table.isValidRow(0));
     assertEquals(NUMROW - 1, table.getRowCount());
   }

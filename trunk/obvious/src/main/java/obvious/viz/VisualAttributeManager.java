@@ -155,8 +155,8 @@ public abstract class VisualAttributeManager {
    * @param tuple an obvious tuple
    * @return value of the Shape visual attribute
    */
-  public int getShape(Tuple tuple) {
-    return (Integer) getAttributeValuetAt(tuple, aliasVisAttribute.get(
+  public double getShape(Tuple tuple) {
+    return (Double) getAttributeValuetAt(tuple, aliasVisAttribute.get(
         VISUAL_SHAPE));
   }
 
