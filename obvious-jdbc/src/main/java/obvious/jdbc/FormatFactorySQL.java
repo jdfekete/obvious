@@ -51,7 +51,7 @@ public class FormatFactorySQL implements FormatFactory {
     TypedSQLFormat format = new TypedSQLFormat();
     String typeLow = type.toLowerCase();
     if (typeLow.equals("char") || typeLow.equals("longvarchar")
-          || typeLow.equals("varchar")) {
+          || typeLow.equals("varchar") || typeLow.equals("string")) {
       return format.new TypedSQLCharFormat();
     } else if (typeLow.equals("blob") || typeLow.equals("clob")
           || typeLow.equals("array") || typeLow.equals("ref")
