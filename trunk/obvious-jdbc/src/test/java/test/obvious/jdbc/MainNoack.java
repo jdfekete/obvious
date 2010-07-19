@@ -9,12 +9,10 @@ import java.sql.Statement;
 import javax.swing.JFrame;
 
 import noack.LinLogLayoutJDBC;
+import noack.GraphListener;
+import noack.NoackListener;
 
-import obvious.data.Edge;
-import obvious.data.Graph;
-import obvious.data.Node;
 import obvious.data.Schema;
-import obvious.impl.EdgeImpl;
 import obvious.impl.SchemaImpl;
 import obvious.prefuse.PrefuseObviousSchema;
 
@@ -42,10 +40,7 @@ public class MainNoack {
     Statement edgeStmt = con.createStatement();
     ResultSet edgeRslt = edgeStmt.executeQuery(edgeRequest);
     while (edgeRslt.next()) {
-      //System.out.println("coucou");
       Object[] values = new Object[5];
-      //int node1 = edgeRslt.getInt(2);
-      //int node2 = edgeRslt.getInt(3);
       values[0] = edgeRslt.getInt(1);
       values[1] = edgeRslt.getInt(2);
       values[2] = edgeRslt.getInt(3);
@@ -56,17 +51,25 @@ public class MainNoack {
     edgeRslt.close();
     edgeStmt.close();
     System.out.println("END EDGE");
-    
-    LinLogLayoutJDBC layout = new LinLogLayoutJDBC(graph, 10);
 
+    LinLogLayoutJDBC layout = new LinLogLayoutJDBC(graph, 10);
+    GraphListener listener = new NoackListener(layout);
+    
+    graph.addGraphListener(listener);
+    
     JFrame frame = layout.getFrame();
     frame.setTitle("Noack test");
     frame.pack();
     frame.setVisible(true);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
-  
-  private static void toto() {
-    System.out.println("toto");
+
+    graph.beginEdit();
+    graph.addEdge("lognet-2008-id18194", "milou");
+    graph.addEdge("lognet-2008-id18194", "tintin");
+    graph.addEdge("lognet-2008-id18194", "babar");
+    graph.addEdge("lognet-2008-id18194", "asterix");
+    graph.endEdit();
+    graph.fireGraphEvent(null, null, 1);
+
   }
 }

@@ -34,11 +34,10 @@
 		<artifactId>oracle</artifactId>
 		<version>6.0</version>
 	</dependency>
-  		<dependency>
-		<groupId>noack</groupId>
-		<artifactId>noack</artifactId>
-		<version>1.0</version>
-	</dependency>
-  	
+	<dependency>
+		<groupId>noackmaven</groupId>
+		<artifactId>noackmaven</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>  	
   </dependencies>
 </project>
