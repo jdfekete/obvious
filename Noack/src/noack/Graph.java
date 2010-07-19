@@ -1,6 +1,7 @@
 package noack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,12 @@ import java.util.Map;
 public class Graph {
   
   private Map<String,Map<String,Double>> graph;
+  
+  private ArrayList<GraphListener> listener;
 
   public Graph() {
     this.graph = new HashMap<String, Map<String, Double>>();
+    this.listener = new ArrayList<GraphListener>();
   }
   
   public Map<String, Map<String, Double>> getGraph() {
@@ -30,6 +34,7 @@ public class Graph {
   public void addNode(String name) {
     if (graph.get(name) == null) {
       graph.put(name, new HashMap<String, Double>());
+      this.fireGraphEvent(name, null, GraphListener.NODE_ADDED);
     }
   }
   
@@ -38,10 +43,48 @@ public class Graph {
       this.addNode(source);
     }
     graph.get(source).put(target, new Double(weight));
+    this.fireGraphEvent(source, target, GraphListener.EDGE_ADDED);
   }
   
   public void addEdge (String source, String target) {
     this.addEdge(source, target, 1.0f);
+  }
+  
+  /**
+   * Gets all table listener.
+   * @return a collection of table listeners.
+   */
+  public Collection<GraphListener> getTableListeners() {
+    return listener;
+  }
+  
+  /**
+   * Adds a table listener.
+   * @param listnr a graph listener
+   */
+  public void addTableListener(GraphListener listnr) {
+    listener.add(listnr);
+  }
+
+  /**
+   * Removes a table listener.
+   * @param listnr an Obvious TableListener
+   */
+  public void removeTableListener(GraphListener listnr) {
+    listener.remove(listnr);
+  }
+  
+  /**
+   * Notifies changes to listener.
+   * @param type the type of modification
+   */
+  protected void fireGraphEvent(String source, String target, int type) {
+    if (this.getTableListeners().isEmpty()) {
+      return;
+    }
+    for (GraphListener listnr : this.getTableListeners()) {
+      listnr.graphChanged(this, source, target, type);
+    }
   }
    
   /**
