@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 public class LinLogLayoutJDBC {
 
   private Map<Node,double[]> nodeToPosition;
@@ -15,6 +17,8 @@ public class LinLogLayoutJDBC {
   
   private int iter;
   
+  private JFrame frame;
+  
   private Map<String, Map<String, Double>> graphStruct;
   
   public LinLogLayoutJDBC(Graph graph, int iter) {
@@ -23,17 +27,45 @@ public class LinLogLayoutJDBC {
     this.graphStruct =  makeSymmetricGraph(graph.getGraph());
   }
   
-  public GraphFrame getFrame() {
+  public void computeFrame() {
     System.out.println("advanced process bis");
     Map<String,Node> nameToNode = makeNodes(graphStruct);
     List<Node> nodes = new ArrayList<Node>(nameToNode.values());
     List<Edge> edges = makeEdges(graphStruct,nameToNode);
+    System.out.println("LINLOGLAYOUT " + nodes.size() + " ; " + edges.size());
     nodeToPosition = makeInitialPositions(nodes, false);
     new MinimizerBarnesHut(nodes, edges, 0.0, 1.0, 0.05).
         minimizeEnergy(nodeToPosition, iter);
     nodeToCluster = 
       new OptimizerModularity().execute(nodes, edges, false);
-    return new GraphFrame(nodeToPosition, nodeToCluster);
+    frame = new GraphFrame(nodeToPosition, nodeToCluster);
+  }
+  
+  public JFrame getFrame() {
+    if (frame == null) {
+      computeFrame();
+    }
+    return this.frame;
+  }
+  
+  public Map<Node, double[]> getNodePositions() {
+    return this.nodeToPosition;
+  }
+  
+  public Map<Node, Integer> getNodeCluster() {
+    return this.nodeToCluster;
+  }
+  
+  public Map<String, Map<String, Double>> getGraphStruct() {
+    return this.graphStruct;
+  }
+  
+  public void setNodePositions(Map<Node, double[]> positions) {
+    this.nodeToPosition = positions;
+  }
+  
+  public void setNodeCluster(Map<Node, Integer> cluster) {
+    this.nodeToCluster = cluster;
   }
   
   /**
@@ -44,7 +76,7 @@ public class LinLogLayoutJDBC {
      * @param is3d initialize 3 (instead of 2) dimension with random numbers.
    * @return map from each node to a random initial positions.
    */
-  private static Map<Node,double[]> makeInitialPositions(List<Node> nodes, boolean is3d) {
+  protected static Map<Node,double[]> makeInitialPositions(List<Node> nodes, boolean is3d) {
       Map<Node,double[]> result = new HashMap<Node,double[]>();
     for (Node node : nodes) {
             double[] position = { Math.random() - 0.5,
@@ -66,7 +98,7 @@ public class LinLogLayoutJDBC {
    * @param graph  possibly unsymmetric graph.
    * @return symmetric version of the given graph.
    */
-  private static Map<String,Map<String,Double>> makeSymmetricGraph
+  protected static Map<String,Map<String,Double>> makeSymmetricGraph
       (Map<String,Map<String,Double>> graph) {
     Map<String,Map<String,Double>> result = new HashMap<String,Map<String,Double>>();
     for (String source : graph.keySet()) {
@@ -93,7 +125,7 @@ public class LinLogLayoutJDBC {
    * @param graph the graph.
    * @return map from each node names to nodes.
    */
-  private static Map<String,Node> makeNodes(Map<String,Map<String,Double>> graph) {
+  protected static Map<String,Node> makeNodes(Map<String,Map<String,Double>> graph) {
     Map<String,Node> result = new HashMap<String,Node>();
     for (String nodeName : graph.keySet()) {
             double nodeWeight = 0.0;
@@ -112,7 +144,7 @@ public class LinLogLayoutJDBC {
      * @param nameToNode map from node names to nodes.
      * @return the given graph as list of edges.
      */
-    private static List<Edge> makeEdges(Map<String,Map<String,Double>> graph, 
+    protected static List<Edge> makeEdges(Map<String,Map<String,Double>> graph, 
             Map<String,Node> nameToNode) {
         List<Edge> result = new ArrayList<Edge>();
         for (String sourceName : graph.keySet()) {
