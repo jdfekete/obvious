@@ -64,10 +64,22 @@ public class MainNoack {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     graph.beginEdit();
-    graph.addEdge("lognet-2008-id18194", "milou");
-    graph.addEdge("lognet-2008-id18194", "tintin");
-    graph.addEdge("lognet-2008-id18194", "babar");
-    graph.addEdge("lognet-2008-id18194", "asterix");
+    for (int i = 0; i < 1000; i++) {
+    if (i%5 == 0) {
+      graph.addEdge("lognet-2008-id18194", "milou" + i);
+    } else if (i%5 == 1){
+      graph.addEdge("artis-2005-id18433", "milou" + i);
+    } else if (i%5 == 2) {
+      graph.addEdge("smash-2005-id18238", "milou" + i);
+    } else if (i%5 == 3) {
+      graph.addEdge("mascotte-2005-id18392", "milou" + i);
+    } else {
+      graph.addEdge("micmac-2007-id2244379", "milou" + i);
+    }
+    }
+    //graph.addEdge("lognet-2008-id18194", "tintin");
+    //graph.addEdge("lognet-2008-id18194", "babar");
+    //graph.addEdge("lognet-2008-id18194", "asterix");
     graph.endEdit();
     graph.fireGraphEvent(null, null, 1);
 

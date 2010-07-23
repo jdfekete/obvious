@@ -101,6 +101,7 @@ public class MainDisplay {
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("AUTHOR_ID", String.class, "John Doe");
     nodeSchema.addColumn("ID", int.class, 0);
+    nodeSchema.addColumn("LAST_NAME", String.class, "Jane Doe");
     Schema edgeSchema = new PrefuseObviousSchema();
     edgeSchema.addColumn("EDGE_ID", int.class, 0);
     edgeSchema.addColumn("AUT1ID", int.class, 0);
@@ -139,7 +140,7 @@ public class MainDisplay {
     nodeStmt.close();
     */
     System.out.println("NODE");
-    String nodeRequest = "SELECT DISTINCT C.AUTHOR_ID, C.ID"
+    String nodeRequest = "SELECT DISTINCT C.AUTHOR_ID, C.ID, C.LAST_NAME"
       + " FROM CONTRIBUTOR C, VISUALATTRIBUTES V" + " WHERE C.ID = V.MARKID"
       + " AND V.LABEL IS NOT NULL";
 
@@ -149,6 +150,7 @@ public class MainDisplay {
       Object[] values = new Object[nodeSchema.getColumnCount()];
       values[0] = nodeRslt.getString("AUTHOR_ID");
       values[1] = nodeRslt.getString("ID");
+      values[2] = nodeRslt.getString("LAST_NAME");
       Node node = new NodeImpl(nodeSchema, values);
       displayNetwork.addNode(node);
     }
@@ -209,9 +211,9 @@ public class MainDisplay {
     PrefuseObviousVisualization vis = new PrefuseObviousVisualization(
         displayNetwork, null, null, param);
     // Using label renderer as in the tutorial.
-    vis.getAliasMap().put(vis.VISUAL_LABEL, "AUTHOR_ID");
+    vis.getAliasMap().put(vis.VISUAL_LABEL, "LAST_NAME");
 
-    LabelRenderer r = new LabelRenderer("AUTHOR_ID");
+    LabelRenderer r = new LabelRenderer("LAST_NAME");
     r.setRoundedCorner(8, 8); // round the corners
     r.setRenderType(AbstractShapeRenderer.RENDER_TYPE_FILL);
     r.setHorizontalAlignment(Constants.CENTER);
@@ -222,7 +224,7 @@ public class MainDisplay {
        VisualItem.TEXTCOLOR, ColorLib.gray(0));
    // Color for edges.
    ColorAction edges = new ColorAction("graph.edges",
-       VisualItem.STROKECOLOR, ColorLib.gray(200));
+       VisualItem.STROKECOLOR, ColorLib.color(Color.black));
 
    // Creating the prefuse action list.
    ActionList color = new ActionList();
@@ -290,6 +292,31 @@ public class MainDisplay {
   panel.add(BorderLayout.CENTER, display);
   panel.add(BorderLayout.SOUTH, searchPanel);
 
+  GraphicsEnvironment ge = GraphicsEnvironment.
+  getLocalGraphicsEnvironment();
+  GraphicsDevice[] gs = ge.getScreenDevices();
+  
+  for (int j = 0; j < gs.length; j++) {
+    Display currentDisplay = new Display(prefViz);
+    currentDisplay.addControlListener(new DragControl());
+    currentDisplay.addControlListener(new PanControl());
+    currentDisplay.addControlListener(new ZoomControl());
+    GraphicsDevice gd = gs[j];
+    GraphicsConfiguration gc = gd.getDefaultConfiguration();
+    JFrame frame = new JFrame(gc);
+    frame.setTitle("Exemple...");
+    frame.add(currentDisplay);
+    frame.pack();
+    //frame.setUndecorated(true);
+    frame.setSize(gc.getBounds().getSize());
+    frame.setVisible(true);
+    //frame.setSize(gc.getBounds().width, gc.getBounds().height);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    prefViz.run("color");
+    currentDisplay.panAbs(gc.getBounds().getX(), gc.getBounds().getY());
+}
+
+  
   /*
   //create a new window to hold the visualization
   UILib.setPlatformLookAndFeel();
@@ -299,11 +326,13 @@ public class MainDisplay {
   frame.setContentPane(panel);
   frame.pack();
   frame.setVisible(true);
-  */
+
+
 
   //Create a new display (prefuse)
   prefViz.run("color");
-
+  */
+  /*
   GraphicsEnvironment ge = GraphicsEnvironment.
   getLocalGraphicsEnvironment();
   GraphicsDevice[] gs = ge.getScreenDevices();
@@ -334,7 +363,7 @@ public class MainDisplay {
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
-
+*/
 
   /*
   System.out.println("DISPLAY");
