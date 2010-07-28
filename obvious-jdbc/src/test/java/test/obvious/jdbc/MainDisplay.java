@@ -75,6 +75,7 @@ import prefuse.data.expression.parser.ExpressionParser;
 import prefuse.data.query.SearchQueryBinding;
 import prefuse.data.search.PrefixSearchTupleSet;
 import prefuse.data.search.SearchTupleSet;
+import prefuse.data.tuple.DefaultTupleSet;
 import prefuse.data.tuple.TupleSet;
 import prefuse.render.AbstractShapeRenderer;
 import prefuse.render.DefaultRendererFactory;
@@ -89,14 +90,14 @@ import prefuse.util.ui.UILib;
 import prefuse.visual.VisualGraph;
 import prefuse.visual.VisualItem;
 
-public class MainDisplay {
+public class MainDisplay extends Thread {
   
   private static final String graph = "graph";
   private static final String nodes = "graph.nodes";
   private static final String edges = "graph.edges";
 
-  public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
+  public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException {
+    MainDisplay main = new MainDisplay();
     // Setting up the connection to the database
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("AUTHOR_ID", String.class, "John Doe");
@@ -254,15 +255,21 @@ public class MainDisplay {
   prefViz.runAfter("color", "layout");
   prefViz.runAfter("layout", "force");
 
+  TupleSet set = new DefaultTupleSet();
+  prefViz.addFocusGroup("added", set);
+  ColorAction textReColor = new ColorAction("added",
+      VisualItem.TEXTCOLOR, ColorLib.color(Color.RED));
+  prefViz.putAction("nodeAdded", textReColor);
   
-  ActionList nodeSearched = new ActionList();
-  ColorAction textSearched = new ColorAction(Visualization.SEARCH_ITEMS,
-      VisualItem.TEXTCOLOR, ColorLib.rgb(255,190,190));
-  nodeSearched.add(textSearched);
-  prefViz.putAction("nodeSearched", nodeSearched);
+  /*
+  ActionList nodeAdded = new ActionList(Activity.INFINITY);
+  ColorAction textReColor = new ColorAction("graph.nodes",
+      VisualItem.TEXTCOLOR, ColorLib.color(Color.RED));
+  nodeAdded.add(textReColor);
+  prefViz.putAction("nodeAdded", nodeAdded);
 
   SearchTupleSet searchTuple = new PrefixSearchTupleSet();
-  prefViz.addFocusGroup(Visualization.SEARCH_ITEMS, searchTuple);
+  prefViz.addFocusGroup("added", searchTuple);
   searchTuple.addTupleSetListener(new TupleSetListener() {
       public void tupleSetChanged(TupleSet t, Tuple[] add, Tuple[] rem) {
         prefViz.cancel("color");
@@ -282,19 +289,24 @@ public class MainDisplay {
   searchPanel.setShowResultCount(true);
   searchPanel.setBorder(BorderFactory.createEmptyBorder(5,5,4,0));
   searchPanel.setFont(FontLib.getFont("Tahoma", Font.PLAIN, 11));
+  */
 
   Display display = new Display(prefViz);
   display.addControlListener(new DragControl());
   display.addControlListener(new PanControl());
   display.addControlListener(new ZoomControl());
 
+  /*
   JPanel panel = new JPanel(new BorderLayout());
   panel.add(BorderLayout.CENTER, display);
   panel.add(BorderLayout.SOUTH, searchPanel);
-
+*/
   GraphicsEnvironment ge = GraphicsEnvironment.
   getLocalGraphicsEnvironment();
   GraphicsDevice[] gs = ge.getScreenDevices();
+
+  prefuse.data.Table nodeTable = (prefuse.data.Table) prefViz.getVisualGroup("graph.nodes");
+
   
   for (int j = 0; j < gs.length; j++) {
     Display currentDisplay = new Display(prefViz);
@@ -316,7 +328,8 @@ public class MainDisplay {
     currentDisplay.panAbs(gc.getBounds().getX(), gc.getBounds().getY());
 }
 
-  
+  nodeTable.addTupleSetListener(new MainDisplay().new NodeAddedListener(prefViz, set));
+    main.sleep(10000);
   /*
   //create a new window to hold the visualization
   UILib.setPlatformLookAndFeel();
@@ -448,11 +461,15 @@ public class MainDisplay {
   */
   
   System.out.println("coco veut un noeud" + displayNetwork.getNodes().size());
-  Node tintin = new NodeImpl(nodeSchema, new Object[] {"tintin", 25058});
+  //Node tintin = new NodeImpl(nodeSchema, new Object[] {"tintin", 25058, "tintin"});
   //Node milou = new NodeImpl(nodeSchema, new Object[] {"milou", 25059});
   //Edge tintinmilou = new EdgeImpl(edgeSchema, new Object[] {200000, 25058, 25059});
-  displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"tintin", 25058}));
-  //displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"milou", 25059}));
+  for (int i = 0; i < 100; i++) {
+    displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"milou" + i, 25060 + i, "milou" + i}));
+  }
+  //displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"tintin", 25058, "tintin"}));
+  //displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"milou", 25059, "milou"}));
+  //displayNetwork.addNode(new NodeImpl(nodeSchema, new Object[] {"milou2010", 25060, "milou2010"}));
   //displayNetwork.addEdge(tintinmilou, tintin, milou, Graph.EdgeType.DIRECTED);
   prefuse.data.tuple.TupleSet tupleSet = prefViz.getVisualGroup("graph");
   prefuse.data.Graph graph = (prefuse.data.Graph) tupleSet;
@@ -462,19 +479,26 @@ public class MainDisplay {
   
   public class NodeAddedListener implements TupleSetListener {
 
-    private prefuse.Visualization viz;
+    private prefuse.Visualization prefViz;
+    private TupleSet set;
+
     
-    private prefuse.data.tuple.TupleSet tuple;
-    
-    public NodeAddedListener(prefuse.Visualization viz, prefuse.data.tuple.TupleSet tuple) {
-      this.tuple = tuple;
-      this.viz = viz;
+    public NodeAddedListener(prefuse.Visualization prefViz, TupleSet set) {
+      this.prefViz = prefViz;
+      this.set = set;
     }
     
     @Override
     public void tupleSetChanged(TupleSet arg0, Tuple[] arg1, Tuple[] arg2) {
-      System.out.println("something has changed");
-      viz.run("color");
+      for (int i = 0; i < arg1.length; i++) {
+        set.addTuple(arg1[i]);
+      }
+      System.out.println("Something has changed");
+      System.out.println(arg1.length);
+      prefViz.run("color");
+      prefViz.run("nodeAdded");
+      System.out.println("Changes performed");
+
     }
     
   }
