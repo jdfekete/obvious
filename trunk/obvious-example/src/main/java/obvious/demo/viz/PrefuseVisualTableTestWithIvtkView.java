@@ -13,6 +13,7 @@ import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
+import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
@@ -29,12 +30,12 @@ import prefuse.controls.ZoomControl;
  * @author Hemery
  *
  */
-public final class PrefuseVisualTableTest {
+public final class PrefuseVisualTableTestWithIvtkView {
 
   /**
    * Private constructor.
    */
-  private PrefuseVisualTableTest() { }
+  private PrefuseVisualTableTestWithIvtkView() { }
 
   /**
    * Main method.
@@ -80,24 +81,15 @@ public final class PrefuseVisualTableTest {
     Visualization vis =
       factory.createVisualization(table, null, "scatterplot", param);
 
-    // In order to display, we have to call the underlying prefuse
-    // visualization.
-    // In a complete version of obvious, we don't need that step.
-    prefuse.Visualization prefViz = (prefuse.Visualization)
-    vis.getUnderlyingImpl(prefuse.Visualization.class);
+    IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
 
-    // Building the prefuse display.
-    //Display display = new Display(prefViz);
-    
-    PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
-    prefViz.run("draw");
     //System.out.println(display == null);
-    view.getViewJComponent().setSize(800, 600);
+    //view.getViewJComponent().setSize(800, 600);
     //display.addControlListener(new DragControl());
     //display.addControlListener(new PanControl());
     //display.addControlListener(new ZoomControl());
     JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse | View Prefuse | Monolithic");
+        + " Visualisation : obvious-prefuse | View obvious-ivtk | Monolithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(view.getViewJComponent());
     frame.pack();

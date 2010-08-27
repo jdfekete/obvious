@@ -5,50 +5,43 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tuple;
 import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
-import obvious.ivtk.data.IvtkObviousTable;
+import obvious.ivtk.viz.util.IvtkScatterPlotVis;
+import obvious.prefuse.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousView;
-import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
-import obvious.viz.VisualizationFactory;
-import prefuse.Display;
-import prefuse.controls.DragControl;
-import prefuse.controls.PanControl;
-import prefuse.controls.ZoomControl;
 
 /**
- * Test example to check VisualAttributeManager implementation for
- * obvious-prefuse.
+ * Test example to check VisualAttributeManager implementation for obvious-ivtk.
  * @author Hemery
  *
  */
-public final class PrefuseVisualTableTest {
+public final class IvtkVisualTableTestWithPrefView {
 
   /**
-   * Private constructor.
+   * Constructor.
    */
-  private PrefuseVisualTableTest() { }
+  private IvtkVisualTableTestWithPrefView() { }
 
   /**
    * Main method.
    * @param args arguments
-   * @throws ObviousException if something wrong happens
    */
-  public static void main(final String[] args) throws ObviousException {
+  public static void main(final String[] args) {
+
     // Building the dataset.
     Schema schema = new IvtkObviousSchema();
     schema.addColumn("id", Integer.class, 0);
     schema.addColumn("age", Integer.class, 18);
     schema.addColumn("category", String.class, "unemployed");
 
-    Table table = new IvtkObviousTable(schema);
+    Table table = new PrefuseObviousTable(schema);
 
     table.addRow(new TupleImpl(schema, new Object[] {1, 22, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {2, 60, "unemployed"}));
@@ -67,53 +60,51 @@ public final class PrefuseVisualTableTest {
     table.addRow(new TupleImpl(schema, new Object[] {15, 21, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {16, 36, "unemployed"}));
 
-    // Creating the parameter map for the monolithic object.
     Map<String, Object> param = new HashMap<String, Object>();
-    param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // name of the xfield
-    param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
-    param.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
+    param.put(IvtkScatterPlotVis.X_AXIS, "id");
+    param.put(IvtkScatterPlotVis.Y_AXIS, "age");
 
-    // Using the factory to build the visualization
-    System.setProperty("obvious.VisualizationFactory",
-        "obvious.prefuse.viz.PrefuseVisualizationFactory");
-    VisualizationFactory factory = PrefuseVisualizationFactory.getInstance();
-    Visualization vis =
-      factory.createVisualization(table, null, "scatterplot", param);
 
-    // In order to display, we have to call the underlying prefuse
-    // visualization.
-    // In a complete version of obvious, we don't need that step.
-    prefuse.Visualization prefViz = (prefuse.Visualization)
-    vis.getUnderlyingImpl(prefuse.Visualization.class);
+    Visualization vis = new IvtkScatterPlotVis(
+        table, null, "scatterplot", param);
+    /*
+    infovis.Visualization ivtkVis = (infovis.Visualization)
+        vis.getUnderlyingImpl(infovis.Visualization.class);
+    VisualizationPanel panel = new VisualizationPanel(ivtkVis);
+    */
 
-    // Building the prefuse display.
-    //Display display = new Display(prefViz);
-    
-    PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
-    prefViz.run("draw");
-    //System.out.println(display == null);
-    view.getViewJComponent().setSize(800, 600);
-    //display.addControlListener(new DragControl());
-    //display.addControlListener(new PanControl());
-    //display.addControlListener(new ZoomControl());
-    JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse | View Prefuse | Monolithic");
+    // Creating the parameter map for the monolithic object.
+    Map<String, Object> paramView = new HashMap<String, Object>();
+    paramView.put(PrefuseScatterPlotViz.X_AXIS, "id"); // name of the xfield
+    paramView.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
+    //paramView.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
+
+    PrefuseObviousView view = new PrefuseObviousView(
+        vis, null, "scatterplot", paramView);
+    ((prefuse.Visualization) view.getVisualization().getUnderlyingImpl(
+        prefuse.Visualization.class)).run("draw");
+    JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(view.getViewJComponent());
-    frame.pack();
+    frame.setSize(500, 500);
+    frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
 
+    vis.getAliasMap().put(Visualization.VISUAL_X ,
+        infovis.table.visualization.ScatterPlotVisualization.VISUAL_X_AXIS);
+    vis.getAliasMap().put(Visualization.VISUAL_Y ,
+        infovis.table.visualization.ScatterPlotVisualization.VISUAL_Y_AXIS);
 
-    /*
+
     for (IntIterator it = table.rowIterator(); it.hasNext();) {
       Tuple tuple = new TupleImpl(table, it.next());
       System.out.print(tuple.get("id") + " || ");
       for (Map.Entry<String, String> e : vis.getAliasMap().entrySet()) {
-        System.out.print(" " + e.getKey() + " : " + vis.getAttributeValuetAt(tuple, e.getKey()));
+        System.out.print(" " + e.getKey() + " : "
+            + vis.getAttributeValuetAt(tuple, e.getKey()));
       }
       System.out.println();
     }
-    */
+
   }
 
 }

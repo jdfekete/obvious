@@ -38,8 +38,10 @@ import obvious.data.Node;
 import obvious.data.Tree;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.data.IvtkObviousTree;
+import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
 import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
+import obvious.view.JView;
 import obvious.viz.Visualization;
 
 /**
@@ -62,13 +64,18 @@ public final class IvtkNodeLinkTree {
   public static void main(final String[] args) {
     // Creating the example network.
     infovis.Tree t = new DefaultTree();
-    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(t); 
+    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(t);
 
     Visualization vis = new IvtkNodeLinkTreeVis(ivtkTree, null, null, null);
 
+    
     infovis.Visualization ivtkVis = (infovis.Visualization)
     vis.getUnderlyingImpl(infovis.Visualization.class);
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
+    
+    
+    //JView view = new IvtkObviousView(vis, null, "tree", null);
+
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(500, 500);

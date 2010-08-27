@@ -27,13 +27,13 @@
 
 package obvious.demo.viz;
 
-import infovis.panel.VisualizationPanel;
-
 import javax.swing.JFrame;
 
 import obvious.data.Network;
 import obvious.ivtk.data.IvtkObviousNetwork;
+import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
+import obvious.view.JView;
 import obvious.viz.Visualization;
 
 /**
@@ -56,17 +56,16 @@ public final class IvtkNodeLinkGraph {
   public static void main(final String[] args) {
     // Creating the example network.
     infovis.Graph graph = infovis.graph.Algorithms.getGridGraph(10, 10);
-    Network ivtkNetwork = new IvtkObviousNetwork(graph); 
+    Network ivtkNetwork = new IvtkObviousNetwork(graph);
 
     Visualization vis = new IvtkNodeLinkGraphVis(ivtkNetwork, null, null, null);
 
-    infovis.Visualization ivtkVis = (infovis.Visualization)
-    vis.getUnderlyingImpl(infovis.Visualization.class);
-    VisualizationPanel panel = new VisualizationPanel(ivtkVis);
+
+    JView view = new IvtkObviousView(vis, null, "network", null);
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(500, 500);
-    frame.getContentPane().add(panel);
+    frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
   }
 }
