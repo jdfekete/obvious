@@ -13,8 +13,10 @@ import obvious.data.Tuple;
 import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
+import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.view.PrefuseObviousView;
 import obvious.viz.Visualization;
 
 /**
@@ -65,13 +67,19 @@ public final class IvtkVisualTableTest {
     param.put(IvtkScatterPlotVis.Y_AXIS, "age");
     Visualization vis = new IvtkScatterPlotVis(
         table, null, "scatterplot", param);
+    
+    /*
     infovis.Visualization ivtkVis = (infovis.Visualization)
         vis.getUnderlyingImpl(infovis.Visualization.class);
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
+    */
+    
+    IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
+
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(500, 500);
-    frame.getContentPane().add(panel);
+    frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
 
     vis.getAliasMap().put(Visualization.VISUAL_X ,
@@ -80,6 +88,7 @@ public final class IvtkVisualTableTest {
         infovis.table.visualization.ScatterPlotVisualization.VISUAL_Y_AXIS);
 
 
+    /*
     for (IntIterator it = table.rowIterator(); it.hasNext();) {
       Tuple tuple = new TupleImpl(table, it.next());
       System.out.print(tuple.get("id") + " || ");
@@ -89,7 +98,7 @@ public final class IvtkVisualTableTest {
       }
       System.out.println();
     }
-
+    */
   }
 
 }
