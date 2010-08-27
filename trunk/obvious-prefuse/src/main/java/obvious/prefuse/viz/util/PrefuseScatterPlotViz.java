@@ -67,6 +67,11 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
   public static final String SHAPE = "shape";
 
   /**
+   * Default group name.
+   */
+  public static final String DEF_NAME = "default";
+
+  /**
    * Constructor.
    * @param parentTable an Obvious Table
    * @param predicate a Predicate used to filter the table
@@ -81,24 +86,28 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
 
   @Override
   protected void initVisualization(Map<String, Object> param) {
-    this.setPrefVisualization(new prefuse.Visualization());
-    this.getPrefVisualization().add((String) param.get(GROUP_NAME),
-        getPrefuseTable());
-
+    prefuse.Visualization prefVis = new prefuse.Visualization();
+    this.setPrefVisualization(prefVis);
+    String groupName = DEF_NAME;
+    if  (param != null && param.containsKey(GROUP_NAME)) {
+      this.getPrefVisualization().add((String) param.get(GROUP_NAME),
+          getPrefuseTable());
+    }
+    this.getPrefVisualization().add(groupName, getPrefuseTable());
     ShapeRenderer mShapeR = new ShapeRenderer(2);
     DefaultRendererFactory rf = new DefaultRendererFactory(mShapeR);
     this.setRenderer(new PrefuseObviousRenderer(rf));
 
-    AxisLayout xAxis = new AxisLayout((String) param.get(GROUP_NAME),
+    AxisLayout xAxis = new AxisLayout(groupName,
         (String) param.get(X_AXIS), Constants.X_AXIS, VisiblePredicate.TRUE);
     this.putAction("x", new PrefuseObviousAction(xAxis));
-    AxisLayout yAxis = new AxisLayout((String) param.get(GROUP_NAME),
+    AxisLayout yAxis = new AxisLayout(groupName,
         (String) param.get(Y_AXIS), Constants.Y_AXIS, VisiblePredicate.TRUE);
     this.putAction("y", new PrefuseObviousAction(yAxis));
-    ColorAction color = new ColorAction((String) param.get(GROUP_NAME),
+    ColorAction color = new ColorAction(groupName,
         VisualItem.STROKECOLOR, ColorLib.rgb(100,100,255));
     this.putAction("color", new PrefuseObviousAction(color));
-    DataShapeAction shape = new DataShapeAction((String) param.get(GROUP_NAME),
+    DataShapeAction shape = new DataShapeAction(groupName,
         (String) param.get(SHAPE));
     this.putAction("shape", new PrefuseObviousAction(shape));
 

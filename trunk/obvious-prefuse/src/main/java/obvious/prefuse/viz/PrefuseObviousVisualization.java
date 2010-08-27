@@ -317,29 +317,57 @@ public class PrefuseObviousVisualization extends Visualization {
     }
     if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
         != -1) {
-      TableIterator iter = visualTable.iterator();
-      int schemaSize = visualTable.getColumnCount() - 1;
-      Boolean[] schemaBoolean = new Boolean[schemaSize + 1];
-      String[] schemaCol = new String[schemaSize + 1];
-      for (int i = schemaSize; i >= 0; i--) {
-        schemaBoolean[i] = tuple.getSchema().hasColumn(visualTable.getColumnName(i));
-        schemaCol[i] = visualTable.getColumnName(i);
-      }
-      while (iter.hasNext()) {
-        int row = iter.nextInt();
-        boolean find = true;
+      synchronized (visualTable) {
+        TableIterator iter = visualTable.iterator();
+        int schemaSize = visualTable.getColumnCount() - 1;
+        Boolean[] schemaBoolean = new Boolean[schemaSize + 1];
+        String[] schemaCol = new String[schemaSize + 1];
         for (int i = schemaSize; i >= 0; i--) {
-          if (schemaBoolean[i] &&  !visualTable.get(row, schemaCol[i]).equals(
-                tuple.get(schemaCol[i]))) {
-              find = false;
-              break;
+          schemaBoolean[i] = tuple.getSchema().hasColumn(visualTable.getColumnName(i));
+          schemaCol[i] = visualTable.getColumnName(i);
+        }
+        for (int i = 0; i < visualTable.getRowCount(); i++) {
+         
+          boolean find = true;
+          for (int j = schemaSize; j >= 0; j--) {
+            if (schemaBoolean[i] &&  !visualTable.get(i, schemaCol[j]).equals(
+                  tuple.get(schemaCol[j]))) {
+                find = false;
+                break;
+            }
+          }
+          if (find) {
+            return visualTable.get(i, alias);
           }
         }
-        if (find) {
-          return visualTable.get(row, alias);
-        }
+        return null;
       }
+    } else {
       return null;
+    }
+  }
+
+  /**
+   * Ediflow dedicated method.
+   * @param tuple
+   * @param alias
+   * @return
+   */
+  public Object getAttributeValueAtOptimized(Tuple tuple, String alias) {
+    prefuse.data.tuple.TupleSet tupleSet = vis.getVisualGroup(groupName);
+    prefuse.visual.VisualTable visualTable;
+    if (tupleSet instanceof prefuse.visual.VisualTable) {
+      visualTable = (prefuse.visual.VisualTable) tupleSet;
+    } else if (tupleSet instanceof prefuse.data.Graph) {
+      prefuse.data.Graph g = (prefuse.data.Graph) tupleSet;
+      visualTable = (VisualTable)(tuple instanceof Node ? g.getNodeTable()
+          : g.getEdgeTable());
+    } else {
+      return null;
+    }
+    if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
+        != -1) {
+      return visualTable.get(tuple.getRow(), alias);
     } else {
       return null;
     }
