@@ -30,9 +30,12 @@ package obvious.ivtk.viz;
 import java.util.ArrayList;
 import java.util.Map;
 
+import obvious.ObviousRuntimeException;
 import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
+import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
+import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
 
@@ -48,25 +51,46 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
    */
   private static String[] visTech = {"scatterplot"};
 
+  /**
+   * List of available visualizations techniques for this factory.
+   */
+  private static ArrayList<String> availableVis =
+    new ArrayList<String>();
 
   @Override
   public Visualization createVisualization(Table table, Predicate pred,
       String visName, Map<String, Object> param) {
-    // TODO Auto-generated method stub
-    return null;
+    if (visName == null) {
+      return new IvtkObviousVisualization(table, pred, visName, param);
+    } else if (visName.toLowerCase().equals("scatterplot")) {
+      return new IvtkScatterPlotVis(table, pred, visName, param);
+    } else {
+      throw new ObviousRuntimeException("Unsupported visualization technique"
+          + " : " + visName);
+    }
   }
 
   @Override
   public ArrayList<String> getAvailableVisualization() {
-    // TODO Auto-generated method stub
-    return null;
+    if (availableVis.size() == 0) {
+      for (int i = 0; i < visTech.length; i++) {
+        availableVis.add(visTech[i]);
+      }
+    }
+    return availableVis;
   }
 
   @Override
   public Visualization createVisualization(Network network, Predicate pred,
       String visName, Map<String, Object> param) {
-    // TODO Auto-generated method stub
-    return null;
+    if (visName == null) {
+      return new IvtkObviousVisualization(network, pred, visName, param);
+    } else if (visName == "network") {
+      return new IvtkNodeLinkGraphVis(network, pred, visName, param);
+    } else {
+      throw new ObviousRuntimeException("Unsupported visualization technique"
+          + " : " + visName);
+    }
   }
 
 }
