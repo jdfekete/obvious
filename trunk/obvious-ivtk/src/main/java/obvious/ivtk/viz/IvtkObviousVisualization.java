@@ -177,7 +177,7 @@ public class IvtkObviousVisualization extends Visualization {
    * Gets the corresponding ivtk graph.
    * @return corresponding ivtk graph
    */
-  protected infovis.Graph getIvtkGraph() {
+  public infovis.Graph getIvtkGraph() {
     if (((Network) getData()).getUnderlyingImpl(infovis.Graph.class) != null) {
       return (infovis.Graph)
         ((Network) getData()).getUnderlyingImpl(infovis.Graph.class);
