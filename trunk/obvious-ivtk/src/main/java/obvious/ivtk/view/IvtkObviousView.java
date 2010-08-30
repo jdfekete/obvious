@@ -36,6 +36,7 @@ import obvious.data.Table;
 import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkVisualizationFactory;
 import obvious.view.JView;
+import obvious.view.event.ViewListener;
 import obvious.viz.Visualization;
 
 /**
@@ -102,6 +103,16 @@ public class IvtkObviousView extends JView {
    */
   public Visualization getVisualization() {
     return backingVis;
+  }
+
+  @Override
+  public void addListener(ViewListener lstnr) {
+    this.getViewListeners().add(lstnr);
+  }
+
+  @Override
+  public boolean removeListener(ViewListener listener) {
+    return this.getViewListeners().remove(listener);
   }
 
 }
