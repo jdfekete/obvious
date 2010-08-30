@@ -27,6 +27,14 @@
 
 package obvious.view.event;
 
-public interface ViewListener {
+import obvious.util.Adaptable;
+
+/**
+ * An interface to wrap existing listeners or controls for view in targetted
+ * toolkits.
+ * @author Hemery
+ *
+ */
+public interface ViewListener extends Adaptable {
 
 }
