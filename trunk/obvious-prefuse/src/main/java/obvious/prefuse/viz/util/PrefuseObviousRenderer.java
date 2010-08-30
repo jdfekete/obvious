@@ -28,7 +28,7 @@ public class PrefuseObviousRenderer implements Renderer {
    * @return prefuse action instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
-    if (type.equals(prefuse.render.RendererFactory.class)) {
+    if (type != null && type.equals(prefuse.render.RendererFactory.class)) {
       return this.renderer;
     }
     return null;

@@ -28,9 +28,9 @@ public class PrefuseObviousAction implements Action {
    * @return prefuse action instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
-    if (type.equals(prefuse.action.Action.class)) {
+    if (type != null && type.equals(prefuse.action.Action.class)) {
       return action;
-    } else if (type.equals(prefuse.action.ActionList.class)
+    } else if (type != null && type.equals(prefuse.action.ActionList.class)
         && action instanceof prefuse.action.ActionList) {
       return (prefuse.action.ActionList) action;
     }  else {
