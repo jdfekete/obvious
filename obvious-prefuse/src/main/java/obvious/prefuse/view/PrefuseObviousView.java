@@ -4,12 +4,14 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
+import obvious.ObviousRuntimeException;
 import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.view.JView;
+import obvious.view.event.ViewListener;
 import obvious.viz.Visualization;
 
 /**
@@ -67,6 +69,24 @@ public class PrefuseObviousView extends JView {
   @Override
   public JComponent getViewJComponent() {
     return display;
+  }
+
+  @Override
+  public void addListener(ViewListener lstnr) {
+    if (lstnr.getUnderlyingImpl(prefuse.controls.Control.class) != null) {
+      this.getViewListeners().add(lstnr);
+      this.display.addControlListener(
+          (prefuse.controls.Control) lstnr.getUnderlyingImpl(
+              prefuse.controls.Control.class));
+    } else {
+      throw new ObviousRuntimeException("The following renderer : "
+          + lstnr.toString() + " is not supported");
+    }
+  }
+
+  @Override
+  public boolean removeListener(ViewListener listener) {
+    return this.getViewListeners().remove(listener);
   }
 
 }
