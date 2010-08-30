@@ -51,18 +51,14 @@ public abstract class JView implements View {
    * Adds a listener to the view.
    * @param lstnr listener to add
    */
-  public void addListener(ViewListener lstnr) {
-    this.listeners.add(lstnr);
-  }
+  public abstract void addListener(ViewListener lstnr);
 
   /**
    * Removes a listener from the view.
    * @param listener listener listener to remove
    * @return true if deleted
    */
-  public boolean removeListener(ViewListener listener) {
-    return listeners.remove(listener);
-  }
+  public abstract boolean removeListener(ViewListener listener);
 
   /**
    * Gets all view listeners.
@@ -71,7 +67,11 @@ public abstract class JView implements View {
   public Collection<ViewListener> getViewListeners() {
     return this.listeners;
   }
-  
+
+  /**
+   * Gets the JComponent associated to the view.
+   * @return the JComponent associated to the view
+   */
   public abstract JComponent getViewJComponent();
 
   /**
