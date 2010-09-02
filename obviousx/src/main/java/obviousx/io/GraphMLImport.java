@@ -249,7 +249,7 @@ public class GraphMLImport implements Importer {
       String columnName = "N/A";
       String type = "N/A";
       String  destinationSchema = "N/A";
-      String defaultValue = "null";
+      String defaultValue = "";
       // Harvesting columnName, id, destination schema and type.
       for (int i = 0; i < xpp.getAttributeCount(); i++) {
         if (xpp.getAttributeName(i).equals("id")) {
