@@ -5,9 +5,16 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
+import obvious.data.Node;
+import obvious.data.Schema;
+import obvious.impl.NodeImpl;
 import obvious.prefuse.PrefuseObviousNetwork;
+import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.view.PrefuseObviousControl;
+import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
+import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import prefuse.Constants;
 import prefuse.Display;
@@ -63,10 +70,12 @@ public final class VizGraphTest {
     // Create the parameter for the visualization.
     Map<String, Object> param = new HashMap<String, Object>();
     param.put(PrefuseObviousVisualization.GROUP_NAME, "graph");
+    param.put(PrefuseObviousNetworkViz.LABEL_KEY, "name");
 
     // Create the obvious-prefuse graph.
     PrefuseObviousNetwork network = new PrefuseObviousNetwork(prefGraph);
 
+    /*
     // Create the obvious-prefuse visualization.
     PrefuseObviousVisualization vis = new PrefuseObviousVisualization(
         network, null, null, param);
@@ -104,30 +113,36 @@ public final class VizGraphTest {
   // Wrapping the layout around obvious.
   vis.putAction("layout", new PrefuseObviousAction(layout));
 
+
+  */
+
+  
+  PrefuseObviousVisualization vis = new PrefuseObviousNetworkViz(network, null, "test", param);
+
   // In order to display, we have to call the underlying prefuse visualization.
   // In a complete version of obvious, we don't need that step.
   prefuse.Visualization prefViz = (prefuse.Visualization)
   vis.getUnderlyingImpl(prefuse.Visualization.class);
-
-  //Create a new display (prefuse)
-  Display display = new Display(prefViz);
-  display.setSize(800, 640);
-  display.addControlListener(new DragControl());
-  display.addControlListener(new PanControl());
-  display.addControlListener(new ZoomControl());
-
+  
+  PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
+  view.addListener(new PrefuseObviousControl(new ZoomControl()));
+  view.addListener(new PrefuseObviousControl(new PanControl()));
+  view.addListener(new PrefuseObviousControl(new DragControl()));
   //create a new window to hold the visualization
   JFrame frame = new JFrame("DataModel : Obvious-prefuse"
-      + " | Visu : Obvious-Prefuse | View : Prefuse");
+      + " | Visu : Obvious-Prefuse | View : Obvious-Prefuse");
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  frame.add(display);
+  frame.add(view.getViewJComponent());
   frame.pack();
   frame.setVisible(true);
 
   prefViz.run("color");  // assign the colors
   prefViz.run("layout"); // start up the animated layout
 
-
+  Schema nodeSchema = new PrefuseObviousSchema();
+  nodeSchema.addColumn("name", String.class, "bob");
+  nodeSchema.addColumn("gender", String.class, "male");
+  network.addNode(new NodeImpl(nodeSchema, new Object[] {"marc", "male"}));
   }
 
 }

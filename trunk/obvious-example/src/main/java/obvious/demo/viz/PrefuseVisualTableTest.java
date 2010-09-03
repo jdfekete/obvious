@@ -13,15 +13,20 @@ import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
+import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
+import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
+import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
 import prefuse.Display;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
+import prefuse.render.DefaultRendererFactory;
+import prefuse.render.LabelRenderer;
 
 /**
  * Test example to check VisualAttributeManager implementation for
@@ -73,6 +78,7 @@ public final class PrefuseVisualTableTest {
     param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
     param.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
 
+
     // Using the factory to build the visualization
     System.setProperty("obvious.VisualizationFactory",
         "obvious.prefuse.viz.PrefuseVisualizationFactory");
@@ -85,12 +91,13 @@ public final class PrefuseVisualTableTest {
     // In a complete version of obvious, we don't need that step.
     prefuse.Visualization prefViz = (prefuse.Visualization)
     vis.getUnderlyingImpl(prefuse.Visualization.class);
-
     // Building the prefuse display.
     //Display display = new Display(prefViz);
     
     PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
-    prefViz.run("draw");
+    view.addListener(new PrefuseObviousControl(new ZoomControl()));
+    view.addListener(new PrefuseObviousControl(new PanControl()));
+    view.addListener(new PrefuseObviousControl(new DragControl()));
     //System.out.println(display == null);
     view.getViewJComponent().setSize(800, 600);
     //display.addControlListener(new DragControl());
@@ -102,18 +109,21 @@ public final class PrefuseVisualTableTest {
     frame.add(view.getViewJComponent());
     frame.pack();
     frame.setVisible(true);
+    prefViz.run("draw");
+    table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {20, 19, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {21, 26, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
 
-
-    /*
-    for (IntIterator it = table.rowIterator(); it.hasNext();) {
-      Tuple tuple = new TupleImpl(table, it.next());
-      System.out.print(tuple.get("id") + " || ");
-      for (Map.Entry<String, String> e : vis.getAliasMap().entrySet()) {
-        System.out.print(" " + e.getKey() + " : " + vis.getAttributeValuetAt(tuple, e.getKey()));
-      }
-      System.out.println();
-    }
-    */
   }
 
 }
