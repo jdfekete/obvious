@@ -7,6 +7,8 @@ import obvious.data.Table;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
+import obvious.prefuse.view.PrefuseObviousControl;
+import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
@@ -120,18 +122,17 @@ public final class ScatterPlotIvtkToPrefVis {
     prefuse.Visualization prefViz = (prefuse.Visualization)
     viz.getUnderlyingImpl(prefuse.Visualization.class);
 
-    // Building the prefuse display.
-    Display display = new Display(prefViz);
-    display.setSize(300, 200);
-    display.addControlListener(new DragControl());
-    display.addControlListener(new PanControl());
-    display.addControlListener(new ZoomControl());
+    PrefuseObviousView view = new PrefuseObviousView(viz, null, "scatterplot",
+        null);
+    view.addListener(new PrefuseObviousControl(new ZoomControl()));
+    view.addListener(new PrefuseObviousControl(new PanControl()));
+    view.addListener(new PrefuseObviousControl(new DragControl()));
 
     // JFrame...
     JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse | View Prefuse | Polylithic");
+        + " Visualisation : obvious-prefuse | View obvious-prefuse | Polylithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(display);
+    frame.add(view.getViewJComponent());
     frame.pack();
     frame.setVisible(true);
     prefViz.run("draw");
@@ -145,5 +146,10 @@ public final class ScatterPlotIvtkToPrefVis {
     table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
     table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
   }
 }

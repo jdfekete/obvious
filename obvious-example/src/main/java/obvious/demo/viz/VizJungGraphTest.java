@@ -41,6 +41,8 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.jung.data.JungObviousNetwork;
 import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.view.PrefuseObviousControl;
+import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
@@ -157,22 +159,26 @@ public final class VizJungGraphTest {
   prefuse.Visualization prefViz = (prefuse.Visualization)
   vis.getUnderlyingImpl(prefuse.Visualization.class);
 
-  //Create a new display (prefuse)
-  Display display = new Display(prefViz);
-  display.setSize(800, 640);
-  display.addControlListener(new DragControl());
-  display.addControlListener(new PanControl());
-  display.addControlListener(new ZoomControl());
+  PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot",
+      null);
+  view.addListener(new PrefuseObviousControl(new ZoomControl()));
+  view.addListener(new PrefuseObviousControl(new PanControl()));
+  view.addListener(new PrefuseObviousControl(new DragControl()));
 
   //JFrame...
   JFrame frame = new JFrame("DataModel : Obvious-Jung"
-      + " | Visu : Obvious-Prefuse | View : Prefuse");
+      + " | Visu : Obvious-Prefuse | View : Obvious-Prefuse");
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  frame.add(display);
+  frame.add(view.getViewJComponent());
   frame.pack();
   frame.setVisible(true);
 
   prefViz.run("color");
   prefViz.run("layout");
+
+  Node node5 = new NodeImpl(nodeSchema, new Object[] {"5", 4});
+  jungNetwork.addNode(node5);
+  Edge edge5 = new EdgeImpl(edgeSchema, new Object[] {5, 2});
+  jungNetwork.addEdge(edge5, node5, node2, Graph.EdgeType.UNDIRECTED);
   }
 }

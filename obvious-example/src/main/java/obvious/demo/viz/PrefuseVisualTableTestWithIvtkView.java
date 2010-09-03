@@ -8,21 +8,15 @@ import javax.swing.JFrame;
 import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.data.Tuple;
-import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
-import prefuse.Display;
-import prefuse.controls.DragControl;
-import prefuse.controls.PanControl;
-import prefuse.controls.ZoomControl;
+
 
 /**
  * Test example to check VisualAttributeManager implementation for
@@ -83,11 +77,6 @@ public final class PrefuseVisualTableTestWithIvtkView {
 
     IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
 
-    //System.out.println(display == null);
-    //view.getViewJComponent().setSize(800, 600);
-    //display.addControlListener(new DragControl());
-    //display.addControlListener(new PanControl());
-    //display.addControlListener(new ZoomControl());
     JFrame frame = new JFrame("Data model : obvious-ivtk |"
         + " Visualisation : obvious-prefuse | View obvious-ivtk | Monolithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,17 +84,20 @@ public final class PrefuseVisualTableTestWithIvtkView {
     frame.pack();
     frame.setVisible(true);
 
+    table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {20, 19, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {21, 26, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
+    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
+    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
 
-    /*
-    for (IntIterator it = table.rowIterator(); it.hasNext();) {
-      Tuple tuple = new TupleImpl(table, it.next());
-      System.out.print(tuple.get("id") + " || ");
-      for (Map.Entry<String, String> e : vis.getAliasMap().entrySet()) {
-        System.out.print(" " + e.getKey() + " : " + vis.getAttributeValuetAt(tuple, e.getKey()));
-      }
-      System.out.println();
-    }
-    */
   }
 
 }
