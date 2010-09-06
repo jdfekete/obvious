@@ -27,6 +27,8 @@
 
 package obvious.demo.networkapp;
 
+import infovis.graph.visualization.NodeLinkGraphVisualization;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -137,6 +139,8 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
           prefViz.run("layout");
           panel.invalidate();
           panel.repaint();
+          NodeLinkGraphVisualization internvisu = (NodeLinkGraphVisualization) panel.getVisualization();
+          System.out.println(internvisu.getVertexTable().getRowCount() + ":" + network.getNodes().size());
           dialog.dispose();
         }
       });
