@@ -37,6 +37,7 @@ import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.event.NetworkListener;
 
 /**
  * Implementation of an Obvious Network based on Prefuse toolkit.
@@ -65,7 +66,13 @@ public class PrefuseObviousNetwork implements Network {
    * Column used in edgeTable to identify sourceNode.
    */
   private String targetKey;
-
+  
+  /**
+   * Collection of listeners.
+   */
+  private Collection<NetworkListener> listeners =
+	  new ArrayList<NetworkListener>();
+  
   /**
    * Constructor from obvious schemas and extra parameters.
    * @param nodeSchema original schema for the nodes
@@ -208,6 +215,8 @@ public class PrefuseObviousNetwork implements Network {
           prefEdge.set(colName, edge.get(colName));
         }
       }
+      fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
+    		  NetworkListener.INSERT_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -228,6 +237,8 @@ public class PrefuseObviousNetwork implements Network {
       for (int i = 0; i < node.getTable().getSchema().getColumnCount(); i++) {
         prefNode.set(node.getSchema().getColumnName(i), node.get(i));
       }
+      fireNetworkEvent(node.getRow(), node.getRow(), 0,
+    		  NetworkListener.INSERT_NODE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -498,7 +509,12 @@ public class PrefuseObviousNetwork implements Network {
    */
   public boolean removeEdge(Edge edge) {
     try {
-      return this.graph.removeEdge(edge.getRow());
+      boolean removed = this.graph.removeEdge(edge.getRow());
+      if (removed) {
+          fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
+        		  NetworkListener.DELETE_EDGE);
+      }
+      return removed;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -511,7 +527,12 @@ public class PrefuseObviousNetwork implements Network {
    */
   public boolean removeNode(Node node) {
     try {
-      return this.graph.removeNode(node.getRow());
+      boolean removed = this.graph.removeNode(node.getRow());
+      if (removed) {
+    	  fireNetworkEvent(node.getRow(), node.getRow(), 0,
+    			  NetworkListener.DELETE_NODE);
+      }
+      return removed;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -529,4 +550,31 @@ public class PrefuseObviousNetwork implements Network {
     return null;
   }
 
+  public Collection<NetworkListener> getNetworkListeners() {
+	 return listeners;
+  }
+		
+  public void removeNetworkListener(NetworkListener l) {
+     listeners.remove(l);
+  }
+		
+  public void addNetworkListener(NetworkListener l) {
+	 listeners.add(l);
+  }
+  
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  protected void fireNetworkEvent(int start, int end, int col, int type) {
+   if (this.getNetworkListeners().isEmpty()) {
+     return;
+   }
+   for (NetworkListener listnr : this.getNetworkListeners()) {
+     listnr.networkChanged(this, start, end, col, type);
+   }
+  }
 }
