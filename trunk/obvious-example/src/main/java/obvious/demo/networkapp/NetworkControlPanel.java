@@ -173,6 +173,34 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
       dialog.add(edgePanel, BorderLayout.SOUTH);
       dialog.pack();
       dialog.setVisible(true);
+    } if (e.getSource() == removeNodeButton) {
+    	final JDialog dialog = new JDialog(frame, "Remove a node or an edge");
+        JPanel nodePanel = new JPanel();
+        JLabel nodeLabel = new JLabel("Node to remove : ");
+        JButton removeNodeOk = new JButton("Remove");
+        final JComboBox nodeList1 = new JComboBox(network.getNodes().toArray());
+        nodeList1.setRenderer(new NodeCellRenderer("name"));
+        final infovis.panel.VisualizationPanel panel = (infovis.panel.VisualizationPanel) ivtkview;
+        removeNodeOk.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Node node1 = (Node) nodeList1.getSelectedObjects()[0];
+                prefViz.cancel("color");
+                prefViz.cancel("layout");
+        		network.removeNode(node1);
+                prefViz.run("color");
+                prefViz.run("layout");
+                panel.invalidate();
+                panel.repaint();
+                dialog.dispose();
+        	}
+        });
+        nodePanel.add(nodeLabel, 0);
+        nodePanel.add(nodeList1, 1);
+        nodePanel.add(removeNodeOk);
+        dialog.add(nodePanel);
+    	dialog.pack();
+    	dialog.setLocationRelativeTo(frame);
+    	dialog.setVisible(true);
     }
   }
 
