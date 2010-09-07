@@ -39,9 +39,11 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tree;
 import obvious.data.Tuple;
+import obvious.data.event.NetworkListener;
 import obvious.data.event.TableListener;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
+import obvious.impl.ObviousLinkNetworkListener;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.data.IvtkObviousTree;
@@ -228,6 +230,10 @@ public class IvtkObviousVisualization extends Visualization {
       Schema edgeSchema = network.getEdges().iterator().next().getSchema();
       Network ivtkNetwork = new IvtkObviousNetwork(nodeSchema, edgeSchema);
       ObviousLib.fillNetwork(network, ivtkNetwork);
+      NetworkListener listnr = new ObviousLinkNetworkListener(network);
+      NetworkListener listnr2 = new ObviousLinkNetworkListener(ivtkNetwork);
+      ivtkNetwork.addNetworkListener(listnr);
+      network.addNetworkListener(listnr2);
       return (infovis.Graph)
           ivtkNetwork.getUnderlyingImpl(infovis.Graph.class);
     } else {
