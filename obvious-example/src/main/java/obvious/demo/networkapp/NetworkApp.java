@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import obvious.data.Schema;
@@ -99,7 +100,7 @@ public class NetworkApp {
 
     JSplitPane viewPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     viewPane.add(prefView.getViewJComponent(), 0);
-    viewPane.add(ivtkView.getViewJComponent(), 1);
+    viewPane.add(new JScrollPane(ivtkView.getViewJComponent()), 1);
 
 
     JSplitPane globalPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
