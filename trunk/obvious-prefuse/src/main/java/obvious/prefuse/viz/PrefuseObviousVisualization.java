@@ -38,9 +38,11 @@ import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tuple;
+import obvious.data.event.NetworkListener;
 import obvious.data.event.TableListener;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkListener;
+import obvious.impl.ObviousLinkNetworkListener;
 import obvious.prefuse.PrefuseObviousNetwork;
 import obvious.prefuse.PrefuseObviousTable;
 import obvious.util.ObviousLib;
@@ -295,6 +297,10 @@ public class PrefuseObviousVisualization extends Visualization {
       Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema,
           directed, nodeKey, sourceKey, targetKey);
       ObviousLib.fillNetwork(network, prefNetwork);
+      NetworkListener listnr = new ObviousLinkNetworkListener(network);
+      NetworkListener listnr2 = new ObviousLinkNetworkListener(prefNetwork);
+      prefNetwork.addNetworkListener(listnr);
+      network.addNetworkListener(listnr2);
       return (prefuse.data.Graph)
           prefNetwork.getUnderlyingImpl(prefuse.data.Graph.class);
     } else {
