@@ -43,6 +43,7 @@ import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.TableImpl;
@@ -59,6 +60,12 @@ public class JungObviousNetwork implements Network {
    * A Jung graph used for this obvious implementation.
    */
   private edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph;
+  
+  /**
+   * Collection of listeners.
+   */
+  private Collection<NetworkListener> listeners =
+	  new ArrayList<NetworkListener>();
 
   /**
    * Constructor from Jung Graph instance.
@@ -853,4 +860,17 @@ public class JungObviousNetwork implements Network {
   public Object getUnderlyingImpl(Class<?> type) {
     return null;
   }
+  
+  public Collection<NetworkListener> getNetworkListeners() {
+	return listeners;
+  }
+		
+  public void removeNetworkListener(NetworkListener l) {
+	listeners.remove(l);
+  }
+		
+  public void addNetworkListener(NetworkListener l) {
+    listeners.add(l);
+  }
+  
 }
