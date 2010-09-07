@@ -18,6 +18,7 @@ import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
+import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 
@@ -98,6 +99,12 @@ public class JDBCObviousNetwork implements Network {
    * Edge schema.
    */
   private Schema edgeSchema;
+  
+  /**
+   * NetworkListener collection.
+   */
+  private Collection<NetworkListener> listeners =
+	  new ArrayList<NetworkListener>();
 
   /**
    * Constructor.
@@ -629,6 +636,18 @@ public class JDBCObviousNetwork implements Network {
       }
     }
     return null;
+  }
+  
+  public Collection<NetworkListener> getNetworkListeners() {
+	return listeners;
+  }
+	
+  public void removeNetworkListener(NetworkListener l) {
+    listeners.remove(l);
+  }
+		
+  public void addNetworkListener(NetworkListener l) {
+	listeners.add(l);
   }
 
 }
