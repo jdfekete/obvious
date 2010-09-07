@@ -45,6 +45,7 @@ import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obviousx.text.TypedFormat;
@@ -88,6 +89,12 @@ public class IvtkObviousNetwork implements Network {
    * Schema for the edges.
    */
   private Schema edgeSchema;
+  
+  /**
+   * Collection of NetworkListener;
+   */
+  private Collection<NetworkListener> listeners =
+	  new ArrayList<NetworkListener>();
 
   /**
    * Constructor from Obvious Schemas.
@@ -622,5 +629,17 @@ public class IvtkObviousNetwork implements Network {
     }
     return null;
   }
+
+	public Collection<NetworkListener> getNetworkListeners() {
+	 return listeners;
+	}
+	
+	public void removeNetworkListener(NetworkListener l) {
+	 listeners.remove(l);
+	}
+	
+	public void addNetworkListener(NetworkListener l) {
+	 listeners.add(l);
+	}
 
 }
