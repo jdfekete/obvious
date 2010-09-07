@@ -221,6 +221,8 @@ public class IvtkObviousNetwork implements Network {
             graph.getEdgeTable().indexOf(edge.getSchema().getColumnName(i)));
       }
       edgeToId.put(edge, edgeId);
+      fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
+    		  NetworkListener.INSERT_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -244,6 +246,8 @@ public class IvtkObviousNetwork implements Network {
             graph.getVertexTable().indexOf(node.getSchema().getColumnName(i)));
       }
       nodeToId.put(node, rowId);
+      fireNetworkEvent(node.getRow(), node.getRow(), 0,
+    		  NetworkListener.INSERT_NODE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -546,6 +550,8 @@ public class IvtkObviousNetwork implements Network {
       }
       graph.removeEdge(getEdgeId(edge));
       edgeToId.remove(edge);
+      fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
+    		  NetworkListener.DELETE_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -564,6 +570,8 @@ public class IvtkObviousNetwork implements Network {
       }
       graph.removeVertex(getNodeId(node));
       nodeToId.remove(node);
+      fireNetworkEvent(node.getRow(), node.getRow(), 0,
+    		  NetworkListener.DELETE_NODE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -641,5 +649,21 @@ public class IvtkObviousNetwork implements Network {
 	public void addNetworkListener(NetworkListener l) {
 	 listeners.add(l);
 	}
+	
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  protected void fireNetworkEvent(int start, int end, int col, int type) {
+   if (this.getNetworkListeners().isEmpty()) {
+     return;
+   }
+   for (NetworkListener listnr : this.getNetworkListeners()) {
+     listnr.networkChanged(this, start, end, col, type);
+   }
+  }
 
 }
