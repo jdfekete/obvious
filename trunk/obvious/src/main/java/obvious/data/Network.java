@@ -27,6 +27,10 @@
 
 package obvious.data;
 
+import java.util.Collection;
+
+import obvious.data.event.NetworkListener;
+
 
 /**
  * Interface Network.
@@ -38,4 +42,11 @@ package obvious.data;
  * @version $Revision$
  */
 public interface Network extends obvious.data.Graph<Node, Edge> {
+	
+	Collection<NetworkListener> getNetworkListeners();
+	
+	void removeNetworkListener(NetworkListener l);
+	
+	void addNetworkListener(NetworkListener l);
+	
 }
