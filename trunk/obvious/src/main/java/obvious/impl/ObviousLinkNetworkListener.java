@@ -169,6 +169,7 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	        return;
 	    }
 	    try {
+	    	System.out.println("YEAH");
 	    	for (int i = start; i <= end; i++) {
 	    		Node currentNode = findNode(i, source);
 	    		target.addNode(currentNode);
@@ -197,7 +198,7 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	    try {
 	    	for (int i = start; i <= end; i++) {
 	    		Node currentNode = findNode(i, target);
-	    		target.addNode(currentNode);
+	    		target.removeNode(currentNode);
 	    	}
 	    } catch (Exception e) {
 	    	new ObviousRuntimeException(e);
