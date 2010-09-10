@@ -565,15 +565,16 @@ public class IvtkObviousNetwork implements Network {
    */
   public boolean removeNode(Node node) {
     try {
-      if (!nodeToId.containsKey(node)) {
+      if (!nodeToId.containsValue(node.getRow())) {
         return false;
       }
-      graph.removeVertex(getNodeId(node));
+      graph.removeVertex(node.getRow());
       nodeToId.remove(node);
       fireNetworkEvent(node.getRow(), node.getRow(), 0,
     		  NetworkListener.DELETE_NODE);
       return true;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new ObviousRuntimeException(e);
     }
   }
