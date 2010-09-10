@@ -28,6 +28,8 @@
 package obvious.impl;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Edge;
+import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Table;
@@ -68,7 +70,7 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	  public ObviousLinkNetworkListener(Network inTarget) {
 		  this.target = inTarget;
 	  }
-	  
+
 	  /**
 	   * Specifies that the following calls to tableChanged belong to the same
 	   * transaction.
@@ -157,8 +159,13 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	        return;
 	    }
 	    try {
-	    	//TODO
-	    	System.out.println("unimplemented");
+	      for (int i = start; i <= end; i++) {
+	        Edge currentEdge = findEdge(i, source);
+	        Node sourceNode = source.getSource(currentEdge);
+	        Node targetNode = source.getTarget(currentEdge);
+	        target.addEdge(currentEdge, sourceNode, targetNode,
+	            Graph.EdgeType.DIRECTED);
+	      }
 	    } catch (Exception e) {
 	    	new ObviousRuntimeException(e);
 	    }
@@ -169,7 +176,6 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	        return;
 	    }
 	    try {
-	    	System.out.println("YEAH");
 	    	for (int i = start; i <= end; i++) {
 	    		Node currentNode = findNode(i, source);
 	    		target.addNode(currentNode);
@@ -204,7 +210,7 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 	    	new ObviousRuntimeException(e);
 	    }
 	}
-	
+
 	private Node findNode(int i, Network network) {
 		for (Node node : network.getNodes()) {
 			if (node.getRow() == i) {
@@ -212,6 +218,15 @@ public class ObviousLinkNetworkListener implements NetworkListener{
 			}
 		}
 		return null;
+	}
+
+	private Edge findEdge (int i, Network network) {
+	  for (Edge edge : network.getEdges()) {
+	    if (edge.getRow() == i) {
+	      return edge;
+	    }
+	  }
+	  return null;
 	}
 
 }
