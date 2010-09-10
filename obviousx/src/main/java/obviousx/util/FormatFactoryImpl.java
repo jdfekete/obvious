@@ -32,6 +32,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.util.BitSet;
 import java.util.Date;
 
 import obviousx.ObviousxRuntimeException;
@@ -148,9 +149,11 @@ public final class FormatFactoryImpl implements FormatFactory {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-      if (source.equals("true")) {
+      if (source != null && source.equals("true")) {
         return true;
-      } else if (source.equals("false")) {
+      } else if (source != null && source.equals("false")) {
+        return false;
+      } else if (source == null || source.equals("null")) {
         return false;
       } else {
         throw new
@@ -292,6 +295,74 @@ public final class FormatFactoryImpl implements FormatFactory {
     }
   }
 
+  /**
+   * Inner class for BitSet format class.
+   * @author Hemery
+   *
+   */
+  public class TypedBitSetFormat extends Format implements TypedFormat {
+
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 523447675781107765L;
+
+    /**
+     * Constructor.
+     */
+    public TypedBitSetFormat() {
+      super();
+    }
+
+    @Override
+    public StringBuffer format(Object obj, StringBuffer toAppendTo,
+        FieldPosition pos) {
+      if (obj instanceof BitSet) {
+        return format((BitSet) obj);
+      } else {
+        throw new
+          IllegalArgumentException("Cannot format given Boolean as String");
+      }
+    }
+
+    /**
+     * Format the given BitSet instance.
+     * @param set BitSet instance to format.
+     * @return BitSet as a String.
+     */
+    public StringBuffer format(BitSet set) {
+      return new StringBuffer(set.toString());
+    }
+
+    @Override
+    public Class<?> getFormattedClass() {
+      return java.util.BitSet.class;
+    }
+
+    @Override
+    public Object parseObject(String source, ParsePosition pos) {
+      if (source == null) {
+        return null;
+      } else {
+        try {
+          if (!source.endsWith("{") || !source.startsWith("{")) {
+            return null;
+          }
+          String trueString = source.substring(0, source.length() - 1);
+          String[] trueBits = trueString.split(",");
+          BitSet set = new BitSet(Integer.parseInt(
+              trueBits[trueBits.length - 1]));
+          for (int i = 0; i < trueBits.length; i++) {
+            set.set(Integer.parseInt(trueBits[i]));
+          }
+          return set;
+        } catch (Exception e) {
+          throw new IllegalArgumentException(e);
+        }
+      }
+    }
+
+  }
 
   /**
    * Gives the associated TypedFormat object associated to a type entered as a
@@ -315,6 +386,8 @@ public final class FormatFactoryImpl implements FormatFactory {
       return new TypedBooleanFormat();
     } else if (typeLow.equals("string")) {
       return new TypedStringFormat();
+    } else if (typeLow.equals("bitset")) {
+      return new TypedBitSetFormat();
     } else {
       throw new
         IllegalArgumentException("Cannot return a corresponding Format for : "
