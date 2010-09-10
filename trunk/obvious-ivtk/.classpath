@@ -8,5 +8,6 @@
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="src" path="/ivtk"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/obvious"/>
+	<classpathentry kind="src" path="/obvious-prefuse"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
