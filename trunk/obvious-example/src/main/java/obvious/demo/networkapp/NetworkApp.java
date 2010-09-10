@@ -27,6 +27,12 @@
 
 package obvious.demo.networkapp;
 
+import infovis.DynamicTable;
+import infovis.graph.visualization.NodeLinkGraphVisualization;
+import infovis.panel.ControlPanel;
+import infovis.panel.ControlPanelFactory;
+
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +40,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 
 import obvious.data.Schema;
+import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.PrefuseObviousNetwork;
 import obvious.prefuse.PrefuseObviousSchema;
@@ -43,11 +51,13 @@ import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
+import obviousx.io.ObviousTableModel;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
 import prefuse.data.io.DataIOException;
 import prefuse.data.io.GraphMLReader;
+import prefuse.data.util.RowManager.RowIterator;
 
 /**
  * NetworkApp class.
@@ -58,7 +68,7 @@ public class NetworkApp {
 
 
   public static void main(String[] args) {
-    
+
     // Create the prefuse graph.
     prefuse.data.Graph prefGraph = null;
     try {
@@ -73,7 +83,7 @@ public class NetworkApp {
     Schema nodeSchema = new PrefuseObviousSchema();
     nodeSchema.addColumn("name", String.class, "bob");
     nodeSchema.addColumn("gender", String.class, "male");
-    
+
     // Create the parameter for the visualization.
     Map<String, Object> param = new HashMap<String, Object>();
     param.put(PrefuseObviousVisualization.GROUP_NAME, "graph");
@@ -97,10 +107,37 @@ public class NetworkApp {
     IvtkObviousView ivtkView = new IvtkObviousView(
         prefVisu, null, "network", param);
 
+    infovis.panel.VisualizationPanel debugPanel
+      = (infovis.panel.VisualizationPanel)
+      ivtkView.getUnderlyingImpl(infovis.panel.VisualizationPanel.class);
+
+    NodeLinkGraphVisualization debugView = (NodeLinkGraphVisualization)
+        debugPanel.getVisualization();
+
+    DynamicTable nodeTable = debugView.getVertexTable();
+
+    debugView.setVisualColumn(
+        infovis.Visualization.VISUAL_LABEL, nodeTable.getColumn("name"));
+
+    /*
+    ControlPanel control = ControlPanelFactory
+    .createControlPanel(debugView);
+
+    JFrame debugFrame = new JFrame("debugIvtk graph struct");
+    JSplitPane split = ControlPanelFactory
+    .createScrollVisualization(control);
+    split.setResizeWeight(1.0);
+    debugFrame.getContentPane().add(split);
+    debugFrame.pack();
+    debugFrame.setVisible(true);
+    */
 
     JSplitPane viewPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     viewPane.add(prefView.getViewJComponent(), 0);
     viewPane.add(new JScrollPane(ivtkView.getViewJComponent()), 1);
+    Dimension viewDim = new Dimension(800, 640);
+    viewPane.setMinimumSize(viewDim);
+    viewPane.setPreferredSize(viewDim);
 
 
     JSplitPane globalPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -110,6 +147,9 @@ public class NetworkApp {
     JPanel networkControlPanel = new NetworkControlPanel(
         frame, network, nodeSchema, realPrefVis, ivtkView.getViewJComponent());
     globalPane.add(networkControlPanel, 1);
+    Dimension controlDim = new Dimension(800, 80);
+    networkControlPanel.setMinimumSize(controlDim);
+    networkControlPanel.setPreferredSize(controlDim);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(globalPane);
     frame.pack();
@@ -118,6 +158,7 @@ public class NetworkApp {
 
     realPrefVis.run("color");  // assign the colors
     realPrefVis.run("layout"); // start up the animated layout
+
   }
 
 }
