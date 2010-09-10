@@ -27,11 +27,14 @@
 
 package obvious.cytoscape;
 
+import java.util.Collection;
+
 import org.cytoscape.model.CyNetworkFactory;
 
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
+import obvious.data.event.NetworkListener;
 
 /**
  * Implementation of Obvious Network based on Cytoscape toolkit.
@@ -41,11 +44,40 @@ import obvious.data.Node;
 public class CyNetwork extends CyGraph<Node, Edge> implements Network {
 
   /**
+   * Collections of listeners.
+   */
+  private Collection<NetworkListener> listeners;
+
+  /**
    * Constructor.
    * @param factory a Cytoscape network factory
    */
   public CyNetwork(CyNetworkFactory factory) {
     super(factory);
+  }
+
+  /**
+   * Add a listener.
+   * @param l listener to add
+   */
+  public void addNetworkListener(NetworkListener l) {
+    listeners.add(l);
+  }
+
+  /**
+   * Gets the listeners.
+   * @return listeners.
+   */
+  public Collection<NetworkListener> getNetworkListeners() {
+    return listeners;
+  }
+
+  /**
+   * Removes a listener.
+   * @param l listener to remove
+   */
+  public void removeNetworkListener(NetworkListener l) {
+    listeners.remove(l);
   }
 
 }
