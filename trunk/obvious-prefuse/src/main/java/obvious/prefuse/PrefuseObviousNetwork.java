@@ -66,13 +66,13 @@ public class PrefuseObviousNetwork implements Network {
    * Column used in edgeTable to identify sourceNode.
    */
   private String targetKey;
-  
+
   /**
    * Collection of listeners.
    */
   private Collection<NetworkListener> listeners =
 	  new ArrayList<NetworkListener>();
-  
+
   /**
    * Constructor from obvious schemas and extra parameters.
    * @param nodeSchema original schema for the nodes
@@ -527,9 +527,10 @@ public class PrefuseObviousNetwork implements Network {
    */
   public boolean removeNode(Node node) {
     try {
-      boolean removed = this.graph.removeNode(node.getRow());
+      int row = node.getRow();
+      boolean removed = this.graph.removeNode(row);
       if (removed) {
-    	  fireNetworkEvent(node.getRow(), node.getRow(), 0,
+    	  fireNetworkEvent(row, row, 0,
     			  NetworkListener.DELETE_NODE);
       }
       return removed;
