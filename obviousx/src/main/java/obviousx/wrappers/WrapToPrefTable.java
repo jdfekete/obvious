@@ -28,8 +28,6 @@
 package obviousx.wrappers;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 import obvious.data.Table;
@@ -63,12 +61,6 @@ public class WrapToPrefTable extends prefuse.data.Table {
   private Table table;
 
   /**
-   * Collection of table listeners.
-   */
-  private Collection<TableListener> listeners =
-    new ArrayList<TableListener>();
-
-  /**
    * Constructor.
    * @param inTable wrapped obvious table
    */
@@ -79,24 +71,35 @@ public class WrapToPrefTable extends prefuse.data.Table {
   @SuppressWarnings("unchecked")
   @Override
   public void addColumn(String arg0, Class arg1, Object arg2) {
-    table.getSchema().addColumn(arg0, arg1, arg2);
+    if (!table.getSchema().hasColumn(arg0)) {
+      table.getSchema().addColumn(arg0, arg1, arg2);
+      Column col = ColumnFactory.getColumn(arg1, getRowCount(), arg2);
+      int colIndex = table.getSchema().getColumnIndex(arg0);
+      this.m_lastCol = colIndex;
+      this.m_columns.add(col);
+      this.m_names.add(arg0);
+      ColumnEntry entry = new ColumnEntry(colIndex, col,
+          new ColumnMetadata(this, arg0));
+      ColumnEntry oldEntry = (ColumnEntry) this.m_entries.put(arg0, entry);
+      oldEntry.dispose();
+    }
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void addColumn(String arg0, Class arg1) {
-    table.getSchema().addColumn(arg0, arg1, null);
+    this.addColumn(arg0, arg1, null);
   }
 
   @Override
   protected void addColumn(String arg0, Column arg1) {
-    table.getSchema().addColumn(arg0, arg1.getColumnClass(),
+    this.addColumn(arg0, arg1.getColumnClass(),
         arg1.getDefaultValue());
   }
 
   @Override
   public void addColumn(String arg0, Expression arg1) {
-    addColumn(arg0, ColumnFactory.getColumn(this, arg1));
+    this.addColumn(arg0, ColumnFactory.getColumn(this, arg1));
   }
 
   @Override
@@ -130,7 +133,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public void addTableListener(TableListener arg0) {
-    listeners.add(arg0);
+    super.addTableListener(arg0);
   }
 
   @Override
@@ -206,7 +209,6 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   protected void fireTableEvent(int arg0, int arg1, int arg2, int arg3) {
-    // TODO Auto-generated method stub
     super.fireTableEvent(arg0, arg1, arg2, arg3);
   }
 
@@ -268,13 +270,16 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public int getColumnRow(int arg0, int arg1) {
-    // TODO Auto-generated method stub
-    return super.getColumnRow(arg0, arg1);
+    if (this.isValidRow(arg0)) {
+      return arg0;
+    } else {
+      return -1;
+    }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected Iterator getColumns() {
-    // TODO Auto-generated method stub
     return super.getColumns();
   }
 
@@ -295,27 +300,24 @@ public class WrapToPrefTable extends prefuse.data.Table {
     return getColumn(getColumnNumber(arg0)).getDefaultValue();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected Index getIndex(String arg0, Class arg1, boolean arg2) {
-    // TODO Auto-generated method stub
     return super.getIndex(arg0, arg1, arg2);
   }
 
   @Override
   public Index getIndex(String arg0) {
-    // TODO Auto-generated method stub
     return super.getIndex(arg0);
   }
 
   @Override
   public ColumnMetadata getMetadata(String arg0) {
-    // TODO Auto-generated method stub
-    return super.getMetadata(arg0);
+    return new ColumnMetadata(this, arg0);
   }
 
   @Override
   public int getModificationCount() {
-    // TODO Auto-generated method stub
     return super.getModificationCount();
   }
 
@@ -340,8 +342,11 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public int getTableRow(int arg0, int arg1) {
-    // TODO Auto-generated method stub
-    return super.getTableRow(arg0, arg1);
+    if (this.isValidRow(arg0)) {
+      return arg0;
+    } else {
+      return -1;
+    }
   }
 
   @Override
@@ -368,9 +373,8 @@ public class WrapToPrefTable extends prefuse.data.Table {
   }
 
   @Override
-  protected void handleColumnChanged(Column arg0, int arg1, int arg2) {
-    // TODO Auto-generated method stub
-    super.handleColumnChanged(arg0, arg1, arg2);
+  protected void handleColumnChanged(Column c, int start, int end) {
+    super.handleColumnChanged(c, start, end);
   }
 
   @Override
@@ -380,19 +384,16 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public Index index(String arg0) {
-    // TODO Auto-generated method stub
     return super.index(arg0);
   }
 
   @Override
   protected void invalidateSchema() {
-    // TODO Auto-generated method stub
     super.invalidateSchema();
   }
 
   @Override
   public boolean isAddColumnSupported() {
-    // TODO Auto-generated method stub
     return super.isAddColumnSupported();
   }
 
@@ -408,69 +409,68 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public TableIterator iterator() {
-    // TODO Auto-generated method stub
     return super.iterator();
   }
 
   @Override
   public TableIterator iterator(IntIterator arg0) {
-    // TODO Auto-generated method stub
     return super.iterator(arg0);
   }
 
   @Override
   public IntIterator rangeSortedBy(String arg0, double arg1, double arg2,
       int arg3) {
-    // TODO Auto-generated method stub
     return super.rangeSortedBy(arg0, arg1, arg2, arg3);
   }
 
   @Override
-  public IntIterator rangeSortedBy(String arg0, float arg1, float arg2, int arg3) {
-    // TODO Auto-generated method stub
+  public IntIterator rangeSortedBy(String arg0, float arg1, float arg2,
+      int arg3) {
     return super.rangeSortedBy(arg0, arg1, arg2, arg3);
   }
 
   @Override
   public IntIterator rangeSortedBy(String arg0, int arg1, int arg2, int arg3) {
-    // TODO Auto-generated method stub
     return super.rangeSortedBy(arg0, arg1, arg2, arg3);
   }
 
   @Override
-  public IntIterator rangeSortedBy(String arg0, long arg1, long arg2, int arg3) {
-    // TODO Auto-generated method stub
+  public IntIterator rangeSortedBy(String arg0, long arg1, long arg2,
+      int arg3) {
     return super.rangeSortedBy(arg0, arg1, arg2, arg3);
   }
 
   @Override
   public IntIterator rangeSortedBy(String arg0, Object arg1, Object arg2,
       int arg3) {
-    // TODO Auto-generated method stub
     return super.rangeSortedBy(arg0, arg1, arg2, arg3);
   }
 
   @Override
   public void removeColumn(Column arg0) {
-    // TODO Auto-generated method stub
-    super.removeColumn(arg0);
+    if (!table.getSchema().hasColumn(getColumnName(getColumnNumber(arg0)))) {
+      return;
+    }
+    removeColumn(getColumnNumber(arg0));
   }
 
   @Override
   protected Column removeColumn(int arg0) {
-    // TODO Auto-generated method stub
+    table.getSchema().removeColumn(arg0);
     return super.removeColumn(arg0);
   }
 
   @Override
   public Column removeColumn(String arg0) {
-    // TODO Auto-generated method stub
-    return super.removeColumn(arg0);
+    if (!table.getSchema().hasColumn(arg0)) {
+      return null;
+    } else {
+      return removeColumn(this.getColumnNumber(arg0));
+    }
   }
 
   @Override
   public boolean removeIndex(String arg0) {
-    // TODO Auto-generated method stub
     return super.removeIndex(arg0);
   }
 
@@ -481,7 +481,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public void removeTableListener(TableListener arg0) {
-    listeners.remove(arg0);
+    super.removeTableListener(arg0);
   }
 
   @Override
@@ -491,37 +491,31 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   protected void renumberColumns() {
-    // TODO Auto-generated method stub
     super.renumberColumns();
   }
 
   @Override
   public void revertToDefault(int arg0, String arg1) {
-    // TODO Auto-generated method stub
     super.revertToDefault(arg0, arg1);
   }
 
   @Override
   public IntIterator rows() {
-    // TODO Auto-generated method stub
-    return super.rows();
+    return new PrefRowIterator(this, false);
   }
 
   @Override
   public IntIterator rows(boolean arg0) {
-    // TODO Auto-generated method stub
-    return super.rows(arg0);
+    return new PrefRowIterator(this, arg0);
   }
 
   @Override
   public IntIterator rows(Predicate arg0) {
-    // TODO Auto-generated method stub
     return super.rows(arg0);
   }
 
   @Override
   public IntIterator rowsSortedBy(String arg0, boolean arg1) {
-    // TODO Auto-generated method stub
     return super.rowsSortedBy(arg0, arg1);
   }
 
@@ -532,13 +526,11 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public Tuple setTuple(Tuple arg0) {
-    //TODO
-    return arg0;
+    return super.setTuple(arg0);
   }
 
   @Override
   public void setTupleManager(TupleManager arg0) {
-    // TODO Auto-generated method stub
     super.setTupleManager(arg0);
   }
 
@@ -557,108 +549,99 @@ public class WrapToPrefTable extends prefuse.data.Table {
     return sbuf.toString();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Iterator tuples() {
-    // TODO Auto-generated method stub
-    return super.tuples();
+    return new PrefTupleIterator(this, rows());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Iterator tuples(IntIterator arg0) {
-    // TODO Auto-generated method stub
-    return super.tuples(arg0);
+    return new PrefTupleIterator(this, arg0);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Iterator tuplesReversed() {
-    // TODO Auto-generated method stub
-    return super.tuplesReversed();
+    return new PrefTupleIterator(this, rows(true));
   }
 
   @Override
   protected void updateRowCount() {
-    // TODO Auto-generated method stub
     super.updateRowCount();
   }
 
   @Override
   public void addColumns(Schema arg0) {
-    // TODO Auto-generated method stub
-    super.addColumns(arg0);
+    for (int i = 0; i < arg0.getColumnCount(); i++) {
+      this.addColumn(arg0.getColumnName(i), arg0.getColumnType(i),
+          arg0.getDefault(i));
+    }
   }
 
   @Override
   public void addPropertyChangeListener(PropertyChangeListener arg0) {
-    // TODO Auto-generated method stub
     super.addPropertyChangeListener(arg0);
   }
 
   @Override
-  public void addPropertyChangeListener(String arg0, PropertyChangeListener arg1) {
-    // TODO Auto-generated method stub
+  public void addPropertyChangeListener(
+      String arg0, PropertyChangeListener arg1) {
     super.addPropertyChangeListener(arg0, arg1);
   }
 
   @Override
   public void addTupleSetListener(TupleSetListener arg0) {
-    // TODO Auto-generated method stub
     super.addTupleSetListener(arg0);
   }
 
   @Override
   protected void fireTupleEvent(prefuse.data.Table arg0,
       int arg1, int arg2, int arg3) {
-    // TODO Auto-generated method stub
     super.fireTupleEvent(arg0, arg1, arg2, arg3);
   }
 
   @Override
   protected void fireTupleEvent(Tuple arg0, int arg1) {
-    // TODO Auto-generated method stub
     super.fireTupleEvent(arg0, arg1);
   }
 
   @Override
   protected void fireTupleEvent(Tuple[] arg0, Tuple[] arg1) {
-    // TODO Auto-generated method stub
     super.fireTupleEvent(arg0, arg1);
   }
 
   @Override
   public Object getClientProperty(String arg0) {
-    // TODO Auto-generated method stub
     return super.getClientProperty(arg0);
   }
 
   @Override
   public void putClientProperty(String arg0, Object arg1) {
-    // TODO Auto-generated method stub
     super.putClientProperty(arg0, arg1);
   }
 
   @Override
   public void removePropertyChangeListener(PropertyChangeListener arg0) {
-    // TODO Auto-generated method stub
     super.removePropertyChangeListener(arg0);
   }
 
   @Override
   public void removePropertyChangeListener(String arg0,
       PropertyChangeListener arg1) {
-    // TODO Auto-generated method stub
     super.removePropertyChangeListener(arg0, arg1);
   }
 
   @Override
   public void removeTupleSetListener(TupleSetListener arg0) {
-    // TODO Auto-generated method stub
     super.removeTupleSetListener(arg0);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Iterator tuples(Predicate arg0) {
-    // TODO Auto-generated method stub
-    return super.tuples(arg0);
+    return new PrefTupleIterator(this, rows(arg0));
   }
 
 }
