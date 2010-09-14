@@ -66,13 +66,20 @@ public class WrapToPrefTable extends prefuse.data.Table {
    */
   public WrapToPrefTable(Table inTable) {
     this.table = inTable;
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      addColumn(table.getSchema().getColumnName(i),
+          table.getSchema().getColumnType(i),
+          table.getSchema().getColumnDefault(i));
+    }
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void addColumn(String arg0, Class arg1, Object arg2) {
-    if (!table.getSchema().hasColumn(arg0)) {
-      table.getSchema().addColumn(arg0, arg1, arg2);
+    if (!m_names.contains(arg0)) {
+      if (!table.getSchema().hasColumn(arg0)) {
+        table.getSchema().addColumn(arg0, arg1, arg2);
+      }
       Column col = ColumnFactory.getColumn(arg1, getRowCount(), arg2);
       int colIndex = table.getSchema().getColumnIndex(arg0);
       this.m_lastCol = colIndex;
@@ -81,7 +88,13 @@ public class WrapToPrefTable extends prefuse.data.Table {
       ColumnEntry entry = new ColumnEntry(colIndex, col,
           new ColumnMetadata(this, arg0));
       ColumnEntry oldEntry = (ColumnEntry) this.m_entries.put(arg0, entry);
-      oldEntry.dispose();
+      if (oldEntry != null) {
+        oldEntry.dispose();
+      }
+
+      invalidateSchema();
+      // listen to what the column has to say
+      col.addColumnListener(this);
     }
   }
 
@@ -313,7 +326,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public ColumnMetadata getMetadata(String arg0) {
-    return new ColumnMetadata(this, arg0);
+    return super.getMetadata(arg0);
   }
 
   @Override
@@ -323,7 +336,11 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public int getRowCount() {
-    return table.getRowCount();
+    if (table == null) {
+      return 0;
+    } else {
+      return table.getRowCount();
+    }
   }
 
   @Override

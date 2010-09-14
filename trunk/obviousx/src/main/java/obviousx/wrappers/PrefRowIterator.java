@@ -49,7 +49,7 @@ public class PrefRowIterator extends IntIterator {
   /**
    * Next column index.
    */
-  private int next;
+  private int next = -1;
 
   /**
    * Table that contains the rows.
@@ -70,6 +70,7 @@ public class PrefRowIterator extends IntIterator {
   public PrefRowIterator(WrapToPrefTable inTable, boolean isReversed) {
     this.reversed = isReversed;
     this.table = inTable;
+    advance();
   }
 
   @Override
@@ -87,20 +88,21 @@ public class PrefRowIterator extends IntIterator {
     if (!reversed) {
       while (validRowsEncountered < table.getRowCount()) {
         next++;
-        if (table.isValidRow(last)) {
+        if (table.isValidRow(next)) {
           validRowsEncountered++;
-          return last;
+          return next;
         }
       }
     } else {
       while (validRowsEncountered < table.getRowCount() && last > 0) {
         next--;
-        if (table.isValidRow(last)) {
+        if (table.isValidRow(next)) {
           validRowsEncountered++;
           return next;
         }
       }
     }
+    System.out.println(":(");
     return next;
   }
 
@@ -109,7 +111,7 @@ public class PrefRowIterator extends IntIterator {
     if (reversed) {
       return next >= 0;
     } else {
-      return table.isValidRow(next);
+      return validRowsEncountered < table.getRowCount();
     }
   }
 
