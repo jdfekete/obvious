@@ -30,6 +30,8 @@ package obviousx.wrappers;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 
+import javax.swing.event.TableModelEvent;
+
 import obvious.data.Table;
 import obvious.impl.TupleImpl;
 
@@ -95,6 +97,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
       invalidateSchema();
       // listen to what the column has to say
       col.addColumnListener(this);
+      fireTableEvent(0, getRowCount(), m_lastCol, TableModelEvent.INSERT);
     }
   }
 
@@ -134,7 +137,10 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public int addRow() {
-    return table.addRow();
+    int r = table.addRow();
+    fireTableEvent(r, r, TableModelEvent.ALL_COLUMNS,
+        TableModelEvent.INSERT);
+    return r;
   }
 
   @Override
@@ -176,37 +182,37 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public void columnChanged(Column arg0, int arg1, boolean arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg2);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, double arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg1);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, float arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg1);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, int arg2, int arg3) {
-    handleColumnChanged(arg0, arg2, arg3);
+    super.columnChanged(arg0, arg2, arg3);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, int arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg1);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, long arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg1);
   }
 
   @Override
   public void columnChanged(Column arg0, int arg1, Object arg2) {
-    handleColumnChanged(arg0, arg1, arg1);
+    super.columnChanged(arg0, arg1, arg1);
   }
 
   @Override
@@ -493,7 +499,12 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   public boolean removeRow(int arg0) {
-    return table.removeRow(arg0);
+    boolean isRemoved = table.removeRow(arg0);
+    if (isRemoved) {
+      fireTableEvent(arg0, arg0, TableModelEvent.ALL_COLUMNS,
+          TableModelEvent.DELETE);
+    }
+    return isRemoved;
   }
 
   @Override
@@ -569,18 +580,21 @@ public class WrapToPrefTable extends prefuse.data.Table {
   @SuppressWarnings("unchecked")
   @Override
   public Iterator tuples() {
+    System.out.println("tuple1");
     return new PrefTupleIterator(this, rows());
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public Iterator tuples(IntIterator arg0) {
+    System.out.println("tuple2");
     return new PrefTupleIterator(this, arg0);
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public Iterator tuplesReversed() {
+    System.out.println("tuple3");
     return new PrefTupleIterator(this, rows(true));
   }
 
