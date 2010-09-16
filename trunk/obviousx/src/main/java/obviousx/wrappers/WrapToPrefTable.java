@@ -73,6 +73,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
           table.getSchema().getColumnType(i),
           table.getSchema().getColumnDefault(i));
     }
+    m_rows = new WrapToPrefRowManager(this);
   }
 
   @SuppressWarnings("unchecked")
@@ -379,7 +380,8 @@ public class WrapToPrefTable extends prefuse.data.Table {
       for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
         values[i] = table.getValue(arg0, i);
       }
-      return new WrapToPrefTuple(new TupleImpl(table.getSchema(), values));
+      return new WrapToPrefTuple(new TupleImpl(table.getSchema(), values),
+          arg0);
     } else {
       return null;
     }

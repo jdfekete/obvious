@@ -70,7 +70,6 @@ public class PrefRowIterator extends IntIterator {
   public PrefRowIterator(WrapToPrefTable inTable, boolean isReversed) {
     this.reversed = isReversed;
     this.table = inTable;
-    advance();
   }
 
   @Override

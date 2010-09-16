@@ -27,52 +27,71 @@
 
 package obviousx.wrappers;
 
-import java.util.Iterator;
-
-import prefuse.util.collections.IntIterator;
+import obvious.data.Network;
+import obvious.impl.TupleImpl;
+import prefuse.data.Graph;
+import prefuse.data.Node;
 
 /**
- * Implementation for wrapped obvious table of prefuse tuple iterator.
+ * Wrapper for obvious edge to pref edge.
  * @author Hemery
  *
  */
-@SuppressWarnings("unchecked")
-public class PrefTupleIterator implements Iterator {
+public class WrapToPrefEdge extends WrapToPrefTuple
+    implements prefuse.data.Edge  {
 
   /**
-   * Table that contains the rows.
+   * Network containing the node.
    */
-  private WrapToPrefTable table;
-
-  /**
-   * Rows iterator.
-   */
-  private IntIterator it;
+  private Network network;
 
   /**
    * Constructor.
-   * @param inTable table containing the rows.
-   * @param iter rows iterator
+   * @param inNetwork network containing the node
+   * @param inTuple node to wrap
+   * @param row index of the node
    */
-  public PrefTupleIterator(WrapToPrefTable inTable, IntIterator iter) {
-    this.table = inTable;
-    this.it = iter;
+  public WrapToPrefEdge(Network inNetwork, TupleImpl inTuple, int row) {
+    super(inTuple, row);
+    this.network = inNetwork;
+  }
+
+  /**
+   * Gets the underlying obvious edge.
+   * @return the underlying obvious edge
+   */
+  protected obvious.data.Edge getObviousEdge() {
+    return (obvious.data.Edge) getObviousTuple();
   }
 
   @Override
-  public boolean hasNext() {
-    return it.hasNext();
+  public Node getAdjacentNode(Node n) {
+    return null;
   }
 
   @Override
-  public Object next() {
-    int i = it.nextInt();
-    return table.getTuple(i);
+  public Graph getGraph() {
+    return new WrapToPrefGraph(network);
   }
 
   @Override
-  public void remove() {
-    it.remove();
+  public Node getSourceNode() {
+    obvious.data.Node obviousNode = network.getSource(getObviousEdge());
+    return new WrapToPrefNode(network, (TupleImpl) obviousNode,
+        obviousNode.getRow());
+  }
+
+  @Override
+  public Node getTargetNode() {
+    obvious.data.Node obviousNode = network.getTarget(getObviousEdge());
+    return new WrapToPrefNode(network, (TupleImpl) obviousNode,
+        obviousNode.getRow());
+  }
+
+  @Override
+  public boolean isDirected() {
+    return network.getEdgeType(getObviousEdge()).equals(
+        obvious.data.Graph.EdgeType.DIRECTED);
   }
 
 }

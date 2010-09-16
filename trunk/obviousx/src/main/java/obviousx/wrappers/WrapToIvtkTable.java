@@ -90,9 +90,9 @@ public class WrapToIvtkTable implements DynamicTable {
     return null;
   }
 
+  @Override
   public int getColumnCount() {
-    // TODO Auto-generated method stub
-    return 0;
+    return table.getSchema().getColumnCount();
   }
 
   public Item getItem(int row) {
