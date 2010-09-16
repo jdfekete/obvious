@@ -18,11 +18,35 @@ public class WrapToPrefTuple implements prefuse.data.Tuple {
   private TupleImpl tuple;
 
   /**
+   * Index of the tuple.
+   */
+  private Integer rowId = null;
+
+  /**
    * Constructor.
    * @param inTuple obvious tuple to wrap
    */
   public WrapToPrefTuple(TupleImpl inTuple) {
     this.tuple = inTuple;
+    this.rowId = inTuple.getRow();
+  }
+
+  /**
+   * Gets the underlying obvious tuple.
+   * @return the underlying obvious tuple
+   */
+  protected obvious.data.Tuple getObviousTuple() {
+    return tuple;
+  }
+
+  /**
+   * Constructor.
+   * @param inTuple obvious tuple to wrap
+   * @param row index of the tuple
+   */
+  public WrapToPrefTuple(TupleImpl inTuple, int row) {
+    this.tuple = inTuple;
+    this.rowId = row;
   }
 
   @Override
@@ -187,7 +211,7 @@ public class WrapToPrefTuple implements prefuse.data.Tuple {
 
   @Override
   public int getRow() {
-    return tuple.getRow();
+    return rowId;
   }
 
   @Override
