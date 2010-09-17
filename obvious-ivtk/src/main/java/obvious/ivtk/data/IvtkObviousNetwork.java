@@ -89,12 +89,12 @@ public class IvtkObviousNetwork implements Network {
    * Schema for the edges.
    */
   private Schema edgeSchema;
-  
+
   /**
-   * Collection of NetworkListener;
+   * Collection of NetworkListener.
    */
   private Collection<NetworkListener> listeners =
-	  new ArrayList<NetworkListener>();
+    new ArrayList<NetworkListener>();
 
   /**
    * Constructor from Obvious Schemas.
@@ -665,6 +665,14 @@ public class IvtkObviousNetwork implements Network {
    for (NetworkListener listnr : this.getNetworkListeners()) {
      listnr.networkChanged(this, start, end, col, type);
    }
+  }
+
+  public Table getEdgeTable() {
+    return new IvtkObviousTable(graph.getEdgeTable());
+  }
+
+  public Table getNodeTable() {
+    return new IvtkObviousTable(graph.getVertexTable());
   }
 
 }
