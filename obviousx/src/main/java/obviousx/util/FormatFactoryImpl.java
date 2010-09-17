@@ -102,6 +102,11 @@ public final class FormatFactoryImpl implements FormatFactory {
       return String.class;
     }
 
+    @Override
+    public Format getFormat() {
+      return this;
+    }
+
   }
 
   /**
@@ -167,6 +172,11 @@ public final class FormatFactoryImpl implements FormatFactory {
      */
     public Class<?> getFormattedClass() {
       return Boolean.class;
+    }
+
+    @Override
+    public Format getFormat() {
+      return this;
     }
 
   }
@@ -264,6 +274,11 @@ public final class FormatFactoryImpl implements FormatFactory {
       return this.type;
     }
 
+    @Override
+    public Format getFormat() {
+      return this;
+    }
+
   }
 
   /**
@@ -292,6 +307,11 @@ public final class FormatFactoryImpl implements FormatFactory {
      */
     public Class<?> getFormattedClass() {
       return Date.class;
+    }
+
+    @Override
+    public Format getFormat() {
+      return this;
     }
   }
 
@@ -362,6 +382,11 @@ public final class FormatFactoryImpl implements FormatFactory {
       }
     }
 
+    @Override
+    public Format getFormat() {
+      return this;
+    }
+
   }
 
   /**
@@ -396,4 +421,26 @@ public final class FormatFactoryImpl implements FormatFactory {
 
   }
 
+  /**
+   * Gives the corresponding TypedFormat for a given Format.
+   * @param format a Format instance
+   * @return corresponding TypedFormat instance
+   */
+  public TypedFormat getFormat(Format format) {
+    if (format.getClass().equals(DecimalFormat.class)) {
+      return new  TypedDecimalFormat("number");
+    } else if (format.getClass().equals(SimpleDateFormat.class)) {
+      return new TypedDateFormat("dd/MM/yyyy");
+    } else if (format.getClass().equals(TypedBooleanFormat.class)) {
+      return new TypedBooleanFormat();
+    } else if (format.getClass().equals(TypedStringFormat.class)) {
+      return new TypedStringFormat();
+    } else if (format.getClass().equals(TypedBitSetFormat.class)) {
+      return new TypedBitSetFormat();
+    } else {
+      throw new
+      IllegalArgumentException("Cannot return a corresponding TypedFormat"
+          + "for : " + format);
+    }
+  }
 }

@@ -27,6 +27,8 @@
 
 package obviousx.util;
 
+import java.text.Format;
+
 import obviousx.text.TypedFormat;
 
 /**
@@ -42,5 +44,12 @@ public interface FormatFactory {
    * @return format associated to the class
    */
   TypedFormat getFormat(String spottedClass);
+
+  /**
+   * Gets the format from a format instance.
+   * @param format format instance
+   * @return typedformat associated to the format
+   */
+  TypedFormat getFormat(Format format);
 
 }
