@@ -578,4 +578,12 @@ public class PrefuseObviousNetwork implements Network {
      listnr.networkChanged(this, start, end, col, type);
    }
   }
+
+  public Table getEdgeTable() {
+    return new PrefuseObviousTable(graph.getEdgeTable());
+  }
+
+  public Table getNodeTable() {
+    return new PrefuseObviousTable(graph.getNodeTable());
+  }
 }
