@@ -18,6 +18,7 @@ import obvious.data.Graph;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Schema;
+import obvious.data.Table;
 import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
@@ -648,6 +649,18 @@ public class JDBCObviousNetwork implements Network {
 		
   public void addNetworkListener(NetworkListener l) {
 	listeners.add(l);
+  }
+
+  @Override
+  public Table getEdgeTable() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Table getNodeTable() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

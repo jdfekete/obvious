@@ -27,6 +27,7 @@
 
 package obvious.jdbc;
 
+import java.text.Format;
 import java.util.Date;
 
 import obviousx.text.TypedFormat;
@@ -123,6 +124,13 @@ public class FormatFactorySQL implements FormatFactory {
     } else {
       return "OTHERS";
     }
+  }
+
+
+  @Override
+  public TypedFormat getFormat(Format format) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
