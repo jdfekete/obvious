@@ -34,6 +34,7 @@ import org.cytoscape.model.CyNetworkFactory;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
+import obvious.data.Table;
 import obvious.data.event.NetworkListener;
 
 /**
@@ -78,6 +79,16 @@ public class CyNetwork extends CyGraph<Node, Edge> implements Network {
    */
   public void removeNetworkListener(NetworkListener l) {
     listeners.remove(l);
+  }
+
+  public Table getEdgeTable() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public Table getNodeTable() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
