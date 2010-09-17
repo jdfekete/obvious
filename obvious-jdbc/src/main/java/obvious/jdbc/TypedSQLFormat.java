@@ -102,6 +102,12 @@ public class TypedSQLFormat {
       return this.type;
     }
 
+    @Override
+    public Format getFormat() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
   }
 
   /**
@@ -153,6 +159,12 @@ public class TypedSQLFormat {
      */
     public Class<?> getFormattedClass() {
       return this.type;
+    }
+
+    @Override
+    public Format getFormat() {
+      // TODO Auto-generated method stub
+      return null;
     }
 
   }
@@ -229,6 +241,12 @@ public class TypedSQLFormat {
       return this.type;
     }
 
+    @Override
+    public Format getFormat() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
   }
 
   /**
@@ -277,6 +295,12 @@ public class TypedSQLFormat {
      */
     public Class<?> getFormattedClass() {
       return this.type;
+    }
+
+    @Override
+    public Format getFormat() {
+      // TODO Auto-generated method stub
+      return null;
     }
 
   }
@@ -344,6 +368,12 @@ public class TypedSQLFormat {
      */
     public Class<?> getFormattedClass() {
       return this.type;
+    }
+
+    @Override
+    public Format getFormat() {
+      // TODO Auto-generated method stub
+      return null;
     }
 
   }
