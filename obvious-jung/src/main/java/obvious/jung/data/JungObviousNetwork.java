@@ -46,7 +46,6 @@ import obvious.data.Table;
 import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
-import obvious.impl.TableImpl;
 import obvious.prefuse.PrefuseObviousTable;
 
 /**
@@ -335,6 +334,32 @@ public class JungObviousNetwork implements Network {
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
+  }
+
+  /**
+   * Returns the node table.
+   * @return the node table
+   */
+  public obvious.data.Table getNodeTable() {
+    Table nodeTable = new PrefuseObviousTable(
+        getNodes().iterator().next().getSchema());
+    for (Node node : this.getNodes()) {
+      nodeTable.addRow(node);
+    }
+    return nodeTable;
+  }
+
+  /**
+   * Returns the edge table.
+   * @return the edge table
+   */
+  public obvious.data.Table getEdgeTable() {
+    Table edgeTable = new PrefuseObviousTable(
+        getEdges().iterator().next().getSchema());
+    for (Edge edge : this.getEdges()) {
+      edgeTable.addRow(edge);
+    }
+    return edgeTable;
   }
 
   /**
@@ -848,6 +873,22 @@ public class JungObviousNetwork implements Network {
           }
         return true;
       }
+    }
+
+    /**
+     * Returns the node table.
+     * @return the node table
+     */
+    public obvious.data.Table getNodeTable() {
+      return nodeTable;
+    }
+
+    /**
+     * Returns the edge table.
+     * @return the edge table
+     */
+    public obvious.data.Table getEdgeTable() {
+      return edgeTable;
     }
 
   }
