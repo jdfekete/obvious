@@ -46,6 +46,7 @@ import prefuse.data.event.GraphListener;
 import prefuse.data.expression.Predicate;
 import prefuse.data.tuple.TupleManager;
 import prefuse.data.tuple.TupleSet;
+import prefuse.util.TypeLib;
 import prefuse.util.collections.IntIterator;
 
 /**
@@ -75,7 +76,8 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
    * @param inNetwork obvious network to wrap
    */
   public WrapToPrefGraph(Network inNetwork) {
-    super(initNodeTable(), true, DEFAULT_NODE_KEY, DEFAULT_SOURCE_KEY, DEFAULT_TARGET_KEY);
+    super(new WrapToPrefTable(inNetwork.getNodeTable()),
+        new WrapToPrefTable(inNetwork.getEdgeTable()), true);
     this.network = inNetwork;
     if (network.getNodes().size() != 0) {
       this.nodeSchema = network.getNodes().iterator().next().getSchema();
@@ -85,14 +87,6 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
     }
     m_nodeTuples = new TupleManager(getNodeTable(), this, Table.class);
     m_edgeTuples = new TupleManager(getEdgeTable(), this, Table.class);
-  }
-
-  public static Table initNodeTable() {
-    Table table = new Table();
-    table.addColumn(DEFAULT_NODE_KEY, int.class);
-    table.addColumn(DEFAULT_SOURCE_KEY, int.class);
-    table.addColumn(DEFAULT_TARGET_KEY, int.class);
-    return table;
   }
 
   @Override
@@ -276,13 +270,7 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
     if (network == null) {
       return new Table();
     }
-    Collection<obvious.data.Edge> obvEdges = network.getEdges();
-    Table prefEdges = new Table();
-    for (obvious.data.Edge edge : obvEdges) {
-      prefEdges.addTuple(new WrapToPrefEdge(network, (TupleImpl) edge,
-          edge.getRow()));
-    }
-    return prefEdges;
+    return new WrapToPrefTable(network.getEdgeTable());
   }
 
   @Override
@@ -348,13 +336,7 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
     if (network == null) {
       return new Table();
     }
-    Collection<obvious.data.Node> obvNodes = network.getNodes();
-    Table prefNodes = new Table();
-    for (obvious.data.Node node : obvNodes) {
-      prefNodes.addTuple(new WrapToPrefNode(network, (TupleImpl) node,
-          node.getRow()));
-    }
-    return prefNodes;
+    return new WrapToPrefTable(network.getNodeTable());
   }
 
   @Override

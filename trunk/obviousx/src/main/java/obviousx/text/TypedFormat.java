@@ -1,6 +1,7 @@
 package obviousx.text;
 
 import java.text.FieldPosition;
+import java.text.Format;
 import java.text.ParsePosition;
 
 /**
@@ -32,5 +33,11 @@ public interface TypedFormat {
    * @return formatted Type.
    */
   Class<?> getFormattedClass();
+
+  /**
+   * Getter for the associated format.
+   * @return associated format.
+   */
+  Format getFormat();
 
 }
