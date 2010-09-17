@@ -42,11 +42,15 @@ import obvious.data.event.NetworkListener;
  * @version $Revision$
  */
 public interface Network extends obvious.data.Graph<Node, Edge> {
-	
-	Collection<NetworkListener> getNetworkListeners();
-	
-	void removeNetworkListener(NetworkListener l);
-	
-	void addNetworkListener(NetworkListener l);
-	
+
+  Collection<NetworkListener> getNetworkListeners();
+
+  void removeNetworkListener(NetworkListener l);
+
+  void addNetworkListener(NetworkListener l);
+
+  Table getNodeTable();
+  
+  Table getEdgeTable();
+  
 }
