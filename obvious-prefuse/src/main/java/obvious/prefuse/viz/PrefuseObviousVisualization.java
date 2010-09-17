@@ -50,6 +50,7 @@ import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 import obvious.data.Node;
+import obviousx.wrappers.WrapToPrefGraph;
 import prefuse.data.util.TableIterator;
 import prefuse.visual.VisualTable;
 
@@ -175,9 +176,9 @@ public class PrefuseObviousVisualization extends Visualization {
     }
     vis = new prefuse.Visualization();
     if (this.getData() instanceof Table) {
-      vis.add(groupName, getPrefuseTable());
+      vis.addTable(groupName, getPrefuseTable());
     } else if (this.getData() instanceof Network) {
-      vis.add(groupName, getPrefuseNetwork());
+      vis.addGraph(groupName, getPrefuseNetwork());
     }
   }
 
