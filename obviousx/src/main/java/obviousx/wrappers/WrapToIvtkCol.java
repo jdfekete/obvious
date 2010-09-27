@@ -84,8 +84,10 @@ public class WrapToIvtkCol implements Column {
     this.table = inTable;
     this.id = colId;
     this.formatFactory = new FormatFactoryImpl();
+    if (id != -1) {
     this.format = formatFactory.getFormat(
         table.getSchema().getColumnType(id).getSimpleName());
+    }
   }
 
   @Override
@@ -211,7 +213,7 @@ public class WrapToIvtkCol implements Column {
   @Override
   public RowIterator iterator() {
     obvious.impl.IntIteratorImpl it = new IntIteratorImpl(table.rowIterator());
-    return new SimpleIterator(it);
+    return new WrapToIvtkIterator(it);
   }
 
   @Override
@@ -296,63 +298,6 @@ public class WrapToIvtkCol implements Column {
   @Override
   public int compare(Object o1, Object o2) {
     return 0;
-  }
-
-  /**
-   * Simple Iterator.
-   * @author Hemery
-   *
-   */
-  public class SimpleIterator implements RowIterator {
-
-    /**
-     * Backing iterator.
-     */
-    private obvious.data.util.IntIterator it;
-
-    /**
-     * Backing row index.
-     */
-    private int currentRow = 0;
-
-    /**
-     * Constructor.
-     * @param iterator an obvious iterator
-     */
-    public SimpleIterator(obvious.data.util.IntIterator iterator) {
-      this.it = iterator;
-    }
-
-    @Override
-    public RowIterator copy() {
-      return new SimpleIterator(it);
-    }
-
-    @Override
-    public int nextRow() {
-      currentRow = it.nextInt();
-      return currentRow;
-    }
-
-    @Override
-    public int peekRow() {
-      return currentRow + 1;
-    }
-
-    @Override
-    public boolean hasNext() {
-      return it.hasNext();
-    }
-
-    @Override
-    public Object next() {
-      return it.next();
-    }
-
-    @Override
-    public void remove() {
-      it.remove();
-    }
   }
 
 }
