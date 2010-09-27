@@ -29,11 +29,15 @@ package obviousx.wrappers;
 
 import java.text.Format;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
 
+import obvious.ObviousException;
 import obvious.data.Table;
 
 import infovis.Column;
@@ -53,6 +57,23 @@ public class WrapToIvtkTable implements DynamicTable {
    * Table to wrap.
    */
   private Table table;
+
+  /**
+   * Name.
+   */
+  private String tableName = null;
+
+  /**
+   * Collection of TableModelListener of this table.
+   */
+  private Collection<TableModelListener> tableListener =
+    new ArrayList<TableModelListener>();
+
+  /**
+   * Collection of ChangeListener of this table.
+   */
+  private Collection<ChangeListener> changeListener =
+    new ArrayList<ChangeListener>();
 
   /**
    * Constructor.
@@ -108,14 +129,12 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public Column getColumn(String name) {
-    // TODO Auto-generated method stub
-    return null;
+    return getColumnAt(table.getSchema().getColumnIndex(name));
   }
 
   @Override
   public Column getColumnAt(int index) {
-    // TODO Auto-generated method stub
-    return null;
+    return new WrapToIvtkCol(table, index);
   }
 
   @Override
@@ -125,8 +144,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public Item getItem(int row) {
-    // TODO Auto-generated method stub
-    return null;
+    return new WrapToIvtkItem(this, row);
   }
 
   @Override
@@ -169,8 +187,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public int indexOf(Column column) {
-    // TODO Auto-generated method stub
-    return 0;
+    return table.getSchema().getColumnIndex(column.getName());
   }
 
   /**
@@ -184,8 +201,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public boolean removeColumn(Column c) {
-    // TODO Auto-generated method stub
-    return false;
+    return table.getSchema().removeColumn(c.getName());
   }
 
   @Override
@@ -196,18 +212,17 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void setColumnAt(int i, Column c) {
-    // TODO Auto-generated method stub
+    return;
   }
 
   @Override
   public void addChangeListener(ChangeListener listener) {
-    // TODO Auto-generated method stub
+    changeListener.add(listener);
   }
 
   @Override
   public int capacity() {
-    // TODO Auto-generated method stub
-    return 0;
+    return table.getRowCount();
   }
 
   @Override
@@ -218,17 +233,31 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void disableNotify() {
-    // TODO Auto-generated method stub
+    try {
+      table.beginEdit(0);
+    } catch (ObviousException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void enableNotify() {
-    // TODO Auto-generated method stub
+    try {
+      table.endEdit(0);
+    } catch (ObviousException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void ensureCapacity(int minCapacity) {
-    // TODO Auto-generated method stub
+    if (minCapacity <= table.getRowCount()) {
+      return;
+    }
+    int newRows = minCapacity - table.getRowCount();
+    for (int i = 0; i < newRows; i++) {
+      table.addRow();
+    }
   }
 
   @Override
@@ -257,13 +286,12 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public String getName() {
-    return null;
+    return tableName;
   }
 
   @Override
   public Object getObjectAt(int index) {
-    // TODO Auto-generated method stub
-    return null;
+    return getColumnAt(index);
   }
 
   @Override
@@ -275,13 +303,17 @@ public class WrapToIvtkTable implements DynamicTable {
   @SuppressWarnings("unchecked")
   @Override
   public Class getValueClass() {
-    // TODO Auto-generated method stub
-    return null;
+    return Column.class;
   }
 
   @Override
   public boolean hasUndefinedValue() {
-    // TODO Auto-generated method stub
+    RowIterator it = iterator();
+    while (it.hasNext()) {
+      if (isValueUndefined(it.nextRow())) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -305,8 +337,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public RowIterator iterator() {
-    // TODO Auto-generated method stub
-    return null;
+    return new WrapToIvtkIterator(table.rowIterator());
   }
 
   @Override
@@ -317,7 +348,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void removeChangeListener(ChangeListener listener) {
-    // TODO Auto-generated method stub
+    changeListener.remove(listener);
   }
 
   @Override
@@ -327,7 +358,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void setName(String name) {
-    // TODO Auto-generated method stub
+    tableName = name;
   }
 
   @Override
@@ -337,7 +368,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void setSize(int newSize) {
-    // TODO Auto-generated method stub
+    ensureCapacity(newSize);
   }
 
   @Override
@@ -358,20 +389,17 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public int size() {
-    // TODO Auto-generated method stub
-    return 0;
+    return table.getRowCount();
   }
 
   @Override
   public MutableAttributeSet getClientProperty() {
-    // TODO Auto-generated method stub
-    return null;
+    return new SimpleAttributeSet();
   }
 
   @Override
   public MutableAttributeSet getMetadata() {
-    // TODO Auto-generated method stub
-    return null;
+    return new SimpleAttributeSet();
   }
 
   /**
@@ -388,13 +416,12 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public int compare(Object o1, Object o2) {
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public void addTableModelListener(TableModelListener l) {
-    // TODO Auto-generated method stub
+    tableListener.add(l);
   }
 
   /**
@@ -437,7 +464,7 @@ public class WrapToIvtkTable implements DynamicTable {
 
   @Override
   public void removeTableModelListener(TableModelListener l) {
-    // TODO Auto-generated method stub
+    tableListener.remove(l);
   }
 
   /**
