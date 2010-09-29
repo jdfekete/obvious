@@ -50,60 +50,69 @@ import prefuse.Constants;
  *
  */
 public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
-	
-	  /**
-	   * X field key.
-	   */
-	  public static final String LABEL_KEY = "label";
 
-	/**
-	 * Constructor.
-	 * @param parentNetwork parent network
-	 * @param predicate a predicate
-	 * @param visName visualization technique name
-	 * @param param parameters
-	 */
-	public PrefuseObviousNetworkViz(Network parentNetwork, Predicate predicate,
-			String visName, Map<String, Object> param) {
-		super(parentNetwork, predicate, visName, param);
-	}
-	
-	@Override
-	protected void initVisualization(Map<String, Object> param) {
-	    prefuse.Visualization prefVis = new prefuse.Visualization();
-	    this.setPrefVisualization(prefVis);
-	    this.getPrefVisualization().add("graph", getPrefuseNetwork());
-	    LabelRenderer r = new LabelRenderer("name");
-	    r.setRoundedCorner(8, 8); // round the corners
-	    this.setRenderer(new PrefuseObviousRenderer(new DefaultRendererFactory(r)));
-	    
-	    // Color for data values.
-	    int[] palette = new int[] {
-	        ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
-	    };
-	    DataColorAction fill = new DataColorAction("graph.nodes", "gender",
-	        Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
-	    ColorAction text = new ColorAction("graph.nodes",
-	        VisualItem.TEXTCOLOR, ColorLib.gray(0));
-	    // Color for edges
-	    ColorAction edges = new ColorAction("graph.edges",
-	        VisualItem.STROKECOLOR, ColorLib.gray(200));
-	    
-	    // Creating the prefuse action list.
-	    ActionList color = new ActionList();
-	    color.add(fill);
-	    color.add(text);
-	    color.add(edges);
-	    // Wrapping the action list around obvious
-	    this.putAction("color", new PrefuseObviousAction(color));
+  /**
+   * X field key.
+   */
+  public static final String LABEL_KEY = "label";
 
+  /**
+   * Constructor.
+   * @param parentNetwork parent network
+   * @param predicate a predicate
+   * @param visName visualization technique name
+   * @param param parameters
+   */
+  public PrefuseObviousNetworkViz(Network parentNetwork,
+      Predicate predicate, String visName, Map<String, Object> param) {
+    super(parentNetwork, predicate, visName, param);
+  }
 
-	    // Creating a Directed force Layout.
-	   ActionList layout = new ActionList(Activity.INFINITY);
-	   layout.add(new ForceDirectedLayout("graph"));
-	   layout.add(new RepaintAction());
-	   // Wrapping the layout around obvious.
-	   this.putAction("layout", new PrefuseObviousAction(layout));
-	}
+  @Override
+  protected void initVisualization(Map<String, Object> param) {
+    prefuse.Visualization prefVis = new prefuse.Visualization();
+    String groupName = "tupleset";
+    String label = "name";
+    if (param != null) {
+      if (param.containsKey(GROUP_NAME)) {
+        groupName = (String) param.get(GROUP_NAME);
+      }
+      if (param.containsKey(LABEL_KEY)) {
+        label = (String) param.get(LABEL_KEY);
+      }
+    }
+    this.setPrefVisualization(prefVis);
+    this.getPrefVisualization().add(groupName, getPrefuseNetwork());
+    LabelRenderer r = new LabelRenderer(label);
+    r.setRoundedCorner(8, 8); // round the corners
+    this.setRenderer(new PrefuseObviousRenderer(
+        new DefaultRendererFactory(r)));
+    // Color for data values.
+    int[] palette = new int[] {
+        ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
+    };
+    DataColorAction fill = new DataColorAction("graph.nodes", null,
+        Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
+    ColorAction text = new ColorAction("graph.nodes",
+        VisualItem.TEXTCOLOR, ColorLib.gray(0));
+    // Color for edges
+    ColorAction edges = new ColorAction("graph.edges",
+        VisualItem.STROKECOLOR, ColorLib.gray(200));
+
+    // Creating the prefuse action list.
+    ActionList color = new ActionList();
+    color.add(fill);
+    color.add(text);
+    color.add(edges);
+    // Wrapping the action list around obvious
+    this.putAction("color", new PrefuseObviousAction(color));
+
+    // Creating a Directed force Layout.
+    ActionList layout = new ActionList(Activity.INFINITY);
+    layout.add(new ForceDirectedLayout("graph"));
+    layout.add(new RepaintAction());
+    // Wrapping the layout around obvious.
+    this.putAction("layout", new PrefuseObviousAction(layout));
+  }
 
 }
