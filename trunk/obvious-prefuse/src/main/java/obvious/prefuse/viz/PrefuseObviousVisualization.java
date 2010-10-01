@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Schema;
@@ -52,6 +53,8 @@ import obvious.viz.Visualization;
 import obvious.data.Node;
 import obviousx.wrappers.WrapToPrefGraph;
 import prefuse.data.util.TableIterator;
+import prefuse.visual.VisualGraph;
+import prefuse.visual.VisualItem;
 import prefuse.visual.VisualTable;
 
 
@@ -91,7 +94,7 @@ public class PrefuseObviousVisualization extends Visualization {
   /**
    * Main group name for the prefuse visualization.
    */
-  private String groupName;
+  protected String groupName;
 
   /**
    * Boolean indicating if the prefuse graph is directed.
@@ -390,6 +393,26 @@ public class PrefuseObviousVisualization extends Visualization {
         prefuse.visual.VisualItem.VALIDATED);
     this.getAliasMap().put(VISUAL_X, prefuse.visual.VisualItem.X);
     this.getAliasMap().put(VISUAL_Y, prefuse.visual.VisualItem.Y);
+  }
+
+  /**
+   * Clear the visualization.
+   */
+  public void clearVisualization() {
+    vis.removeGroup(groupName);
+  }
+
+  /**
+   * Loads data into the visualization.
+   * @param data data to load.
+   */
+  public void setVisualizationData(Data data) {
+    if (data instanceof Table) {
+      vis.addTable(groupName, getPrefuseTable());
+    } else if (data instanceof Network) {
+      vis.addGraph(groupName,((prefuse.data.Graph) ((Network) data)
+          .getUnderlyingImpl(prefuse.data.Graph.class)));
+    }
   }
 
 }
