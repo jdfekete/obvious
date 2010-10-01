@@ -11,5 +11,10 @@
   		<artifactId>obviousx</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.prefuse</groupId>
+  		<artifactId>demos</artifactId>
+  		<version>beta-20060220</version>
+  	</dependency>
   </dependencies>
 </project>
