@@ -71,7 +71,7 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
   @Override
   protected void initVisualization(Map<String, Object> param) {
     prefuse.Visualization prefVis = new prefuse.Visualization();
-    String groupName = "tupleset";
+    groupName = "tupleset";
     String label = "name";
     if (param != null) {
       if (param.containsKey(GROUP_NAME)) {
