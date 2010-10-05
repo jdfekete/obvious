@@ -27,6 +27,8 @@
 
 package obvious.ivtk.viz;
 
+import infovis.table.Item;
+
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Map;
@@ -74,6 +76,7 @@ public class IvtkObviousVisualization extends Visualization {
   public IvtkObviousVisualization(Table parentTable, Predicate predicate,
       String visName, Map<String, Object> param) {
     super(parentTable, predicate, visName);
+    System.out.println("Located 2");
     initVisualization(param);
   }
 
@@ -133,10 +136,15 @@ public class IvtkObviousVisualization extends Visualization {
     this.vis = viz;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public ArrayList<Integer> pickAll(Rectangle2D hitBox, Rectangle2D bounds) {
-    // TODO Auto-generated method stub
-    return null;
+    ArrayList<Integer> ids = new ArrayList<Integer>();
+    ArrayList<Item> items =  vis.pickAll(hitBox, bounds, new ArrayList<Integer>());
+    for (Item item : items) {
+      ids.add(item.getId());
+    }
+    return ids;
   }
 
   @Override
