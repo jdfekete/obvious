@@ -28,8 +28,10 @@
 package obvious.ivtk.data;
 
 import infovis.Column;
+import infovis.DynamicTable;
 import infovis.column.ColumnFactory;
 import infovis.table.DefaultDynamicTable;
+import infovis.utils.RowIterator;
 import infovis.utils.TableIterator;
 
 import java.text.FieldPosition;
@@ -123,7 +125,7 @@ public class IvtkObviousTable implements Table {
   }
 
   /**
-   * Constructor for IvtkObvious table.
+   * Constructor for IvtkObviousTable from an ivtk dynamic table and params.
    * @param inTable an ivtk DefaultDynamicTable instance to wrap
    * @param add boolean indicating if row addition is allowed
    * @param rem boolean indicating if row addition is allowed
@@ -133,7 +135,7 @@ public class IvtkObviousTable implements Table {
     this.table = inTable;
     this.canAddRow = add;
     this.canRemoveRow = rem;
-    formatFactory = new FormatFactoryImpl();
+    this.formatFactory = new FormatFactoryImpl();
     ArrayList<Column> cols = new ArrayList<Column>();
     for (int i = 0; i < table.getColumnCount(); i++) {
       cols.add(table.getColumnAt(i));
@@ -142,11 +144,38 @@ public class IvtkObviousTable implements Table {
   }
 
   /**
-   * Constructor for IvtkObvious table.
+   * Constructor for IvtkObviousTable from an ivtk dynamic table.
    * @param inTable an ivtk DefaultDynamicTable instance to wrap
    */
-  public IvtkObviousTable(infovis.DynamicTable inTable) {
+  public IvtkObviousTable(DynamicTable inTable) {
     this(inTable, true, true);
+  }
+  
+  /**
+   * Constructor from an infovis Table instance.
+   * @param inTable
+   */
+  public IvtkObviousTable(infovis.Table inTable) {
+      table = new DefaultDynamicTable();
+      this.canAddRow = true;
+      this.canRemoveRow = true;
+      this.formatFactory = new FormatFactoryImpl();
+      ArrayList<Column> cols = new ArrayList<Column>();
+      for (int i = 0; i < inTable.getColumnCount(); i++) {
+          Column col = inTable.getColumnAt(i);
+          table.addColumn(col);
+          cols.add(col);
+      }
+      this.schema = new IvtkObviousSchema(cols);
+      RowIterator it = inTable.iterator();
+      while (it.hasNext()) {
+          int rowId = it.nextRow();
+          int currentRow = table.addRow();
+          for (int i = 0; i < inTable.getColumnCount(); i++) {
+              table.setValueAt(inTable.getValueAt(rowId, i),
+                      currentRow, i);
+          }
+      }
   }
 
   /**
