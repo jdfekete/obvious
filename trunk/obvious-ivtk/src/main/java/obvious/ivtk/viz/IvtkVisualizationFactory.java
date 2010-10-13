@@ -31,11 +31,16 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Edge;
 import obvious.data.Network;
+import obvious.data.Node;
 import obvious.data.Table;
+import obvious.data.Tree;
 import obvious.data.util.Predicate;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
+import obvious.ivtk.viz.util.IvtkTimeSerieVis;
+import obvious.ivtk.viz.util.IvtkTreeMapVis;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
 
@@ -64,6 +69,8 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
       return new IvtkObviousVisualization(table, pred, visName, param);
     } else if (visName.toLowerCase().equals("scatterplot")) {
       return new IvtkScatterPlotVis(table, pred, visName, param);
+    } else if (visName.toLowerCase().equals("timeseries")) { 
+      return new IvtkTimeSerieVis(table, pred, visName, param);
     } else {
       throw new ObviousRuntimeException("Unsupported visualization technique"
           + " : " + visName);
@@ -80,13 +87,23 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
     return availableVis;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Visualization createVisualization(Network network, Predicate pred,
       String visName, Map<String, Object> param) {
     if (visName == null) {
       return new IvtkObviousVisualization(network, pred, visName, param);
-    } else if (visName == "network") {
+    } else if (visName.toLowerCase().equals("network")) {
       return new IvtkNodeLinkGraphVis(network, pred, visName, param);
+    } else if (visName.toLowerCase().equals("treemap")) {
+      try {
+          return new IvtkTreeMapVis((Tree<Node, Edge>) network, pred,
+                  visName, param);
+      } catch (ClassCastException e) {
+         e.printStackTrace(); 
+         return new 
+                 IvtkNodeLinkGraphVis(network, pred, visName, param);
+      }
     } else {
       throw new ObviousRuntimeException("Unsupported visualization technique"
           + " : " + visName);
