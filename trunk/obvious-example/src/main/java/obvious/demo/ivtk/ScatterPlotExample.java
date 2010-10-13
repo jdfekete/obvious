@@ -29,17 +29,12 @@ package obvious.demo.ivtk;
 
 import javax.swing.JFrame;
 
-import infovis.Column;
-import infovis.DynamicTable;
 import infovis.io.AbstractReader;
-import infovis.table.DefaultDynamicTable;
 import infovis.table.DefaultTable;
 import infovis.table.io.TableReaderFactory;
-import infovis.utils.RowIterator;
 import obvious.data.Table;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.IvtkObviousVisualization;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;

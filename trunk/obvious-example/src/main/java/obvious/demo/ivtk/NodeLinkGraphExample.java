@@ -28,24 +28,22 @@
 package obvious.demo.ivtk;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
-import obvious.data.Table;
-import obvious.ivtk.data.IvtkObviousTable;
+import infovis.graph.Algorithms;
+import obvious.data.Network;
+import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.util.IvtkTimeSerieVis;
+import obvious.ivtk.viz.IvtkVisualizationFactory;
 import obvious.view.JView;
 import obvious.viz.Visualization;
-import infovis.io.AbstractReader;
-import infovis.table.DefaultTable;
-import infovis.table.io.TableReaderFactory;
 
 /**
- * Example1 of infovis.examples based on a time series visualization.
- * Build on obvious-ivtk.
+ * NodeLinkGraph example for obvious-ivtk.
  * @author Hemery
  *
  */
-public class ObviousIvtkTimeSeries {
+public class NodeLinkGraphExample {
 
     /**
      * An obvious JView.
@@ -55,22 +53,19 @@ public class ObviousIvtkTimeSeries {
     /**
      * Constructor.
      */
-    public ObviousIvtkTimeSeries() {
+    public NodeLinkGraphExample() {
         /*
-         * Creates the data structure.
-         * We will wrap an existing ivtk table to an obvious table.
+         * Creates the graph structure.
          */
-        String file = "src/main/resources/salivary.tqd";
-        DefaultTable t = new DefaultTable();
-        AbstractReader reader = // Create a reader for the specified file
-            TableReaderFactory.createTableReader(file, t);
-        reader.load();
+        infovis.Graph g = Algorithms.getGridGraph(10, 10);
+        Network network = new IvtkObviousNetwork(g);
 
-        Table table = new IvtkObviousTable(t);
         /*
-         * Creates a time series visualization.
+         * Creates the associated visualization.
          */
-        Visualization vis = new IvtkTimeSerieVis(table, null, null, null);
+        Visualization vis = new IvtkVisualizationFactory().createVisualization(
+                network, null, "network", null);
+
         /*
          * Creates the view.
          */
@@ -78,31 +73,33 @@ public class ObviousIvtkTimeSeries {
     }
 
     /**
-     * Gets the JView.
-     * @return a JView.
+     * Demo method.
+     */
+    public static void demo() {
+      NodeLinkGraphExample nodeLink = new NodeLinkGraphExample();
+      JFrame frame = new JFrame("NodeLinkGraph example from ivtk based"
+              + " on obvious");
+      JScrollPane panel = new JScrollPane(
+              nodeLink.getJView().getViewJComponent());
+      frame.add(panel);
+      frame.pack();
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setVisible(true);
+    }
+
+    /**
+     * Gets the view associated to the NodeLinkGraph visualization.
+     * @return
      */
     public JView getJView() {
         return this.view;
     }
 
     /**
-     * Demo method.
-     */
-    public static void demo() {
-        ObviousIvtkTimeSeries timeSeries = new ObviousIvtkTimeSeries();
-        JFrame frame = new JFrame("TimeSeries example from ivtk");
-        frame.add(timeSeries.getJView().getViewJComponent());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    /**
-     * Main function.
+     * Main method.
      * @param args arguments of the main
      */
     public static void main(String[] args) {
         demo();
     }
-
 }
