@@ -28,49 +28,53 @@
 package obvious.demo.ivtk;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
-import obvious.data.Table;
-import obvious.ivtk.data.IvtkObviousTable;
+import infovis.io.AbstractReader;
+import infovis.tree.DefaultTree;
+import infovis.tree.io.TreeReaderFactory;
+import obvious.data.Edge;
+import obvious.data.Network;
+import obvious.data.Node;
+import obvious.data.Tree;
+import obvious.ivtk.data.IvtkObviousTree;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.util.IvtkTimeSerieVis;
+import obvious.ivtk.viz.IvtkVisualizationFactory;
+import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;
-import infovis.io.AbstractReader;
-import infovis.table.DefaultTable;
-import infovis.table.io.TableReaderFactory;
 
 /**
- * Example1 of infovis.examples based on a time series visualization.
- * Build on obvious-ivtk.
+ * NodeLinkTree example for obvious-ivtk.
  * @author Hemery
  *
  */
-public class ObviousIvtkTimeSeries {
+public class NodeLinkTreeExample {
 
     /**
-     * An obvious JView.
+     * An obvious view.
      */
     private JView view;
 
     /**
      * Constructor.
      */
-    public ObviousIvtkTimeSeries() {
+    public NodeLinkTreeExample() {
         /*
-         * Creates the data structure.
-         * We will wrap an existing ivtk table to an obvious table.
+         * Creates the tree structure.
          */
-        String file = "src/main/resources/salivary.tqd";
-        DefaultTable t = new DefaultTable();
-        AbstractReader reader = // Create a reader for the specified file
-            TableReaderFactory.createTableReader(file, t);
+        String file = "src/main/resources/election.tm3";
+        DefaultTree t = new DefaultTree();
+        AbstractReader reader =
+            TreeReaderFactory.createTreeReader(file, t);
         reader.load();
+        Tree<Node, Edge> tree = new IvtkObviousTree(t);
 
-        Table table = new IvtkObviousTable(t);
         /*
-         * Creates a time series visualization.
+         * Creates the visualization.
          */
-        Visualization vis = new IvtkTimeSerieVis(table, null, null, null);
+        Visualization vis = new IvtkNodeLinkTreeVis(tree, null, null, null);
+
         /*
          * Creates the view.
          */
@@ -78,8 +82,8 @@ public class ObviousIvtkTimeSeries {
     }
 
     /**
-     * Gets the JView.
-     * @return a JView.
+     * Gets the obvious view associated to the node link tree visualization.
+     * @return an obvious view.
      */
     public JView getJView() {
         return this.view;
@@ -89,20 +93,22 @@ public class ObviousIvtkTimeSeries {
      * Demo method.
      */
     public static void demo() {
-        ObviousIvtkTimeSeries timeSeries = new ObviousIvtkTimeSeries();
-        JFrame frame = new JFrame("TimeSeries example from ivtk");
-        frame.add(timeSeries.getJView().getViewJComponent());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        NodeLinkTreeExample nodeLink = new NodeLinkTreeExample();
+        JFrame frame = new JFrame("NodeLinkGraph example from ivtk based"
+                + " on obvious");
+        JScrollPane panel = new JScrollPane(
+                nodeLink.getJView().getViewJComponent());
+        frame.add(panel);
         frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
+    
     /**
-     * Main function.
+     * Main method.
      * @param args arguments of the main
      */
     public static void main(String[] args) {
         demo();
     }
-
 }
