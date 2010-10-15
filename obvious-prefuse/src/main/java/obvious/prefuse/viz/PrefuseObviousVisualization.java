@@ -30,6 +30,7 @@ package obvious.prefuse.viz;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
@@ -56,6 +57,7 @@ import prefuse.data.util.TableIterator;
 import prefuse.visual.VisualGraph;
 import prefuse.visual.VisualItem;
 import prefuse.visual.VisualTable;
+import prefuse.visual.VisualTupleSet;
 
 
 
@@ -203,8 +205,16 @@ public class PrefuseObviousVisualization extends Visualization {
 
   @Override
   public ArrayList<Integer> pickAll(Rectangle2D hitBox, Rectangle2D bounds) {
-    // TODO Auto-generated method stub
-    return null;
+    ArrayList<Integer> ids = new ArrayList<Integer>();
+    VisualTupleSet visTuples = (VisualTupleSet) vis.getVisualGroup(groupName);
+    Iterator it = visTuples.tuples();
+    while (it.hasNext()) {
+      VisualItem item = (VisualItem) it.next();
+      if (hitBox.intersects(item.getBounds())) {
+        ids.add(item.getRow());
+      }
+    }
+    return ids;
   }
 
   @Override
