@@ -88,10 +88,11 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
   protected void initVisualization(Map<String, Object> param) {
     prefuse.Visualization prefVis = new prefuse.Visualization();
     this.setPrefVisualization(prefVis);
-    String groupName = DEF_NAME;
+    groupName = DEF_NAME;
     if  (param != null && param.containsKey(GROUP_NAME)) {
       this.getPrefVisualization().add((String) param.get(GROUP_NAME),
           getPrefuseTable());
+      groupName = (String) param.get(GROUP_NAME);
     }
     this.getPrefVisualization().add(groupName, getPrefuseTable());
     ShapeRenderer mShapeR = new ShapeRenderer(2);

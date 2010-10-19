@@ -424,5 +424,18 @@ public class PrefuseObviousVisualization extends Visualization {
           .getUnderlyingImpl(prefuse.data.Graph.class)));
     }
   }
+  
+  @Override
+  public Data getData() {
+      if (vis.getGroup(groupName) != null && super.getData() instanceof Table) {
+          return new PrefuseObviousTable(
+                  (prefuse.data.Table) vis.getGroup(groupName));
+      } else if (vis.getGroup(groupName) != null && super.getData() instanceof Network) {
+          return new PrefuseObviousNetwork (
+                  (prefuse.data.Graph) vis.getGroup(groupName));
+      } else {
+          return super.getData();
+      }
+  }
 
 }
