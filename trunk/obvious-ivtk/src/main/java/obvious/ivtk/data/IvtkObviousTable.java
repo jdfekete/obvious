@@ -322,11 +322,15 @@ public class IvtkObviousTable implements Table {
    * @return value for this couple
    */
   public Object getValue(int rowId, int col) {
+    if (isValidRow(rowId)) {
     TypedFormat format = formatFactory.getFormat(
         schema.getColumnType(col).getSimpleName());
     Object value = format.parseObject((String) table.getValueAt(rowId, col),
         new ParsePosition(0));
     return value;
+    } else {
+      return null;
+    }
   }
 
   /**

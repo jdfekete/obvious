@@ -37,6 +37,7 @@ import obvious.data.Tree;
 import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 
+
 /**
  * Monolithic link-node visualization for tree in obvious-ivtk implementation.
  * @author Hemery
@@ -59,6 +60,7 @@ public class IvtkNodeLinkTreeVis extends IvtkObviousVisualization {
   @Override
   public void initVisualization(Map<String, Object> param) {
     setIvtkVisualization(new NodeLinkTreeVisualization(getIvtkTree()));
+    setVisualAllColumns(param, DataModel.TREE);
   }
 
 }

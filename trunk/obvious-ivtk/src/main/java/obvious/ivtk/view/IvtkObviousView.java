@@ -115,4 +115,16 @@ public class IvtkObviousView extends JView {
     return this.getViewListeners().remove(listener);
   }
 
+  /**
+   * Gets the corresponding underlying implementation.
+   * @param type target class
+   * @return an instance of the underlying implementation or null
+   */
+   public Object getUnderlyingImpl(Class<?> type) {
+     if (type.equals(infovis.panel.VisualizationPanel.class)) {
+       return panel;
+     }
+     return null;
+   }
+
 }
