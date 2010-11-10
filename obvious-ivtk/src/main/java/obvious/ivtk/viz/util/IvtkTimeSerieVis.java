@@ -53,14 +53,16 @@ public class IvtkTimeSerieVis extends IvtkObviousVisualization {
             String visName, Map<String, Object> param) {
         super(parentTable, predicate, visName, param);
     }
-    
+
     @Override
     protected void initVisualization(Map<String, Object> param) {
-        infovis.Visualization visualization = new TimeSeriesVisualization(getIvtkTable());
+        infovis.Visualization visualization = new TimeSeriesVisualization(
+            getIvtkTable());
         visualization.setVisualColumn(
                 TimeSeriesVisualization.VISUAL_COLOR,
                 getIvtkTable().getColumn("Name"));
         setIvtkVisualization(visualization);
+        setVisualAllColumns(param, DataModel.TABLE);
     }
-    
+
 }

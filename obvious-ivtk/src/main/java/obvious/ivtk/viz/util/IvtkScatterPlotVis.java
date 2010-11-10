@@ -92,6 +92,7 @@ public class IvtkScatterPlotVis extends IvtkObviousVisualization {
       setIvtkVisualization(new infovis.table.visualization.
           ScatterPlotVisualization(getIvtkTable()));
     }
+    setVisualAllColumns(param, DataModel.TABLE);
   }
 
 }

@@ -56,7 +56,9 @@ public class IvtkNodeLinkGraphVis extends IvtkObviousVisualization {
 
   @Override
   public void initVisualization(Map<String, Object> param) {
+    //setIvtkVisualization(new NodeLinkGraphVisualization(getIvtkGraph()));
     setIvtkVisualization(new NodeLinkGraphVisualization(getIvtkGraph()));
+    setVisualAllColumns(param, DataModel.NETWORK);
   }
 
 }

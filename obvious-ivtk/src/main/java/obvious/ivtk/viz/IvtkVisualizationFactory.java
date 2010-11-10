@@ -92,6 +92,7 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
   public Visualization createVisualization(Network network, Predicate pred,
       String visName, Map<String, Object> param) {
     if (visName == null) {
+      System.out.print("coucou");
       return new IvtkObviousVisualization(network, pred, visName, param);
     } else if (visName.toLowerCase().equals("network")) {
       return new IvtkNodeLinkGraphVis(network, pred, visName, param);

@@ -28,9 +28,12 @@
 package obvious.ivtk.viz;
 
 import infovis.table.Item;
+import infovis.visualization.VisualColumnDescriptor;
+import infovis.visualization.render.VisualSize;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
@@ -67,6 +70,18 @@ public class IvtkObviousVisualization extends Visualization {
   private infovis.Visualization vis;
 
   /**
+   * Ivtk surrounding data.
+   */
+  private Object ivtkData;
+
+  /**
+   * Enum for the surrounding data model.
+   */
+  protected enum DataModel {
+    TABLE, NETWORK, TREE
+  }
+
+  /**
    * Constructor.
    * @param parentTable an Obvious Table
    * @param predicate a Predicate used to filter the table
@@ -76,7 +91,6 @@ public class IvtkObviousVisualization extends Visualization {
   public IvtkObviousVisualization(Table parentTable, Predicate predicate,
       String visName, Map<String, Object> param) {
     super(parentTable, predicate, visName);
-    System.out.println("Located 2");
     initVisualization(param);
   }
 
@@ -114,9 +128,11 @@ public class IvtkObviousVisualization extends Visualization {
   protected void initVisualization(Map<String, Object> param) {
     if (this.getData() instanceof Table) {
       vis = new infovis.visualization.DefaultVisualization(getIvtkTable());
+      setVisualAllColumns(param, DataModel.TABLE);
     } else if (this.getData() instanceof Network) {
       vis = new infovis.graph.visualization.NodeLinkGraphVisualization(
           getIvtkGraph());
+      setVisualAllColumns(param, DataModel.NETWORK);
     }
   }
 
@@ -140,7 +156,8 @@ public class IvtkObviousVisualization extends Visualization {
   @Override
   public ArrayList<Integer> pickAll(Rectangle2D hitBox, Rectangle2D bounds) {
     ArrayList<Integer> ids = new ArrayList<Integer>();
-    ArrayList<Item> items =  vis.pickAll(hitBox, bounds, new ArrayList<Integer>());
+    ArrayList<Item> items =  vis.pickAll(
+        hitBox, bounds, new ArrayList<Integer>());
     for (Item item : items) {
       ids.add(item.getId());
     }
@@ -293,5 +310,13 @@ public class IvtkObviousVisualization extends Visualization {
     this.getAliasMap().put(VISUAL_SIZE, infovis.Visualization.VISUAL_SIZE);
     this.getAliasMap().put(VISUAL_VALIDATED,
         infovis.Visualization.VISUAL_FILTER);
+  }
+
+  /**
+   * Dedicated to the implementation IvtkObviousVisualization, this method
+   * allows to set visual columns for infovis toolkit visualization.
+   * @param param
+   */
+  protected void setVisualAllColumns(Map<String, Object> param, DataModel m) {
   }
 }

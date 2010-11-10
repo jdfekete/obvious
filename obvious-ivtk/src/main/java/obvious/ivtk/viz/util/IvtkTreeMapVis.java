@@ -48,10 +48,11 @@ public class IvtkTreeMapVis extends IvtkObviousVisualization {
             String visName, Map<String, Object> param) {
         super(parentTree, predicate, visName, param);
     }
-    
+
     @Override
     protected void initVisualization(Map<String, Object> param) {
         setIvtkVisualization(new TreemapVisualization(getIvtkTree(), null));
+        setVisualAllColumns(param, DataModel.TREE);
     }
 
 }
