@@ -222,7 +222,7 @@ public class IvtkObviousNetwork implements Network {
       }
       edgeToId.put(edge, edgeId);
       fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
-    		  NetworkListener.INSERT_EDGE);
+          NetworkListener.INSERT_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
