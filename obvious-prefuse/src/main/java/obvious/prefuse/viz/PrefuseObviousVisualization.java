@@ -156,6 +156,16 @@ public class PrefuseObviousVisualization extends Visualization {
     initVisualization(param);
   }
 
+  @Override
+  protected Table applyPredToTable(Table inData) {
+    return super.applyPredToTable(inData);
+  }
+
+  @Override
+  protected Network applyPredToNetwork(Network inData) {
+    return super.applyPredToNetwork(inData);
+  }
+
   /**
    * Inits a standard prefuse visualization.
    * @param param param of the visualization.

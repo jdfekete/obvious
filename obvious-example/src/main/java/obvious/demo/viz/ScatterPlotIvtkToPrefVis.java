@@ -1,5 +1,7 @@
 package obvious.demo.viz;
 
+import java.util.Iterator;
+
 import javax.swing.JFrame;
 
 import obvious.data.Schema;
@@ -9,6 +11,7 @@ import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
+import obvious.prefuse.viz.PrefuseObviousVisBoost;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
@@ -23,6 +26,7 @@ import prefuse.action.layout.AxisLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
+import prefuse.data.tuple.TupleSet;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.ShapeRenderer;
 import prefuse.util.ColorLib;
@@ -76,7 +80,7 @@ public final class ScatterPlotIvtkToPrefVis {
     table.addRow(new TupleImpl(schema, new Object[] {16, 36, "unemployed"}));
 
     // Building the visulalization
-    Visualization viz = new PrefuseObviousVisualization(table, null, null,
+    Visualization viz = new PrefuseObviousVisBoost(table, null, null,
         null);
     // We define all useful field and paramaters (such as group name).
     String xfield = "id";
@@ -138,6 +142,8 @@ public final class ScatterPlotIvtkToPrefVis {
     prefViz.run("draw");
 
     // Testing the listener mechanism between obvious-ivtk and obvious-prefuse.
+
+    prefViz.cancel("draw");
     table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
     table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
@@ -151,5 +157,6 @@ public final class ScatterPlotIvtkToPrefVis {
     table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
     table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
+    prefViz.run("draw");
   }
 }

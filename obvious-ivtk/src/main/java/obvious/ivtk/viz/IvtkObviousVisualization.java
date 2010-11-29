@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
@@ -134,6 +135,16 @@ public class IvtkObviousVisualization extends Visualization {
           getIvtkGraph());
       setVisualAllColumns(param, DataModel.NETWORK);
     }
+  }
+
+  @Override
+  protected Table applyPredToTable(Table inData) {
+    return super.applyPredToTable(inData);
+  }
+  
+  @Override
+  protected Network applyPredToNetwork(Network inData) {
+    return super.applyPredToNetwork(inData);
   }
 
   /**

@@ -29,6 +29,7 @@ package obvious.viz;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Map;
 
 import obvious.data.Data;
 import obvious.data.Edge;
@@ -69,8 +70,8 @@ public abstract class Visualization extends VisualAttributeManager
    * @param visName Visualization technic name
    */
   public Visualization(Table parentTable, Predicate predicate, String visName) {
-    this.data = parentTable;
     this.pred = predicate;
+    this.data = applyPredicate(parentTable);
     this.visualizatioName = visName;
   }
 
@@ -82,8 +83,8 @@ public abstract class Visualization extends VisualAttributeManager
    */
   public Visualization(Network parentNetwork, Predicate predicate,
       String visName) {
-    this.data = parentNetwork;
     this.pred = predicate;
+    this.data = applyPredicate(parentNetwork);
     this.visualizatioName = visName;
   }
 
@@ -95,8 +96,73 @@ public abstract class Visualization extends VisualAttributeManager
    */
   public Visualization(Tree<Node, Edge> parentTree, Predicate predicate,
       String visName) {
-    this.data = parentTree;
     this.pred = predicate;
+    this.data = applyPredicate(parentTree);
+  }
+
+  /**
+   * Initializes the visualization.
+   * @param param parameters of the visualization
+   */
+  protected abstract void initVisualization(Map<String, Object> param);
+
+  /**
+   * Applies the predicate to the Data instance given in argument of the
+   * constructor. If it is a Table instance, the predicate is applied
+   * directly to the structure and the "filtered" table is set to be
+   * visualized. If it's a network (or a tree) the predicate is applied to
+   * both the edge table and the node table, the filtered network is then
+   * set to be visualized.
+   * @param inData data to filter with the predicate
+   * @return the filtered data instance.
+   */
+  protected Data applyPredicate(Data inData) {
+    if (getPredicate() == null) {
+      return inData;
+    } else {
+      if (inData instanceof Table) {
+        return applyPredToTable((Table) inData);
+      } else if (inData instanceof Network) {
+        return applyPredToNetwork((Network) inData);
+      } else if (inData instanceof Tree) {
+        return applyPredToTree((Tree) inData);
+      }
+      return inData;
+    }
+  }
+
+  /**
+   * Apply the predicate to the table.
+   * Should be overridden for each implementation of obvious to take into
+   * account the specificity of each toolkit for filter and predicate.
+   * @param inData obvious data instance
+   * @return filtered table
+   */
+  protected Table applyPredToTable(Table inData) {
+    return inData;
+  }
+
+  /**
+   * Apply the predicate to the network.
+   * Should be overridden for each implementation of obvious to take into
+   * account the specificity of each toolkit for filter and predicate.
+   * @param inData obvious data instance
+   * @return filtered network
+   */
+  protected Network applyPredToNetwork(Network inData) {
+    return inData;
+  }
+
+  /**
+   * Apply the predicate to the tree.
+   * Should be overridden for each implementation of obvious to take into
+   * account the specificity of each toolkit for filter and predicate.
+   * @param inData obvious data instance
+   * @return filtered tree
+   */
+  protected Tree applyPredToTree(Tree inData) {
+    // TODO Auto-generated method stub
+    return inData;
   }
 
   /**

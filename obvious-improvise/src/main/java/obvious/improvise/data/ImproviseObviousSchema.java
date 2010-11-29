@@ -37,6 +37,7 @@ import obvious.data.Schema;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.data.util.Predicate;
 
 /**
  * Obvious schema for improvise implementation.
@@ -337,6 +338,11 @@ public class ImproviseObviousSchema implements Schema {
   @Override
   public IntIterator rowIterator() {
     // TODO Auto-generated method stub
+    return null;
+  }
+  
+  @Override
+  public IntIterator rowIterator(Predicate pred) {
     return null;
   }
 

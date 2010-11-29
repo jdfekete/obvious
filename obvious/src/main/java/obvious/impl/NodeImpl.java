@@ -74,7 +74,6 @@ public class NodeImpl extends TupleImpl implements Node {
         boolean equals = true;
         for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
           if (!get(i).equals(node.get(this.getSchema().getColumnName(i)))) {
-            System.out.println("PIEGE");
             equals = false;
           }
         }

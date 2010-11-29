@@ -33,6 +33,7 @@ import obvious.ObviousException;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.MissingValue;
+import obvious.data.util.Predicate;
 import obvious.util.Adaptable;
 
 /**
@@ -60,10 +61,18 @@ public interface Table extends Data, Adaptable {
     int getRowCount();
 
     /**
-     * Gets an iterator over the row numbers of this table.
+     * Gets an iterator over the row id of this table.
      * @return an iterator over the rows of this table
      */
     IntIterator rowIterator();
+
+    /**
+     * Gets an iterator over the row id of this table matching the given
+     * predicate.
+     * @param pred an obvious predicate
+     * @return an iterator over the rows of this table.
+     */
+    IntIterator rowIterator(Predicate pred);
 
     /**
      * Indicates if the given row number corresponds to a valid table row.

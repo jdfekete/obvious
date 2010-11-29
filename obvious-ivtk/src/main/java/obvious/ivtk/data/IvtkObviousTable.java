@@ -48,6 +48,8 @@ import obvious.data.Table;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.data.util.Predicate;
+import obvious.impl.FilterIntIterator;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
@@ -423,6 +425,16 @@ public class IvtkObviousTable implements Table {
     TableIterator it = new TableIterator(0,
         table.getLastRow() + 1);
     return new IvtkIntIterator(it);
+  }
+
+  /**
+   * Gets an iterator over the row id of this table matching the given
+   * predicate.
+   * @param pred an obvious predicate
+   * @return an iterator over the rows of this table.
+   */
+  public IntIterator rowIterator(Predicate pred) {
+    return new FilterIntIterator(this, pred);
   }
 
   /**

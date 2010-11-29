@@ -29,6 +29,7 @@ package obvious.improvise.vis;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Map;
 
 import oblivion.lpui.awt.ControlComponent;
 import obvious.ObviousException;
@@ -103,7 +104,7 @@ public class ImproviseObviousVisualization extends Visualization {
     return null;
   }
   
-  protected void initVisualization() {
+  protected void initVisualization(Map<String, Object> param) {
     try {
       controlComp = ImproviseVisFactory.getInstance().createControlComponent(
           getVisualizationTechnique());
