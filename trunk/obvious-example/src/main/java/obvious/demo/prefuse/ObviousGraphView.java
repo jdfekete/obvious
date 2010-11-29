@@ -45,10 +45,13 @@ import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
 import obvious.viz.Visualization;
+import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
 import prefuse.util.GraphLib;
+import prefuse.util.force.ForceSimulator;
+import prefuse.util.ui.JForcePanel;
 import prefuse.data.Graph;
 import prefuse.demos.GraphView.GraphMenuAction;
 
@@ -73,7 +76,7 @@ public class ObviousGraphView extends JPanel {
 
     /*
      * Creation of the graph structure (generated with prefuse then wrapped
-     * with obvious.
+     * with obvious).
      */
     prefuse.data.Graph prefGraph = GraphLib.getGrid(10, 10);
     Network network = new PrefuseObviousNetwork(prefGraph);
@@ -90,7 +93,6 @@ public class ObviousGraphView extends JPanel {
      * Building view.
      */
 
-
     PrefuseObviousView prefView = new PrefuseObviousView(
         vis, null, "graph", param);
     prefView.addListener(new PrefuseObviousControl(new ZoomControl()));
@@ -106,7 +108,6 @@ public class ObviousGraphView extends JPanel {
     vis.getUnderlyingImpl(prefuse.Visualization.class);
     realPrefVis.run("color");
     realPrefVis.run("layout");
-    
   }
 
 
@@ -155,7 +156,8 @@ public class ObviousGraphView extends JPanel {
   }
 
   public static void main(String[] args) {
-    JFrame frame = demo(new ObviousGraphView());
+    ObviousGraphView oView = new ObviousGraphView();
+    JFrame frame = demo(oView);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     prefuse.Visualization realPrefVis = (prefuse.Visualization)

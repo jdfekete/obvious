@@ -42,6 +42,7 @@ import obvious.data.Schema;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.data.util.Predicate;
 
 
 /**
@@ -368,6 +369,16 @@ public class IvtkObviousSchema implements Schema {
   public void set(int rowId, String field, Object val) {
     // TODO Auto-generated method stub
     
+  }
+  
+  /**
+   * Gets an iterator over the row id of this table matching the given
+   * predicate.
+   * @param pred an obvious predicate
+   * @return an iterator over the rows of this table.
+   */
+  public IntIterator rowIterator(Predicate pred) {
+    return null;
   }
 
   public void set(int rowId, int col, Object val) {

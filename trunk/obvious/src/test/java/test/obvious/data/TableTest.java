@@ -65,7 +65,7 @@ public abstract class TableTest implements TableTestData {
    * @param inTable table to set
    */
   public void setTable(Table inTable) {
-    this.table = null;
+    this.table = inTable;
   }
 
 

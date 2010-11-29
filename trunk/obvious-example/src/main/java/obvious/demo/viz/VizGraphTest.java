@@ -12,6 +12,7 @@ import obvious.prefuse.PrefuseObviousNetwork;
 import obvious.prefuse.PrefuseObviousSchema;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
+import obvious.prefuse.viz.PrefuseObviousVisBoost;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
@@ -75,9 +76,8 @@ public final class VizGraphTest {
     // Create the obvious-prefuse graph.
     PrefuseObviousNetwork network = new PrefuseObviousNetwork(prefGraph);
 
-    /*
     // Create the obvious-prefuse visualization.
-    PrefuseObviousVisualization vis = new PrefuseObviousVisualization(
+    PrefuseObviousVisualization vis = new PrefuseObviousVisBoost(
         network, null, null, param);
 
     // Using label renderer as in the tutorial of prefuse.
@@ -114,11 +114,11 @@ public final class VizGraphTest {
   vis.putAction("layout", new PrefuseObviousAction(layout));
 
 
-  */
-
   
-  PrefuseObviousVisualization vis = new PrefuseObviousNetworkViz(network, null, "test", param);
 
+  /*
+  PrefuseObviousVisualization vis = new PrefuseObviousNetworkViz(network, null, "test", param);
+  */
   // In order to display, we have to call the underlying prefuse visualization.
   // In a complete version of obvious, we don't need that step.
   prefuse.Visualization prefViz = (prefuse.Visualization)

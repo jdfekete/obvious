@@ -40,6 +40,8 @@ import obvious.data.Table;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.data.util.Predicate;
+import obvious.impl.FilterIntIterator;
 import obvious.impl.TupleImpl;
 
 /**
@@ -217,6 +219,11 @@ public class ImproviseObviousTable implements Table {
   @Override
   public IntIterator rowIterator() {
     return new ImproviseIntIterator();
+  }
+  
+  @Override
+  public IntIterator rowIterator(Predicate pred) {
+    return  new FilterIntIterator(this, pred);
   }
 
   @Override

@@ -43,6 +43,7 @@ import obvious.jung.data.JungObviousNetwork;
 import obvious.prefuse.PrefuseObviousSchema;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
+import obvious.prefuse.viz.PrefuseObviousVisBoost;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
@@ -122,7 +123,7 @@ public final class VizJungGraphTest {
     param.put(PrefuseObviousVisualization.GROUP_NAME, "graph");
 
     // Creating the visualization.
-    PrefuseObviousVisualization vis = new PrefuseObviousVisualization(
+    PrefuseObviousVisualization vis = new PrefuseObviousVisBoost(
         jungNetwork, null, null, param);
 
     // Using label renderer as in the tutorial.

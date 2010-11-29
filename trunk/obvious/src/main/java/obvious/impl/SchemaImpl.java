@@ -39,6 +39,7 @@ import obvious.data.Schema;
 import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
+import obvious.data.util.Predicate;
 
 /**
  * Class SchemaImpl.
@@ -339,6 +340,16 @@ public class SchemaImpl implements Schema {
   public IntIterator rowIterator() {
     IntIterator intIterator = (IntIterator) columnIndex.values().iterator();
     return intIterator;
+  }
+
+  /**
+   * Gets an iterator over the row id of this table matching the given
+   * predicate.
+   * @param pred an obvious predicate
+   * @return an iterator over the rows of this table.
+   */
+  public IntIterator rowIterator(Predicate pred) {
+    return null;
   }
 
   /**
