@@ -114,4 +114,4 @@ Currently, all the existing implementation of Tree interface extends Graph<Node,
 
 = Data model : class diagram =
 
-http://code.google.com/p/obvious/source/browse/images/obviousdataclass.png
+http://obvious.googlecode.com/svn/images/obviousdataclass.png
