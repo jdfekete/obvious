@@ -80,7 +80,7 @@ Graph interface provides method to add/remove vertices and edges, to iterate on 
 Oriented and non-oriented graph could be represented with this interface. Theoretically,it supports even graphs having non oriented and oriented edges. Each time, the developer adds an edge, he has to precise if it is oriented or not. A java Enum is included in the interface, it allows the description edge's orientation. See the following example :
 
 {{{
-// Let's suppose there are three existing nodes (node1, node2 and node3), two existing edges (edge1 and edge2) and an existing graph (graph).
+// Let's suppose there are three existing nodes (node1, node2 and node3 V instances), two existing edges (edge1 and edge2 E instances) and an existing graph (Graph<V,E> instance).
 graph.addNode(node1);
 graph.addNode(node2);
 graph.addNode(node3);
@@ -92,7 +92,21 @@ For the moment, all existing obvious implementations uses a specific implementat
 
 === Network ===
 
-=== Tree ===
+Network interface is a particular implementation of Graph interface : Graph<Node, Edge>. It provides all method from Graph<V,E> interface and adds several new functionnalities such as NetworkListener support (similar to TableListener) and the possibility to get the underlying nodes and edges tables.
+
+Currently, obvious data model implementation such as obvious-ivtk, obvious-prefuse and obvious-jung used Network to implement Graph interface.
+
+=== Forest and Tree ===
+
+== Forest ==
+
+Forest<V, E> interface in obvious is used to modelize the union of several disconnected tree. It simply extends the Graph<V, E> and adds a new method to get the java collection of Tree instances contained in the Forest instance.
+
+== Tree ==
+
+Tree<V,E> interface in obvious extends the Forest<V, E> interface. This interface provides useful methods for Tree to get its depth, its height, its roots and parent/child nodes/edges for a specific node.
+
+Currently, all the existing implementation of Tree interface extends Graph<Node, Edge> and are thus derived from Network.
 
 = Data model : class diagram =
 Soon...
