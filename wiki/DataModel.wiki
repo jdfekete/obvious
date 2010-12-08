@@ -25,7 +25,7 @@ To retrieve information about a specific column from a schema, you can use the c
 
 === Tuple ===
 
-Each data structure in obvious is composed of tuples. For tables, a tuple corresponds to a table row, and in graph and trees a tuple corresponds to a node or an edge.
+Most data structures in obvious are composed of tuples. For tables, a tuple corresponds to a table row, and in networks and trees a tuple corresponds to a node or an edge.
 
 A tuple is composed of several columns. They are described by a Schema instance. Thus, each cell of a tuple can be accessed or set by calling get / set method with column's name or index as parameter.
 
@@ -55,13 +55,40 @@ Node interface is strictly identical to Tuple interface. This interface is a tag
 
 Edge interface is strictly identical to Tuple interface. This interface is a tag used to distinguish edge tuples from node tuples in obvious graph.
 
-== Data (Tag) == 
+== Data (Tag) ==
+
+This interface is empty. It is mainly a tag that obvious's data structure implements (such as Table, Graph, Tree...). 
 
 == Table ==
+
+A Table in Obvious is based on a schema and composed of Tuple (row). So, a table is a set of tuple sharing the same schema.
+
+The Table interface provides methods to get the surrounding schema, adding / removing row,
+getting/setting row's cell values,iterating on the row and listening to table changes. The developer can access to a row with the row index.
 
 == Graph, Network, Tree ==
 
 === Graph ===
+
+Graph<V, E> is a generic interface : 
+
+ * V corresponds to the java class or interface used to modelize vertices in a specific implementation of Graph.
+ * E corresponds to the java class or interface used to modelize node in a specific implementation of Graph.
+
+Graph interface provides method to add/remove vertices and edges, to iterate on vertices and edges and some functions to get neighborhood vertices, entering / exiting edges for a vertices...
+
+Oriented and non-oriented graph could be represented with this interface. Theoretically,it supports even graphs having non oriented and oriented edges. Each time, the developer adds an edge, he has to precise if it is oriented or not. A java Enum is included in the interface, it allows the description edge's orientation. See the following example :
+
+{{{
+// Let's suppose there are three existing nodes (node1, node2 and node3), two existing edges (edge1 and edge2) and an existing graph (graph).
+graph.addNode(node1);
+graph.addNode(node2);
+graph.addNode(node3);
+graph.addEdge(edge, node1, node2, Graph.DIRECTED); // adding a directed edge between n1 n2
+graph.addEdge(edge, node1, node3, Graph.UNDIRECTED); // non directed edge between n1 n3
+}}}
+
+For the moment, all existing obvious implementations uses a specific implementation of Graph Interface, Network, described in the following section.  
 
 === Network ===
 
