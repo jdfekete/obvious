@@ -6,6 +6,10 @@ The toolkit contains interface to describe tables, graphs, trees, tuples, nodes,
 
 This section presents each interface and gives the class diagram of the obvious data model.
 
+<b> Content </b>
+
+<wiki:toc max_depth="3" />
+
 = Interfaces =
 
 == Schema ==
@@ -109,4 +113,5 @@ Tree<V,E> interface in obvious extends the Forest<V, E> interface. This interfac
 Currently, all the existing implementation of Tree interface extends Graph<Node, Edge> and are thus derived from Network.
 
 = Data model : class diagram =
-Soon...
+
+http://code.google.com/p/obvious/source/browse/images/obviousdataclass.png
