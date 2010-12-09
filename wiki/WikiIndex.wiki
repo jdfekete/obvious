@@ -1,0 +1,26 @@
+#summary Content of the wiki
+
+= Introduction =
+
+This page details the content of the wiki.
+
+
+= General content =
+
+== Workshop ==
+ * [Motivation Motivation]
+ * [PageName Summary of the workshop decisions]
+
+== obvious in details ==
+ * [SofwareArchitecture Software Architecture of obvious]
+ * [DataModel Presentation of the data model in obvious]
+ * [Visualization Presentation of the visualization part in obvious]
+ * [View Presentation of the view part in obvious]
+
+= Technical documentation =
+
+ * [JavadocLinks Javadoc]
+ * [CompilationGuide Compilation Guide]
+ * [TestGuide Guide for unit tests]
+ * [DocExtractionGuide Guide to extract documentation]
+
