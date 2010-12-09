@@ -1,0 +1,16 @@
+#summary Visualization partin obvious toolkit.
+
+= Introduction =
+
+This parts describes the Visualization abstract class and its associated classes in obvious toolkit. 
+
+
+= Visualization (abstract class) =
+
+Unlike the data model, Visualization is not an interface, but implemented as an abstract class. To build, a new obvious visualization instance, it is needed to provide an obvious data structure instance (among Table, Network and Tree<Node, Edge>), a predicate (can be null), a visualization technic name (can be null) and a map of parameters (can be null).
+
+More to come...
+
+= VisualizationFactory =
+
+More to come...
