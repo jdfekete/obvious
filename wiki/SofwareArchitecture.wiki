@@ -22,3 +22,18 @@ Most of sub-projects implements Obvious interfaces and its sub-packages (obvious
  * <b> obviousx </b> : it is an utils package. It contains mainly reader and writer for CSV and GraphML. It also hosts wrappers allowing to use obvious data structures as ivtk and prefuse data structures.
  * <b> obviousx-example </b> :it contains example for the obviousx package.
  * <b> obviousx-jdbc </b> : experimental project. BSD license.
+
+= Description =
+
+== One toolkit, four parts ==
+
+The toolkit is divided in four parts :
+
+ * *obvious.data* : the data model [DataModel (complete article)]
+ * *ovious.vis* : the visualization part of the toolkit [Visualization (complete article)]
+ * *obvious.view* : the view part of the toolkit [View (complete article)]
+ * *obviousx* : this package contains usefull classes for obvious toolkit (wrappers, readers, writters...)
+
+== Class diagram ==
+
+http://obvious.googlecode.com/svn-history/r306/images/obviousclass.png
