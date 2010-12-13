@@ -59,12 +59,12 @@ public class JungObviousNetwork implements Network {
    * A Jung graph used for this obvious implementation.
    */
   private edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph;
-  
+
   /**
    * Collection of listeners.
    */
   private Collection<NetworkListener> listeners =
-	  new ArrayList<NetworkListener>();
+    new ArrayList<NetworkListener>();
 
   /**
    * Constructor from Jung Graph instance.
@@ -373,12 +373,12 @@ public class JungObviousNetwork implements Network {
     /**
      * Table of the nodes of the graph.
      */
-    protected Table nodeTable;
+    private Table nodeTable;
 
     /**
      * Table of the edges of the graph.
      */
-    protected Table edgeTable;
+    private Table edgeTable;
 
     /**
      * Map indicating the type of an edge.
@@ -896,22 +896,28 @@ public class JungObviousNetwork implements Network {
   /**
    * Return the underlying implementation.
    * @param type targeted class
-   * @return Cytoscape graph instance or null
+   * @return a Jung graph instance or null
    */
   public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(edu.uci.ics.jung.graph.Graph.class)) {
+      return this.jungGraph;
+    }
     return null;
   }
-  
+
+  @Override
   public Collection<NetworkListener> getNetworkListeners() {
-	return listeners;
+    return listeners;
   }
-		
+
+  @Override
   public void removeNetworkListener(NetworkListener l) {
-	listeners.remove(l);
+    listeners.remove(l);
   }
-		
+
+  @Override
   public void addNetworkListener(NetworkListener l) {
     listeners.add(l);
   }
-  
+
 }
