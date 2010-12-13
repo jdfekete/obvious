@@ -183,7 +183,7 @@ public class JungObviousTree extends JungObviousNetwork
       } else {
         int depth = 0;
         for (int i = node.getRow(); i != getRoot().getRow() && i >= 0; ++depth,
-            i = getParent(new NodeImpl(nodeTable, i)).getRow()) {
+            i = getParent(new NodeImpl(getNodeTable(), i)).getRow()) {
           continue;
           }
         return depth;
