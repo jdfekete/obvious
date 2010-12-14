@@ -158,7 +158,8 @@ public class JungObviousVisualization extends Visualization {
     if (edges.size() != 0 && nodes.size() != 0) {
       Schema nodeSchema = nodes.iterator().next().getSchema();
       Schema edgeSchema = edges.iterator().next().getSchema();
-      Network jungNetwork = new JungObviousNetwork(nodeSchema, edgeSchema);
+      Network jungNetwork = new JungObviousNetwork(nodeSchema, edgeSchema,
+          network.getSourceColumnName(), network.getTargetColumnName());
       ObviousLib.fillNetwork(network, jungNetwork);
       NetworkListener listnr = new ObviousLinkNetworkListener(network);
       NetworkListener listnr2 = new ObviousLinkNetworkListener(jungNetwork);

@@ -100,12 +100,12 @@ public class JDBCObviousNetwork implements Network {
    * Edge schema.
    */
   private Schema edgeSchema;
-  
+
   /**
    * NetworkListener collection.
    */
   private Collection<NetworkListener> listeners =
-	  new ArrayList<NetworkListener>();
+    new ArrayList<NetworkListener>();
 
   /**
    * Constructor.
@@ -638,17 +638,17 @@ public class JDBCObviousNetwork implements Network {
     }
     return null;
   }
-  
+
   public Collection<NetworkListener> getNetworkListeners() {
-	return listeners;
+    return listeners;
   }
-	
+
   public void removeNetworkListener(NetworkListener l) {
     listeners.remove(l);
   }
-		
+
   public void addNetworkListener(NetworkListener l) {
-	listeners.add(l);
+    listeners.add(l);
   }
 
   @Override
@@ -661,6 +661,16 @@ public class JDBCObviousNetwork implements Network {
   public Table getNodeTable() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public String getSourceColumnName() {
+    return this.sourceCol;
+  }
+
+  @Override
+  public String getTargetColumnName() {
+    return this.targetCol;
   }
 
 }

@@ -317,9 +317,9 @@ public class PrefuseObviousVisualization extends Visualization {
     if (edges.size() != 0 && nodes.size() != 0) {
       Schema nodeSchema = nodes.iterator().next().getSchema();
       Schema edgeSchema = edges.iterator().next().getSchema();
-      System.out.println("OK");
       Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema,
-          directed, nodeKey, sourceKey, targetKey);
+          directed, nodeKey, network.getSourceColumnName(),
+          network.getTargetColumnName());
       ObviousLib.fillNetwork(network, prefNetwork);
       NetworkListener listnr = new ObviousLinkNetworkListener(network);
       NetworkListener listnr2 = new ObviousLinkNetworkListener(prefNetwork);

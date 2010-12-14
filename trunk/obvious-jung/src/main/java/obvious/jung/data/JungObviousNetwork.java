@@ -56,9 +56,29 @@ import obvious.prefuse.PrefuseObviousTable;
 public class JungObviousNetwork implements Network {
 
   /**
+   * Name for the Source Node index in edgeSchema.
+   */
+  public static final String SRCNODE = "source";
+
+  /**
+   * Name for the Target Node index in edgeSchema.
+   */
+  public static final String DESTNODE = "target";
+
+  /**
    * A Jung graph used for this obvious implementation.
    */
   private edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph;
+
+  /**
+   * Source node column for an edge.
+   */
+  private String sourceCol;
+
+  /**
+   * Target node column for an edge.
+   */
+  private String targetCol;
 
   /**
    * Collection of listeners.
@@ -76,12 +96,13 @@ public class JungObviousNetwork implements Network {
 
   /**
    * Constructor from Obvious Schema.
+   * This constructor used default value to name the source and the target
+   * columns of an edge.
    * @param nodeSchema schema for the node Table
    * @param edgeSchema schema for the edge Table
    */
   public JungObviousNetwork(Schema nodeSchema, Schema edgeSchema) {
-    JungGraph graph = new JungGraph(nodeSchema, edgeSchema);
-    this.jungGraph = graph;
+    this(nodeSchema, edgeSchema, null, SRCNODE, DESTNODE);
   }
 
   /**
@@ -93,8 +114,7 @@ public class JungObviousNetwork implements Network {
    */
   public JungObviousNetwork(Schema nodeSchema, Schema edgeSchema,
       String source, String target) {
-    JungGraph graph = new JungGraph(nodeSchema, edgeSchema, source, target);
-    this.jungGraph = graph;
+    this(nodeSchema, edgeSchema, null, source, target);
   }
 
   /**
@@ -110,6 +130,8 @@ public class JungObviousNetwork implements Network {
     JungGraph graph = new JungGraph(nodeSchema, edgeSchema, node, source,
         target);
     this.jungGraph = graph;
+    this.sourceCol = source;
+    this.targetCol = target;
   }
 
   /**
@@ -399,16 +421,6 @@ public class JungObviousNetwork implements Network {
      * Column used to spot a node in node table.
      */
     private String nodeCol = null;
-
-    /**
-     * Name for the Source Node index in edgeSchema.
-     */
-    public static final String SRCNODE = "SRCNODE";
-
-    /**
-     * Name for the Target Node index in edgeSchema.
-     */
-    public static final String DESTNODE = "DESTNODE";
 
     /**
      * Constructor for Jung Graph.
@@ -918,6 +930,16 @@ public class JungObviousNetwork implements Network {
   @Override
   public void addNetworkListener(NetworkListener l) {
     listeners.add(l);
+  }
+
+  @Override
+  public String getSourceColumnName() {
+    return this.sourceCol;
+  }
+
+  @Override
+  public String getTargetColumnName() {
+    return this.targetCol;
   }
 
 }
