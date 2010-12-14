@@ -31,6 +31,7 @@ import obvious.data.Table;
 import obvious.data.util.Predicate;
 import obvious.impl.TupleImpl;
 import obviousx.wrappers.WrapToPrefTuple;
+import prefuse.data.expression.parser.ExpressionParser;
 
 /**
  * A wrapper for Prefuse Predicate.
@@ -52,6 +53,17 @@ public class PrefuseObviousPredicate implements Predicate {
   public PrefuseObviousPredicate(prefuse.data.expression.Predicate pred) {
     this.prefPred = pred;
   }
+
+  /**
+   * Constructor.
+   * @param expression a String expression used to build the underlying obvious
+   * predicate.
+   */
+  public PrefuseObviousPredicate(String expression) {
+    this.prefPred = (prefuse.data.expression.Predicate)
+      ExpressionParser.parse(expression);
+  }
+
   /**
    * Applies a predicate on a table's row.
    * @param table an obvious table

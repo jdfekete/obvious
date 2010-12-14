@@ -43,14 +43,48 @@ import obvious.data.event.NetworkListener;
  */
 public interface Network extends obvious.data.Graph<Node, Edge> {
 
+  /**
+   * Gets the collection of all listeners added to this Network instance.
+   * @return collection of all listeners added to a Network instance
+   */
   Collection<NetworkListener> getNetworkListeners();
 
+  /**
+   * Removes a given listener from this Network instance.
+   * @param l listener to remove
+   */
   void removeNetworkListener(NetworkListener l);
 
+  /**
+   * Adds a given listener to this Network instance.
+   * @param l listener to add
+   */
   void addNetworkListener(NetworkListener l);
 
+  /**
+   * Gets an obvious Table containing the nodes of this Network instance.
+   * @return an obvious Table containing the nodes of this Network instance
+   */
   Table getNodeTable();
-  
+
+  /**
+   * Gets an obvious Table containing the edges of this Network instance.
+   * @return an obvious Table containing the edges of this Network instance
+   */
   Table getEdgeTable();
-  
+
+  /**
+   * Gets the name of the column used to spot the source node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the source node for an edge
+   */
+  String getSourceColumnName();
+
+  /**
+   * Gets the name of the column used to spot the target node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the target node for an edge
+   */
+  String getTargetColumnName();
+
 }

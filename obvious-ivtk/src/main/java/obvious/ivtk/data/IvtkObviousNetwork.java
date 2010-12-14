@@ -247,7 +247,7 @@ public class IvtkObviousNetwork implements Network {
       }
       nodeToId.put(node, rowId);
       fireNetworkEvent(node.getRow(), node.getRow(), 0,
-    		  NetworkListener.INSERT_NODE);
+          NetworkListener.INSERT_NODE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -551,7 +551,7 @@ public class IvtkObviousNetwork implements Network {
       graph.removeEdge(getEdgeId(edge));
       edgeToId.remove(edge);
       fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
-    		  NetworkListener.DELETE_EDGE);
+          NetworkListener.DELETE_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -571,7 +571,7 @@ public class IvtkObviousNetwork implements Network {
       graph.removeVertex(node.getRow());
       nodeToId.remove(node);
       fireNetworkEvent(node.getRow(), node.getRow(), 0,
-    		  NetworkListener.DELETE_NODE);
+          NetworkListener.DELETE_NODE);
       return true;
     } catch (Exception e) {
       e.printStackTrace();
@@ -639,18 +639,30 @@ public class IvtkObviousNetwork implements Network {
     return null;
   }
 
-	public Collection<NetworkListener> getNetworkListeners() {
-	 return listeners;
-	}
-	
-	public void removeNetworkListener(NetworkListener l) {
-	 listeners.remove(l);
-	}
-	
-	public void addNetworkListener(NetworkListener l) {
-	 listeners.add(l);
-	}
-	
+  /**
+   * Gets the collection of all listeners added to this Network instance.
+   * @return collection of all listeners added to a Network instance
+   */
+  public Collection<NetworkListener> getNetworkListeners() {
+    return listeners;
+  }
+
+  /**
+   * Removes a given listener from this Network instance.
+   * @param l listener to remove
+   */
+  public void removeNetworkListener(NetworkListener l) {
+    listeners.remove(l);
+  }
+
+  /**
+   * Adds a given listener to this Network instance.
+   * @param l listener to add
+   */
+  public void addNetworkListener(NetworkListener l) {
+    listeners.add(l);
+  }
+
   /**
    * Notifies changes to listener.
    * @param start the starting row index of the changed table region
@@ -667,12 +679,38 @@ public class IvtkObviousNetwork implements Network {
    }
   }
 
+  /**
+   * Gets an obvious Table containing the edges of this Network instance.
+   * @return an obvious Table containing the edges of this Network instance
+   */
   public Table getEdgeTable() {
     return new IvtkObviousTable(graph.getEdgeTable());
   }
 
+  /**
+   * Gets an obvious Table containing the nodes of this Network instance.
+   * @return an obvious Table containing the nodes of this Network instance
+   */
   public Table getNodeTable() {
     return new IvtkObviousTable(graph.getVertexTable());
+  }
+
+  /**
+   * Gets the name of the column used to spot the source node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the source node for an edge
+   */
+  public String getSourceColumnName() {
+    return "#FirstVertex";
+  }
+
+  /**
+   * Gets the name of the column used to spot the target node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the target node for an edge
+   */
+  public String getTargetColumnName() {
+    return "#SecondVertex";
   }
 
 }

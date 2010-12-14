@@ -81,14 +81,38 @@ public class CyNetwork extends CyGraph<Node, Edge> implements Network {
     listeners.remove(l);
   }
 
+  /**
+   * Gets an obvious Table containing the edges of this Network instance.
+   * @return an obvious Table containing the edges of this Network instance
+   */
   public Table getEdgeTable() {
-    // TODO Auto-generated method stub
     return null;
   }
 
+  /**
+   * Gets an obvious Table containing the edges of this Network instance.
+   * @return an obvious Table containing the edges of this Network instance
+   */
   public Table getNodeTable() {
-    // TODO Auto-generated method stub
     return null;
+  }
+
+  /**
+   * Gets the name of the column used to spot the source node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the source node for an edge
+   */
+  public String getSourceColumnName() {
+    return "";
+  }
+
+  /**
+   * Gets the name of the column used to spot the target node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the target node for an edge
+   */
+  public String getTargetColumnName() {
+    return "";
   }
 
 }

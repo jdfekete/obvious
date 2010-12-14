@@ -71,7 +71,7 @@ public class PrefuseObviousNetwork implements Network {
    * Collection of listeners.
    */
   private Collection<NetworkListener> listeners =
-	  new ArrayList<NetworkListener>();
+    new ArrayList<NetworkListener>();
 
   /**
    * Constructor from obvious schemas and extra parameters.
@@ -209,14 +209,15 @@ public class PrefuseObviousNetwork implements Network {
         } else if (graphCol && edge.get(colName).equals(sourceKey)
             && nodeKey == null) {
           prefEdge.set(colName, source.getRow());
-        } else if (graphCol && edge.get(colName).equals(targetKey)) {
+        } else if (graphCol && edge.get(colName).equals(targetKey)
+            && nodeKey == null) {
           prefEdge.set(colName, target.getRow());
         } else {
           prefEdge.set(colName, edge.get(colName));
         }
       }
       fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
-    		  NetworkListener.INSERT_EDGE);
+          NetworkListener.INSERT_EDGE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -238,7 +239,7 @@ public class PrefuseObviousNetwork implements Network {
         prefNode.set(node.getSchema().getColumnName(i), node.get(i));
       }
       fireNetworkEvent(node.getRow(), node.getRow(), 0,
-    		  NetworkListener.INSERT_NODE);
+          NetworkListener.INSERT_NODE);
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -512,7 +513,7 @@ public class PrefuseObviousNetwork implements Network {
       boolean removed = this.graph.removeEdge(edge.getRow());
       if (removed) {
           fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
-        		  NetworkListener.DELETE_EDGE);
+              NetworkListener.DELETE_EDGE);
       }
       return removed;
     } catch (Exception e) {
@@ -530,8 +531,8 @@ public class PrefuseObviousNetwork implements Network {
       int row = node.getRow();
       boolean removed = this.graph.removeNode(row);
       if (removed) {
-    	  fireNetworkEvent(row, row, 0,
-    			  NetworkListener.DELETE_NODE);
+        fireNetworkEvent(row, row, 0,
+            NetworkListener.DELETE_NODE);
       }
       return removed;
     } catch (Exception e) {
@@ -551,18 +552,30 @@ public class PrefuseObviousNetwork implements Network {
     return null;
   }
 
+  /**
+   * Gets the collection of all listeners added to this Network instance.
+   * @return collection of all listeners added to a Network instance
+   */
   public Collection<NetworkListener> getNetworkListeners() {
-	 return listeners;
+    return listeners;
   }
-		
+
+  /**
+   * Removes a given listener from this Network instance.
+   * @param l listener to remove
+   */
   public void removeNetworkListener(NetworkListener l) {
      listeners.remove(l);
   }
-		
+
+  /**
+   * Adds a given listener to this Network instance.
+   * @param l listener to add
+   */
   public void addNetworkListener(NetworkListener l) {
-	 listeners.add(l);
+    listeners.add(l);
   }
-  
+
   /**
    * Notifies changes to listener.
    * @param start the starting row index of the changed table region
@@ -579,11 +592,37 @@ public class PrefuseObviousNetwork implements Network {
    }
   }
 
+  /**
+   * Gets an obvious Table containing the edges of this Network instance.
+   * @return an obvious Table containing the edges of this Network instance
+   */
   public Table getEdgeTable() {
     return new PrefuseObviousTable(graph.getEdgeTable());
   }
 
+  /**
+   * Gets an obvious Table containing the nodes of this Network instance.
+   * @return an obvious Table containing the nodes of this Network instance
+   */
   public Table getNodeTable() {
     return new PrefuseObviousTable(graph.getNodeTable());
+  }
+
+  /**
+   * Gets the name of the column used to spot the source node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the source node for an edge
+   */
+  public String getSourceColumnName() {
+    return this.sourceKey;
+  }
+
+  /**
+   * Gets the name of the column used to spot the target node for an edge in
+   * this Network instance.
+   * @return name of the column used to spot the target node for an edge
+   */
+  public String getTargetColumnName() {
+    return this.targetKey;
   }
 }

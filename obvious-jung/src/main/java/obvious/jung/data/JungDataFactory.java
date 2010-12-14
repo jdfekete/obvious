@@ -107,10 +107,10 @@ public class JungDataFactory extends DataFactory {
   public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("sourceKey")) {
-      param.put("sourceKey", JungObviousNetwork.JungGraph.SRCNODE);
+      param.put("sourceKey", JungObviousNetwork.SRCNODE);
     }
     if (!param.containsKey("targetKey")) {
-      param.put("targetKey",  JungObviousNetwork.JungGraph.DESTNODE);
+      param.put("targetKey",  JungObviousNetwork.DESTNODE);
     }
     return new JungObviousNetwork(nodeSchema, edgeSchema,
         (String) param.get("sourceKey"), (String) param.get("targetKey"));
