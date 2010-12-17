@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.ivtk;
 
 import java.text.Format;
 import java.text.ParseException;

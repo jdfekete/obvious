@@ -25,51 +25,11 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
-
-import infovis.Column;
-import infovis.Table;
-
 /**
- * Wrapper for ivtk interface item.
- * @author Hemery
+ * <h1>Package obviousx.wrappers</h1>
+ *
+ * This package contains wrappers for obvious structure to classic toolkit
+ * implementations (ivtk).
  *
  */
-public class WrapToIvtkItem implements infovis.table.Item {
-
-  /**
-   * Row index of the item.
-   */
-  private int rowId;
-
-  /**
-   * Backing ivtk table.
-   */
-  private Table table;
-
-  /**
-   * Constructor.
-   * @param inTable backing ivtk table
-   * @param row row index
-   */
-  public WrapToIvtkItem(Table inTable, int row) {
-    this.table = inTable;
-    this.rowId = row;
-  }
-
-  @Override
-  public Column getColumn() {
-    return null;
-  }
-
-  @Override
-  public int getId() {
-    return rowId;
-  }
-
-  @Override
-  public Table getTable() {
-    return table;
-  }
-
-}
+package obviousx.wrappers.ivtk;

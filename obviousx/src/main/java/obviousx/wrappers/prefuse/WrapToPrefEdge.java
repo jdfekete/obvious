@@ -25,64 +25,73 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.prefuse;
 
-import infovis.utils.RowIterator;
+import obvious.data.Network;
+import obvious.impl.TupleImpl;
+import prefuse.data.Graph;
+import prefuse.data.Node;
 
 /**
- * Wrapper for obvious row iterator to ivtk row iterator.
+ * Wrapper for obvious edge to pref edge.
  * @author Hemery
  *
  */
-public class WrapToIvtkIterator implements infovis.utils.RowIterator {
+public class WrapToPrefEdge extends WrapToPrefTuple
+    implements prefuse.data.Edge  {
 
   /**
-   * Backing iterator.
+   * Network containing the node.
    */
-  private obvious.data.util.IntIterator it;
-
-  /**
-   * Backing row index.
-   */
-  private int currentRow = 0;
+  private Network network;
 
   /**
    * Constructor.
-   * @param iterator an obvious iterator
+   * @param inNetwork network containing the node
+   * @param inTuple node to wrap
+   * @param row index of the node
    */
-  public WrapToIvtkIterator(obvious.data.util.IntIterator iterator) {
-    this.it = iterator;
+  public WrapToPrefEdge(Network inNetwork, TupleImpl inTuple, int row) {
+    super(inTuple, row);
+    this.network = inNetwork;
+  }
+
+  /**
+   * Gets the underlying obvious edge.
+   * @return the underlying obvious edge
+   */
+  protected obvious.data.Edge getObviousEdge() {
+    return (obvious.data.Edge) getObviousTuple();
   }
 
   @Override
-  public RowIterator copy() {
-    return new WrapToIvtkIterator(it);
+  public Node getAdjacentNode(Node n) {
+    return null;
   }
 
   @Override
-  public int nextRow() {
-    currentRow = it.nextInt();
-    return currentRow;
+  public Graph getGraph() {
+    return new WrapToPrefGraph(network);
   }
 
   @Override
-  public int peekRow() {
-    return currentRow + 1;
+  public Node getSourceNode() {
+    obvious.data.Node obviousNode = network.getSource(getObviousEdge());
+    return new WrapToPrefNode(network, (TupleImpl) obviousNode,
+        obviousNode.getRow());
   }
 
   @Override
-  public boolean hasNext() {
-    return it.hasNext();
+  public Node getTargetNode() {
+    obvious.data.Node obviousNode = network.getTarget(getObviousEdge());
+    return new WrapToPrefNode(network, (TupleImpl) obviousNode,
+        obviousNode.getRow());
   }
 
   @Override
-  public Object next() {
-    return it.next();
+  public boolean isDirected() {
+    return network.getEdgeType(getObviousEdge()).equals(
+        obvious.data.Graph.EdgeType.DIRECTED);
   }
 
-  @Override
-  public void remove() {
-    it.remove();
-  }
 }
-

@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.prefuse;
 
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;

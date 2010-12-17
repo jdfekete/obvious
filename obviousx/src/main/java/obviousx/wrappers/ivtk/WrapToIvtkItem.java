@@ -25,98 +25,51 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.ivtk;
 
-import prefuse.util.collections.IntIterator;
+import infovis.Column;
+import infovis.Table;
 
 /**
- * Implementation for wrapped obvious table of prefuse row iterator.
+ * Wrapper for ivtk interface item.
  * @author Hemery
  *
  */
-public class PrefRowIterator extends IntIterator {
+public class WrapToIvtkItem implements infovis.table.Item {
 
   /**
-   *Is the iterator reversed.
+   * Row index of the item.
    */
-  private boolean reversed;
+  private int rowId;
 
   /**
-   * Last column index.
+   * Backing ivtk table.
    */
-  private int last = -1;
-
-  /**
-   * Next column index.
-   */
-  private int next = -1;
-
-  /**
-   * Table that contains the rows.
-   */
-  private WrapToPrefTable table;
-
-  /**
-   * Number of valid rows encountered.
-   */
-  private int validRowsEncountered = 0;
-
+  private Table table;
 
   /**
    * Constructor.
-   * @param isReversed is this iterator reversed
-   * @param inTable table that contains the rows
+   * @param inTable backing ivtk table
+   * @param row row index
    */
-  public PrefRowIterator(WrapToPrefTable inTable, boolean isReversed) {
-    this.reversed = isReversed;
+  public WrapToIvtkItem(Table inTable, int row) {
     this.table = inTable;
+    this.rowId = row;
   }
 
   @Override
-  public int nextInt() {
-    last = next;
-    return advance(
-    );
-  }
-
-  /**
-   * Advance the cursor of the iterator.
-   * @return next value of the row index
-   */
-  protected int advance() {
-    if (!reversed) {
-      while (validRowsEncountered < table.getRowCount()) {
-        next++;
-        if (table.isValidRow(next)) {
-          validRowsEncountered++;
-          return next;
-        }
-      }
-    } else {
-      while (validRowsEncountered < table.getRowCount() && last > 0) {
-        next--;
-        if (table.isValidRow(next)) {
-          validRowsEncountered++;
-          return next;
-        }
-      }
-    }
-    System.out.println(":(");
-    return next;
+  public Column getColumn() {
+    return null;
   }
 
   @Override
-  public boolean hasNext() {
-    if (reversed) {
-      return next >= 0;
-    } else {
-      return validRowsEncountered < table.getRowCount();
-    }
+  public int getId() {
+    return rowId;
   }
 
   @Override
-  public void remove() {
-    table.removeRow(last);
+  public Table getTable() {
+    return table;
   }
 
 }

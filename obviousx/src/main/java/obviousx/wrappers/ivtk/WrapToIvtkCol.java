@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.ivtk;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -36,6 +36,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.MutableAttributeSet;
 
 import infovis.Column;
+import infovis.column.FilterColumn;
 import infovis.utils.RowIterator;
 
 import obvious.ObviousException;
@@ -81,6 +82,7 @@ public class WrapToIvtkCol implements Column {
    * @param colId id of the column
    */
   public WrapToIvtkCol(obvious.data.Table inTable, int colId) {
+    //super(null);
     this.table = inTable;
     this.id = colId;
     this.formatFactory = new FormatFactoryImpl();

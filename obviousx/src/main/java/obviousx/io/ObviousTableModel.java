@@ -27,8 +27,12 @@
 
 package obviousx.io;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
 
 import obvious.data.Table;
 
@@ -37,12 +41,23 @@ import obvious.data.Table;
  * @author Pierre-Luc Hemery
  *
  */
-public class ObviousTableModel implements TableModel {
+public class ObviousTableModel extends AbstractTableModel {
 
   /**
    * Obvious Table.
    */
   private Table table;
+
+  /**
+   * List of TableModelListener.
+   */
+  private List<TableModelListener> listener =
+    new ArrayList<TableModelListener>();
+
+  /**
+   * Maximum row count.
+   */
+  private int rowCount = 0;
 
   /**
    * Constructor.
@@ -58,7 +73,7 @@ public class ObviousTableModel implements TableModel {
    * @param l  the TableModelListener
    */
   public void addTableModelListener(TableModelListener l) {
-    // TODO Auto-generated method stub
+    listener.add(l);
   }
 
   /**
@@ -101,7 +116,11 @@ public class ObviousTableModel implements TableModel {
    * @return the number of rows in the model
    */
   public int getRowCount() {
-    return this.table.getRowCount();
+    int currentRowCount = this.table.getRowCount();
+    if (currentRowCount > rowCount) {
+      rowCount = currentRowCount;
+    }
+    return rowCount;
   }
 
   /**
@@ -131,6 +150,7 @@ public class ObviousTableModel implements TableModel {
    * @param l  the TableModelListener
    */
   public void removeTableModelListener(TableModelListener l) {
+    listener.remove(l);
   }
 
   /**
@@ -141,6 +161,10 @@ public class ObviousTableModel implements TableModel {
    */
   public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     this.table.set(rowIndex, columnIndex, aValue);
+    fireTableCellUpdated(rowIndex, columnIndex);
+  }
+
+  public void tableChanged(TableModelEvent e) {
   }
 
 }

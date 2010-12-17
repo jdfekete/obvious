@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
+package obviousx.wrappers.prefuse;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +46,6 @@ import prefuse.data.event.GraphListener;
 import prefuse.data.expression.Predicate;
 import prefuse.data.tuple.TupleManager;
 import prefuse.data.tuple.TupleSet;
-import prefuse.util.TypeLib;
 import prefuse.util.collections.IntIterator;
 
 /**

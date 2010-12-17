@@ -52,7 +52,7 @@ import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 import obvious.data.Node;
-import obviousx.wrappers.WrapToPrefGraph;
+import obviousx.wrappers.prefuse.WrapToPrefGraph;
 import prefuse.data.util.TableIterator;
 import prefuse.visual.VisualGraph;
 import prefuse.visual.VisualItem;

@@ -1,4 +1,4 @@
-package obviousx.wrappers;
+package obviousx.wrappers.prefuse;
 
 import java.util.Iterator;
 
