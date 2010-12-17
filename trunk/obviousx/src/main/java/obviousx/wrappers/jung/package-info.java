@@ -25,54 +25,12 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers;
-
-import java.util.Iterator;
-
-import prefuse.util.collections.IntIterator;
-
 /**
- * Implementation for wrapped obvious table of prefuse tuple iterator.
- * @author Hemery
+ * <h1>Package obviousx.wrappers</h1>
+ *
+ * This package contains wrappers for obvious structure to classic toolkit
+ * implementations. This package is dedicated to JUNG toolkit. As JUNG, only
+ * deals with networks, there is no wrapper for Table in this package.
  *
  */
-@SuppressWarnings("unchecked")
-public class PrefTupleIterator implements Iterator {
-
-  /**
-   * Table that contains the rows.
-   */
-  private WrapToPrefTable table;
-
-  /**
-   * Rows iterator.
-   */
-  private IntIterator it;
-
-  /**
-   * Constructor.
-   * @param inTable table containing the rows.
-   * @param iter rows iterator
-   */
-  public PrefTupleIterator(WrapToPrefTable inTable, IntIterator iter) {
-    this.table = inTable;
-    this.it = iter;
-  }
-
-  @Override
-  public boolean hasNext() {
-    return it.hasNext();
-  }
-
-  @Override
-  public Object next() {
-    int i = it.nextInt();
-    return table.getTuple(i);
-  }
-
-  @Override
-  public void remove() {
-    it.remove();
-  }
-
-}
+package obviousx.wrappers.jung;

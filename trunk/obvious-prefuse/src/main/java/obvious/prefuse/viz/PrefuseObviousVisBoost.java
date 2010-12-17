@@ -32,8 +32,8 @@ import java.util.Map;
 import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
-import obviousx.wrappers.WrapToPrefGraph;
-import obviousx.wrappers.WrapToPrefTable;
+import obviousx.wrappers.prefuse.WrapToPrefGraph;
+import obviousx.wrappers.prefuse.WrapToPrefTable;
 
 /**
  * Optimized version of PrefuseObviousVisualization in terms of memory

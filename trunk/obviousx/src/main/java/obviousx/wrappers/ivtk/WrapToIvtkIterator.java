@@ -25,54 +25,64 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
+package obviousx.wrappers.ivtk;
 
-import obvious.data.Table;
-import obvious.data.util.Predicate;
-import obvious.impl.TupleImpl;
-import obviousx.wrappers.prefuse.WrapToPrefTuple;
-import prefuse.data.expression.parser.ExpressionParser;
+import infovis.utils.RowIterator;
 
 /**
- * A wrapper for Prefuse Predicate.
+ * Wrapper for obvious row iterator to ivtk row iterator.
  * @author Hemery
  *
  */
-public class PrefuseObviousPredicate implements Predicate {
-
-
-  /**
-   * Wrapped prefuse Predicate.
-   */
-  private prefuse.data.expression.Predicate prefPred;
+public class WrapToIvtkIterator implements infovis.utils.RowIterator {
 
   /**
-   * Constructor.
-   * @param pred prefuse predicate to wrap
+   * Backing iterator.
    */
-  public PrefuseObviousPredicate(prefuse.data.expression.Predicate pred) {
-    this.prefPred = pred;
-  }
+  private obvious.data.util.IntIterator it;
+
+  /**
+   * Backing row index.
+   */
+  private int currentRow = 0;
 
   /**
    * Constructor.
-   * @param expression a String expression used to build the underlying obvious
-   * predicate.
+   * @param iterator an obvious iterator
    */
-  public PrefuseObviousPredicate(String expression) {
-    this.prefPred = (prefuse.data.expression.Predicate)
-      ExpressionParser.parse(expression);
+  public WrapToIvtkIterator(obvious.data.util.IntIterator iterator) {
+    this.it = iterator;
   }
 
-  /**
-   * Applies a predicate on a table's row.
-   * @param table an obvious table
-   * @param rowId row index
-   * @return true if it applies
-   */
-  public boolean apply(Table table, int rowId) {
-    WrapToPrefTuple tuple = new WrapToPrefTuple(new TupleImpl(table, rowId));
-    return prefPred.getBoolean(tuple);
+  @Override
+  public RowIterator copy() {
+    return new WrapToIvtkIterator(it);
   }
 
+  @Override
+  public int nextRow() {
+    currentRow = it.nextInt();
+    return currentRow;
+  }
+
+  @Override
+  public int peekRow() {
+    return currentRow + 1;
+  }
+
+  @Override
+  public boolean hasNext() {
+    return it.hasNext();
+  }
+
+  @Override
+  public Object next() {
+    return it.next();
+  }
+
+  @Override
+  public void remove() {
+    it.remove();
+  }
 }
+
