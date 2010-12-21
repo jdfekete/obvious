@@ -37,6 +37,7 @@ import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
 import obvious.data.Network;
@@ -53,6 +54,8 @@ import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
+import obviousx.wrappers.jung.WrapToJungGraph;
+import obviousx.wrappers.jung.WrapToJungTree;
 
 /**
  * Visualization class for the obvious-jung implementation.
@@ -69,12 +72,17 @@ public class JungObviousVisualization extends Visualization {
   /**
    * Underlying JUNG visualization.
    */
-   private BasicVisualizationServer<Node, Edge> vis;
+   private VisualizationViewer<Node, Edge> vis;
 
    /**
     * A Jung graph used for this obvious implementation.
     */
-   private edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph;
+   private edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph = null;
+
+   /**
+    * A Jung graph used for this obvious implementation.
+    */
+   private edu.uci.ics.jung.graph.Tree<Node, Edge> jungTree = null;
 
   /**
    * Constructor.
@@ -90,15 +98,33 @@ public class JungObviousVisualization extends Visualization {
     initVisualization(param);
   }
 
+  /**
+   * Constructor.
+   * @param parentTree an Obvious Tree
+   * @param predicate a Predicate used to filter the table
+   * @param visName name of the visualization technique to used (if needed)
+   * @param param parameters of the visualization
+   * null if custom
+   */
+  public JungObviousVisualization(Tree<Node, Edge> parentTree,
+      Predicate predicate, String visName, Map<String, Object> param) {
+    super(parentTree, predicate, visName);
+    initVisualization(param);
+  }
+
   @Override
   protected void initVisualization(Map<String, Object> param) {
     String layoutValue = null;
     if (param != null) {
       layoutValue = (String) param.get(LAYOUT);
     }
-    if (this.getData() instanceof Network) {
+    if (this.getData() instanceof obvious.data.Tree<?, ?>) {
+      jungTree = getJungTree();
+      vis = new VisualizationViewer<Node, Edge>(initLayout(
+          layoutValue));
+    } else if (this.getData() instanceof Network) {
       jungGraph = getJungGraph();
-      vis = new BasicVisualizationServer<Node, Edge>(initLayout(
+      vis = new VisualizationViewer<Node, Edge>(initLayout(
           layoutValue));
     } else {
       throw new ObviousRuntimeException("obvious-jung implementation"
@@ -106,6 +132,11 @@ public class JungObviousVisualization extends Visualization {
     }
   }
 
+  /**
+   * Inits the JUNG layout.
+   * @param layout classpath of the JUNG layout
+   * @return a JUNG layout
+   */
   @SuppressWarnings("unchecked")
   private Layout<Node, Edge> initLayout(Object layout) {
     if (layout == null) {
@@ -113,13 +144,22 @@ public class JungObviousVisualization extends Visualization {
     } else {
       if (layout instanceof String) {
         try {
-          Class<?> layoutClass = Class.forName((String) layout);
-          Constructor<?> constructor = layoutClass.getConstructor(
-              new Class[] {edu.uci.ics.jung.graph.Graph.class});
-          Layout<Node, Edge> layoutInst = (Layout<Node, Edge>)
-              constructor.newInstance(new Object[] {jungGraph});
+          Layout<Node, Edge> layoutInst;
+          Class<?>  layoutClass = Class.forName((String) layout);
+          if (jungTree != null) {
+            Constructor<?> constructor = layoutClass.getConstructor(
+                new Class[] {edu.uci.ics.jung.graph.Forest.class});
+            layoutInst = (Layout<Node, Edge>)
+                constructor.newInstance(new Object[] {jungTree});
+          } else {
+            Constructor<?> constructor = layoutClass.getConstructor(
+                new Class[] {edu.uci.ics.jung.graph.Graph.class});
+            layoutInst = (Layout<Node, Edge>)
+                constructor.newInstance(new Object[] {jungGraph});
+          }
           return layoutInst;
         } catch (Exception e) {
+          e.printStackTrace();
           throw new ObviousRuntimeException("Can not find layout " + layout);
         }
       }
@@ -145,6 +185,21 @@ public class JungObviousVisualization extends Visualization {
   }
 
   /**
+   * Gets a Jung Tree.
+   * @return a Jung Tree.
+   */
+  @SuppressWarnings("unchecked")
+  protected edu.uci.ics.jung.graph.Tree<Node, Edge> getJungTree() {
+    if (((obvious.data.Tree) this.getData()).getUnderlyingImpl(
+        edu.uci.ics.jung.graph.Tree.class) != null) {
+      return (edu.uci.ics.jung.graph.Tree<Node, Edge>) (
+          (Network) this.getData()).getUnderlyingImpl(
+          edu.uci.ics.jung.graph.Tree.class);
+    }
+    return new WrapToJungTree((obvious.data.Tree<Node, Edge>) this.getData());
+  }
+
+  /**
    * Converts an Obvious Network to a Jung network.
    * @param network network to convert
    * @return the converted jung network
@@ -153,6 +208,7 @@ public class JungObviousVisualization extends Visualization {
   @SuppressWarnings("unchecked")
   private edu.uci.ics.jung.graph.Graph<Node, Edge> convertToJungGraph(
       Network network) {
+    /*
     Collection<Node> nodes = network.getNodes();
     Collection<Edge> edges = network.getEdges();
     if (edges.size() != 0 && nodes.size() != 0) {
@@ -167,9 +223,8 @@ public class JungObviousVisualization extends Visualization {
       network.addNetworkListener(listnr2);
       return (edu.uci.ics.jung.graph.Graph<Node, Edge>) jungNetwork
         .getUnderlyingImpl(edu.uci.ics.jung.graph.Graph.class);
-    } else {
-      throw new ObviousRuntimeException("Empty graph!");
-    }
+      */
+      return new WrapToJungGraph(network);
   }
 
   @Override
@@ -213,7 +268,7 @@ public class JungObviousVisualization extends Visualization {
    */
 
   public Object getUnderlyingImpl(Class<?> type) {
-    if (type.equals(BasicVisualizationServer.class)) {
+    if (type.equals(VisualizationViewer.class)) {
       return vis;
     }
     return null;

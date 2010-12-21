@@ -32,6 +32,7 @@ import java.util.Map;
 import javax.swing.JComponent;
 
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
 import obvious.data.util.Predicate;
@@ -61,7 +62,7 @@ public class JungObviousView extends JView {
    */
   public JungObviousView(Visualization vis, Predicate predicate,
       String tech, Map<String, Object> param) {
-    if (vis.getUnderlyingImpl(BasicVisualizationServer.class) != null) {
+    if (vis.getUnderlyingImpl(VisualizationViewer.class) != null) {
       this.backingVis = vis;
     } else {
       throw new ObviousRuntimeException("Unsupported visualization"
@@ -75,7 +76,7 @@ public class JungObviousView extends JView {
 
   @Override
   public JComponent getViewJComponent() {
-    return (BasicVisualizationServer) backingVis.getUnderlyingImpl(
+    return (VisualizationViewer) backingVis.getUnderlyingImpl(
         BasicVisualizationServer.class);
   }
 

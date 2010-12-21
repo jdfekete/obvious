@@ -68,6 +68,33 @@ public class JungObviousTree extends JungObviousNetwork
     this(new JungTree(nodeSchema, edgeSchema));
   }
 
+
+  /**
+   * Constructor from Obvious Schema.
+   * @param nodeSchema schema for the node Table
+   * @param edgeSchema schema for the edge Table
+   * @param source column name used in edge schema to identify source node
+   * @param target column name used in edge schema to identify target node
+   */
+  public JungObviousTree(Schema nodeSchema, Schema edgeSchema,
+      String source, String target) {
+    this(new JungTree(nodeSchema, edgeSchema, source, target));
+  }
+
+  /**
+   * Constructor from Obvious Schema.
+   * @param nodeSchema schema for the node Table
+   * @param edgeSchema schema for the edge Table
+   * @param node column name used in node schema to spot a node (can be null)
+   * @param source column name used in edge schema to identify source node
+   * @param target column name used in edge schema to identify target node
+   */
+  public JungObviousTree(Schema nodeSchema, Schema edgeSchema, String node,
+      String source, String target) {
+    this(new JungTree(nodeSchema, edgeSchema, source, target));
+  }
+
+  
   /**
    * Gets all the child edges of a node.
    * @param node parent node
@@ -147,6 +174,18 @@ public class JungObviousTree extends JungObviousNetwork
    */
   protected static class JungTree extends JungGraph implements
     edu.uci.ics.jung.graph.Tree<Node, Edge> {
+
+    /**
+     * Constructor for Jung Tree.
+     * @param nodeSchema schema for the nodeTable
+     * @param edgeSchema schema for the edgeTable
+     * @param source column name used in edge schema to identify source node
+     * @param target column name used in edge schema to identify target node
+     */
+    protected JungTree(Schema nodeSchema, Schema edgeSchema,
+        String source, String target) {
+      super(nodeSchema, edgeSchema, source, target);
+    }
 
     /**
      * Constructor for Jung Graph.
