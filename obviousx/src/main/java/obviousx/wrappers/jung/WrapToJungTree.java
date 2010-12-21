@@ -166,7 +166,7 @@ public class WrapToJungTree implements edu.uci.ics.jung.graph.Tree<Node, Edge> {
 
   @Override
   public Collection<Node> getSuccessors(Node vertex) {
-    return tree.getSuccessors(vertex);
+    return this.getChildren(vertex);
   }
 
   @Override
@@ -294,7 +294,7 @@ public class WrapToJungTree implements edu.uci.ics.jung.graph.Tree<Node, Edge> {
 
   @Override
   public Collection<Edge> getIncidentEdges(Node vertex) {
-    return getIncidentEdges(vertex);
+    return tree.getIncidentEdges(vertex);
   }
 
   @Override

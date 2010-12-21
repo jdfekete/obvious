@@ -78,7 +78,19 @@ public class WrapToJungGraph implements
 
   @Override
   public Pair<Node> getEndpoints(Edge edge) {
-    return new Pair<Node>(getSource(edge), getDest(edge));
+    Node source = null;
+    Node target = null;
+    int count = 0;
+    for (Node node : getIncidentVertices(edge)) {
+      if (count == 0) {
+        source = node;
+        count++;
+      } else {
+        target = node;
+        break;
+      }
+    }
+    return new Pair<Node>(source, target);
   }
 
   @Override
@@ -246,7 +258,7 @@ public class WrapToJungGraph implements
 
   @Override
   public Collection<Edge> getIncidentEdges(Node vertex) {
-    return getIncidentEdges(vertex);
+    return network.getIncidentEdges(vertex);
   }
 
   @Override

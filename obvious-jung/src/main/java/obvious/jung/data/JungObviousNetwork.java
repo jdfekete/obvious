@@ -634,7 +634,7 @@ public class JungObviousNetwork implements Network {
         if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.DIRECTED)
             && node.getRow() == e.getKey().getInt(sourceCol)) {
-          succs.add(new NodeImpl(nodeTable, e.getKey().getInt(DESTNODE)));
+          succs.add(new NodeImpl(nodeTable, e.getKey().getInt(targetCol)));
         } else if (e.getValue().equals(
             edu.uci.ics.jung.graph.util.EdgeType.UNDIRECTED)
              && (node.getRow() == e.getKey().getInt(sourceCol)
