@@ -84,16 +84,6 @@ public class PrefuseObviousVisualization extends Visualization {
   public static final String NODE_KEY = "nodeKey";
 
   /**
-   * Source key column key field.
-   */
-  public static final String SOURCE_KEY = "sourceKey";
-
-  /**
-   * Target key column key field.
-   */
-  public static final String TARGET_KEY = "targetKey";
-
-  /**
    * Main group name for the prefuse visualization.
    */
   protected String groupName;
@@ -107,16 +97,6 @@ public class PrefuseObviousVisualization extends Visualization {
    * Node key for prefuse obvious graph.
    */
   private String nodeKey = prefuse.data.Graph.DEFAULT_NODE_KEY;
-
-  /**
-   * Source node key for prefuse obvious graph.
-   */
-  private String sourceKey = prefuse.data.Graph.DEFAULT_SOURCE_KEY;
-
-  /**
-   * Target node key for prefuse obvious graph.
-   */
-  private String targetKey = prefuse.data.Graph.DEFAULT_TARGET_KEY;
 
   /**
    * Wrapped prefuse visualization.
@@ -181,12 +161,6 @@ public class PrefuseObviousVisualization extends Visualization {
       }
       if (param.containsKey(NODE_KEY)) {
         nodeKey = (String) param.get(NODE_KEY);
-      }
-      if (param.containsKey(SOURCE_KEY)) {
-        sourceKey = (String) param.get(SOURCE_KEY);
-      }
-      if (param.containsKey(TARGET_KEY)) {
-        targetKey = (String) param.get(TARGET_KEY);
       }
     }
     vis = new prefuse.Visualization();
