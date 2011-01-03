@@ -7,10 +7,35 @@ This parts describes the Visualization abstract class and its associated classes
 
 = Visualization (abstract class) =
 
-Unlike the data model, Visualization is not an interface, but implemented as an abstract class. To build, a new obvious visualization instance, it is needed to provide an obvious data structure instance (among Table, Network and Tree<Node, Edge>), a predicate (can be null), a visualization technic name (can be null) and a map of parameters (can be null).
+== How to create an Obvious visualization? ==
 
-More to come...
+Unlike the data model, Visualization is not an interface, but is implemented as an abstract class. To build a new obvious visualization instance, it is needed to provide an obvious data structure instance (among Table, Network and Tree<Node, Edge>), a predicate (can be null), a visualization technic name (can be null) and a map of parameters (can be null).
 
-= VisualizationFactory =
 
-More to come...
+=== Optional parameters ===
+
+The following table presents all existing parameters for visualization :
+
+|| *Parameter key* || *Value Type* || *Implementation* || *Example* ||
+|| X_AXIS || String || obvious-ivtk (scatterplot) ||_"nameOfAColumn"_ ||
+|| Y_AXIS || String || obvious-ivtk(scatterplot) || _"nameOfAColumn"_ ||
+
+== Specialized visualizations ==
+
+For each implementation, specialized visualization classes exist for common visualization technics (scatterplot) or graph layouts.
+
+== Monolithic vs Polylithic visualization (toolkit) ==
+
+If the developper works with a monolithic toolkit (like ivtk, JUNG...), he should use those specialized classes or write a new subclass of Visualization or one of its subclasses.
+
+Else if the developper works with a polylithic toolkit (like prefuse), he could use existing specialized classes or create new ones. But he could also build his visualization "from scratch" using _putAction_ and _setRenderer_ methods. Obvious Renderer and Action are just tag interfaces : existing implementation are totally dependant from their obvious implementation.
+
+= VisualizationFactory (abstract class) =
+
+VisualizationFactory is also an abstract class. It provides a list of all visualization technics available for an implementation.
+
+To create a visualization, it is needed to provide an obvious data structure, a predicate (can be null) and a visualization technic name and a map of parameters.
+
+{{{
+    Visualization vis = visFactory.createVisualization(table, pred, "scatterplot", param);
+}}}
