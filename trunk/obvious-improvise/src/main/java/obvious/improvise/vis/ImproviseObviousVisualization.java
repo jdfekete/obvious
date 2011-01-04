@@ -33,11 +33,9 @@ import java.util.Map;
 
 import oblivion.lpui.awt.ControlComponent;
 import obvious.ObviousException;
-import obvious.data.Edge;
+import obvious.data.Data;
 import obvious.data.Network;
-import obvious.data.Node;
 import obvious.data.Table;
-import obvious.data.Tree;
 import obvious.data.Tuple;
 import obvious.data.util.Predicate;
 import obvious.viz.Action;
@@ -67,35 +65,13 @@ public class ImproviseObviousVisualization extends Visualization {
   
   /**
    * Constructor.
-   * @param parentTable Obvious data table
+   * @param inData an obvious data instance
    * @param predicate Obvious predicate (i.e. filter)
    * @param visName Visualization technic name
    */
-  public ImproviseObviousVisualization(Table parentTable, Predicate predicate,
+  public ImproviseObviousVisualization(Data inData, Predicate predicate,
       String visName) {
-    super(parentTable, predicate, visName);
-  }
-
-  /**
-   * Constructor.
-   * @param parentNetwork Obvious data network
-   * @param predicate Obvious predicate (i.e. filter)
-   * @param visName Visualization technique name
-   */
-  public ImproviseObviousVisualization(Network parentNetwork,
-      Predicate predicate, String visName) {
-    super(parentNetwork, predicate, visName);
-  }
-  
-  /**
-   * Constructor.
-   * @param parentNetwork Obvious data tree
-   * @param predicate Obvious predicate (i.e. filter)
-   * @param visName Visualization technique name
-   */
-  public ImproviseObviousVisualization(Tree<Node, Edge> parentTree,
-      Predicate predicate, String visName) {
-    super(parentTree, predicate, visName);
+    super(inData, predicate, visName, null);
   }
   
   @Override

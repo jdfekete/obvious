@@ -113,14 +113,18 @@ public class IvtkObviousNetwork implements Network {
       if (graph.getVertexTable().indexOf(nodeSchema.getColumnName(i)) == -1) {
         Column col = factory.create(nodeSchema.getColumnType(i).getSimpleName(),
             nodeSchema.getColumnName(i));
-        graph.getVertexTable().addColumn(col);
+        if (col != null) {
+          graph.getVertexTable().addColumn(col);
+        }
       }
     }
     for (int i = 0; i < edgeSchema.getColumnCount(); i++) {
       if (graph.getEdgeTable().indexOf(edgeSchema.getColumnName(i)) == -1) {
         Column col = factory.create(edgeSchema.getColumnType(i).getSimpleName(),
             edgeSchema.getColumnName(i));
-        graph.getEdgeTable().addColumn(col);
+        if (col != null) {
+          graph.getEdgeTable().addColumn(col);
+        }
       }
     }
   }

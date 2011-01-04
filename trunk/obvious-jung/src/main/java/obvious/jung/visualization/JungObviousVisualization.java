@@ -40,6 +40,7 @@ import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
+import obvious.data.Data;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Edge;
@@ -79,33 +80,17 @@ public class JungObviousVisualization extends Visualization {
     */
    private edu.uci.ics.jung.graph.Tree<Node, Edge> jungTree = null;
 
-  /**
-   * Constructor.
-   * @param parentNetwork an Obvious Network
-   * @param predicate a Predicate used to filter the table
-   * @param visName name of the visualization technique to used (if needed)
-   * @param param parameters of the visualization
-   * null if custom
-   */
-  public JungObviousVisualization(Network parentNetwork, Predicate predicate,
-      String visName, Map<String, Object> param) {
-    super(parentNetwork, predicate, visName);
-    initVisualization(param);
-  }
-
-  /**
-   * Constructor.
-   * @param parentTree an Obvious Tree
-   * @param predicate a Predicate used to filter the table
-   * @param visName name of the visualization technique to used (if needed)
-   * @param param parameters of the visualization
-   * null if custom
-   */
-  public JungObviousVisualization(Tree<Node, Edge> parentTree,
-      Predicate predicate, String visName, Map<String, Object> param) {
-    super(parentTree, predicate, visName);
-    initVisualization(param);
-  }
+   /**
+    * Constructor.
+    * @param inData obvious data instance
+    * @param predicate a Predicate used to filter the table
+    * @param visName name of the visualization technique to used (if needed)
+    * @param param parameters of the visualization
+    */
+   public JungObviousVisualization(Data inData, Predicate predicate,
+       String visName, Map<String, Object> param) {
+     super(inData, predicate, visName, param);
+   }
 
   @Override
   protected void initVisualization(Map<String, Object> param) {
@@ -199,8 +184,6 @@ public class JungObviousVisualization extends Visualization {
    * @param network network to convert
    * @return the converted jung network
    */
-
-  @SuppressWarnings("unchecked")
   private edu.uci.ics.jung.graph.Graph<Node, Edge> convertToJungGraph(
       Network network) {
     /*
@@ -236,8 +219,7 @@ public class JungObviousVisualization extends Visualization {
   @Override
   public void setRenderer(Renderer renderer) {
     if (renderer.getUnderlyingImpl(
-        edu.uci.ics.jung.algorithms.layout.Layout.class) != null) {
-    }
+        edu.uci.ics.jung.algorithms.layout.Layout.class) != null) { }
     throw new ObviousRuntimeException("The following renderer : "
         + renderer.toString() + " is not supported");
 

@@ -67,7 +67,7 @@ public abstract class Visualization extends VisualAttributeManager
    * Shape field key.
    */
   public static final String SHAPE = "shape";
-  
+
   /**
    * Layout key for parameter map.
    */
@@ -90,39 +90,17 @@ public abstract class Visualization extends VisualAttributeManager
 
   /**
    * Constructor.
-   * @param parentTable Obvious data table
+   * @param inData  an Obvious data instance
    * @param predicate Obvious predicate (i.e. filter)
    * @param visName Visualization technic name
+   * @param param parameter for the visualizations
    */
-  public Visualization(Table parentTable, Predicate predicate, String visName) {
+  public Visualization(Data inData, Predicate predicate, String visName,
+      Map<String, Object> param) {
     this.pred = predicate;
-    this.data = applyPredicate(parentTable);
+    this.data = applyPredicate(inData);
     this.visualizatioName = visName;
-  }
-
-  /**
-   * Constructor.
-   * @param parentNetwork Obvious data network
-   * @param predicate Obvious predicate (i.e. filter)
-   * @param visName Visualization technique name
-   */
-  public Visualization(Network parentNetwork, Predicate predicate,
-      String visName) {
-    this.pred = predicate;
-    this.data = applyPredicate(parentNetwork);
-    this.visualizatioName = visName;
-  }
-
-  /**
-   * Constructor.
-   * @param parentTree Obvious data tree
-   * @param predicate Obvious predicate (i.e. filter)
-   * @param visName Visualization technique name
-   */
-  public Visualization(Tree<Node, Edge> parentTree, Predicate predicate,
-      String visName) {
-    this.pred = predicate;
-    this.data = applyPredicate(parentTree);
+    initVisualization(param);
   }
 
   /**
