@@ -20,12 +20,13 @@ The following table presents all existing parameters for visualization :
 
 || *Parameter key* || *Value Type* || *Implementation* || *Description* ||
 || X_AXIS || String || obvious-ivtk / obvious-prefuse (scatterplot) || Column used for x values ||
-|| Y_AXIS || String || obvious-ivtk(scatterplot) /obvious-prefuse || Column used for Y values ||
+|| Y_AXIS || String || obvious-ivtk /obvious-prefuse  (scatterplot) || Column used for Y values ||
 || LAYOUT || String || obvious-jung ||Classpath for JUNG layout used for the current visualization ||
 || GROUP_NAME || String || obvious-prefuse || Group Name used for the underlying prefuse visualization ||
 || DIRECTED || Boolean || obvious-prefuse || Indicates if the obvious graph is directed ||
 || NODE_KEY || String || obvious-prefuse || Column used for nodes ID ||
-|| LABEL_KEY || String || obvious-prefuse || Column used for nodes label || 
+|| LABEL_KEY || String || obvious-prefuse (could be used by other impl.)|| Column used for nodes label ||
+|| SHAPE || String || obvious-prefuse (could be used by other impl.)|| N/A ||
 
 == Specialized visualizations ==
 
