@@ -271,6 +271,21 @@ public class IvtkObviousSchema implements Schema {
     }
   }
 
+  /**
+   * Gets the corresponding schema without internal columns.
+   * @return a schema only composed by data columns
+   */
+  public Schema getDataSchema() {
+    IvtkObviousSchema cleanSchema = new IvtkObviousSchema();
+    for (int i = 0; i < this.getColumnCount(); i++) {
+      if (!this.getColumnName(i).startsWith("_")) {
+        cleanSchema.addColumn(this.getColumnName(i), this.getColumnType(i),
+            this.getColumnDefault(i));
+      }
+    }
+    return cleanSchema;
+  }
+
   public int addRow() {
     // TODO Auto-generated method stub
     return 0;

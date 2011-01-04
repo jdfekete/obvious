@@ -217,12 +217,14 @@ public class IvtkObviousNetwork implements Network {
     try {
       int edgeId = graph.addEdge(getNodeId(source), getNodeId(target));
       for (int i = 0; i < edge.getSchema().getColumnCount(); i++) {
-        TypedFormat format = formatFactory.getFormat(
-            edge.getSchema().getColumnType(i).getSimpleName());
-         StringBuffer v = format.format(edge.get(i),
-             new StringBuffer(), new FieldPosition(0));
-        graph.getEdgeTable().setValueAt(v.toString(), edgeId,
-            graph.getEdgeTable().indexOf(edge.getSchema().getColumnName(i)));
+        if (edgeSchema.hasColumn(edge.getSchema().getColumnName(i))) {
+          TypedFormat format = formatFactory.getFormat(
+              edge.getSchema().getColumnType(i).getSimpleName());
+           StringBuffer v = format.format(edge.get(i),
+               new StringBuffer(), new FieldPosition(0));
+          graph.getEdgeTable().setValueAt(v.toString(), edgeId,
+              graph.getEdgeTable().indexOf(edge.getSchema().getColumnName(i)));
+        }
       }
       edgeToId.put(edge, edgeId);
       fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
@@ -242,12 +244,15 @@ public class IvtkObviousNetwork implements Network {
     try {
       int rowId = graph.addVertex();
       for (int i = 0; i < node.getSchema().getColumnCount(); i++) {
-        TypedFormat format = formatFactory.getFormat(
-            node.getSchema().getColumnType(i).getSimpleName());
-         StringBuffer v = format.format(node.get(i),
-             new StringBuffer(), new FieldPosition(0));
-        graph.getVertexTable().setValueAt(v.toString(), rowId,
-            graph.getVertexTable().indexOf(node.getSchema().getColumnName(i)));
+        if (nodeSchema.hasColumn(node.getSchema().getColumnName(i))) {
+          TypedFormat format = formatFactory.getFormat(
+              node.getSchema().getColumnType(i).getSimpleName());
+           StringBuffer v = format.format(node.get(i),
+               new StringBuffer(), new FieldPosition(0));
+          graph.getVertexTable().setValueAt(v.toString(), rowId,
+              graph.getVertexTable().indexOf(
+                  node.getSchema().getColumnName(i)));
+        }
       }
       nodeToId.put(node, rowId);
       fireNetworkEvent(node.getRow(), node.getRow(), 0,
