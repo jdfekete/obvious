@@ -52,11 +52,6 @@ import prefuse.Constants;
 public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
 
   /**
-   * X field key.
-   */
-  public static final String LABEL_KEY = "label";
-
-  /**
    * Constructor.
    * @param parentNetwork parent network
    * @param predicate a predicate

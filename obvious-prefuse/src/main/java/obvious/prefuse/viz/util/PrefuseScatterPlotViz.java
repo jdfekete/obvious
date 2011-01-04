@@ -52,21 +52,6 @@ import prefuse.visual.expression.VisiblePredicate;
 public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
 
   /**
-   * X field key.
-   */
-  public static final String X_AXIS = "x";
-
-  /**
-   * Y field key.
-   */
-  public static final String Y_AXIS = "y";
-
-  /**
-   * Shape field key.
-   */
-  public static final String SHAPE = "shape";
-
-  /**
    * Default group name.
    */
   public static final String DEF_NAME = "default";
