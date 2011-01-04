@@ -588,4 +588,12 @@ public class SchemaImpl implements Schema {
     return null;
   }
 
+  /**
+   * Gets the corresponding schema without internal columns.
+   * @return a schema only composed by data columns
+   */
+  public Schema getDataSchema() {
+    return this;
+  }
+
 }

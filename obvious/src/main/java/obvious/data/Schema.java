@@ -192,4 +192,10 @@ public interface Schema extends Table {
      */
     boolean removeColumn(int col);
 
+    /**
+     * Gets the corresponding schema without internal columns.
+     * @return a schema only composed by data columns
+     */
+    Schema getDataSchema();
+
 }

@@ -256,6 +256,21 @@ public class PrefuseObviousSchema implements Schema {
   }
 
   /**
+   * Gets the corresponding schema without internal columns.
+   * @return a schema only composed by data columns
+   */
+  public Schema getDataSchema() {
+    PrefuseObviousSchema cleanSchema = new PrefuseObviousSchema();
+    for (int i = 0; i < this.getColumnCount(); i++) {
+      if (!this.getColumnName(i).startsWith("_")) {
+        cleanSchema.addColumn(this.getColumnName(i), this.getColumnType(i),
+            this.getColumnDefault(i));
+      }
+    }
+    return cleanSchema;
+  }
+
+  /**
    * Adds a row.
    * @return number of rows
    */

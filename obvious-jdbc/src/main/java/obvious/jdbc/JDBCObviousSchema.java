@@ -443,6 +443,14 @@ public class JDBCObviousSchema implements Schema {
     String field = this.getColumnName(col);
     return this.removeColumn(field);
   }
+  
+  /**
+   * Gets the corresponding schema without internal columns.
+   * @return a schema only composed by data columns
+   */
+  public Schema getDataSchema() {
+    return this;
+  }
 
   public int addRow() {
     // TODO Auto-generated method stub

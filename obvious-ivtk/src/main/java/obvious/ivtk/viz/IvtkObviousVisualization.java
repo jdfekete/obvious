@@ -209,7 +209,8 @@ public class IvtkObviousVisualization extends Visualization {
    * @return the converted infovis table
    */
   private infovis.Table convertToIvtkTable(Table table) {
-    Table ivtkObviousTable = new IvtkObviousTable(table.getSchema());
+    Table ivtkObviousTable = new IvtkObviousTable(
+        table.getSchema().getDataSchema());
     ObviousLib.fillTable(table, ivtkObviousTable);
     TableListener listnr = new ObviousLinkListener(table);
     TableListener listnr2 = new ObviousLinkListener(ivtkObviousTable);
@@ -226,8 +227,8 @@ public class IvtkObviousVisualization extends Visualization {
    */
   private infovis.Graph convertToIvtkGraph(Network network) {
     if (network.getEdges().size() != 0 && network.getNodes().size() != 0) {
-      Schema nodeSchema = network.getNodeTable().getSchema();
-      Schema edgeSchema = network.getEdgeTable().getSchema();
+      Schema nodeSchema = network.getNodeTable().getSchema().getDataSchema();
+      Schema edgeSchema = network.getEdgeTable().getSchema().getDataSchema();
       Network ivtkNetwork = new IvtkObviousNetwork(nodeSchema, edgeSchema);
       ObviousLib.fillNetwork(network, ivtkNetwork);
       NetworkListener listnr = new ObviousLinkNetworkListener(network);
@@ -248,8 +249,10 @@ public class IvtkObviousVisualization extends Visualization {
    */
   private infovis.Tree convertToIvtkTree(Tree<Node, Edge> tree) {
     if (tree.getEdges().size() != 0 && tree.getNodes().size() != 0) {
-      Schema nodeSchema = tree.getNodes().iterator().next().getSchema();
-      Schema edgeSchema = tree.getEdges().iterator().next().getSchema();
+      Schema nodeSchema = tree.getNodes().iterator().next().getSchema()
+        .getDataSchema();
+      Schema edgeSchema = tree.getEdges().iterator().next().getSchema()
+        .getDataSchema();
       Tree<Node, Edge> ivtkTree = new IvtkObviousTree(nodeSchema, edgeSchema);
       ObviousLib.fillTree(tree, ivtkTree);
       return (infovis.Tree)
