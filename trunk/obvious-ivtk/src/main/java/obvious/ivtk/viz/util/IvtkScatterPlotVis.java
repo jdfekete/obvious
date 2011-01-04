@@ -44,16 +44,6 @@ import obvious.ivtk.viz.IvtkObviousVisualization;
 public class IvtkScatterPlotVis extends IvtkObviousVisualization {
 
   /**
-   * X field key.
-   */
-  public static final String X_AXIS = "x";
-
-  /**
-   * Y field key.
-   */
-  public static final String Y_AXIS = "y";
-
-  /**
    * Constructor.
    * @param parentTable an Obvious Table
    * @param predicate a Predicate used to filter the table

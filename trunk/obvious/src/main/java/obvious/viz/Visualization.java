@@ -49,6 +49,31 @@ public abstract class Visualization extends VisualAttributeManager
     implements Adaptable {
 
   /**
+   * Label field key.
+   */
+  public static final String LABEL_KEY = "label";
+
+  /**
+   * X field key.
+   */
+  public static final String X_AXIS = "x";
+
+  /**
+   * Y field key.
+   */
+  public static final String Y_AXIS = "y";
+
+  /**
+   * Shape field key.
+   */
+  public static final String SHAPE = "shape";
+  
+  /**
+   * Layout key for parameter map.
+   */
+  public static final String LAYOUT = "LAYOUT";
+
+  /**
    * Visualization technique name.
    */
   private String visualizatioName;
@@ -116,6 +141,7 @@ public abstract class Visualization extends VisualAttributeManager
    * @param inData data to filter with the predicate
    * @return the filtered data instance.
    */
+  @SuppressWarnings("unchecked")
   protected Data applyPredicate(Data inData) {
     if (getPredicate() == null) {
       return inData;
@@ -124,8 +150,8 @@ public abstract class Visualization extends VisualAttributeManager
         return applyPredToTable((Table) inData);
       } else if (inData instanceof Network) {
         return applyPredToNetwork((Network) inData);
-      } else if (inData instanceof Tree) {
-        return applyPredToTree((Tree) inData);
+      } else if (inData instanceof Tree<?, ?>) {
+        return applyPredToTree((Tree<Node, Edge>) inData);
       }
       return inData;
     }
@@ -160,7 +186,7 @@ public abstract class Visualization extends VisualAttributeManager
    * @param inData obvious data instance
    * @return filtered tree
    */
-  protected Tree applyPredToTree(Tree inData) {
+  protected Tree<Node, Edge> applyPredToTree(Tree<Node, Edge> inData) {
     // TODO Auto-generated method stub
     return inData;
   }

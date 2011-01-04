@@ -65,11 +65,6 @@ import obviousx.wrappers.jung.WrapToJungTree;
 public class JungObviousVisualization extends Visualization {
 
   /**
-   * Layout key for parameter map.
-   */
-  public static final String LAYOUT = "LAYOUT";
-
-  /**
    * Underlying JUNG visualization.
    */
    private VisualizationViewer<Node, Edge> vis;
