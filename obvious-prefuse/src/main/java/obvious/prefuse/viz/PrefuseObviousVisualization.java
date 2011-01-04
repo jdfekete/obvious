@@ -110,30 +110,14 @@ public class PrefuseObviousVisualization extends Visualization {
 
   /**
    * Constructor.
-   * @param parentTable an Obvious Table
+   * @param inData an obvious data instance
    * @param predicate a Predicate used to filter the table
    * @param visName name of the visualization technique to used (if needed)
    * @param param parameters of the visualization
-   * null if custom
    */
-  public PrefuseObviousVisualization(Table parentTable, Predicate predicate,
+  public PrefuseObviousVisualization(Data inData, Predicate predicate,
       String visName, Map<String, Object> param) {
-    super(parentTable, predicate, visName);
-    initVisualization(param);
-  }
-
-  /**
-   * Constructor.
-   * @param parentNetwork an Obvious Network
-   * @param predicate a Predicate used to filter the table
-   * @param visName name of the visualization technique to used (if needed)
-   * @param param parameters of the visualization
-   * null if custom
-   */
-  public PrefuseObviousVisualization(Network parentNetwork, Predicate predicate,
-      String visName, Map<String, Object> param) {
-    super(parentNetwork, predicate, visName);
-    initVisualization(param);
+    super(inData, predicate, visName, param);
   }
 
   @Override

@@ -28,12 +28,9 @@
 package obvious.ivtk.viz;
 
 import infovis.table.Item;
-import infovis.visualization.VisualColumnDescriptor;
-import infovis.visualization.render.VisualSize;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
@@ -71,11 +68,6 @@ public class IvtkObviousVisualization extends Visualization {
   private infovis.Visualization vis;
 
   /**
-   * Ivtk surrounding data.
-   */
-  private Object ivtkData;
-
-  /**
    * Enum for the surrounding data model.
    */
   protected enum DataModel {
@@ -84,42 +76,14 @@ public class IvtkObviousVisualization extends Visualization {
 
   /**
    * Constructor.
-   * @param parentTable an Obvious Table
+   * @param inData obvious data instance
    * @param predicate a Predicate used to filter the table
    * @param visName name of the visualization technique to used (if needed)
    * @param param parameters of the visualization (could be null)
    */
-  public IvtkObviousVisualization(Table parentTable, Predicate predicate,
+  public IvtkObviousVisualization(Data inData, Predicate predicate,
       String visName, Map<String, Object> param) {
-    super(parentTable, predicate, visName);
-    initVisualization(param);
-  }
-
-  /**
-   * Constructor.
-   * @param parentNetwork an Obvious Network
-   * @param predicate a Predicate used to filter the table
-   * @param visName name of the visualization technique to used (if needed)
-   * @param param parameters of the visualization
-   * null if custom
-   */
-  public IvtkObviousVisualization(Network parentNetwork, Predicate predicate,
-      String visName,  Map<String, Object> param) {
-    super(parentNetwork, predicate, visName);
-    initVisualization(param);
-  }
-
-  /**
-   * Constructor.
-   * @param parentTree Obvious data tree
-   * @param predicate Obvious predicate (i.e. filter)
-   * @param visName Visualization technique name
-   * @param param parameters of the visualization
-   */
-  public IvtkObviousVisualization(Tree<Node, Edge> parentTree,
-      Predicate predicate, String visName, Map<String, Object> param) {
-    super(parentTree, predicate, visName);
-    initVisualization(param);
+    super(inData, predicate, visName, param);
   }
 
   /**
@@ -141,7 +105,7 @@ public class IvtkObviousVisualization extends Visualization {
   protected Table applyPredToTable(Table inData) {
     return super.applyPredToTable(inData);
   }
-  
+
   @Override
   protected Network applyPredToNetwork(Network inData) {
     return super.applyPredToNetwork(inData);
@@ -262,8 +226,8 @@ public class IvtkObviousVisualization extends Visualization {
    */
   private infovis.Graph convertToIvtkGraph(Network network) {
     if (network.getEdges().size() != 0 && network.getNodes().size() != 0) {
-      Schema nodeSchema = network.getNodes().iterator().next().getSchema();
-      Schema edgeSchema = network.getEdges().iterator().next().getSchema();
+      Schema nodeSchema = network.getNodeTable().getSchema();
+      Schema edgeSchema = network.getEdgeTable().getSchema();
       Network ivtkNetwork = new IvtkObviousNetwork(nodeSchema, edgeSchema);
       ObviousLib.fillNetwork(network, ivtkNetwork);
       NetworkListener listnr = new ObviousLinkNetworkListener(network);
