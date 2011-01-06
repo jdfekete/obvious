@@ -89,6 +89,7 @@ public class ObviousLinkListener implements TableListener {
    */
   public void tableChanged(Table t, int start, int end, int col, int type) {
     source = t;
+    System.out.println("CHANGE detected");
     if (inhibitNotify != 0) {
       return;
     } else if (type == TableListener.DELETE) {

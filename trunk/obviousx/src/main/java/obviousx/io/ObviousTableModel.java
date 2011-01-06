@@ -130,7 +130,11 @@ public class ObviousTableModel extends AbstractTableModel {
    * @return the value Object at the specified cell
    */
   public Object getValueAt(int rowIndex, int columnIndex) {
-    return this.table.getValue(rowIndex, columnIndex);
+    if (table.isValidRow(rowIndex)) {
+      return this.table.getValue(rowIndex, columnIndex);
+    } else {
+      return null;
+    }
   }
 
   /**

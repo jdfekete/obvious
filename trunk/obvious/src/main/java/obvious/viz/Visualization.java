@@ -98,7 +98,7 @@ public abstract class Visualization extends VisualAttributeManager
   public Visualization(Data inData, Predicate predicate, String visName,
       Map<String, Object> param) {
     this.pred = predicate;
-    this.data = applyPredicate(inData);
+    this.data = inData;
     this.visualizatioName = visName;
     initVisualization(param);
   }

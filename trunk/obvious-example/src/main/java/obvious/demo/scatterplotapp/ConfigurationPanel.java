@@ -130,6 +130,7 @@ public class ConfigurationPanel extends JSplitPane implements ActionListener {
    */
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
+      @SuppressWarnings("unused")
       JDialog dialog = new AddPointDialog(frame, table, prefVis,
           jTablePane, ivtkViewComponent);
     } else if (e.getSource() == removeButton) {

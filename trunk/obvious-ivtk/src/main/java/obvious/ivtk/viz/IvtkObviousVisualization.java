@@ -75,6 +75,11 @@ public class IvtkObviousVisualization extends Visualization {
   }
 
   /**
+   * Ivtk table.
+   */
+  private infovis.Table ivtkTable;
+
+  /**
    * Constructor.
    * @param inData obvious data instance
    * @param predicate a Predicate used to filter the table
@@ -171,7 +176,10 @@ public class IvtkObviousVisualization extends Visualization {
       return (infovis.Table)
         ((Table) getData()).getUnderlyingImpl(infovis.Table.class);
     } else {
-      return convertToIvtkTable((Table) this.getData());
+      if (ivtkTable == null) {
+        ivtkTable = convertToIvtkTable((Table) this.getData());
+      }
+      return ivtkTable;
     }
   }
 
