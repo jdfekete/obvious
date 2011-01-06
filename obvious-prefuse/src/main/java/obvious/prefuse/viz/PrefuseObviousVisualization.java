@@ -29,32 +29,21 @@ package obvious.prefuse.viz;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
 import obvious.data.Data;
-import obvious.data.Edge;
 import obvious.data.Network;
-import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Tuple;
-import obvious.data.event.NetworkListener;
-import obvious.data.event.TableListener;
 import obvious.data.util.Predicate;
-import obvious.impl.ObviousLinkListener;
-import obvious.impl.ObviousLinkNetworkListener;
-import obvious.prefuse.PrefuseObviousNetwork;
-import obvious.prefuse.PrefuseObviousTable;
-import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 import obvious.data.Node;
 import obviousx.wrappers.prefuse.WrapToPrefGraph;
-import prefuse.data.util.TableIterator;
-import prefuse.visual.VisualGraph;
+import obviousx.wrappers.prefuse.WrapToPrefTable;
 import prefuse.visual.VisualItem;
 import prefuse.visual.VisualTable;
 import prefuse.visual.VisualTupleSet;
@@ -102,11 +91,6 @@ public class PrefuseObviousVisualization extends Visualization {
    * Wrapped prefuse visualization.
    */
   private prefuse.Visualization vis;
-
-  /**
-   * Obvious prefuse table.
-   */
-  private Table obviousPrefuseTable;
 
   /**
    * Constructor.
@@ -175,7 +159,7 @@ public class PrefuseObviousVisualization extends Visualization {
   public ArrayList<Integer> pickAll(Rectangle2D hitBox, Rectangle2D bounds) {
     ArrayList<Integer> ids = new ArrayList<Integer>();
     VisualTupleSet visTuples = (VisualTupleSet) vis.getVisualGroup(groupName);
-    Iterator it = visTuples.tuples();
+    Iterator<?> it = visTuples.tuples();
     while (it.hasNext()) {
       VisualItem item = (VisualItem) it.next();
       if (hitBox.intersects(item.getBounds())) {
@@ -230,7 +214,7 @@ public class PrefuseObviousVisualization extends Visualization {
       return (prefuse.data.Table)
           ((Table) this.getData()).getUnderlyingImpl(prefuse.data.Table.class);
     } else {
-      return convertToPrefuseTable((Table) this.getData());
+      return new WrapToPrefTable((Table) this.getData());
     }
   }
 
@@ -244,49 +228,7 @@ public class PrefuseObviousVisualization extends Visualization {
       return (prefuse.data.Graph)
           ((Network) getData()).getUnderlyingImpl(prefuse.data.Graph.class);
     } else {
-      return convertToPrefuseGraph((Network) this.getData());
-    }
-  }
-
-  /**
-   * Converts an Obvious Table to a prefuse table.
-   * @param otherTable table to convert
-   * @return the converted prefuse table
-   */
-  private prefuse.data.Table convertToPrefuseTable(Table otherTable) {
-    obviousPrefuseTable = new PrefuseObviousTable(otherTable.getSchema());
-    ObviousLib.fillTable(otherTable, obviousPrefuseTable);
-    TableListener listnr = new ObviousLinkListener(otherTable);
-    TableListener listnr2 = new ObviousLinkListener(obviousPrefuseTable);
-    obviousPrefuseTable.addTableListener(listnr);
-    ((Table) this.getData()).addTableListener(listnr2);
-    return (prefuse.data.Table)
-        obviousPrefuseTable.getUnderlyingImpl(prefuse.data.Table.class);
-  }
-
-  /**
-   * Converts an Obvious Network to a prefuse network.
-   * @param network network to convert
-   * @return the converted prefuse network
-   */
-  private prefuse.data.Graph convertToPrefuseGraph(Network network) {
-    Collection<Node> nodes = network.getNodes();
-    Collection<Edge> edges = network.getEdges();
-    if (edges.size() != 0 && nodes.size() != 0) {
-      Schema nodeSchema = nodes.iterator().next().getSchema();
-      Schema edgeSchema = edges.iterator().next().getSchema();
-      Network prefNetwork = new PrefuseObviousNetwork(nodeSchema, edgeSchema,
-          directed, nodeKey, network.getSourceColumnName(),
-          network.getTargetColumnName());
-      ObviousLib.fillNetwork(network, prefNetwork);
-      NetworkListener listnr = new ObviousLinkNetworkListener(network);
-      NetworkListener listnr2 = new ObviousLinkNetworkListener(prefNetwork);
-      prefNetwork.addNetworkListener(listnr);
-      network.addNetworkListener(listnr2);
-      return (prefuse.data.Graph)
-          prefNetwork.getUnderlyingImpl(prefuse.data.Graph.class);
-    } else {
-      throw new ObviousRuntimeException("Empty graph!");
+      return new WrapToPrefGraph((Network) getData());
     }
   }
 
@@ -306,16 +248,15 @@ public class PrefuseObviousVisualization extends Visualization {
     if (visualTable.getSchema().getColumnIndex(getAliasMap().get(alias))
         != -1) {
       synchronized (visualTable) {
-        TableIterator iter = visualTable.iterator();
         int schemaSize = visualTable.getColumnCount() - 1;
         Boolean[] schemaBoolean = new Boolean[schemaSize + 1];
         String[] schemaCol = new String[schemaSize + 1];
         for (int i = schemaSize; i >= 0; i--) {
-          schemaBoolean[i] = tuple.getSchema().hasColumn(visualTable.getColumnName(i));
+          schemaBoolean[i] = tuple.getSchema().hasColumn(
+              visualTable.getColumnName(i));
           schemaCol[i] = visualTable.getColumnName(i);
         }
         for (int i = 0; i < visualTable.getRowCount(); i++) {
-         
           boolean find = true;
           for (int j = schemaSize; j >= 0; j--) {
             if (schemaBoolean[i] &&  !visualTable.get(i, schemaCol[j]).equals(
@@ -337,9 +278,9 @@ public class PrefuseObviousVisualization extends Visualization {
 
   /**
    * Ediflow dedicated method.
-   * @param tuple
-   * @param alias
-   * @return
+   * @param tuple an obvious tuple
+   * @param alias an alias
+   * @return an attribute value
    */
   public Object getAttributeValueAtOptimized(Tuple tuple, String alias) {
     prefuse.data.tuple.TupleSet tupleSet = vis.getVisualGroup(groupName);
@@ -388,11 +329,12 @@ public class PrefuseObviousVisualization extends Visualization {
     if (data instanceof Table) {
       vis.addTable(groupName, getPrefuseTable());
     } else if (data instanceof Network) {
-      vis.addGraph(groupName,((prefuse.data.Graph) ((Network) data)
+      vis.addGraph(groupName, ((prefuse.data.Graph) ((Network) data)
           .getUnderlyingImpl(prefuse.data.Graph.class)));
     }
   }
-  
+
+  /*
   @Override
   public Data getData() {
       if (vis.getGroup(groupName) != null && super.getData() instanceof Table) {
@@ -405,5 +347,6 @@ public class PrefuseObviousVisualization extends Visualization {
           return super.getData();
       }
   }
+  */
 
 }

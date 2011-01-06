@@ -152,10 +152,10 @@ public class IvtkObviousTable implements Table {
   public IvtkObviousTable(DynamicTable inTable) {
     this(inTable, true, true);
   }
-  
+
   /**
    * Constructor from an infovis Table instance.
-   * @param inTable
+   * @param inTable an ivtk Table
    */
   public IvtkObviousTable(infovis.Table inTable) {
       table = new DefaultDynamicTable();
@@ -216,14 +216,18 @@ public class IvtkObviousTable implements Table {
       if (canAddRow()) {
         int rowId = table.addRow();
         for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
-          TypedFormat format = formatFactory.getFormat(
-             tuple.getSchema().getColumnType(i).getSimpleName());
-          if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
-            table.setValueAt(tuple.get(i).toString(), rowId, i);
-          } else {
-          StringBuffer v = format.format(tuple.get(i),
-              new StringBuffer(), new FieldPosition(0));
-          table.setValueAt(v.toString(), rowId, i);
+          String field = tuple.getSchema().getColumnName(i);
+          if (schema.hasColumn(field)) {
+            TypedFormat format = formatFactory.getFormat(
+               tuple.getSchema().getColumnType(i).getSimpleName());
+            if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
+              table.setValueAt(tuple.get(i).toString(), rowId,
+                  schema.getColumnIndex(field));
+            } else {
+            StringBuffer v = format.format(tuple.get(i),
+                new StringBuffer(), new FieldPosition(0));
+            table.setValueAt(v.toString(), rowId, schema.getColumnIndex(field));
+            }
           }
         }
         this.fireTableEvent(table.getLastRow(), table.getLastRow(),

@@ -62,7 +62,7 @@ public class PrefuseObviousTable implements Table {
   /**
    * ArrayList of listeners.
    */
-  private ArrayList<TableListener> listener = new ArrayList<TableListener>();
+  private ArrayList<TableListener> listener;
 
 
   /**
@@ -71,6 +71,7 @@ public class PrefuseObviousTable implements Table {
    */
   public PrefuseObviousTable(prefuse.data.Table prefuseTable) {
     this.table = prefuseTable;
+    this.listener = new ArrayList<TableListener>();
   }
 
   /**
@@ -79,6 +80,7 @@ public class PrefuseObviousTable implements Table {
    */
   public PrefuseObviousTable(Schema schema) {
     this.table = new prefuse.data.Table(0, schema.getColumnCount());
+    this.listener = new ArrayList<TableListener>();
     for (int i = 0; i < schema.getColumnCount(); i++) {
       this.table.addColumn(schema.getColumnName(i), schema.getColumnType(i),
           schema.getColumnDefault(i));
@@ -358,12 +360,12 @@ public class PrefuseObviousTable implements Table {
    * @param type the type of modification
    */
   protected void fireTableEvent(int start, int end, int col, int type) {
-   if (this.getTableListeners().isEmpty()) {
-     return;
-   }
-   for (TableListener listnr : this.getTableListeners()) {
-     listnr.tableChanged(this, start, end, col, type);
-   }
+    if (listener.isEmpty()) {
+      return;
+    }
+    for (TableListener listnr : listener) {
+      listnr.tableChanged(this, start, end, col, type);
+    }
   }
 
   /**

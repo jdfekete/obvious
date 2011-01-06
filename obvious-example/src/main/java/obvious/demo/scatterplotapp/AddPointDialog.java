@@ -136,7 +136,6 @@ public class AddPointDialog extends JDialog implements ActionListener {
     final JDialog dialog = this;
     new Thread(new Runnable() {
       public void run() {
-        System.out.println("OK");
       if (e.getSource() == okButton) {
         System.out.println("OK");
         int x = ((Number) xField.getValue()).intValue();
