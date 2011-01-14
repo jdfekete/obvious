@@ -12,6 +12,7 @@ import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
+import obvious.prefuse.PrefuseObviousTable;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
@@ -43,7 +44,7 @@ public final class PrefuseVisualTableTestWithIvtkView {
     schema.addColumn("age", Integer.class, 18);
     schema.addColumn("category", String.class, "unemployed");
 
-    Table table = new IvtkObviousTable(schema);
+    Table table = new PrefuseObviousTable(schema);
 
     table.addRow(new TupleImpl(schema, new Object[] {1, 22, "worker"}));
     table.addRow(new TupleImpl(schema, new Object[] {2, 60, "unemployed"}));
