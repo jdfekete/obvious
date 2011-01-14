@@ -84,6 +84,7 @@ public class JDBCObviousTable implements Table {
    * Password for the database.
    */
   private String password;
+
   /**
    * Table Listeners.
    */
@@ -112,6 +113,11 @@ public class JDBCObviousTable implements Table {
   private boolean editing = false;
 
   /**
+   * JDBC connection.
+   */
+  private Connection con;
+
+  /**
    * Constructor for an Obvious table based on JDBC.
    * @param inSchema an Obvious schema
    * @param driver driver for the database (JDBC)
@@ -134,11 +140,14 @@ public class JDBCObviousTable implements Table {
     this.primaryKey = inKeyColumn;
     this.rowIndexMap = new HashMap<Integer, Object>();
     // Creating table
+    try {
+      this.con = DriverManager.getConnection(url, username, password);
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
     if (!tableExist()) {
-      Connection con = null;
       PreparedStatement pStatement = null;
       try {
-        con = DriverManager.getConnection(url, username, password);
         String request = "CREATE TABLE " + this.tableName + " (";
         for (int i = 0; i < inSchema.getColumnCount(); i++) {
           String typeSQL = formatFactory.getSQLType(inSchema.getColumnType(i));
@@ -155,7 +164,7 @@ public class JDBCObviousTable implements Table {
         System.err.println("SQLException: " + e.getMessage());
       } finally {
         try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-        try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+        //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
       }
     }
     // Load the JDBC driver.
@@ -193,10 +202,10 @@ public class JDBCObviousTable implements Table {
     // or user want to create both at the same time, sometimes they just want
     // to convert an existing JDBC table to Obvious. Constructors support both
     // cases, they determine which one to use with the result of this method.
-    Connection con = null;
+    //con = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
-      DatabaseMetaData  metadata = con.getMetaData();
+      Connection connect = DriverManager.getConnection(url, username, password);
+      DatabaseMetaData  metadata = connect.getMetaData();
       String[] myTables = {"TABLE"};
       ResultSet tables = metadata.getTables(null,
       null, "%", myTables);
@@ -207,12 +216,13 @@ public class JDBCObviousTable implements Table {
           break;
         }
       }
+      connect.close();
       return existingTable;
     } catch (SQLException e) {
       System.err.println("SQLException: " + e.getMessage());
       return false;
     } finally {
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { connect.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -255,7 +265,7 @@ public class JDBCObviousTable implements Table {
       System.err.println("SQLException: " + e.getMessage());
     } finally {
       try { result.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
     return primKey;
   }
@@ -298,11 +308,11 @@ public class JDBCObviousTable implements Table {
    */
   public boolean canAddRow() {
     Boolean addable = true;
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     ResultSet result = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       DatabaseMetaData metadata = con.getMetaData();
       if (metadata.isReadOnly()) {
         addable = false;
@@ -323,7 +333,7 @@ public class JDBCObviousTable implements Table {
       return false;
     } finally {
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -354,11 +364,11 @@ public class JDBCObviousTable implements Table {
    * @return number of line in the table
    */
   public int getRowCount() {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     ResultSet result = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       String request = "SELECT * FROM " + this.tableName;
       pStatement = con.prepareStatement(request);
       result = pStatement.executeQuery(request);
@@ -373,7 +383,7 @@ public class JDBCObviousTable implements Table {
     } finally {
       try { result.close(); } catch (Exception e) { e.printStackTrace(); }
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -400,11 +410,11 @@ public class JDBCObviousTable implements Table {
    * @return the value described by rowId and field
    */
   public Object getValue(int rowId, String field) {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     ResultSet result = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       String request = "SELECT " + field + " FROM " + tableName + " WHERE "
         + primaryKey + " = ";
       TypedFormat formatSQL = formatFactory.
@@ -423,7 +433,7 @@ public class JDBCObviousTable implements Table {
       return null;
     } finally {
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -477,23 +487,25 @@ public class JDBCObviousTable implements Table {
    * Removes all the rows in the table.
    */
   public void removeAllRows() {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     if (this.canRemoveRow()) {
       try {
-        con = DriverManager.getConnection(url, username, password);
+        int r = getRowCount() - 1;
+        //con = DriverManager.getConnection(url, username, password);
         String request = "DELETE FROM " + this.tableName;
         pStatement = con.prepareStatement(request);
         pStatement.executeUpdate(request);
-
         rowIndexMap.clear();
+        this.fireTableEvent(0, r,
+            TableListener.ALL_COLUMN, TableListener.DELETE);
       }  catch (SQLException e) {
         System.err.println("SQLException: " + e.getMessage());
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
       } finally {
         try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-        try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+        //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
       }
     }
   }
@@ -504,10 +516,10 @@ public class JDBCObviousTable implements Table {
    * @return true if deleted
    */
   public boolean removeRow(int row) {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       String request = "DELETE FROM " + tableName + " WHERE " + primaryKey
         + " = ";
       TypedFormat formatSQL = formatFactory.
@@ -518,6 +530,8 @@ public class JDBCObviousTable implements Table {
       pStatement = con.prepareStatement(request);
       pStatement.execute(request);
       rowIndexMap.remove(row);
+      this.fireTableEvent(row, row,
+          TableListener.ALL_COLUMN, TableListener.DELETE);
       return true;
     } catch (SQLException e) {
       System.err.println("SQLException: " + e.getMessage());
@@ -526,7 +540,7 @@ public class JDBCObviousTable implements Table {
       throw new ObviousRuntimeException(e);
     } finally {
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -563,10 +577,10 @@ public class JDBCObviousTable implements Table {
    * @param val value to set in the database
    */
   public void set(int rowId, String field, Object val) {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       String request = "UPDATE " + tableName + " SET " + field + " = ";
       TypedFormat formatSQL = formatFactory.getFormat(
           getColumnSQLType(schema.getColumnIndex(field)));
@@ -583,8 +597,10 @@ public class JDBCObviousTable implements Table {
       new ObviousRuntimeException(e);
     } finally {
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
+    this.fireTableEvent(rowId, rowId, this.getSchema().getColumnIndex(field),
+        TableListener.UPDATE);
   }
 
   /**
@@ -604,10 +620,10 @@ public class JDBCObviousTable implements Table {
    * @return number of rows
    */
   public int addRow(Tuple tuple) {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       Object primaryValue = null;
       String request = "INSERT INTO " + tableName + " (";
       for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
@@ -641,8 +657,10 @@ public class JDBCObviousTable implements Table {
       new ObviousRuntimeException(e);
     } finally {
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
+    int r = this.getRowCount() - 1;
+    this.fireTableEvent(r, r, TableListener.ALL_COLUMN, TableListener.INSERT);
     return this.getRowCount();
   }
 
@@ -653,11 +671,11 @@ public class JDBCObviousTable implements Table {
    * @return SQL type of the column (string)
    */
   private String getColumnSQLType(int col) {
-    Connection con = null;
+    //con = null;
     PreparedStatement pStatement = null;
     ResultSet result = null;
     try {
-      con = DriverManager.getConnection(url, username, password);
+      //con = DriverManager.getConnection(url, username, password);
       String request = "SELECT * FROM " + tableName;
       pStatement = con.prepareStatement(request);
       result = pStatement.executeQuery(request);
@@ -669,7 +687,7 @@ public class JDBCObviousTable implements Table {
     } finally {
       try { result.close(); } catch (Exception e) { e.printStackTrace(); }
       try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
 
@@ -679,8 +697,26 @@ public class JDBCObviousTable implements Table {
    * @return null
    */
   public Object getUnderlyingImpl(Class<?> type) {
-    // TODO Auto-generated method stub
+    if (type.equals(java.sql.Connection.class)) {
+      return this.con;
+    }
     return null;
+  }
+
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  protected void fireTableEvent(int start, int end, int col, int type) {
+    if (listener.isEmpty()) {
+      return;
+    }
+    for (TableListener listnr : listener) {
+      listnr.tableChanged(this, start, end, col, type);
+    }
   }
 
 }
