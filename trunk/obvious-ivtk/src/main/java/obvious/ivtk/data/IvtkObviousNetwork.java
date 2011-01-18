@@ -294,15 +294,19 @@ public class IvtkObviousNetwork implements Network {
    */
   public boolean endEdit(int col) throws ObviousException {
     boolean success = true;
+    NetworkListener failedListener = null;
     for (NetworkListener listnr : this.getNetworkListeners()) {
       if (!listnr.checkInvariants()) {
         listnr.endEdit(col);
+        failedListener = listnr;
         success = false;
         break;
       }
     }
     for (NetworkListener listnr : this.getNetworkListeners()) {
-      listnr.endEdit(col);
+      if (success && !listnr.equals(failedListener)) {
+        listnr.endEdit(col);
+      }
     }
     return success;
   }

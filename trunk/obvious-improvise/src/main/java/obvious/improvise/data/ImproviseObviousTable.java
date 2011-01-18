@@ -135,15 +135,19 @@ public class ImproviseObviousTable implements Table {
   public boolean endEdit(int col) throws ObviousException {
     this.editing = false;
     boolean success = true;
+    TableListener failedListener = null;
     for (TableListener listnr : this.getTableListeners()) {
       if (!listnr.checkInvariants()) {
         listnr.endEdit(col);
+        failedListener = listnr;
         success = false;
         break;
       }
     }
     for (TableListener listnr : this.getTableListeners()) {
-      listnr.endEdit(col);
+      if (success && !listnr.equals(failedListener)) {
+        listnr.endEdit(col);
+      }
     }
     return success;
   }
