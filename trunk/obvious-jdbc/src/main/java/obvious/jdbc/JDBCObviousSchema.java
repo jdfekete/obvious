@@ -477,9 +477,9 @@ public class JDBCObviousSchema implements Schema {
     return false;
   }
 
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     // TODO Auto-generated method stub
-    
+    return true;
   }
 
   public int getRowCount() {
@@ -575,6 +575,22 @@ public class JDBCObviousSchema implements Schema {
   public Object getUnderlyingImpl(Class<?> type) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  public void fireTableEvent(int start, int end, int col, int type) {
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
   }
 
 }

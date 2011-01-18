@@ -32,18 +32,16 @@ import java.util.Map;
 import obvious.ObviousException;
 
 /**
- * Abstract Class DataFactory.
- * A factory that can create Network and Table instances. Several methods
- * are proposed to build such instances from existing instances of other
- * tables or from Obvious Schema(s).
- * Each implementation of Obvious should implement this class.
- * @author Jean-Daniel Fekete
- * @version $Revision$
+ * Abstract Class DataFactory. A factory that can create Network and Table instances. Several methods are proposed to build such instances from existing instances of other tables or from Obvious Schema(s). Each implementation of Obvious should implement this class.
+ * @author  Jean-Daniel Fekete
+ * @version  $Revision$
  */
 public abstract class DataFactory {
 
     /**
      * Static instance of DataFactory.
+     * @uml.property  name="instance"
+     * @uml.associationEnd  
      */
     private static DataFactory instance;
 
@@ -54,8 +52,9 @@ public abstract class DataFactory {
 
     /**
      * Getter for attribute instance of DataFactory.
-     * @throws ObviousException if undefined system property
-     * @return static instance of DataFactory
+     * @throws ObviousException  if undefined system property
+     * @return  static instance of DataFactory
+     * @uml.property  name="instance"
      */
     public static DataFactory getInstance() throws ObviousException {
         if (instance == null) {

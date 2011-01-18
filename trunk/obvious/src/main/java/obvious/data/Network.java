@@ -29,6 +29,7 @@ package obvious.data;
 
 import java.util.Collection;
 
+import obvious.ObviousException;
 import obvious.data.event.NetworkListener;
 
 
@@ -86,5 +87,40 @@ public interface Network extends obvious.data.Graph<Node, Edge> {
    * @return name of the column used to spot the target node for an edge
    */
   String getTargetColumnName();
+
+  /**
+   * Indicates the beginning of a column edit.
+   * <p>
+   * This function could be used to create a context when a large number
+   * of modifications happens to a same column to avoid time wasting with
+   * plenty of notifications. In this context, TableListeners could ignore
+   * notifications if wanted.
+   * </p>
+   * @param col column index
+   * @throws ObviousException if edition is not supported.
+   */
+  void beginEdit(int col) throws ObviousException;
+
+  /**
+   * Indicates the end of a column edit.
+   * <p>
+   * This function indicates, if notifications were disabled, that now they
+   * are enabled. It could also call a mechanism to replay the sequence of
+   * ignored events if wanted.
+   * </p>
+   * @param col column index
+   * @return true if transaction succeed
+   * @throws ObviousException if edition is not supported.
+   */
+  boolean endEdit(int col) throws ObviousException;
+
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed network region
+   * @param end the ending row index of the changed network region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  void fireNetworkEvent(int start, int end, int col, int type);
 
 }

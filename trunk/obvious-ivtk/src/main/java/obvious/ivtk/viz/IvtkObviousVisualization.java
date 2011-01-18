@@ -54,6 +54,7 @@ import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
+import obviousx.wrappers.ivtk.WrapToIvtkTable;
 
 /**
  * Infovis Toolkit implementation of obvious Visualization abstract class.
@@ -171,6 +172,7 @@ public class IvtkObviousVisualization extends Visualization {
    * Gets the corresponding ivtk table.
    * @return corresponding ivtk table
    */
+  /*
   protected infovis.Table getIvtkTable() {
     if (((Table) getData()).getUnderlyingImpl(infovis.Table.class) != null) {
       return (infovis.Table)
@@ -180,6 +182,16 @@ public class IvtkObviousVisualization extends Visualization {
         ivtkTable = convertToIvtkTable((Table) this.getData());
       }
       return ivtkTable;
+    }
+  }
+  */
+  
+  protected infovis.Table getIvtkTable() {
+    if (((Table) getData()).getUnderlyingImpl(infovis.Table.class) != null) {
+      return (infovis.Table)
+        ((Table) getData()).getUnderlyingImpl(infovis.Table.class);
+    } else {
+      return new WrapToIvtkTable((obvious.data.Table) getData());
     }
   }
 

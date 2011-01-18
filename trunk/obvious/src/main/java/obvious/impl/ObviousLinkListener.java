@@ -5,13 +5,12 @@ import obvious.data.Table;
 import obvious.data.event.TableListener;
 
 /**
- * This listener has been written to allow two identical obvious table
- * using different implementations to be synchronized. Both tables should
- * add a listener to the other to listen. This is largely used in visualization
- * and view package to synchronize data model and visualization / view that
- * does not used the same obvious implementation.
- * @author Pierre-Luc Hemery
- *
+ * This listener has been written to allow two identical obvious table using
+ * different implementations to be synchronized. Both tables should add a
+ * listener to the other to listen. This is largely used in visualization and
+ * view package to synchronize data model and visualization / view that does
+ * not used the same obvious implementation.
+ * @author  Pierre-Luc Hemery
  */
 public class ObviousLinkListener implements TableListener {
 
@@ -23,11 +22,13 @@ public class ObviousLinkListener implements TableListener {
 
   /**
    * Source table.
+   * @uml.property  name="source"
    */
   private Table source;
 
   /**
    * Target table.
+   * @uml.property  name="target"
    */
   private Table target;
 
@@ -69,12 +70,24 @@ public class ObviousLinkListener implements TableListener {
    * @param context an integer used, if needed, to retrieve the edition
    * context It could be used to execute further operations on the table
    * (for instance replaying sequence of events).
+   * @return true if transaction succeed
    */
-  public void endEdit(int context) {
+  public boolean endEdit(int context) {
     inhibitNotify--;
     if (inhibitNotify <= 0) {
         inhibitNotify = 0;
     }
+    return true;
+  }
+
+  /**
+   * Checks if the table meets criteria defined by invariant(s). If no
+   * invariant is defined for this structure, the methods has to return
+   * true.
+   * @return true if the invariant is checked
+   */
+  public boolean checkInvariants() {
+    return true;
   }
 
   /**

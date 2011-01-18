@@ -29,6 +29,11 @@ package obvious.data.event;
 
 import obvious.data.Network;
 
+/**
+ * A listener interface for network.
+ * @author Hemery
+ *
+ */
 public interface NetworkListener {
 
     /**
@@ -40,7 +45,7 @@ public interface NetworkListener {
      * Indicates a data delete operation.
      */
     int DELETE_NODE = -1;
-    
+
     /**
      * Indicates a data delete operation.
      */
@@ -50,7 +55,7 @@ public interface NetworkListener {
      * Indicates a data update operation.
      */
     int UPDATE_NODE = 0;
-    
+
     /**
      * Indicates a data update operation.
      */
@@ -60,12 +65,12 @@ public interface NetworkListener {
      * Indicates a data insert operation.
      */
     int INSERT_NODE = 2;
-    
+
     /**
      * Indicates a data insert operation.
      */
     int INSERT_EDGE = 3;
-	
+
     /**
      * Specify that the following calls to tableChanged belong to the same
      * transaction.
@@ -82,8 +87,8 @@ public interface NetworkListener {
     void beginEdit(int context);
 
     /**
-     * Specify that the calls to networkChanged belonging to the same transaction
-     * are finished.
+     * Specify that the calls to networkChanged belonging to the same
+     * transaction are finished.
      * <p>
      * This function could be used to re-enabled notifications for the current
      * TableListener if they were disabled. It could also replay a stored
@@ -93,9 +98,18 @@ public interface NetworkListener {
      * </p>
      * @param context an integer used, if needed, to retrieve the edition
      * context It could be used to execute further operations on the table
-     * (for instance replaying sequence of events).
+     * (for instance replaying sequence of events)
+     * @return true if transaction succeed
      */
-    void endEdit(int context);
+    boolean endEdit(int context);
+
+    /**
+     * Checks if the table meets criteria defined by invariant(s). If no
+     * invariant is defined for this structure, the methods has to return
+     * true.
+     * @return true if the invariant is checked
+     */
+    boolean checkInvariants();
 
     /**
      * Notification that a table has changed.
@@ -108,5 +122,5 @@ public interface NetworkListener {
      * @param type the type of modification
      */
     void networkChanged(Network t, int start, int end, int col, int type);
-	
+
 }

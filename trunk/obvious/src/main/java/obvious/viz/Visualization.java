@@ -42,8 +42,7 @@ import obvious.util.Adaptable;
 
 /**
  * Visualization interface.
- * @author Hemery
- *
+ * @author  Hemery
  */
 public abstract class Visualization extends VisualAttributeManager
     implements Adaptable {
@@ -80,11 +79,15 @@ public abstract class Visualization extends VisualAttributeManager
 
   /**
    * Predicate used to select the data.
+   * @uml.property  name="pred"
+   * @uml.associationEnd
    */
   private Predicate pred;
 
   /**
    * Backing table (if needed).
+   * @uml.property  name="data"
+   * @uml.associationEnd
    */
   private Data data;
 
@@ -195,7 +198,8 @@ public abstract class Visualization extends VisualAttributeManager
 
   /**
    * Gets the obvious data associated to this visualization.
-   * @return the obvious data associated to this visualization
+   * @return  the obvious data associated to this visualization
+   * @uml.property  name="data"
    */
   public Data getData() {
     return this.data;

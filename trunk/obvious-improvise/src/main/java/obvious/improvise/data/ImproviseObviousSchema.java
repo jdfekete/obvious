@@ -264,9 +264,9 @@ public class ImproviseObviousSchema implements Schema {
   }
 
   @Override
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     // TODO Auto-generated method stub
-    
+    return true;
   }
 
   @Override
@@ -370,6 +370,16 @@ public class ImproviseObviousSchema implements Schema {
    */
   public Schema getDataSchema() {
     return this;
+  }
+  
+  @Override
+  public void fireTableEvent(int start, int end, int col, int type) {
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
   }
 
 }

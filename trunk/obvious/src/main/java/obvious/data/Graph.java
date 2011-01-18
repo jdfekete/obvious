@@ -51,18 +51,19 @@ public interface Graph<V, E> extends Data, Adaptable {
 
 
   /**
-   * Describes two families of graphs.
-   * Graph with directed edges and ones with undirected edges.
-   * @author obvious
-   *
+   * Describes two families of graphs. Graph with directed edges and ones with
+   * undirected edges.
+   * @author   obvious
    */
   enum EdgeType {
     /**
-     * Directed graph.
+     * @uml.property  name="dIRECTED"
+     * @uml.associationEnd  
      */
     DIRECTED,
     /**
-     * Undirected graph.
+     * @uml.property  name="uNDIRECTED"
+     * @uml.associationEnd  
      */
     UNDIRECTED
   }

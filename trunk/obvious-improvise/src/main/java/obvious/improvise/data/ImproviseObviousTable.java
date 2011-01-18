@@ -132,11 +132,20 @@ public class ImproviseObviousTable implements Table {
   }
 
   @Override
-  public void endEdit(int col) throws ObviousException {
-    editing = false;
+  public boolean endEdit(int col) throws ObviousException {
+    this.editing = false;
+    boolean success = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      if (!listnr.checkInvariants()) {
+        listnr.endEdit(col);
+        success = false;
+        break;
+      }
+    }
     for (TableListener listnr : this.getTableListeners()) {
       listnr.endEdit(col);
     }
+    return success;
   }
 
   @Override
@@ -246,14 +255,8 @@ public class ImproviseObviousTable implements Table {
     return null;
   }
 
-  /**
-   * Notifies changes to listener.
-   * @param start the starting row index of the changed table region
-   * @param end the ending row index of the changed table region
-   * @param col the column that has changed
-   * @param type the type of modification
-   */
-  protected void fireTableEvent(int start, int end, int col, int type) {
+  @Override
+  public void fireTableEvent(int start, int end, int col, int type) {
    if (this.getTableListeners().isEmpty()) {
      return;
    }

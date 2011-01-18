@@ -86,11 +86,12 @@ public class ImproviseObviousListener implements TableListener {
   }
 
   @Override
-  public void endEdit(int context) {
+  public boolean endEdit(int context) {
     inhibitNotify--;
     if (inhibitNotify <= 0) {
         inhibitNotify = 0;
     }
+    return true;
   }
 
   @Override
@@ -101,6 +102,11 @@ public class ImproviseObviousListener implements TableListener {
       VariableEvent event = new VariableEvent(var, VariableEvent.VALUE_CHANGED);
       listener.variableChanged(event);
     }
+  }
+
+  @Override
+  public boolean checkInvariants() {
+    return true;
   }
 
 }

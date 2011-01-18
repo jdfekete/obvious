@@ -111,8 +111,17 @@ public interface TableListener {
      * @param context an integer used, if needed, to retrieve the edition
      * context It could be used to execute further operations on the table
      * (for instance replaying sequence of events).
+     * @return true if transaction succeed
      */
-    void endEdit(int context);
+    boolean endEdit(int context);
+
+    /**
+     * Checks if the table meets criteria defined by invariant(s). If no
+     * invariant is defined for this structure, the methods has to return
+     * true.
+     * @return true if the invariant is checked
+     */
+    boolean checkInvariants();
 
     /**
      * Notification that a table has changed.
