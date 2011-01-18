@@ -78,6 +78,7 @@ public final class TransactionDemo {
           String.valueOf(200 + i), "charles"}));
     }
     table.endEdit(0);
+
     table.addRow(new TupleImpl(schema, new Object[] {"apresTransac", "Jan"}));
   }
 
@@ -224,20 +225,24 @@ public final class TransactionDemo {
       PreparedStatement pStmt = null;
       ResultSet rslt = null;
       int minSize = 0;
+      String name = "";
       try {
-        String request = "SELECT MIN( CHAR_LENGTH( NAME ) ) FROM person ";
+        System.out.println("FIRST TEST " + con.getAutoCommit());
+        String request = "SELECT MIN( CHAR_LENGTH( NAME ) ), NAME FROM person ";
         pStmt = con.prepareStatement(request);
         rslt = pStmt.executeQuery();
         while (rslt.next()) {
           minSize = rslt.getInt(1);
+          name = rslt.getString(2);
         }
+        System.out.println("SECOND TEST " + con.getAutoCommit() + " " + name);
       } catch (SQLException e) {
         throw new ObviousRuntimeException(e);
       } finally {
         try { pStmt.close(); } catch (Exception e) { e.printStackTrace(); }
         try { rslt.close(); } catch (Exception e) { e.printStackTrace(); }
       }
-      return minSize < 2;
+      return minSize > 2;
     }
 
   }
