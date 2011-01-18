@@ -69,7 +69,7 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
       return new IvtkObviousVisualization(table, pred, visName, param);
     } else if (visName.toLowerCase().equals("scatterplot")) {
       return new IvtkScatterPlotVis(table, pred, visName, param);
-    } else if (visName.toLowerCase().equals("timeseries")) { 
+    } else if (visName.toLowerCase().equals("timeseries")) {
       return new IvtkTimeSerieVis(table, pred, visName, param);
     } else {
       throw new ObviousRuntimeException("Unsupported visualization technique"

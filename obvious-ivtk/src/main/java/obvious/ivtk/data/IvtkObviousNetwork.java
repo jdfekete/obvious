@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
 import obvious.data.Edge;
 import obvious.data.Network;
@@ -261,6 +262,49 @@ public class IvtkObviousNetwork implements Network {
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
+  }
+
+  /**
+   * Indicates the beginning of a column edit.
+   * <p>
+   * This function could be used to create a context when a large number
+   * of modifications happens to a same column to avoid time wasting with
+   * plenty of notifications. In this context, TableListeners could ignore
+   * notifications if wanted.
+   * </p>
+   * @param col column index
+   * @throws ObviousException if edition is not supported.
+   */
+  public void beginEdit(int col) throws ObviousException {
+    for (NetworkListener listnr : this.getNetworkListeners()) {
+      listnr.beginEdit(col);
+    }
+  }
+
+  /**
+   * Indicates the end of a column edit.
+   * <p>
+   * This function indicates, if notifications were disabled, that now they
+   * are enabled. It could also call a mechanism to replay the sequence of
+   * ignored events if wanted.
+   * </p>
+   * @param col column index
+   * @return true if transaction succeed
+   * @throws ObviousException if edition is not supported.
+   */
+  public boolean endEdit(int col) throws ObviousException {
+    boolean success = true;
+    for (NetworkListener listnr : this.getNetworkListeners()) {
+      if (!listnr.checkInvariants()) {
+        listnr.endEdit(col);
+        success = false;
+        break;
+      }
+    }
+    for (NetworkListener listnr : this.getNetworkListeners()) {
+      listnr.endEdit(col);
+    }
+    return success;
   }
 
   /**
@@ -679,7 +723,7 @@ public class IvtkObviousNetwork implements Network {
    * @param col the column that has changed
    * @param type the type of modification
    */
-  protected void fireNetworkEvent(int start, int end, int col, int type) {
+  public void fireNetworkEvent(int start, int end, int col, int type) {
    if (this.getNetworkListeners().isEmpty()) {
      return;
    }

@@ -43,13 +43,13 @@ import obvious.data.util.Predicate;
 
 /**
  * Example implementation of Interface Table.
- * @author Pierre-Luc Hemery.
- *
+ * @author  Pierre-Luc Hemery.
  */
 public class TableImpl implements Table {
 
   /**
    * Table's schema.
+   * @uml.property  name="schema"
    */
   private Schema schema;
 
@@ -154,13 +154,23 @@ public class TableImpl implements Table {
   /**
    * Indicates the end of a column edit.
    * @param col column index
+   * @return true if transaction succeed
    * @throws ObviousException if edition is not supported.
    */
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     this.editing = false;
+    boolean success = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      if (!listnr.checkInvariants()) {
+        listnr.endEdit(col);
+        success = false;
+        break;
+      }
+    }
     for (TableListener listnr : this.getTableListeners()) {
       listnr.endEdit(col);
     }
+    return success;
   }
 
   /**
@@ -205,7 +215,8 @@ public class TableImpl implements Table {
 
   /**
    * Returns this table's schema.
-   * @return the schema of the table.
+   * @return  the schema of the table.
+   * @uml.property  name="schema"
    */
   public Schema getSchema() {
     return this.schema;
@@ -372,7 +383,7 @@ public class TableImpl implements Table {
    * @param col the column that has changed
    * @param type the type of modification
    */
-  protected void fireTableEvent(int start, int end, int col, int type) {
+  public void fireTableEvent(int start, int end, int col, int type) {
    if (this.getTableListeners().isEmpty()) {
      return;
    }
@@ -389,4 +400,5 @@ public class TableImpl implements Table {
   public Object getUnderlyingImpl(Class<?> type) {
     return null;
   }
+
 }

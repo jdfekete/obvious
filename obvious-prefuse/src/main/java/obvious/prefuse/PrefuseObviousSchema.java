@@ -99,6 +99,15 @@ public class PrefuseObviousSchema implements Schema {
     try {
       this.schema.addColumn(name, type, defaultValue);
       return this.getColumnCount();
+    } catch (IllegalStateException e) {
+      prefuse.data.Schema schemaBis = new prefuse.data.Schema(0);
+      for (int i = 0; i < schema.getColumnCount(); i++) {
+        schemaBis.addColumn(schema.getColumnName(i),
+            schema.getColumnType(i), schema.getDefault(i));
+      }
+      schemaBis.addColumn(name, type, defaultValue);
+      this.schema = schemaBis;
+      return schemaBis.getColumnCount();
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
@@ -318,10 +327,12 @@ public class PrefuseObviousSchema implements Schema {
   /**
    * Indicates the end of a column edit.
    * @param col edited
+   * @return true if transaction succeed
    * @throws ObviousException if edition is not supported.
    */
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     this.schemaTable.endEdit(col);
+    return true;
   }
 
   /**
@@ -482,5 +493,20 @@ public class PrefuseObviousSchema implements Schema {
     return null;
   }
 
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  public void fireTableEvent(int start, int end, int col, int type) {
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
+  }
 
 }

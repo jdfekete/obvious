@@ -172,18 +172,22 @@ public final class TransactionDemo {
      * @param context an integer used, if needed, to retrieve the edition
      * context It could be used to execute further operations on the table
      * (for instance replaying sequence of events).
+     * @return true if transaction succeed
      */
 
-    public void endEdit(int context) {
+    public boolean endEdit(int context) {
+      boolean success = true;
       inhibitNotify--;
       if (inhibitNotify <= 0) {
           inhibitNotify = 0;
       }
       try {
-        if (!checkInvariant()) {
+        if (!checkInvariants()) {
           con.rollback();
+          success = false;
         }
         con.setAutoCommit(true);
+        return success;
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
       }
@@ -216,7 +220,7 @@ public final class TransactionDemo {
      * Checks invariant.
      * @return true if invariant are checked.
      */
-    protected boolean checkInvariant() {
+    public boolean checkInvariants() {
       PreparedStatement pStmt = null;
       ResultSet rslt = null;
       int minSize = 0;

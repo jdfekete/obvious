@@ -423,10 +423,12 @@ public class SchemaImpl implements Schema {
   /**
    * Indicates the end of a column edit.
    * @param col column index
+   * @return true if transaction succeed
    * @throws ObviousException if edition is not supported.
    */
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     this.editing = false;
+    return true;
   }
 
   /**
@@ -594,6 +596,22 @@ public class SchemaImpl implements Schema {
    */
   public Schema getDataSchema() {
     return this;
+  }
+
+  /**
+   * Notifies changes to listener.
+   * @param start the starting row index of the changed table region
+   * @param end the ending row index of the changed table region
+   * @param col the column that has changed
+   * @param type the type of modification
+   */
+  public void fireTableEvent(int start, int end, int col, int type) {
+   if (this.getTableListeners().isEmpty()) {
+     return;
+   }
+   for (TableListener listnr : this.getTableListeners()) {
+     listnr.tableChanged(this, start, end, col, type);
+   }
   }
 
 }

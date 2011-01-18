@@ -10,15 +10,15 @@ import obvious.data.util.Predicate;
 
 
 /**
- * Abstract Class VisualizationFactory.
- * A factory that can create Visualization instances.
- * Each implementation of Obvious should implement this class.
- * @author Hemery
+ * Abstract Class VisualizationFactory. A factory that can create Visualization instances. Each implementation of Obvious should implement this class.
+ * @author  Hemery
  */
 public abstract class VisualizationFactory {
 
   /**
    * Static instance of DataFactory.
+   * @uml.property  name="instance"
+   * @uml.associationEnd  
    */
   private static VisualizationFactory instance;
 
@@ -29,8 +29,9 @@ public abstract class VisualizationFactory {
 
   /**
    * Gets an instance of the convenient VisualizationFactory.
-   * @return an instance of VisualizationFactory
-   * @throws ObviousException if something bad happens
+   * @return  an instance of VisualizationFactory
+   * @throws ObviousException  if something bad happens
+   * @uml.property  name="instance"
    */
   public static VisualizationFactory getInstance() throws ObviousException {
     if (instance == null) {

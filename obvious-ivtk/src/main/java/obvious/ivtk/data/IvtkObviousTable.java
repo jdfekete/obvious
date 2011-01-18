@@ -278,13 +278,23 @@ public class IvtkObviousTable implements Table {
   /**
    * Indicates the end of a column edit.
    * @param col column index
+   * @return true if transaction succeed
    * @throws ObviousException if edition is not supported.
    */
-  public void endEdit(int col) throws ObviousException {
+  public boolean endEdit(int col) throws ObviousException {
     this.editing = false;
+    boolean success = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      if (!listnr.checkInvariants()) {
+        listnr.endEdit(col);
+        success = false;
+        break;
+      }
+    }
     for (TableListener listnr : this.getTableListeners()) {
       listnr.endEdit(col);
     }
+    return success;
   }
 
   /**
@@ -486,7 +496,7 @@ public class IvtkObviousTable implements Table {
    * @param col the column that has changed
    * @param type the type of modification
    */
-  protected void fireTableEvent(int start, int end, int col, int type) {
+  public void fireTableEvent(int start, int end, int col, int type) {
    if (this.getTableListeners().isEmpty()) {
      return;
    }

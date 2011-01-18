@@ -38,13 +38,14 @@ import obvious.util.Adaptable;
 
 /**
  * Interface Table.
- *
- * @author obvious
- * @version $Revision$
+ * @author  obvious
+ * @version  $Revision$
  */
 public interface Table extends Data, Adaptable {
     /**
      * Missing value.
+     * @uml.property  name="mISSING_VALUE" default="MissingValue.getInstance()"
+     * @uml.associationEnd
      */
     MissingValue MISSING_VALUE = MissingValue.getInstance();
 
@@ -154,9 +155,10 @@ public interface Table extends Data, Adaptable {
      * ignored events if wanted.
      * </p>
      * @param col column index
+     * @return true if transaction succeed
      * @throws ObviousException if edition is not supported.
      */
-    void endEdit(int col) throws ObviousException;
+    boolean endEdit(int col) throws ObviousException;
 
     /**
      * Indicates if a column is being edited.
@@ -241,4 +243,14 @@ public interface Table extends Data, Adaptable {
      * @param val value to set
      */
     void set(int rowId, int col, Object val);
+
+    /**
+     * Notifies changes to listener.
+     * @param start the starting row index of the changed table region
+     * @param end the ending row index of the changed table region
+     * @param col the column that has changed
+     * @param type the type of modification
+     */
+    void fireTableEvent(int start, int end, int col, int type);
+
 }
