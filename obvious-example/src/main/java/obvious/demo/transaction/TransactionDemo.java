@@ -28,10 +28,11 @@
 package obvious.demo.transaction;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.JFrame;
 
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
@@ -61,13 +62,32 @@ public final class TransactionDemo {
    * @throws ObviousException if something bad happens
    */
   public static void main(String[] args) throws SQLException, ObviousException {
+    JFrame frame = new LoginFrame();
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.pack();
+    frame.setVisible(true);
+  }
+
+  /**
+   * Fill table method.
+   * @param url url of the database
+   * @param user user name
+   * @param password password
+   * @param driver driver
+   * @param tableName table name
+   * @param key table primary key
+   * @throws ObviousException if something bad happens
+   */
+  public static void fillTable(String url, String user,
+      String password, String driver, String tableName,
+      String key) throws ObviousException {
     Schema schema = new PrefuseObviousSchema();
     schema.addColumn("name", String.class, "Doe");
     schema.addColumn("firstName", String.class, "John");
 
     Table table = new JDBCObviousTable(
-        schema, "com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test",
-        "root", "", "person", "name");
+        schema, driver, url,
+        user, password, tableName, key);
     Connection con = (Connection) table.getUnderlyingImpl(
         java.sql.Connection.class);
     table.addTableListener(new TriggerListener(con));
@@ -225,17 +245,13 @@ public final class TransactionDemo {
       PreparedStatement pStmt = null;
       ResultSet rslt = null;
       int minSize = 0;
-      String name = "";
       try {
-        System.out.println("FIRST TEST " + con.getAutoCommit());
-        String request = "SELECT MIN( CHAR_LENGTH( NAME ) ), NAME FROM person ";
+        String request = "SELECT MIN( CHAR_LENGTH( NAME ) ) FROM person ";
         pStmt = con.prepareStatement(request);
         rslt = pStmt.executeQuery();
         while (rslt.next()) {
           minSize = rslt.getInt(1);
-          name = rslt.getString(2);
         }
-        System.out.println("SECOND TEST " + con.getAutoCommit() + " " + name);
       } catch (SQLException e) {
         throw new ObviousRuntimeException(e);
       } finally {
