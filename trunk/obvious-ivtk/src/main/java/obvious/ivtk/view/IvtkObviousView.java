@@ -27,6 +27,9 @@
 
 package obvious.ivtk.view;
 
+import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -126,5 +129,50 @@ public class IvtkObviousView extends JView {
      }
      return null;
    }
+
+  /**
+  * Returns a reference to the AffineTransform used by this view.
+  * @return AffineTransform used by this view.
+  */
+  public AffineTransform getTransform() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /**
+   * Paints the view.
+   * @param g Graphics instance
+   */
+  public void paint(Graphics g) {
+    panel.paint(g);
+  }
+
+  /**
+   * Pans the view provided in screen coordinates.
+   * @param dx the amount to pan along the x-dimension, in pixel units
+   * @param dy the amount to pan along the y-dimension, in pixel units
+   */
+  public void pan(float dx, float dy) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  /**
+   * Sets the AffineTransform used by this view.
+   * @param transform AffineTransform instance to set
+   */
+  public void setTransform(AffineTransform transform) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  /**
+   * Zooms the view to the given scale.
+   * @param p anchor point for the zoom
+   * @param scale scale for the zoom
+   */
+  public void zoom(Point2D p, float scale) {
+    // TODO Auto-generated method stub
+  }
 
 }

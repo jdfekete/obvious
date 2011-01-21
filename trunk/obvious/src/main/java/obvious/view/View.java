@@ -27,6 +27,9 @@
 
 package obvious.view;
 
+import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Collection;
 
 import obvious.util.Adaptable;
@@ -64,5 +67,37 @@ public interface View extends Adaptable {
    * @return the Visualization backing this view
    */
   Visualization getVisualization();
+
+  /**
+   * Returns a reference to the AffineTransform used by this view.
+   * @return AffineTransform used by this view.
+   */
+  AffineTransform getTransform();
+
+  /**
+   * Sets the AffineTransform used by this view.
+   * @param transform AffineTransform instance to set
+   */
+  void setTransform(AffineTransform transform);
+
+  /**
+   * Zooms the view to the given scale.
+   * @param p anchor point for the zoom
+   * @param scale scale for the zoom
+   */
+  void zoom(Point2D p, float scale);
+
+  /**
+   * Pans the view provided in screen coordinates.
+   * @param dx the amount to pan along the x-dimension, in pixel units
+   * @param dy the amount to pan along the y-dimension, in pixel units
+   */
+  void pan(float dx, float dy);
+
+  /**
+   * Paints the view.
+   * @param g Graphics instance
+   */
+  void paint(Graphics g);
 
 }
