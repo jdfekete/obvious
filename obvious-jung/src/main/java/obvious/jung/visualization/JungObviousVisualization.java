@@ -51,6 +51,7 @@ import obvious.data.event.NetworkListener;
 import obvious.data.util.Predicate;
 import obvious.impl.ObviousLinkNetworkListener;
 import obvious.jung.data.JungObviousNetwork;
+import obvious.jung.view.ObviousVisualizationServer;
 import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
@@ -100,11 +101,11 @@ public class JungObviousVisualization extends Visualization {
     }
     if (this.getData() instanceof obvious.data.Tree<?, ?>) {
       jungTree = getJungTree();
-      vis = new VisualizationViewer<Node, Edge>(initLayout(
+      vis = new ObviousVisualizationServer(initLayout(
           layoutValue));
     } else if (this.getData() instanceof Network) {
       jungGraph = getJungGraph();
-      vis = new VisualizationViewer<Node, Edge>(initLayout(
+      vis = new ObviousVisualizationServer(initLayout(
           layoutValue));
     } else {
       throw new ObviousRuntimeException("obvious-jung implementation"

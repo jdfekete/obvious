@@ -27,11 +27,14 @@
 
 package obvious.jung.view;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Map;
 
 import javax.swing.JComponent;
 
-import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
@@ -46,12 +49,18 @@ import obvious.viz.Visualization;
  *
  */
 
+@SuppressWarnings("serial")
 public class JungObviousView extends JView {
 
   /**
    * Visualization backing this view.
    */
   private Visualization backingVis;
+
+  /**
+   * Transform stored.
+   */
+  private AffineTransform trsf;
 
   /**
    * Constructor.
@@ -62,6 +71,7 @@ public class JungObviousView extends JView {
    */
   public JungObviousView(Visualization vis, Predicate predicate,
       String tech, Map<String, Object> param) {
+    this.trsf = new AffineTransform();
     if (vis.getUnderlyingImpl(VisualizationViewer.class) != null) {
       this.backingVis = vis;
     } else {
@@ -77,7 +87,7 @@ public class JungObviousView extends JView {
   @Override
   public JComponent getViewJComponent() {
     return (VisualizationViewer) backingVis.getUnderlyingImpl(
-        BasicVisualizationServer.class);
+        VisualizationViewer.class);
   }
 
   @Override
@@ -88,6 +98,44 @@ public class JungObviousView extends JView {
   @Override
   public Visualization getVisualization() {
     return this.backingVis;
+  }
+
+  @Override
+  public AffineTransform getTransform() {
+    return this.trsf;
+  }
+
+  @Override
+  public void paint(Graphics g) {
+    Graphics2D g2D = (Graphics2D) g.create();
+    g2D.setTransform(trsf);
+    this.getViewJComponent().paint(g2D);
+  }
+
+  @Override
+  public void pan(float dx, float dy) {
+    this.trsf.translate(dx, dy);
+    Graphics2D g = ((Graphics2D) this.getViewJComponent().getGraphics());
+    g.clearRect(0, 0, getViewJComponent().getSize().width,
+        getViewJComponent().getSize().height);
+    g.setTransform(trsf);
+    this.paint(g);
+  }
+
+  @Override
+  public void setTransform(AffineTransform transform) {
+    this.trsf = transform;
+  }
+
+  @Override
+  public void zoom(Point2D p, float scale) {
+    Graphics2D g = ((Graphics2D) this.getViewJComponent().getGraphics());
+    double x = p.getX(), y = p.getY();
+    this.trsf.translate(x, y);
+    this.trsf.scale(scale, scale);
+    this.trsf.translate(-x, -y);
+    g.setTransform(trsf);
+    this.paint(g);
   }
 
 }
