@@ -518,7 +518,12 @@ public class JDBCObviousTable implements Table {
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
       } finally {
-        try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+        try {
+          pStatement.close();
+          if (!con.getAutoCommit()) {
+            con.rollback();
+          }
+        } catch (Exception e) { e.printStackTrace(); }
         //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
       }
     }
@@ -553,7 +558,12 @@ public class JDBCObviousTable implements Table {
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     } finally {
-      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try {
+        pStatement.close();
+        if (!con.getAutoCommit()) {
+          con.rollback();
+        }
+        } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
@@ -610,7 +620,12 @@ public class JDBCObviousTable implements Table {
     } catch (Exception e) {
       new ObviousRuntimeException(e);
     } finally {
-      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try {
+        pStatement.close();
+        if (!con.getAutoCommit()) {
+          con.rollback();
+        }
+        } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
     this.fireTableEvent(rowId, rowId, this.getSchema().getColumnIndex(field),
@@ -670,7 +685,12 @@ public class JDBCObviousTable implements Table {
     } catch (Exception e) {
       new ObviousRuntimeException(e);
     } finally {
-      try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
+      try {
+        pStatement.close();
+        if (!con.getAutoCommit()) {
+          con.rollback();
+        }
+        } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
     int r = this.getRowCount() - 1;
