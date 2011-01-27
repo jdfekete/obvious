@@ -27,9 +27,13 @@
 
 package obvious.ivtk.view;
 
+import infovis.panel.VisualizationPanel;
+
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -37,6 +41,7 @@ import javax.swing.JComponent;
 import obvious.data.Network;
 import obvious.data.Table;
 import obvious.data.util.Predicate;
+import obvious.ivtk.viz.CustomIvtkJComponent;
 import obvious.ivtk.viz.IvtkVisualizationFactory;
 import obvious.view.JView;
 import obvious.view.event.ViewListener;
@@ -51,14 +56,24 @@ public class IvtkObviousView extends JView {
 
 
   /**
-   * ivtk visualization panel.
+   * Base ivtk visualization panel.
    */
   private infovis.panel.VisualizationPanel panel;
+
+  /**
+   * Custom ivtk visualization panel.
+   */
+  private CustomIvtkJComponent customPanel;
 
   /**
    * Visualization backing this view.
    */
   private Visualization backingVis;
+
+  /**
+   * Transform stored.
+   */
+  private AffineTransform trsf;
 
   /**
    * Constructor.
@@ -69,6 +84,7 @@ public class IvtkObviousView extends JView {
    */
   public IvtkObviousView(Visualization vis, Predicate predicate, String tech,
       Map <String, Object> param) {
+    this.trsf = new AffineTransform();
     if (vis.getUnderlyingImpl(infovis.Visualization.class) != null) {
       this.backingVis = vis;
     } else {
@@ -84,6 +100,7 @@ public class IvtkObviousView extends JView {
     panel = new infovis.panel.VisualizationPanel(
         (infovis.Visualization) backingVis.getUnderlyingImpl(
             infovis.Visualization.class));
+    ((VisualizationPanel) getViewJComponent()).setUsingGradient(false);
   }
 
   /**
@@ -97,7 +114,10 @@ public class IvtkObviousView extends JView {
 
   @Override
   public JComponent getViewJComponent() {
-    return panel;
+    if (customPanel == null) {
+      customPanel = new CustomIvtkJComponent(panel.getVisualization());
+    }
+    return customPanel;
   }
 
   /**
@@ -125,7 +145,7 @@ public class IvtkObviousView extends JView {
    */
    public Object getUnderlyingImpl(Class<?> type) {
      if (type.equals(infovis.panel.VisualizationPanel.class)) {
-       return panel;
+       return getViewJComponent();
      }
      return null;
    }
@@ -144,17 +164,28 @@ public class IvtkObviousView extends JView {
    * @param g Graphics instance
    */
   public void paint(Graphics g) {
-    panel.paint(g);
+    Graphics2D g2D = (Graphics2D) g.create();
+    this.getViewJComponent().paint(g2D);
   }
 
   /**
    * Pans the view provided in screen coordinates.
-   * @param dx the amount to pan along the x-dimension, in pixel units
-   * @param dy the amount to pan along the y-dimension, in pixel units
+   * @param indx the amount to pan along the x-dimension, in pixel units
+   * @param indy the amount to pan along the y-dimension, in pixel units
    */
-  public void pan(float dx, float dy) {
-    // TODO Auto-generated method stub
-    
+  public void pan(float indx, float indy) {
+    this.trsf.translate(indx, indy);
+    Graphics2D g = ((Graphics2D) this.getViewJComponent().getGraphics());
+    g.clearRect(0, 0, getViewJComponent().getSize().width,
+        getViewJComponent().getSize().height);
+    g.setTransform(trsf);
+    Rectangle2D bounds = new Rectangle2D.Float(
+        0, 0, getViewJComponent().getWidth() + indx,
+        getViewJComponent().getHeight() + indy);
+    System.out.println("PANBOUNDS" + bounds.getCenterX() + " : " + bounds.getCenterY());
+    this.customPanel.setBounds(bounds);
+    this.customPanel.setPanValues((double) indx,  (double) indy);
+    this.paint(g);
   }
 
   /**
@@ -162,9 +193,9 @@ public class IvtkObviousView extends JView {
    * @param transform AffineTransform instance to set
    */
   public void setTransform(AffineTransform transform) {
-    // TODO Auto-generated method stub
-    
+    this.trsf = transform;
   }
+
 
   /**
    * Zooms the view to the given scale.
@@ -172,7 +203,17 @@ public class IvtkObviousView extends JView {
    * @param scale scale for the zoom
    */
   public void zoom(Point2D p, float scale) {
-    // TODO Auto-generated method stub
+    Graphics2D g = ((Graphics2D) this.getViewJComponent().getGraphics());
+    double x = p.getX(), y = p.getY();
+    this.trsf.translate(x, y);
+    this.trsf.scale(scale, scale);
+    this.trsf.translate(-x, -y);
+    g.clearRect(0, 0, getViewJComponent().getSize().width,
+        getViewJComponent().getSize().height);
+    g.setTransform(trsf);
+    this.customPanel.setScaleValue(scale);
+    this.customPanel.setPanValues(x, y);
+    this.paint(g);
   }
 
 }

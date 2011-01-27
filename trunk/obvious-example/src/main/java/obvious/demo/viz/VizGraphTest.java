@@ -1,5 +1,11 @@
 package obvious.demo.viz;
 
+import java.awt.Cursor;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +23,9 @@ import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
+import obvious.view.View;
+import obvious.view.JView;
+
 import prefuse.Constants;
 import prefuse.Display;
 import prefuse.action.ActionList;
@@ -25,6 +34,7 @@ import prefuse.action.assignment.ColorAction;
 import prefuse.action.assignment.DataColorAction;
 import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.activity.Activity;
+import prefuse.controls.ControlAdapter;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
@@ -125,9 +135,15 @@ public final class VizGraphTest {
   vis.getUnderlyingImpl(prefuse.Visualization.class);
   
   PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
-  view.addListener(new PrefuseObviousControl(new ZoomControl()));
-  view.addListener(new PrefuseObviousControl(new PanControl()));
-  view.addListener(new PrefuseObviousControl(new DragControl()));
+  //view.addListener(new PrefuseObviousControl(new ZoomControl()));
+  //view.addListener(new PrefuseObviousControl(new PanControl()));
+  //view.addListener(new PrefuseObviousControl(new DragControl()));
+  obvious.view.control.PanControl control = new obvious.view.control.PanControl(view);
+  obvious.view.control.ZoomControl zoomcontrol = new obvious.view.control.ZoomControl(view);
+  view.getViewJComponent().addMouseListener(control);
+  view.getViewJComponent().addMouseMotionListener(control);
+  view.getViewJComponent().addMouseListener(zoomcontrol);
+  view.getViewJComponent().addMouseMotionListener(zoomcontrol);
   //create a new window to hold the visualization
   JFrame frame = new JFrame("DataModel : Obvious-prefuse"
       + " | Visu : Obvious-Prefuse | View : Obvious-Prefuse");

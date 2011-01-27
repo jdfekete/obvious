@@ -108,7 +108,6 @@ public class JungObviousView extends JView {
   @Override
   public void paint(Graphics g) {
     Graphics2D g2D = (Graphics2D) g.create();
-    g2D.setTransform(trsf);
     this.getViewJComponent().paint(g2D);
   }
 
@@ -134,6 +133,8 @@ public class JungObviousView extends JView {
     this.trsf.translate(x, y);
     this.trsf.scale(scale, scale);
     this.trsf.translate(-x, -y);
+    g.clearRect(0, 0, getViewJComponent().getSize().width,
+        getViewJComponent().getSize().height);
     g.setTransform(trsf);
     this.paint(g);
   }
