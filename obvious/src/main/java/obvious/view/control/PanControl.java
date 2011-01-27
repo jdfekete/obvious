@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010, INRIA
+* Copyright (c) 2011, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,54 +25,75 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.demo.viz;
+package obvious.view.control;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+import java.awt.Cursor;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import obvious.data.Network;
-import obvious.ivtk.data.IvtkObviousNetwork;
-import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
-import obvious.view.JView;
-import obvious.view.control.PanControl;
-import obvious.view.control.ZoomControl;
-import obvious.viz.Visualization;
+import obvious.view.View;
 
 /**
- * Simple test based on an ivtk NodeLinKGraph Visualization.
+ * A zoom control for obvious views based on swing.
  * @author Hemery
  *
  */
-public final class IvtkNodeLinkGraph {
+public class PanControl extends MouseAdapter {
 
   /**
-   * Private constructor.
+   * Reference position for x coordinate.
    */
-  private IvtkNodeLinkGraph() {
-  }
+  private int refX = -1;
 
   /**
-   * Main method.
-   * @param args arguments
+   * Reference position for y coordinate.
    */
-  public static void main(final String[] args) {
-    // Creating the example network.
-    infovis.Graph graph = infovis.graph.Algorithms.getGridGraph(10, 10);
-    Network ivtkNetwork = new IvtkObviousNetwork(graph);
+  private int refY = -1;
 
-    Visualization vis = new IvtkNodeLinkGraphVis(ivtkNetwork, null, null, null);
-    JView view = new IvtkObviousView(vis, null, "network", null);
-    PanControl control = new PanControl(view);
-    ZoomControl zoomcontrol = new ZoomControl(view);
-    view.getViewJComponent().addMouseListener(control);
-    view.getViewJComponent().addMouseMotionListener(control);
-    view.getViewJComponent().addMouseListener(zoomcontrol);
-    view.getViewJComponent().addMouseMotionListener(zoomcontrol);
-    JFrame frame = new JFrame("EXAMPLE");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
-    frame.getContentPane().add(view.getViewJComponent());
-    frame.setVisible(true);
+  /**
+   * Obvious view.
+   */
+  private View view;
+
+  /**
+   * Constructor.
+   * @param inView obvious view
+   */
+  public PanControl(View inView) {
+    this.view = inView;
   }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3) {
+      e.getComponent().setCursor(
+          Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+      refX = e.getX();
+      refY = e.getY();
+    }
+  }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
+    if (e.getModifiersEx() == InputEvent.BUTTON3_DOWN_MASK) {
+      int x = e.getX(), y = e.getY();
+      int dx = refX - x;
+      int dy = refY - y;
+      refX = x;
+      refY = y;
+      view.pan(dx, dy);
+    }
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3) {
+      e.getComponent().setCursor(Cursor.getPredefinedCursor(
+          Cursor.DEFAULT_CURSOR));
+      refX = -1;
+      refY = -1;
+    }
+  }
+
 }
