@@ -243,6 +243,13 @@ public class JDBCObviousNetwork implements Network {
         stmt.close();
         return true;
       } catch (Exception e) {
+        try {
+          if (!con.getAutoCommit()) {
+            con.rollback();
+          }
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
         throw new ObviousRuntimeException(e);
       }
     }
@@ -277,7 +284,14 @@ public class JDBCObviousNetwork implements Network {
           stmt.close();
           return true;
         } catch (Exception e) {
-        throw new ObviousRuntimeException(e);
+          try {
+            if (!con.getAutoCommit()) {
+              con.rollback();
+            }
+          } catch (SQLException ex) {
+            ex.printStackTrace();
+          }
+          throw new ObviousRuntimeException(e);
       }
     }
   }
@@ -564,6 +578,13 @@ public class JDBCObviousNetwork implements Network {
         edgeKeyToEdgeId.remove(edgeKeyVal);
         return true;
       } catch (Exception e) {
+        try {
+          if (!con.getAutoCommit()) {
+            con.rollback();
+          }
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
         throw new ObviousRuntimeException(e);
       }
     }
@@ -594,6 +615,13 @@ public class JDBCObviousNetwork implements Network {
         edgeKeyToEdgeId.remove(nodeId);
         return true;
       } catch (Exception e) {
+        try {
+          if (!con.getAutoCommit()) {
+            con.rollback();
+          }
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
         throw new ObviousRuntimeException(e);
       }
     }
@@ -601,6 +629,9 @@ public class JDBCObviousNetwork implements Network {
 
   @Override
   public Object getUnderlyingImpl(Class<?> type) {
+    if (type.equals(java.sql.Connection.class)) {
+      return this.con;
+    }
     return null;
   }
 

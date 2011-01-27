@@ -85,6 +85,7 @@ public final class TransactionDemo {
     schema.addColumn("name", String.class, "Doe");
     schema.addColumn("firstName", String.class, "John");
 
+
     Table table = new JDBCObviousTable(
         schema, driver, url,
         user, password, tableName, key);
@@ -97,9 +98,15 @@ public final class TransactionDemo {
       table.addRow(new TupleImpl(schema, new Object[] {
           String.valueOf(200 + i), "charles"}));
     }
+    System.out.println("1");
+    table.addRow(new TupleImpl(schema, new Object[] {"dupont", "toto"}));
+    System.out.println("2");
+    table.addRow(new TupleImpl(schema, new Object[] {"dupont", "toto"}));
+    System.out.println("3");
     table.endEdit(0);
 
     table.addRow(new TupleImpl(schema, new Object[] {"apresTransac", "Jan"}));
+
   }
 
   /**
@@ -175,6 +182,9 @@ public final class TransactionDemo {
       // Starting the transaction.
       try {
         con.setAutoCommit(false);
+        PreparedStatement stmt = con.prepareStatement("START TRANSACTION;");
+        stmt.executeUpdate();
+        stmt.close();
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
       }
@@ -207,6 +217,7 @@ public final class TransactionDemo {
           con.rollback();
           success = false;
         }
+        con.commit();
         con.setAutoCommit(true);
         return success;
       } catch (Exception e) {
