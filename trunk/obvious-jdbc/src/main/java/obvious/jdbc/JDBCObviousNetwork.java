@@ -109,6 +109,22 @@ public class JDBCObviousNetwork implements Network {
     new ArrayList<NetworkListener>();
 
   /**
+   * Is the table in batch mode.
+   */
+  private boolean isInBatchMode = false;
+
+  /**
+   * Batch statement (used when user sets the batch mode with the beginEdit
+   * method).
+   */
+  private Statement batchStmt;
+
+  /**
+   * Batch mode constant.
+   */
+  public static final int BATCH_MODE = 1;
+
+  /**
    * Constructor.
    * @param con JDBC connection
    * @param nodeTable the JDBC node table
@@ -238,9 +254,13 @@ public class JDBCObviousNetwork implements Network {
           }
         }
         request = request + colNames + " VALUES " + values;
-        Statement stmt = con.createStatement();
-        stmt.executeUpdate(request);
-        stmt.close();
+        if (!isInBatchMode) {
+          Statement stmt = con.createStatement();
+          stmt.executeUpdate(request);
+          stmt.close();
+        } else {
+          batchStmt.addBatch(request);
+        }
         return true;
       } catch (Exception e) {
         try {
@@ -279,9 +299,13 @@ public class JDBCObviousNetwork implements Network {
             }
           }
           request = request + colNames + " VALUES " + values;
-          Statement stmt = con.createStatement();
-          stmt.executeUpdate(request);
-          stmt.close();
+          if (!isInBatchMode) {
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(request);
+            stmt.close();
+          } else {
+            batchStmt.addBatch(request);
+          }
           return true;
         } catch (Exception e) {
           try {
@@ -308,6 +332,15 @@ public class JDBCObviousNetwork implements Network {
    * @throws ObviousException if edition is not supported.
    */
   public void beginEdit(int col) throws ObviousException {
+    if (col == BATCH_MODE) {
+      this.isInBatchMode = true;
+      try {
+        this.batchStmt = con.createStatement();
+        this.batchStmt.clearBatch();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
     for (NetworkListener listnr : this.getNetworkListeners()) {
       listnr.beginEdit(col);
     }
@@ -325,6 +358,15 @@ public class JDBCObviousNetwork implements Network {
    * @throws ObviousException if edition is not supported.
    */
   public boolean endEdit(int col) throws ObviousException {
+    if (isInBatchMode) {
+      this.isInBatchMode = false;
+      try {
+        this.batchStmt.executeBatch();
+        this.batchStmt.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
     boolean success = true;
     NetworkListener failedListener = null;
     for (NetworkListener listnr : this.getNetworkListeners()) {
@@ -383,7 +425,7 @@ public class JDBCObviousNetwork implements Network {
           colNames += " ";
         }
       }
-      request = request + colNames + " FROM " + edgeTable + " WHERE EDGE_ID < 123000";
+      request = request + colNames + " FROM " + edgeTable;
       Statement stmt = con.createStatement();
       ResultSet rslt = stmt.executeQuery(request);
       while (rslt.next()) {
@@ -393,6 +435,8 @@ public class JDBCObviousNetwork implements Network {
         }
         edges.add(new EdgeImpl(edgeSchema, values));
       }
+      rslt.close();
+      stmt.close();
       return edges;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -481,6 +525,8 @@ public class JDBCObviousNetwork implements Network {
         }
         nodes.add(new NodeImpl(nodeSchema, values));
       }
+      rslt.close();
+      stmt.close();
       return nodes;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
@@ -570,9 +616,13 @@ public class JDBCObviousNetwork implements Network {
       try {
         String request = "DELETE FROM " + edgeTable + "WHERE " + edgeKey
             + " = '" + edgeKeyVal.toString();
-        Statement stmt = con.createStatement();
-        stmt.executeUpdate(request);
-        stmt.close();
+        if (!isInBatchMode) {
+          Statement stmt = con.createStatement();
+          stmt.executeUpdate(request);
+          stmt.close();
+        } else {
+          batchStmt.addBatch(request);
+        }
         int edgeId = edgeKeyToEdgeId.get(edgeKeyVal);
         networkStruct.remove(edgeId);
         edgeKeyToEdgeId.remove(edgeKeyVal);
@@ -609,9 +659,13 @@ public class JDBCObviousNetwork implements Network {
         }
         String request = "DELETE FROM " + nodeTable + "WHERE " + nodeKey
         + " = '" + nodeKeyVal.toString();
-        Statement stmt = con.createStatement();
-        stmt.executeUpdate(request);
-        stmt.close();
+        if (!isInBatchMode) {
+          Statement stmt = con.createStatement();
+          stmt.executeUpdate(request);
+          stmt.close();
+        } else {
+          batchStmt.addBatch(request);
+        }
         edgeKeyToEdgeId.remove(nodeId);
         return true;
       } catch (Exception e) {
