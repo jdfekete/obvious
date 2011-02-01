@@ -39,6 +39,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
@@ -116,6 +117,22 @@ public class JDBCObviousTable implements Table {
    * JDBC connection.
    */
   private Connection con;
+
+  /**
+   * Is the table in batch mode.
+   */
+  private boolean isInBatchMode = false;
+
+  /**
+   * Batch statement (used when user sets the batch mode with the beginEdit
+   * method).
+   */
+  private Statement batchStmt;
+
+  /**
+   * Batch mode constant.
+   */
+  public static final int BATCH_MODE = 1;
 
   /**
    * Constructor for an Obvious table based on JDBC.
@@ -295,6 +312,15 @@ public class JDBCObviousTable implements Table {
    */
   public void beginEdit(int col) throws ObviousException {
     this.editing = true;
+    if (col == BATCH_MODE) {
+      this.isInBatchMode = true;
+      try {
+        this.batchStmt = con.createStatement();
+        this.batchStmt.clearBatch();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
     for (TableListener listnr : this.getTableListeners()) {
       listnr.beginEdit(col);
     }
@@ -355,6 +381,15 @@ public class JDBCObviousTable implements Table {
    */
   public boolean endEdit(int col) throws ObviousException {
     this.editing = false;
+    if (isInBatchMode) {
+      this.isInBatchMode = false;
+      try {
+        this.batchStmt.executeBatch();
+        this.batchStmt.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
     boolean success = true;
     TableListener failedListener = null;
     for (TableListener listnr : this.getTableListeners()) {
@@ -506,22 +541,31 @@ public class JDBCObviousTable implements Table {
     if (this.canRemoveRow()) {
       try {
         int r = getRowCount() - 1;
-        //con = DriverManager.getConnection(url, username, password);
         String request = "DELETE FROM " + this.tableName;
-        pStatement = con.prepareStatement(request);
-        pStatement.executeUpdate(request);
-        rowIndexMap.clear();
+        if (!isInBatchMode) {
+          pStatement = con.prepareStatement(request);
+          pStatement.executeUpdate(request);
+          rowIndexMap.clear();
+        } else {
+          batchStmt.addBatch(request);
+        }
         this.fireTableEvent(0, r,
             TableListener.ALL_COLUMN, TableListener.DELETE);
       }  catch (SQLException e) {
         System.err.println("SQLException: " + e.getMessage());
+        try {
+          if (!con.getAutoCommit()) {
+            con.rollback();
+          }
+        } catch (SQLException e1) {
+          e1.printStackTrace();
+        }
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
       } finally {
         try {
-          pStatement.close();
-          if (!con.getAutoCommit()) {
-            con.rollback();
+          if (pStatement != null) {
+            pStatement.close();
           }
         } catch (Exception e) { e.printStackTrace(); }
         //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
@@ -546,24 +590,34 @@ public class JDBCObviousTable implements Table {
       StringBuffer tupleSQL = formatSQL.format(rowIndexMap.get(row),
           new StringBuffer(), new FieldPosition(0));
       request += tupleSQL;
-      pStatement = con.prepareStatement(request);
-      pStatement.execute(request);
+      if (!isInBatchMode) {
+        pStatement = con.prepareStatement(request);
+        pStatement.execute(request);
+      } else {
+        batchStmt.addBatch(request);
+      }
       rowIndexMap.remove(row);
       this.fireTableEvent(row, row,
           TableListener.ALL_COLUMN, TableListener.DELETE);
       return true;
     } catch (SQLException e) {
       System.err.println("SQLException: " + e.getMessage());
+      try {
+        if (!con.getAutoCommit()) {
+          con.rollback();
+        }
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      }
       return false;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     } finally {
       try {
-        pStatement.close();
-        if (!con.getAutoCommit()) {
-          con.rollback();
+        if (pStatement != null) {
+          pStatement.close();
         }
-        } catch (Exception e) { e.printStackTrace(); }
+      } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
@@ -613,19 +667,29 @@ public class JDBCObviousTable implements Table {
       StringBuffer formerValue = formatSQL.format(this.getValue(rowId, field),
           new StringBuffer(), new FieldPosition(0));
       request += newValue + " WHERE " + field + " = " + formerValue;
-      pStatement = con.prepareStatement(request);
-      pStatement.executeUpdate(request);
+      if (!isInBatchMode) {
+        pStatement = con.prepareStatement(request);
+        pStatement.executeUpdate(request);
+      } else {
+        batchStmt.addBatch(request);
+      }
     } catch (SQLException e) {
       System.err.println("SQLException: " + e.getMessage());
+      try {
+        if (!con.getAutoCommit()) {
+          con.rollback();
+        }
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      }
     } catch (Exception e) {
       new ObviousRuntimeException(e);
     } finally {
       try {
-        pStatement.close();
-        if (!con.getAutoCommit()) {
-          con.rollback();
+        if (pStatement != null) {
+          pStatement.close();
         }
-        } catch (Exception e) { e.printStackTrace(); }
+      } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
     this.fireTableEvent(rowId, rowId, this.getSchema().getColumnIndex(field),
@@ -677,20 +741,31 @@ public class JDBCObviousTable implements Table {
           request += ", ";
         }
       }
-      pStatement = con.prepareStatement(request);
-      pStatement.executeUpdate(request);
+      if (!isInBatchMode) {
+        pStatement = con.prepareStatement(request);
+        pStatement.executeUpdate(request);
+      } else {
+        batchStmt.addBatch(request);
+      }
       rowIndexMap.put(this.getRowCount() - 1, primaryValue);
     } catch (SQLException e) {
       System.err.println("SQLException: " + e.getMessage());
+      try {
+        if (!con.getAutoCommit()) {
+          System.out.println("ROLLBACK");
+          con.rollback();
+        }
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      }
     } catch (Exception e) {
       new ObviousRuntimeException(e);
     } finally {
       try {
-        pStatement.close();
-        if (!con.getAutoCommit()) {
-          con.rollback();
+        if (pStatement != null) {
+          pStatement.close();
         }
-        } catch (Exception e) { e.printStackTrace(); }
+      } catch (Exception e) { e.printStackTrace(); }
       //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
     }
     int r = this.getRowCount() - 1;
