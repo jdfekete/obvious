@@ -116,6 +116,7 @@ public class IvtkObviousView extends JView {
   public JComponent getViewJComponent() {
     if (customPanel == null) {
       customPanel = new CustomIvtkJComponent(panel.getVisualization());
+      customPanel.setView(this);
     }
     return customPanel;
   }
