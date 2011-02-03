@@ -76,7 +76,7 @@ public class IvtkDataFactory extends DataFactory {
   public Network wrapGraph(Object underlyingGraph) throws ObviousException {
     if (underlyingGraph instanceof Network) {
       return (Network) underlyingGraph;
-    } else if (underlyingGraph instanceof prefuse.data.Graph) {
+    } else if (underlyingGraph instanceof infovis.Graph) {
       return new IvtkObviousNetwork((infovis.Graph) underlyingGraph);
     } else {
       throw new ObviousException("Can't create network from this input object");
