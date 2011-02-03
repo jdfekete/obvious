@@ -27,6 +27,7 @@
 
 package obviousx.io;
 
+import obvious.data.Data;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 
@@ -61,4 +62,10 @@ public interface Importer {
    * @throws ObviousxException when an exception occurs.
    */
   void loadTable() throws ObviousxException;
+
+  /**
+   * Returns the imported obvious Data instance.
+   * @return the imported obvious Data instance
+   */
+  Data getData();
 }
