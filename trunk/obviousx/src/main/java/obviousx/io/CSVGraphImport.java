@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
@@ -187,6 +188,14 @@ public class CSVGraphImport implements Importer {
    */
   public void setFormatFactory(FormatFactory inputFormatFactory) {
     this.formatFactory = inputFormatFactory;
+  }
+
+  /**
+   * Returns the imported obvious Data instance.
+   * @return the imported obvious Data instance
+   */
+  public Data getData() {
+    return this.network;
   }
 
 }

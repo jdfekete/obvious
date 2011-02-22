@@ -32,6 +32,7 @@ import java.io.FileReader;
 import java.text.Format;
 import java.util.ArrayList;
 
+import obvious.data.Data;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
@@ -118,6 +119,14 @@ public class CSVImport implements Importer {
    */
   public Table getTable() {
     return this.table;
+  }
+
+  /**
+   * Returns the imported obvious Data instance.
+   * @return the imported obvious Data instance
+   */
+  public Data getData() {
+    return this.getTable();
   }
 
   /**

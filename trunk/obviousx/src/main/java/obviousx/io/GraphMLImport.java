@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Graph;
 import obvious.data.Network;
@@ -349,7 +350,7 @@ public class GraphMLImport implements Importer {
           eventType = xpp.next();
         }
       } while (xpp.getName() == null || !xpp.getName().equals("node"));
-      Node node = (Node) new NodeImpl(nodeSchema, nodeAttr);
+      Node node = (Node) new NodeImpl(nodeAttr, network.getNodeTable());
       network.addNode(node);
       xpp.nextTag();
     } catch (Exception e) {
@@ -404,7 +405,7 @@ public class GraphMLImport implements Importer {
       // Update the list of edges and edge typ map.
       // Edge addition to the network are done at the end, when it is
       // sure that all nodes have been added to the graph.
-      Edge currentEdge = (Edge) new EdgeImpl(edgeSchema, edgeAttr);
+      Edge currentEdge = (Edge) new EdgeImpl(edgeAttr, network.getEdgeTable());
       edges.add(currentEdge);
       edgeType.put(currentEdge, currentEdgeType);
     } catch (Exception e) {
@@ -433,5 +434,12 @@ public class GraphMLImport implements Importer {
     return null;
   }
 
+  /**
+   * Returns the imported obvious Data instance.
+   * @return the imported obvious Data instance
+   */
+  public Data getData() {
+    return this.network;
+  }
 }
 

@@ -76,6 +76,7 @@ public class IvtkObviousTableReader implements Importer {
   public IvtkObviousTableReader(String name, File file) {
     AbstractReader reader = TableReaderFactory.createTableReader(name,
         new DefaultTable());
+    System.out.println(reader == null);
     try {
       reader.setIn(new FileInputStream(file));
     } catch (FileNotFoundException e) {
