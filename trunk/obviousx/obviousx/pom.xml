@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>obviousx</groupId>
+  <artifactId>obviousx</artifactId>
+  <name>obviousx</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>obvious advanced packages</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>milyn</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>1.6</version>
+  		<scope>import</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.sf.opencsv</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>2.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.prefuse</groupId>
+  		<artifactId>prefuse</artifactId>
+  		<version>beta-20060220</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>xmlpull</groupId>
+  		<artifactId>xmlpull</artifactId>
+  		<version>1.1.2.1</version>
+  	</dependency>
+  	    <dependency>
+    	<groupId>infovis</groupId>
+    	<artifactId>infovis</artifactId>
+    	<version>0.10-alpha-2-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
