@@ -350,7 +350,8 @@ public class GraphMLImport implements Importer {
           eventType = xpp.next();
         }
       } while (xpp.getName() == null || !xpp.getName().equals("node"));
-      Node node = (Node) new NodeImpl(nodeAttr, network.getNodeTable());
+      Node node = (Node) new NodeImpl(network.getNodeTable().getSchema(),
+          nodeAttr);
       network.addNode(node);
       xpp.nextTag();
     } catch (Exception e) {
@@ -405,7 +406,8 @@ public class GraphMLImport implements Importer {
       // Update the list of edges and edge typ map.
       // Edge addition to the network are done at the end, when it is
       // sure that all nodes have been added to the graph.
-      Edge currentEdge = (Edge) new EdgeImpl(edgeAttr, network.getEdgeTable());
+      Edge currentEdge = (Edge) new EdgeImpl(network.getEdgeTable().getSchema()
+          , edgeAttr);
       edges.add(currentEdge);
       edgeType.put(currentEdge, currentEdgeType);
     } catch (Exception e) {
