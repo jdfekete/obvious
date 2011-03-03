@@ -59,6 +59,11 @@ public class DataFactoryImpl extends DataFactory {
   }
 
   @Override
+  public Schema createSchema() {
+	  return new SchemaImpl();
+  }
+  
+  @Override
   public Table createTable(String name, Schema schema) throws ObviousException {
     return new TableImpl(schema);
   }

@@ -74,6 +74,12 @@ public abstract class DataFactory {
     }
 
     /**
+     * Creates an Empty Schema that can be changed
+     * @return A changeable empty Schema.
+     */
+    public abstract Schema createSchema();
+    
+    /**
      * Creates a table from an existing Schema instance.
      * @param name table's name
      * @param schema original schema for the table
