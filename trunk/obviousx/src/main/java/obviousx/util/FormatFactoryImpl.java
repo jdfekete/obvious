@@ -154,6 +154,7 @@ public final class FormatFactoryImpl implements FormatFactory {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
+      pos.setIndex(source == null ? 4 : source.length());
       if (source != null && source.equals("true")) {
         return true;
       } else if (source != null && source.equals("false")) {
@@ -366,6 +367,7 @@ public final class FormatFactoryImpl implements FormatFactory {
         return null;
       } else {
         try {
+          pos.setIndex(source.length());
           if (!source.endsWith("{") || !source.startsWith("{")) {
             return null;
           }
