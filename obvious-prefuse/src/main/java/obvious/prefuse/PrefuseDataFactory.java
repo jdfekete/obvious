@@ -48,6 +48,11 @@ public class PrefuseDataFactory extends DataFactory {
       throws ObviousException {
     return new PrefuseObviousNetwork(nodeSchema, edgeSchema);
   }
+  
+  @Override
+  public Schema createSchema() {
+  	return new PrefuseObviousSchema();
+  }
 
   @Override
   public Table createTable(String name, Schema schema) throws ObviousException {
@@ -145,5 +150,4 @@ public class PrefuseDataFactory extends DataFactory {
       Map<String, Object> param) throws ObviousException {
     return createTable(name, schema);
   }
-
 }
