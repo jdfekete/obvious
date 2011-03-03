@@ -36,6 +36,7 @@ import obvious.data.Data;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.SchemaImpl;
+import obvious.impl.TableImpl;
 import obviousx.ObviousxException;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
@@ -86,7 +87,6 @@ public class CSVImport implements Importer {
   /**
    * Constructor.
    * @param inputFile external file to load
-   * @param inputTable table to fill with the content of the file.
    * @param sep the separator char used for CSV
    */
   public CSVImport(File inputFile, Table inputTable, char sep) {
@@ -95,6 +95,10 @@ public class CSVImport implements Importer {
     this.fileSchema = new SchemaImpl();
     this.separator = sep;
     this.formatFactory = new FormatFactoryImpl();
+  }
+  
+  public CSVImport(File inputFile, char sep) {
+    this(inputFile, null, sep);
   }
 
   /**
@@ -188,6 +192,12 @@ public class CSVImport implements Importer {
   public void loadTable() throws ObviousxException {
     try {
       this.readSchema();
+      if (table == null) {
+    	  // TODO: I'm not sure, but using DataFactory.instance().createTable(fileSchema)
+    	  //       might be the better approach here.
+    	  table = new TableImpl(fileSchema);
+      }
+      
       CSVReader reader = new CSVReader(new FileReader(file), separator);
       String[] nextline;
       Integer lineCount = 0;
