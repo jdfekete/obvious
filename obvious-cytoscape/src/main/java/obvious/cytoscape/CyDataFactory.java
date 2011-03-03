@@ -100,4 +100,10 @@ public class CyDataFactory extends DataFactory {
     fireAsynchronousEvent(final E event, final Class<L> listener) { }
   }
 
+  @Override
+  public Schema createSchema() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

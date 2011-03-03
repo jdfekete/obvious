@@ -112,7 +112,7 @@ public final class GraphMLExportExample {
 
     for (int i = 0; i < NODENUMBER; i++) {
       Object[] values = {i, color[i]};
-      Node node = new NodeImpl(nodeSchema, values);
+      Node node = new NodeImpl(network.getNodeTable().getSchema(), values);
       network.addNode(node);
     }
 
@@ -120,7 +120,8 @@ public final class GraphMLExportExample {
     Object[][] edgeValue = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {3, 4}, {4, 5}};
 
     for (int i = 0; i < EDGENUMBER; i++) {
-      Edge edge = new EdgeImpl(edgeSchema, edgeValue[i]);
+      Edge edge = new EdgeImpl(network.getEdgeTable().getSchema(),
+          edgeValue[i]);
       Node sourceNode = null, targetNode = null;
       for (Node node : network.getNodes()) {
         if (node.get("nodeId").equals(edgeValue[i][0])) {

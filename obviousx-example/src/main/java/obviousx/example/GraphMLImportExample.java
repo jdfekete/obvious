@@ -71,7 +71,7 @@ public final class GraphMLImportExample {
     try {
       factoryPath = args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
-      factoryPath = "obvious.prefuse.PrefuseDataFactory";
+      factoryPath = "obvious.JungDataFactory";
     }
 
     // Load GraphML File
@@ -85,21 +85,21 @@ public final class GraphMLImportExample {
     nodeSchema.addColumn("color", String.class, "yellow");
 
     Schema edgeSchema = new SchemaImpl();
-    edgeSchema.addColumn("sourceNode", int.class, 0);
-    edgeSchema.addColumn("targetNode", int.class, 0);
+    edgeSchema.addColumn("#FirstVertex", int.class, 0);
+    edgeSchema.addColumn("#SecondVertex", int.class, 0);
 
     System.setProperty("obvious.DataFactory", factoryPath);
     DataFactory dFactory = DataFactoryImpl.getInstance();
 
     Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("sourceKey", "sourceNode");
-    paramMap.put("targetKey", "targetNode");
+    paramMap.put("sourceKey", "#FirstVertex");
+    paramMap.put("targetKey", "#SecondVertex");
     paramMap.put("nodeKey", "nodeId");
     Network network = dFactory.createGraph("net", nodeSchema,
         edgeSchema, paramMap);
     // Create GraphMLImporter
-    GraphMLImport importer = new GraphMLImport(inputFile, network, "sourceNode",
-        "targetNode", "nodeId");
+    GraphMLImport importer = new GraphMLImport(inputFile, network,
+        "#FirstVertex", "#SecondVertex", "nodeId");
     importer.readSchema();
     importer.loadTable();
 
@@ -112,7 +112,9 @@ public final class GraphMLImportExample {
     }
 
     System.out.println("Edges : ");
+
     for (Edge edge : network.getEdges()) {
+      System.out.println();
       for (int i = 0; i < edge.getSchema().getColumnCount(); i++) {
         System.out.print(edge.get(i) + ", ");
       }

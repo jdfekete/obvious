@@ -34,6 +34,7 @@ import obvious.data.DataFactory;
 import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.impl.SchemaImpl;
 
 /**
  * Implementation of Obvious DataFactory Interface.
@@ -116,6 +117,11 @@ public class JDBCDataFactory extends DataFactory {
     } else {
       throw new ObviousException("Can't create table from this input object");
     }
+  }
+
+  @Override
+  public Schema createSchema() {
+    return new SchemaImpl();
   }
 
 }
