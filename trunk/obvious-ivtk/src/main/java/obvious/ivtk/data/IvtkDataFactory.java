@@ -51,6 +51,11 @@ public class IvtkDataFactory extends DataFactory {
   }
 
   @Override
+  public Schema createSchema() {
+    return new IvtkObviousSchema();
+  }
+
+  @Override
   public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("directed")) {
@@ -68,8 +73,7 @@ public class IvtkDataFactory extends DataFactory {
   @Override
   public Table createTable(String name, Schema schema, Map<String, Object> par)
       throws ObviousException {
-    // TODO Auto-generated method stub
-    return null;
+    return new IvtkObviousTable(schema);
   }
 
   @Override

@@ -7,8 +7,8 @@
      <key id="d0" for="node" attr.name="color" attr.type="string">
        	<default>yellow</default>
 	 </key>
-	 <key id="d1" for="edge" attr.name="sourceNode" attr.type="int"/>
-	 <key id="d2" for="edge" attr.name="targetNode" attr.type="int"/>
+	 <key id="d1" for="edge" attr.name="#FirstVertex" attr.type="int"/>
+	 <key id="d2" for="edge" attr.name="#SecondVertex" attr.type="int"/>
      <graph id="example" edgedefault="directed">
      	<node id="n0">
      		<data key="d0">grey</data>

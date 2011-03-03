@@ -36,6 +36,7 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.data.Node;
 import obvious.data.Edge;
+import obvious.impl.SchemaImpl;
 import obvious.impl.TableImpl;
 
 /**
@@ -129,6 +130,11 @@ public class JungDataFactory extends DataFactory {
   public Table createTable(String name, Schema schema,
       Map<String, Object> param) throws ObviousException {
     return new TableImpl(schema);
+  }
+
+  @Override
+  public Schema createSchema() {
+    return new SchemaImpl();
   }
 
 }
