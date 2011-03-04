@@ -91,7 +91,7 @@ public final class CSVGraphExample {
     paramMap.put("sourceKey", "sourceNode");
     paramMap.put("targetKey", "targetNode");
     paramMap.put("nodeKey", "nodeId");
-    Network network = dFactory.createGraph("net", nodeSchema,
+    Network network = dFactory.createGraph(nodeSchema,
         edgeSchema, paramMap);
 
     // Create Importer

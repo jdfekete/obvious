@@ -95,7 +95,7 @@ public final class GraphMLImportExample {
     paramMap.put("sourceKey", "#FirstVertex");
     paramMap.put("targetKey", "#SecondVertex");
     paramMap.put("nodeKey", "nodeId");
-    Network network = dFactory.createGraph("net", nodeSchema,
+    Network network = dFactory.createGraph(nodeSchema,
         edgeSchema, paramMap);
     // Create GraphMLImporter
     GraphMLImport importer = new GraphMLImport(inputFile, network,
