@@ -85,7 +85,7 @@ public final class CSVImportExample {
     schema.addColumn("Status", String.class, "");
     System.setProperty("obvious.DataFactory", factoryPath);
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    Table table = dFactory.createTable("test", schema);
+    Table table = dFactory.createTable(schema);
 
 
     // Create CSV Importer

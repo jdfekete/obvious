@@ -82,7 +82,7 @@ public final class CSVExportExample {
 
     System.setProperty("obvious.DataFactory", factoryPath);
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    Table table = dFactory.createTable("table", schema);
+    Table table = dFactory.createTable(schema);
 
     // Fill table.
     table.addRow();
