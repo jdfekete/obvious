@@ -148,10 +148,8 @@ public class CSVGraphImport implements GraphImporter {
         separator);
     CSVImport edgeImport = new CSVImport(edgeFile, new TableImpl(edgeSchema),
         separator);
-    nodeImport.loadTable();
-    edgeImport.loadTable();
-    Table nodeTable = nodeImport.getTable();
-    Table edgeTable = edgeImport.getTable();
+    Table nodeTable = nodeImport.loadTable();
+    Table edgeTable = edgeImport.loadTable();
     for (int i = 0; i < nodeTable.getRowCount(); i++) {
       Node node = new NodeImpl(nodeTable, i);
       network.addNode(node);

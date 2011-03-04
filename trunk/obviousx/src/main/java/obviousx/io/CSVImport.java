@@ -115,14 +115,6 @@ public class CSVImport implements TableImporter {
   }
 
   /**
-   * Gets the table attribute of the importer.
-   * @return the table attribute
-   */
-  public Table getTable() {
-    return this.table;
-  }
-
-  /**
    * Gets the schema attribute of the importer. Returns null when the schema was
    * not read yet.
    * @return the schema attribute
