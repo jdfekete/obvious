@@ -52,7 +52,7 @@ import obviousx.util.FormatFactoryImpl;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVGraphImport implements Importer {
+public class CSVGraphImport implements GraphImporter {
 
   /**
    * CSV file describing nodes.

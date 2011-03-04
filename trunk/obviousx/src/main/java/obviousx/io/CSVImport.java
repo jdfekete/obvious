@@ -32,7 +32,6 @@ import java.io.FileReader;
 import java.text.Format;
 import java.util.ArrayList;
 
-import obvious.data.Data;
 import obvious.data.DataFactory;
 import obvious.data.Schema;
 import obvious.data.Table;
@@ -50,7 +49,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVImport implements Importer {
+public class CSVImport implements TableImporter {
 
   /**
    * Input file.
@@ -124,14 +123,6 @@ public class CSVImport implements Importer {
   }
 
   /**
-   * Returns the imported obvious Data instance.
-   * @return the imported obvious Data instance
-   */
-  public Data getData() {
-    return this.getTable();
-  }
-
-  /**
    * Gets the schema attribute of the importer. Returns null when the schema was
    * not read yet.
    * @return the schema attribute
@@ -192,11 +183,11 @@ public class CSVImport implements Importer {
    * Loads the table with the data of the external file.
    * @throws ObviousxException when exception occurs
    */
-  public void loadTable() throws ObviousxException {
+  public Table loadTable() throws ObviousxException {
     try {
       this.readSchema();
-      if (table == null) {
-    	  table = DataFactory.getInstance().createTable(new String(), fileSchema);
+      if (this.table == null) {
+      	this.table = DataFactory.getInstance().createTable(new String(), fileSchema);
       }
       
       CSVReader reader = new CSVReader(new FileReader(file), separator);
@@ -219,6 +210,8 @@ public class CSVImport implements Importer {
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
+    
+    return this.table;
   }
 
 }

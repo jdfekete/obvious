@@ -27,7 +27,7 @@
 
 package obviousx.io;
 
-import obvious.data.Data;
+import obvious.data.Table;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 
@@ -36,8 +36,7 @@ import obviousx.util.FormatFactory;
  * @author Pierre-Luc Hemery
  *
  */
-public interface Importer {
-
+public interface TableImporter {
   /**
    * Get the FormatFactory associated to this Importer.
    * @return the FormatFactory of this Importer
@@ -56,16 +55,9 @@ public interface Importer {
    */
   void readSchema() throws ObviousxException;
 
-
   /**
    * Load the content of an external medium (file, db) into an Obvious Table.
    * @throws ObviousxException when an exception occurs.
    */
-  void loadTable() throws ObviousxException;
-
-  /**
-   * Returns the imported obvious Data instance.
-   * @return the imported obvious Data instance
-   */
-  Data getData();
+  Table loadTable() throws ObviousxException;
 }

@@ -59,7 +59,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
  * @author Pierre-Luc Hemery
  *
  */
-public class GraphMLImport implements Importer {
+public class GraphMLImport implements GraphImporter {
 
   /**
    * Input file.

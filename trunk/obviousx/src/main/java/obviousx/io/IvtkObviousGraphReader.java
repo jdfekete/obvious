@@ -27,13 +27,14 @@
 
 package obviousx.io;
 
+import infovis.graph.DefaultGraph;
+import infovis.graph.io.AbstractGraphReader;
+import infovis.graph.io.GraphReaderFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import infovis.graph.DefaultGraph;
-import infovis.graph.io.AbstractGraphReader;
-import infovis.graph.io.GraphReaderFactory;
 import obvious.ObviousException;
 import obvious.data.Data;
 import obvious.data.DataFactory;
@@ -47,7 +48,7 @@ import obviousx.util.FormatFactory;
  * @author Hemery
  *
  */
-public class IvtkObviousGraphReader implements Importer {
+public class IvtkObviousGraphReader implements GraphImporter {
 
   /**
    * Obvious network to fill.
