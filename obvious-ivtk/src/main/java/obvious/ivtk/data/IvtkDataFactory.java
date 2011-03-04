@@ -45,7 +45,7 @@ import obvious.data.Table;
 public class IvtkDataFactory extends DataFactory {
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     return new IvtkObviousNetwork(nodeSchema, edgeSchema);
   }
@@ -56,7 +56,7 @@ public class IvtkDataFactory extends DataFactory {
   }
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("directed")) {
       param.put("directed", false);
@@ -66,12 +66,12 @@ public class IvtkDataFactory extends DataFactory {
   }
 
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     return new IvtkObviousTable(schema);
   }
 
   @Override
-  public Table createTable(String name, Schema schema, Map<String, Object> par)
+  public Table createTable(Schema schema, Map<String, Object> par)
       throws ObviousException {
     return new IvtkObviousTable(schema);
   }

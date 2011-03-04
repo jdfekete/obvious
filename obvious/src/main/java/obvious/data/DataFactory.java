@@ -32,7 +32,10 @@ import java.util.Map;
 import obvious.ObviousException;
 
 /**
- * Abstract Class DataFactory. A factory that can create Network and Table instances. Several methods are proposed to build such instances from existing instances of other tables or from Obvious Schema(s). Each implementation of Obvious should implement this class.
+ * Abstract Class DataFactory. A factory that can create Network and
+ * Table instances. Several methods are proposed to build such instances
+ * from existing instances of other tables or from Obvious Schema(s).
+ * Each implementation of Obvious should implement this class.
  * @author  Jean-Daniel Fekete
  * @version  $Revision$
  */
@@ -40,8 +43,6 @@ public abstract class DataFactory {
 
     /**
      * Static instance of DataFactory.
-     * @uml.property  name="instance"
-     * @uml.associationEnd  
      */
     private static DataFactory instance;
 
@@ -54,7 +55,6 @@ public abstract class DataFactory {
      * Getter for attribute instance of DataFactory.
      * @throws ObviousException  if undefined system property
      * @return  static instance of DataFactory
-     * @uml.property  name="instance"
      */
     public static DataFactory getInstance() throws ObviousException {
         if (instance == null) {
@@ -74,32 +74,30 @@ public abstract class DataFactory {
     }
 
     /**
-     * Creates an Empty Schema that can be changed
+     * Creates an Empty Schema that can be changed.
      * @return A changeable empty Schema.
      */
     public abstract Schema createSchema();
-    
+
     /**
      * Creates a table from an existing Schema instance.
-     * @param name table's name
      * @param schema original schema for the table
      * @return table derived from the schema
      * @throws ObviousException when the table cannot be created.
      */
-    public abstract Table createTable(String name, Schema schema)
+    public abstract Table createTable(Schema schema)
         throws ObviousException;
 
     /**
      * Creates a table from an existing Schema instance.
      * This method allows the use of specific parameters placed in param
      * collection.
-     * @param name table's name
      * @param schema original schema for the table
      * @param param a collection of parameter for underlying constructors.
      * @throws ObviousException when the table cannot be created.
      * @return table derived from the schema
      */
-    public abstract Table createTable(String name, Schema schema,
+    public abstract Table createTable(Schema schema,
         Map<String, Object> param) throws ObviousException;
 
     /**
@@ -113,28 +111,26 @@ public abstract class DataFactory {
 
     /**
      * Creates a network from an existing Schema instance.
-     * @param name network's name
      * @param nodeSchema original schema for nodes
      * @param edgeSchema original schema for edges
      * @return network derived from the network
      * @throws ObviousException when the table cannot be created.
      */
     public abstract Network createGraph(
-            String name, Schema nodeSchema, Schema edgeSchema)
+          Schema nodeSchema, Schema edgeSchema)
         throws ObviousException;
 
     /**
      * Creates a network from an existing Schema instance.
      * This method allows the use of specific parameters placed in param
      * collection.
-     * @param name network's name
      * @param nodeSchema original schema for nodes
      * @param edgeSchema original schema for edges
      * @param param a collection of parameter for underlying constructors.
      * @return network derived from the network
      * @throws ObviousException when the table cannot be created.
      */
-    public abstract Network createGraph(String name, Schema nodeSchema,
+    public abstract Network createGraph(Schema nodeSchema,
             Schema edgeSchema, Map<String, Object> param)
             throws ObviousException;
 

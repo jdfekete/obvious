@@ -46,21 +46,21 @@ import obvious.impl.SchemaImpl;
 public class JDBCDataFactory extends DataFactory {
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     throw new ObviousException("Can't create a Network, JDBC Obvious"
         + "does not support it");
   }
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     throw new ObviousException("Can't create a Network, JDBC Obvious"
         + "does not support it");
   }
 
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     throw new ObviousException("Can't create a JDBC Obvious table without JDBC"
         + "connection parameters! Call the createTable(String, Schema, Map)"
         + "method");
@@ -83,7 +83,7 @@ public class JDBCDataFactory extends DataFactory {
    * @return Obvious Table for the underlying 'JBDC table'
    */
   @Override
-  public Table createTable(String name, Schema schema,
+  public Table createTable(Schema schema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("driver") || !param.containsKey("url")
         || param.containsKey("user") || !param.containsKey("password")) {
@@ -93,11 +93,12 @@ public class JDBCDataFactory extends DataFactory {
     } else if (param.containsKey("primary")) {
       return new JDBCObviousTable(schema, (String) param.get("driver"),
           (String) param.get("url"), (String) param.get("user"),
-          (String) param.get("password"), name, (String) param.get("primary"));
+          (String) param.get("password"), (String) param.get("name"),
+          (String) param.get("primary"));
     } else {
       return new JDBCObviousTable(schema, (String) param.get("driver"),
           (String) param.get("url"), (String) param.get("user"),
-          (String) param.get("password"), name);
+          (String) param.get("password"), (String) param.get("name"));
     }
   }
 

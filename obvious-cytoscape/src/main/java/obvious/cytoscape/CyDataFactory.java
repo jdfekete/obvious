@@ -49,26 +49,26 @@ import obvious.data.Table;
 public class CyDataFactory extends DataFactory {
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     return new CyNetwork(new CyNetworkFactoryImpl(new DummyEventHelper()));
   }
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public Table createTable(String name, Schema schema,
+  public Table createTable(Schema schema,
       Map<String, Object> param)
       throws ObviousException {
     // TODO Auto-generated method stub

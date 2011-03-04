@@ -44,18 +44,18 @@ import obvious.data.Table;
 public class PrefuseDataFactory extends DataFactory {
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     return new PrefuseObviousNetwork(nodeSchema, edgeSchema);
   }
-  
+
   @Override
   public Schema createSchema() {
-  	return new PrefuseObviousSchema();
+    return new PrefuseObviousSchema();
   }
 
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     return new PrefuseObviousTable(schema);
   }
 
@@ -109,7 +109,6 @@ public class PrefuseDataFactory extends DataFactory {
    * identity target nodes in edgeTable.
    * Extra keys should be simply ignored. If keys are not set, default values
    * of Prefuse toolkit will be used.
-   * @param name name of the table in the database
    * @param nodeSchema original obvious schema for the nodes
    * @param edgeSchema original obvious schema for the edges
    * @param param a map with specific prefuse graph constructors parameters
@@ -117,7 +116,7 @@ public class PrefuseDataFactory extends DataFactory {
    * @return a Prefuse Obvious table
    */
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("directed")) {
       param.put("directed", false);
@@ -139,15 +138,14 @@ public class PrefuseDataFactory extends DataFactory {
   /**
    * Returns an Obvious Table. Obvious Jung tables only use schema
    * as constructor's parameter.
-   * @param name name of the table
    * @param schema schema of the table
    * @param param unused parameter
    * @return an Obvious Table
    * @throws ObviousException if table creation failed
    */
   @Override
-  public Table createTable(String name, Schema schema,
+  public Table createTable(Schema schema,
       Map<String, Object> param) throws ObviousException {
-    return createTable(name, schema);
+    return createTable(schema);
   }
 }
