@@ -51,7 +51,7 @@ public class PrefuseTableTest extends TableTest {
     System.setProperty("obvious.DataFactory",
         "obvious.prefuse.PrefuseDataFactory");
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    return dFactory.createTable("table", schema);
+    return dFactory.createTable(schema);
   }
 
 }

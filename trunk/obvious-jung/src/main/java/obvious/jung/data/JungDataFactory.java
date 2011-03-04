@@ -51,13 +51,13 @@ import obvious.impl.TableImpl;
 public class JungDataFactory extends DataFactory {
 
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     return new JungObviousNetwork(nodeSchema, edgeSchema);
   }
 
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     return new TableImpl(schema);
   }
 
@@ -97,7 +97,6 @@ public class JungDataFactory extends DataFactory {
   /**
    * Returns an Obvious Network. Obvious Jung networks accepts column names
    * id for edge schema to identify source and target nodes.
-   * @param name name of the table
    * @param nodeSchema original schema for nodes
    * @param edgeSchema original schema for edges
    * @param param unused parameter
@@ -105,7 +104,7 @@ public class JungDataFactory extends DataFactory {
    * @throws ObviousException if table creation failed
    */
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
     if (!param.containsKey("sourceKey")) {
       param.put("sourceKey", JungObviousNetwork.SRCNODE);
@@ -120,14 +119,13 @@ public class JungDataFactory extends DataFactory {
   /**
    * Returns an Obvious Table. Obvious Jung tables only use schema
    * as constructor's parameter.
-   * @param name name of the table
    * @param schema schema of the table
    * @param param unused parameter
    * @return an Obvious Table
    * @throws ObviousException if table creation failed
    */
   @Override
-  public Table createTable(String name, Schema schema,
+  public Table createTable(Schema schema,
       Map<String, Object> param) throws ObviousException {
     return new TableImpl(schema);
   }

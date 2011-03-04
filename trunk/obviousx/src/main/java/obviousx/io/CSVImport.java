@@ -179,7 +179,7 @@ public class CSVImport implements TableImporter {
     try {
       this.readSchema();
       if (this.table == null) {
-      	this.table = DataFactory.getInstance().createTable(new String(), fileSchema);
+      	this.table = DataFactory.getInstance().createTable(fileSchema);
       }
       
       CSVReader reader = new CSVReader(new FileReader(file), separator);

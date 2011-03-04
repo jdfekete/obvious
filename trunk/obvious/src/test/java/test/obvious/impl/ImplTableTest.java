@@ -51,7 +51,7 @@ public class ImplTableTest extends TableTest {
   public Table newInstance(Schema schema) throws ObviousException {
     System.setProperty("obvious.DataFactory", "obvious.impl.DataFactoryImpl");
     DataFactory dFactory = DataFactoryImpl.getInstance();
-    return dFactory.createTable("table", schema);
+    return dFactory.createTable(schema);
   }
 
 }

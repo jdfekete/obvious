@@ -52,20 +52,20 @@ public final class WrapIvtkReaderDemo {
    * @param args arguments of the main
    * @throws ObviousxException if something bad happens
    */
-  public static void main(String[] args) throws ObviousxException {
+  public static void main(final String[] args) throws ObviousxException {
     File file = new File("src//main//resources//state.txt");
     IvtkObviousTableReader tableReader = new IvtkObviousTableReader(
         "csv", file);
-    
+
     tableReader.loadTable();
-    Table table = (Table) tableReader.getData();
+    Table table = (Table) tableReader.loadTable();
     for (int i = 0; i < table.getRowCount(); i++) {
       for (int j = 0; j < table.getSchema().getColumnCount(); j++) {
         System.out.print(table.getValue(i, j) + " : ");
       }
       System.out.println();
     }
-    
+
 
     /*
     File graphFile = new File("src//main//resources//socialnet.xml");

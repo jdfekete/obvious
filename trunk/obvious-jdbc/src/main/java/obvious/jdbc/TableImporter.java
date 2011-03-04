@@ -132,7 +132,7 @@ public class TableImporter {
   public void createTable() throws SQLException {
     this.createSchema();
     try {
-      this.table = dataFactory.createTable(this.name, this.schema);
+      this.table = dataFactory.createTable(this.schema);
       String selectStar = "SELECT * FROM " + name;
       Statement stmt = this.connection.createStatement();
       ResultSet tableContent = stmt.executeQuery(selectStar);

@@ -45,14 +45,13 @@ public class DataFactoryImpl extends DataFactory {
   /**
    * Obvious Impl does not have its own implementation of network.
    * So this method is unused and always throws an ObviousException.
-   * @param name name of the network
    * @param nodeSchema original schema for the node
    * @param edgeSchema original schema for the edge
    * @return nothing unimplemented
    * @throws ObviousException always throws an ObviousException
    */
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema)
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema)
       throws ObviousException {
     throw new ObviousException("Can't create a network Obvious Impl doest not"
         + "support network!");
@@ -60,11 +59,11 @@ public class DataFactoryImpl extends DataFactory {
 
   @Override
   public Schema createSchema() {
-	  return new SchemaImpl();
+    return new SchemaImpl();
   }
-  
+
   @Override
-  public Table createTable(String name, Schema schema) throws ObviousException {
+  public Table createTable(Schema schema) throws ObviousException {
     return new TableImpl(schema);
   }
 
@@ -102,7 +101,6 @@ public class DataFactoryImpl extends DataFactory {
   /**
    * Obvious Impl does not have its own implementation of network.
    * So this method is unused and always throws an ObviousException.
-   * @param name name of the network
    * @param nodeSchema original schema for the node
    * @param edgeSchema original schema for the edge
    * @param param unused parameter
@@ -110,24 +108,23 @@ public class DataFactoryImpl extends DataFactory {
    * @throws ObviousException always throws an ObviousException
    */
   @Override
-  public Network createGraph(String name, Schema nodeSchema, Schema edgeSchema,
+  public Network createGraph(Schema nodeSchema, Schema edgeSchema,
       Map<String, Object> param) throws ObviousException {
-    return createGraph(name, nodeSchema, edgeSchema);
+    return createGraph(nodeSchema, edgeSchema);
   }
 
   /**
    * Returns an Obvious Table. Obvious Impl tables only use schema
    * as constructor's parameter.
-   * @param name name of the table
    * @param schema schema of the table
    * @param param unused parameter
    * @return an Obvious Table
    * @throws ObviousException if table creation failed
    */
   @Override
-  public Table createTable(String name, Schema schema,
+  public Table createTable(Schema schema,
       Map<String, Object> param) throws ObviousException {
-    return createTable(name, schema, param);
+    return createTable(schema, param);
   }
 
 }
