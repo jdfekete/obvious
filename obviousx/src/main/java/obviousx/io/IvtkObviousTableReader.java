@@ -27,16 +27,16 @@
 
 package obviousx.io;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import infovis.io.AbstractReader;
 import infovis.table.DefaultTable;
 import infovis.table.io.AbstractTableReader;
 import infovis.table.io.TableReaderFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import obvious.ObviousException;
-import obvious.data.Data;
 import obvious.data.DataFactory;
 import obvious.data.Table;
 import obviousx.ObviousxException;
@@ -48,7 +48,7 @@ import obviousx.util.FormatFactory;
  * @author Hemery
  *
  */
-public class IvtkObviousTableReader implements Importer {
+public class IvtkObviousTableReader implements TableImporter {
 
   /**
    * Obvious table.
@@ -86,17 +86,12 @@ public class IvtkObviousTableReader implements Importer {
   }
 
   @Override
-  public Data getData() {
-    return this.table;
-  }
-
-  @Override
   public FormatFactory getFormatFactory() {
     return null;
   }
 
   @Override
-  public void loadTable() throws ObviousxException {
+  public Table loadTable() throws ObviousxException {
     boolean success = ivtkReader.load();
     if (success) {
       infovis.Table ivtkTable = ivtkReader.getTable();
@@ -115,6 +110,8 @@ public class IvtkObviousTableReader implements Importer {
       throw new ObviousxRuntimeException(
           "Can't import the given file " + ivtkReader.getName());
     }
+    
+    return table;
   }
 
   @Override

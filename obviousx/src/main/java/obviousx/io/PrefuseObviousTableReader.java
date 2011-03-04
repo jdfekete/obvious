@@ -33,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import obvious.ObviousException;
-import obvious.data.Data;
 import obvious.data.DataFactory;
 import obvious.data.Table;
 import obviousx.ObviousxException;
@@ -46,7 +45,7 @@ import prefuse.data.io.DataIOException;
  * @author Hemery
  *
  */
-public class PrefuseObviousTableReader implements Importer {
+public class PrefuseObviousTableReader implements TableImporter {
 
   /**
    * Prefuse table reader.
@@ -78,17 +77,12 @@ public class PrefuseObviousTableReader implements Importer {
   }
 
   @Override
-  public Data getData() {
-    return table;
-  }
-
-  @Override
   public FormatFactory getFormatFactory() {
     return null;
   }
 
   @Override
-  public void loadTable() throws ObviousxException {
+  public Table loadTable() throws ObviousxException {
     try {
       prefuse.data.Table prefTable = prefReader.readTable(stream);
       String oldProperty = System.getProperty("obvious.DataFactory");
@@ -103,6 +97,8 @@ public class PrefuseObviousTableReader implements Importer {
     } catch (ObviousException e) {
       e.printStackTrace();
     }
+    
+    return table;
   }
 
   @Override

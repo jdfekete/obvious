@@ -46,7 +46,7 @@ import prefuse.data.io.DataIOException;
  * @author Hemery
  *
  */
-public class PrefuseObviousGraphReader implements Importer {
+public class PrefuseObviousGraphReader implements GraphImporter {
 
   /**
    * Wrapped prefuse graph reader.
