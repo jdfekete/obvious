@@ -35,7 +35,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Graph;
 import obvious.data.Network;
@@ -180,9 +179,10 @@ public class GraphMLImport implements GraphImporter {
 
   /**
    * Loads the table with the data of the external file.
+   * @return an obvious network.
    * @throws ObviousxException when exception occurs
    */
-  public void loadTable() throws ObviousxException {
+  public Network loadGraph() throws ObviousxException {
     try {
       if (!schemaLoaded) {
         readSchema();
@@ -203,6 +203,7 @@ public class GraphMLImport implements GraphImporter {
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
+    return this.network;
   }
 
   /**
@@ -436,12 +437,5 @@ public class GraphMLImport implements GraphImporter {
     return null;
   }
 
-  /**
-   * Returns the imported obvious Data instance.
-   * @return the imported obvious Data instance
-   */
-  public Data getData() {
-    return this.network;
-  }
 }
 

@@ -31,7 +31,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import obvious.data.Data;
 import obvious.data.Edge;
 import obvious.data.Network;
 import obvious.data.Node;
@@ -141,9 +140,10 @@ public class CSVGraphImport implements GraphImporter {
 
   /**
    * Loads the table with the data of external CSV files.
+   * @return an obvious network
    * @throws ObviousxException when exception occurs
    */
-  public void loadTable() throws ObviousxException {
+  public Network loadGraph() throws ObviousxException {
     CSVImport nodeImport = new CSVImport(nodeFile, new TableImpl(nodeSchema),
         separator);
     CSVImport edgeImport = new CSVImport(edgeFile, new TableImpl(edgeSchema),
@@ -165,6 +165,7 @@ public class CSVGraphImport implements GraphImporter {
           idToNode.get(edge.get(targetCol)),
           network.getEdgeType(edge));
     }
+    return this.network;
   }
 
   /**
@@ -186,14 +187,6 @@ public class CSVGraphImport implements GraphImporter {
    */
   public void setFormatFactory(FormatFactory inputFormatFactory) {
     this.formatFactory = inputFormatFactory;
-  }
-
-  /**
-   * Returns the imported obvious Data instance.
-   * @return the imported obvious Data instance
-   */
-  public Data getData() {
-    return this.network;
   }
 
 }

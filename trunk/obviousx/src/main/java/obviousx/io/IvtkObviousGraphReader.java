@@ -36,7 +36,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import obvious.ObviousException;
-import obvious.data.Data;
 import obvious.data.DataFactory;
 import obvious.data.Network;
 import obviousx.ObviousxException;
@@ -83,17 +82,12 @@ public class IvtkObviousGraphReader implements GraphImporter {
   }
 
   @Override
-  public Data getData() {
-    return network;
-  }
-
-  @Override
   public FormatFactory getFormatFactory() {
     return null;
   }
 
   @Override
-  public void loadTable() throws ObviousxException {
+  public Network loadGraph() throws ObviousxException {
     boolean success = this.ivtkReader.load();
     if (success) {
       infovis.Graph graph = this.ivtkReader.getGraph();
@@ -112,6 +106,7 @@ public class IvtkObviousGraphReader implements GraphImporter {
       throw new ObviousxRuntimeException(
           "Can't import the given file " + ivtkReader.getName());
     }
+    return this.network;
   }
 
   @Override

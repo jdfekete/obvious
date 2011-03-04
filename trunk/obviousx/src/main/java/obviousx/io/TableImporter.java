@@ -32,7 +32,8 @@ import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 
 /**
- * A general interface to manage import from an external format to obvious.
+ * A general interface to manage import from an external format to obvious
+ * table.
  * @author Pierre-Luc Hemery
  *
  */
@@ -58,6 +59,7 @@ public interface TableImporter {
   /**
    * Load the content of an external medium (file, db) into an Obvious Table.
    * @throws ObviousxException when an exception occurs.
+   * @return an obvious Table
    */
   Table loadTable() throws ObviousxException;
 }

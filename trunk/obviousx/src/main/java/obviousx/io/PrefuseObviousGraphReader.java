@@ -33,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import obvious.ObviousException;
-import obvious.data.Data;
 import obvious.data.DataFactory;
 import obvious.data.Network;
 import obviousx.ObviousxException;
@@ -78,17 +77,12 @@ public class PrefuseObviousGraphReader implements GraphImporter {
   }
 
   @Override
-  public Data getData() {
-    return network;
-  }
-
-  @Override
   public FormatFactory getFormatFactory() {
     return null;
   }
 
   @Override
-  public void loadTable() throws ObviousxException {
+  public Network loadGraph() throws ObviousxException {
     try {
       prefuse.data.Graph prefGraph = prefReader.readGraph(stream);
       String oldProperty = System.getProperty("obvious.DataFactory");
@@ -103,6 +97,7 @@ public class PrefuseObviousGraphReader implements GraphImporter {
     } catch (ObviousException e) {
       e.printStackTrace();
     }
+    return this.network;
   }
 
   @Override
