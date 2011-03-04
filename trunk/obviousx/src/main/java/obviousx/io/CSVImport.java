@@ -33,10 +33,9 @@ import java.text.Format;
 import java.util.ArrayList;
 
 import obvious.data.Data;
+import obvious.data.DataFactory;
 import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.impl.SchemaImpl;
-import obvious.impl.TableImpl;
 import obviousx.ObviousxException;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
@@ -92,7 +91,6 @@ public class CSVImport implements Importer {
   public CSVImport(File inputFile, Table inputTable, char sep) {
     this.file = inputFile;
     this.table = inputTable;
-    this.fileSchema = new SchemaImpl();
     this.separator = sep;
     this.formatFactory = new FormatFactoryImpl();
   }
@@ -134,7 +132,8 @@ public class CSVImport implements Importer {
   }
 
   /**
-   * Gets the schema attribute of the importer.
+   * Gets the schema attribute of the importer. Returns null when the schema was
+   * not read yet.
    * @return the schema attribute
    */
   public Schema getSchema() {
@@ -172,6 +171,10 @@ public class CSVImport implements Importer {
         }
         lineCount++;
       }
+      
+      // Lazely initialize the schema here, it also avoids throwing exceptions from the ctor.
+      this.fileSchema = DataFactory.getInstance().createSchema();
+      
       for (int i = 0; i < title.size(); i++) {
         TypedFormat format = formatFactory.getFormat(type.get(i));
         Class<?> spottedClass = format.getFormattedClass();
@@ -193,9 +196,7 @@ public class CSVImport implements Importer {
     try {
       this.readSchema();
       if (table == null) {
-    	  // TODO: I'm not sure, but using DataFactory.instance().createTable(fileSchema)
-    	  //       might be the better approach here.
-    	  table = new TableImpl(fileSchema);
+    	  table = DataFactory.getInstance().createTable(new String(), fileSchema);
       }
       
       CSVReader reader = new CSVReader(new FileReader(file), separator);
