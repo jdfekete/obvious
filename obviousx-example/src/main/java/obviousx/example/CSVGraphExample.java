@@ -99,7 +99,7 @@ public final class CSVGraphExample {
         "sourceNode",  "targetNode", "nodeId", ',');
 
     importer.readSchema();
-    importer.loadTable();
+    importer.loadGraph();
 
     System.out.println("Nodes : ");
     for (Node node : network.getNodes()) {
