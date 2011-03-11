@@ -101,7 +101,7 @@ public final class GraphMLImportExample {
     GraphMLImport importer = new GraphMLImport(inputFile, network,
         "#FirstVertex", "#SecondVertex", "nodeId");
     importer.readSchema();
-    importer.loadTable();
+    importer.loadGraph();
 
     System.out.println("Nodes : ");
     for (Node node : network.getNodes()) {
