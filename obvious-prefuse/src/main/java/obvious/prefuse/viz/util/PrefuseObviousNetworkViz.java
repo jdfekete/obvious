@@ -73,6 +73,7 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
         groupName = (String) param.get(GROUP_NAME);
       }
       if (param.containsKey(LABEL_KEY)) {
+          System.out.println("coucou");
         label = (String) param.get(LABEL_KEY);
       }
     }
@@ -86,7 +87,7 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
     int[] palette = new int[] {
         ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
     };
-    DataColorAction fill = new DataColorAction("graph.nodes", null,
+    DataColorAction fill = new DataColorAction("graph.nodes", label,
         Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
     ColorAction text = new ColorAction("graph.nodes",
         VisualItem.TEXTCOLOR, ColorLib.gray(0));
