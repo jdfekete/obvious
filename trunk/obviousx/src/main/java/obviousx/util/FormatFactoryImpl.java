@@ -234,6 +234,7 @@ public final class FormatFactoryImpl implements FormatFactory {
         if (val == "null" || val == "" || val == null) {
           return null;
         }
+        val = val.trim();
         p.setIndex(val.length());
         if (type.equals(Integer.class) || type.equals(int.class)) {
           return Integer.parseInt(val);
