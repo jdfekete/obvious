@@ -90,7 +90,7 @@ public final class FormatFactoryImpl implements FormatFactory {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-      pos.setIndex(source.length() - 1);
+      pos.setIndex(source.length());
       return source;
     }
 
