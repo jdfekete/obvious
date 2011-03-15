@@ -172,7 +172,6 @@ public class IvtkObviousVisualization extends Visualization {
    * Gets the corresponding ivtk table.
    * @return corresponding ivtk table
    */
-  /*
   protected infovis.Table getIvtkTable() {
     if (((Table) getData()).getUnderlyingImpl(infovis.Table.class) != null) {
       return (infovis.Table)
@@ -184,8 +183,8 @@ public class IvtkObviousVisualization extends Visualization {
       return ivtkTable;
     }
   }
-  */
-  
+
+  /*
   protected infovis.Table getIvtkTable() {
     if (((Table) getData()).getUnderlyingImpl(infovis.Table.class) != null) {
       return (infovis.Table)
@@ -194,7 +193,7 @@ public class IvtkObviousVisualization extends Visualization {
       return new WrapToIvtkTable((obvious.data.Table) getData());
     }
   }
-
+  */
   /**
    * Gets the corresponding ivtk graph.
    * @return corresponding ivtk graph
