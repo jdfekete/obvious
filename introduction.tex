@@ -1,0 +1,38 @@
+Over the past several years, we have seen the development of a variety
+of information visualization toolkits ~\cite{fekete-uist2003, DBLP:conf/chi/HeerCL05, jung2003, DBLP:conf/infovis/Weaver04}.
+The choice of one of this toolkit is an prominent step in a software development and can be confusing
+for visual analytics software developers. So, in this article, we propose and present
+a way to abstract and unify existing information visualization toolkits.
+
+Historically, this proliferation of toolkits can be explained by the fact
+that each created toolkit addresses a specific problem and/or is designed
+for a specific domain. Thus, there is dispersion in terms of
+capabilities, since each toolkit has unique and interesting visualizations
+and techniques. For example, some toolkits offer several kinds of
+graph layouts ~\cite{DBLP:conf/infovis/Weaver04} when others support very sophisticated coordinated views
+without specific graph capabilities ~\cite{DBLP:conf/chi/HeerCL05}.
+ 
+That is why, visual analytics developers are almost immediately confronted with
+a crucial decision: the choice of the information visualization toolkit to use.
+Since, this choice imposes the data structure and then this data structure imposes capabilities
+and techniques designed for it. Thus, if a developer needs a technique available in other(s)
+toolkit(s), he has to implement it from scratch: it is a waste of time and a source of errors.
+  
+To address this problem, instead of creating another ultimate toolkit, after a worhshop
+gathering several major authors of toolkits ~\cite{vismaster2008}, we specified and implemented a meta-toolkit named
+Obvious. By meta-toolkit, we mean a set of interfaces abstracting services provided by
+information visualization toolkits following the InfoVis reference model ~\cite{DBLP:journals/tvcg/HeerA06a}.
+  
+To provide evidence of the usefulness of Obvious, we have implemented, in Java, Obvious
+binding modules implementing interfaces and abstractions defined in the specification
+for several toolkits (Infovis toolkit ~\cite{fekete-uist2003}, Prefuse ~\cite{DBLP:conf/chi/HeerCL05} and Jung ~\cite{jung2003}). They have been used
+to build some proof-of-concepts examples combining different toolkits and also to create
+pieces of software used by a current research project ~\cite{BENZAKEN:2011:INRIA-00532552:1}. During those developments,
+we have seen the information visualization community can also benefit from Obvious, since important design
+questions emerged, and their answers will improve Infovis reference model
+
+In addition, obvious allows developers to eliminate the crucial choice of the toolkit and to avoid to rewrite
+existing functions. The following use case shows it is now possible to combine toolkits.
+For example, they can choose a data model from JUNG toolkit for a graph, then query it with prefuse predicates,
+use a layout introduced in Infovis toolkit to display it and still used network algorithms introduced in JUNG.
+With obvious, there are no more design restrictions imposed by an initial choice for developer.
