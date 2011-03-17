@@ -1,0 +1,11 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: C:\Documents and Settings\plhemery\Mes documents\obvious\vast2011\obvious.aux
+The style file: abbrv.bst
+Database file #1: obvious.bib
+A bad cross reference---entry "DBLP:conf/chi/HeerCL05"
+refers to entry "DBLP:conf/chi/2005", which doesn't exist
+A bad cross reference---entry "DBLP:conf/infovis/Weaver04"
+refers to entry "DBLP:conf/infovis/2004", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/chi/2005"
+Warning--I didn't find a database entry for "DBLP:conf/infovis/2004"
+Warning--to sort, need author or key in vismaster2008
+(There were 2 error messages)
