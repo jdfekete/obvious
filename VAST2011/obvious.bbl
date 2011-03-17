@@ -20,6 +20,11 @@ J.~Heer, S.~K. Card, and J.~A. Landay.
 \newblock {ACM Symposium on User Interface Software and Technology (UIST 2003)
   Conference Compendium}, {November} {2003}.
 
+\bibitem{lin01}
+J.~Lin, E.~J. Keogh, S.~Lonardi, J.~P. Lankford, and D.~M. Nystrom.
+\newblock Visually mining and monitoring massive time series.
+\newblock In {\em KDD}, pages 460--469, 2004.
+
 \bibitem{jung2003}
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
 \newblock The jung (java universal graph/network) framework.

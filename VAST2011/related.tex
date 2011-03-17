@@ -1,48 +1,7 @@
-The proliferation of information visualization toolkits have raised interest
-in creating abstractions to create them and share functionnalities. Thus,
-there have been several studies in software engineering to describe design
-patterns for toolkits and concrete implementations to propose generic uses and
-mechanics for toolkits.
+\subsection{Existing toolkits}
 
-When creating a software, design patterns are usefull for they are a good way
-to facilitate its construction and to make its architecture clearer,
-more abstract and extendable. That is why, the information
-visualization community has proposed several generic design patterns
-for toolkits and applications to facilitate developers work.
-
-Design patterns have been introduced early in InfoVis with the InfoVis standard
-reference model. It derives from the standard Model-View-Controller model and
-separates an application in three parts : data model, visualization and view.
-This pattern has been widely used in almost every toolkits because it provides
-a simple efficient high level architecture. 
-
-Nevertheless, toolkits following this model have implemented the three parts in
-different way. For example, on one hand, the data model in InfoVis toolkit is column oriented,
-on the other, in Jung it is tuple oriented. That is why, Heer et Al have proposed
-twelve designs to describe common patterns and to facilitate software and toolkit
-creation. They describe several designs for the data model (column or tuple oriented),
-and solutions for visualization and view. However, it only regroups common and efficient design
-patterns for visual analytics but does not answer to the question of how combining existing techniques
-to simplify developer's choice during a software conception. Certainly,  if the toolkit
-prefuse mostly follows all these patterns, others only partially apply them: those designs
-can not be directly used to extend and combine existing works.
-
-Attemps have been made to address this problem. For example, the JUNG toolkit proposes
-a way to make a JUNG graph usable with prefuse. It is a one shot solution to the basic problem.
-Also, Borner has proposed an infrastructure to wrap, reuse and combine existing infovis components.
-In practice, there are a lot of components, but they have loose coupling and the infrastruture mainly
-translates data model into another to combine components. If it fits for static visualization with
-no interaction, it could difficulty work in visual analyctics since we want to avoid copying data
-models.
-
-As a conclusion, there has been important work made to provide generic design patterns
-for information visualization. However, existing toolkits do not apply them in
-an uniform way creating useless complexity. Some initiatives to link toolkits have
-emerged but some of then are one shot attempts to bind two toolkits so are not generic
-enough or some are only dedicated to static visualizations and are not applicable in our
-field. Thus, there is a strong need to create a unified software infrastructure for visual
-analytics application. To take all those requirements into account, we propose a meta-toolkit
-introducing a unified software infrastructure for visual analytics.
+\subsection{Standardization processes}
+ISO, Internet, SQL
 
 
 

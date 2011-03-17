@@ -1,0 +1,55 @@
+In this section, we point out encountered difficulties, raised problems and learned lessons during implementations of Obvious. Each implementation has its own particularities and allows us to better identify gaps in existing design patterns and models. Thus, we start by describing every specific points in realized  implementations and then we conclude with lessons learned during the whole step of implementation. 
+
+\subsection{Prefuse}
+
+Prefuse was the first targeted implementation of Obvious since their design patterns are very close.  The binding implements all abstractions described in the core Obvious interfaces for all data model structures, visualizations, views and predicates. [to be continued...]
+
+Prefuse is currently the only polylithic Information Visualization toolkit [ref]. However, Obvious does not currently  offer a visualization abstraction for polylithic components since. Thus, we choose to provide some pre-built monolithic components based on Prefuse for well know visualization techniques such as scatter plots, force directed graphs, radial graphs... Currently, if a software developer wants to use a non existing technique, he has to write it with Prefuse as a component and wrap it with the Obvious visualization interface.
+
+\subsection{Infovis Toolkit}
+
+The Obvious implementation based on Infovis Toolkit realizes all introduced design patterns. Since it is a monolithic toolkit, we do not encounter problems seen with the Prefuse implementation. We simply bind Infovis Toolkit components to Obvious ones.
+
+Implementing the data model was a bit more tricky because Infovis Toolkit owns a lot of different data structures (DynamicTable, Table, Graph, Tree) and super interfaces for tables and graphs do not provide equivalent to methods defined in Obvious interfaces. That is why we can not wrap Infovis toolkit’s component directly: some “complementary” code that “plays” with existing methods in Infovis Toolkit was needed and so complicates the development and the maintenance of the implementation.
+
+\subsection{Improvise}
+
+Currently, the Obvious implementation based on Improvise only implements the data model part - for tables -.
+
+Even if Improvise is a monolithic toolkit, we can not directly bind Improvise visualization components, since the toolkit does not expose publicly its visualization pipeline. Components are intended to be totally monolithic from scratch. To address those problems, a solution to expose the visualization pipeline is to create in Improvise a specific visualization interface making public needed methods.
+
+In addition, Improvise does not provide dynamic data support: a functionality intended to be in every obvious implementations.
+
+\subsection{JDBC}
+
+The Obvious implementation based on JDBC only uses the data model of Obvious. It was designed to prove that our data model can be applied to a large variety of existing data models or sources. In addition, this implementation is useful since databases are often used as data sources for visualization. That is why it is interesting to directly link our model to an SQL database with JDBC.
+
+Concretely, it  translates obvious methods into SQL queries. For example, getters are implemented as “SELECT” queries, setters as “UPDATE” ones, add as “INSERT” queries and remove as “DELETE” queries. Also, this original implementation passes all predefined unit tests.
+
+In addition, we use it to experiment advanced notification model  that does not exist in current toolkits. The tested model includes support for transaction and batch for modifications: this functionalities are based on mechanisms provided by the database. Those techniques are useful for scalability since large data modifications often occur when working with a visualization.
+
+\subsection{JUNG}
+
+JUNG implementation of Obvious realizes Visualization and View patterns and the Network abstraction, because JUNG already follows this pattern and does not have the notion of table. Since JUNG can easily provides monolithic visualizations , we simply bind existing JUNG visualization components to Obvious ones. As JUNG does not offer schema class, we use our predefined schema implementation from obvious core package to respect our patterns.
+
+From all existing implementations, this one was the easiest to create, since it fits well in Obvious assumptions (network pattern for the data model and easily providing monolithic components). Thus, it demonstrates when an existing toolkit and obvious have the same (or close)  hypotheses, it greatly facilitates implementation.
+
+\subsection{Units tests}
+
+Since, we have defined a consensual abstraction for the data model, we take advantage of this to create unit tests for this abstraction. If such a consensus emerges for the visualization and/or the view part, the same approach could be adopted.
+
+Due to the similarities of Obvious and Prefuse, the binding has been used to set up unit tests for the data model in Obvious. Unit tests allow authors of Obvious bindings to automatically test whether their implementation behaves in conformance with the intended semantics of Obvious. Also, authors are able to extend these existing tests to perform more advanced features for their binding.
+
+Concretely , unit tests have been defined with JUnit  for Schema (14 tests) , Table (11 tests), Network (13 tests) and Tree interfaces (8 tests) in the Obvious core package.
+
+\subsection{Lessons learned}
+
+We have learned several lessons during the development of those implementations: mainly concerning lacks of precision in the Information Visualization reference model. We can list the following lessons:
+
+\begin{itemize}
+\item it was needed to specify a clear semantic for notifications that can support simple models and more advanced ones (with batches and transactions for example)
+\item it is needed to support the polylithic approach to define an abstraction model for visualizations
+\item toolkits needs to adopt patterns close to Obvious ones in order to enhance code quality of the implementations and to facilitate the sharing of functionalities among existing toolkits
+\end{itemize}
+
+
