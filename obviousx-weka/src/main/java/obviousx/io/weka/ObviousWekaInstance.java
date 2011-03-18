@@ -224,14 +224,15 @@ public class ObviousWekaInstance extends Instance {
   @Override
   public double value(int attIndex) {
     Class<?> c = tuple.getSchema().getColumnType(attIndex);
+    double value = -1;
     if (ObviousWekaUtils.isNumeric(c)) {
-      Double.valueOf(tuple.getDouble(attIndex));
+      value = Double.valueOf(tuple.get(attIndex).toString());
     } else if (ObviousWekaUtils.isString(c)) {
-      Double.valueOf(attIndex);
+      value = Double.valueOf(attIndex);
     } else if (ObviousWekaUtils.isDate(c)) {
-      return tuple.getDate(attIndex).getTime();
+      value = tuple.getDate(attIndex).getTime();
     }
-    return -1;
+    return value;
   }
 
   @Override

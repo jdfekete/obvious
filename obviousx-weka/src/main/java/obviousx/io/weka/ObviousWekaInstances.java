@@ -49,17 +49,19 @@ public class ObviousWekaInstances extends Instances {
  
   protected int m_classIndex;
   
-  protected FastVector m_Instances = new FastVector();
-  
-  protected FastVector m_Attributes = new FastVector();
-  
   public ObviousWekaInstances(Table table, String name, FastVector attInfo, int cap) {
     super(name, attInfo, cap);
     this.table = table;
     IntIterator iter = this.table.rowIterator();
     while(iter.hasNext()) {
-      m_Attributes.addElement(attribute(iter.nextInt()));
+      m_Instances.addElement(new ObviousWekaInstance(
+          new TupleImpl(table, iter.nextInt()), this));
     }
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      m_Attributes.addElement(attribute(i));
+    }
+    System.out.println(m_Instances.size());
+    System.out.println(m_Attributes.size());
   }
   
   @Override
@@ -86,13 +88,26 @@ public class ObviousWekaInstances extends Instances {
 
   @Override
   public Attribute attribute(int index) {
+    if (index >= table.getSchema().getColumnCount()) {
+      return null;
+    }
     FastVector fastVect = new FastVector();
+    Class<?> c = table.getSchema().getColumnType(index);
     IntIterator iter = table.rowIterator();
     while (iter.hasNext()) {
       int row = iter.nextInt();
-      fastVect.addElement(table.getValue(row, index));
+      if (!fastVect.contains(table.getValue(row, index))) {
+        fastVect.addElement(table.getValue(row, index));
+        }
     }
-    return new Attribute(table.getSchema().getColumnName(index), fastVect);
+    if (ObviousWekaUtils.isNumeric(c)) {
+      return new Attribute(table.getSchema().getColumnName(index));
+    } else if (ObviousWekaUtils.isString(c)) {
+      return new Attribute(table.getSchema().getColumnName(index), fastVect);
+    } else if (ObviousWekaUtils.isDate(c)) {
+      return new Attribute(table.getSchema().getColumnName(index), "yyyy-MM-dd", null);
+    }
+    return new Attribute(table.getSchema().getColumnName(index));
   }
 
   @Override
