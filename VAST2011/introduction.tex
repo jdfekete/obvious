@@ -49,32 +49,87 @@ also at library or toolkits developers if they want to promote sharing
 of data managers, converters or algorithms not restricted to one
 toolkit.
 
+This article presents three contributions:
+\begin{enumerate}
+\item it describes the design and implementations of Obvious,
+\item it reports some lessons learned when wrapping existing toolkits
+  with Obvious,
+\item it presents rationales for the social process we started and
+  want to follow for the future of Obvious.
+\end{enumerate}
+
+\begin{comment}
 Obvious is implemented in a modular way with an abstract core module
 and additional specific bindings, implemented for several toolkits:
 the Infovis toolkit~\cite{InfoVis}, Prefuse~\cite{Prefuse},
 Improvise~\cite{Improvise} and Jung~\cite{jung2003}.  These bindings
 have been used to build some proof-of-concepts examples combining
 different toolkits and also to create complete systems used by ongoing
-research projects such
-as~\cite{BENZAKEN:2011:INRIA-00532552:1}.
+research projects such as~\cite{BENZAKEN:2011:INRIA-00532552:1}.
 
 During the development of bindings, we have seen important design
 questions emerge regarding the interpretation of the reference model;
 we report them here to help clarify the InfoVis reference model and
 trade-offs in its implementation.
 
-In addition, Obvious allows developers to eliminate the crucial choice of the toolkit and to avoid rewriting existing functionalities such as file import and export modules, as well as analytical algorithms. The following use case shows it is now possible to combine toolkits.
-For example, they can choose a data model from JUNG toolkit for a graph, then query it with Prefuse predicates, use a layout introduced in Infovis toolkit to display it and still used network algorithms introduced in JUNG.With obvious, there are no more design restrictions imposed by an initial choice for developer.
+In addition, Obvious allows developers to eliminate the crucial choice
+of the toolkit and to avoid rewriting existing functionalities such as
+file import and export modules, as well as analytical algorithms. The
+following use case shows it is now possible to combine toolkits.  For
+example, they can choose a data model from JUNG toolkit for a graph,
+then query it with Prefuse predicates, use a layout introduced in
+Infovis toolkit to display it and still used network algorithms
+introduced in JUNG.  With obvious, there are no more design restrictions
+imposed by an initial choice for developer.
 
-\subsection{Goals and Social Process}
 
-Obvious is not another toolkit, it is a set of interfaces abstracting services provided by information visualization toolkits following the InfoVis reference model ~\cite{DBLP:journals/tvcg/HeerA06a}. It has been specified during a workshop gathering several major authors of toolkits ~\cite{vismaster2008} based on the level on consensus reached at that time among the developers.
+%\subsection{Goals and Social Process}
 
-A typical scenario of Obvious would be the design of VizTree ~\cite{lin01}, a visualization for monitoring massive time-series. The authors of VizTree encode very long time-series of a continuous value as a suffix tree. Describing the details of this encoding is beyond the scope of the paragraph; the point is that the associated tree visualization has been implemented by specialists of data-mining and leaves room for improvements in term of visual mapping and interaction. Using Obvious, the authors would first connect their computed data structure to the data model of Obvious. There are two ways of doing that: use the Obvious data-model directly or use the native data-model implemented for mining the time-series and wrap it with an implementation of the Obvious data-model. Both are possible and will be chosen according to the amount of work and flexibility offered by one option or the other. Once an Obvious data-model is available, the authors of VisTree can start exploring which toolkit will provide them the best support for their visualization. They can choose among the InfoVis Toolkit, Prefuse and JUNG to visualize tree data. Once the best one has been chosen, the interaction can be crafted either on top of the abstraction provided by Obvious - to keep the option of switching the final implementation - or using the native toolkit controls to keep a tighter control of the interface. If desired, the interface can also be improved by adding other visualizations associated with the computation of the prefix tree or of statistics associated with the data. If multiple-coordinated views are required for that, Improvise visualization and views can be added to the interface using the same data model. In that scenario, Obvious has enabled data-mining researchers to focus on their skills and to use state-of-the-art visualization components at a later stage of the development of their application.
+Obvious is not another toolkit, it is a set of interfaces that
+abstract the services provided by information visualization toolkits
+implemented according to the InfoVis reference
+model~\cite{ChiRefModel,ReadingsIV}.  Obvious has been specified
+during a workshop gathering several major authors of
+toolkits~\cite{vismaster2008}; its interfaces have reached a consensus
+at the time of the workshop among the developers.  However, they do
+not cover all the parts of the reference model evenly.  The data
+component is much more precisely defined than the visualization and
+view components. 
+
+In the related work section, we describe several models that have been
+used to standardize software 
+
+%\subsection{Targeted uses}
+
+A typical scenario of Obvious would be the design of
+VizTree~\cite{lin01}, a visual analytics application for monitoring
+massive time-series.  VizTree encodes very long time-series of a
+continuous value as a suffix tree; the details of this encoding being
+beyond the scope of the paragraph scenario.  The associated tree
+visualization has been implemented by specialists of data-mining and
+leaves room for improvements in term of visualization and
+interaction.  Using Obvious, the authors would first connect their
+computed data structure to the data model of Obvious. There are two
+ways of doing that: use the Obvious data-model directly or use the
+native data-model implemented for mining the time-series and wrap it
+with an implementation of the Obvious data-model. Both are possible
+and will be chosen according to the amount of work and flexibility
+offered by one option or the other. Once an Obvious data-model is
+available, the authors of VisTree can start exploring which toolkit
+will provide them the best support for their visualization. They can
+choose among the InfoVis Toolkit, Prefuse and JUNG to visualize tree
+data. Once the best one has been chosen, the interaction can be
+crafted either on top of the abstraction provided by Obvious - to keep
+the option of switching the final implementation - or using the native
+toolkit controls to keep a tighter control of the interface. If
+desired, the interface can also be improved by adding other
+visualizations associated with the computation of the prefix tree or
+of statistics associated with the data. If multiple-coordinated views
+are required for that, Improvise visualization and views can be added
+to the interface using the same data model. In that scenario, Obvious
+has enabled data-mining researchers to focus on their skills and to
+use state-of-the-art visualization components at a later stage of the
+development of their application.
 
 Another scenario [DDupe]
-
-\subsection{Targeted uses}
-
-Scenario
-A “user” wants to implement a VA application starting from scratch.
+\end{comment}
