@@ -2,6 +2,7 @@ package obviousx.io.weka;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 
 import obvious.data.Tuple;
@@ -179,16 +180,16 @@ public class ObviousWekaInstance extends Instance {
     if (ObviousWekaUtils.isNumeric(c)) {
       tuple.set(attIndex, value); 
     } else if (ObviousWekaUtils.isString(c)) {
-      
+      return;
     } else if (ObviousWekaUtils.isDate(c)) {
-      
+      Date date = new Date((long) value);
+      tuple.set(attIndex, date);
     }
   }
 
   @Override
   public void setValueSparse(int indexOfIndex, double value) {
-    // TODO Auto-generated method stub
-    super.setValueSparse(indexOfIndex, value);
+    setValue(indexOfIndex, value);
   }
 
   @Override
@@ -202,20 +203,22 @@ public class ObviousWekaInstance extends Instance {
 
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
-    return super.toString();
+    StringBuffer text = new StringBuffer();
+    for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
+      if (i > 0) text.append(",");
+      text.append(tuple.get(i));
+    }
+    return text.toString();
   }
 
   @Override
   protected String toStringNoWeight() {
-    // TODO Auto-generated method stub
-    return super.toStringNoWeight();
+    return toString();
   }
 
   @Override
   public double value(Attribute att) {
-    // TODO Auto-generated method stub
-    return super.value(att);
+    return value(att.index());
   }
 
   @Override
@@ -233,8 +236,7 @@ public class ObviousWekaInstance extends Instance {
 
   @Override
   public double valueSparse(int indexOfIndex) {
-    // TODO Auto-generated method stub
-    return super.valueSparse(indexOfIndex);
+    return value(indexOfIndex);
   }
 
 }
