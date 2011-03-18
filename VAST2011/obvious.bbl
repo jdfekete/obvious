@@ -1,7 +1,15 @@
 \begin{thebibliography}{1}
 
+\bibitem{InfoVis}
+J.-D. Fekete.
+\newblock The infovis toolkit.
+\newblock In {\em Proceedings of the IEEE Symposium on Information
+  Visualization}, pages 167--174, Washington, DC, USA, 2004. IEEE Computer
+  Society.
+
 \bibitem{vismaster2008}
-Vismaster workshop on visual analytics software architecture.
+J.-D. Fekete.
+\newblock Vismaster workshop on visual analytics software architecture.
 \newblock http://code.google.com/p/obvious/wiki/Motivation, December 2008.
 
 \bibitem{DBLP:journals/tvcg/HeerA06a}
@@ -9,16 +17,11 @@ J.~Heer and M.~Agrawala.
 \newblock Software design patterns for information visualization.
 \newblock {\em IEEE Trans. Vis. Comput. Graph.}, 12(5):853--860, 2006.
 
-\bibitem{DBLP:conf/chi/HeerCL05}
+\bibitem{Prefuse}
 J.~Heer, S.~K. Card, and J.~A. Landay.
-\newblock prefuse: a toolkit for interactive information visualization.
-\newblock In {\em CHI}, pages 421--430, 2005.
-
-\bibitem{fekete-uist2003}
-{Jean-Daniel Fekete}.
-\newblock {The Infovis Toolkit}.
-\newblock {ACM Symposium on User Interface Software and Technology (UIST 2003)
-  Conference Compendium}, {November} {2003}.
+\newblock Prefuse: a toolkit for interactive information visualization.
+\newblock In {\em Proceedings of the SIGCHI conference on Human factors in
+  computing systems}, CHI '05, pages 421--430, New York, NY, USA, 2005. ACM.
 
 \bibitem{lin01}
 J.~Lin, E.~J. Keogh, S.~Lonardi, J.~P. Lankford, and D.~M. Nystrom.
@@ -38,9 +41,11 @@ J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
   {Hannover, Germany}, {04} {2011}. {IEEE}.
 \newblock {to appear}.
 
-\bibitem{DBLP:conf/infovis/Weaver04}
+\bibitem{Improvise}
 C.~Weaver.
 \newblock Building highly-coordinated visualizations in improvise.
-\newblock In {\em INFOVIS}, pages 159--166, 2004.
+\newblock In {\em Proceedings of the IEEE Symposium on Information
+  Visualization}, pages 159--166, Washington, DC, USA, 2004. IEEE Computer
+  Society.
 
 \end{thebibliography}
