@@ -532,7 +532,7 @@ public class TupleImpl implements Tuple  {
    */
   public String getString(int col) {
     this.validityCheck();
-    return (String) this.getString(col);
+    return (String) this.get(col);
   }
 
   /**
