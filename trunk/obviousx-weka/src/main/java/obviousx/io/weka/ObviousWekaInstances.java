@@ -29,10 +29,14 @@ package obviousx.io.weka;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Random;
 
 import obvious.data.Table;
+import obvious.data.Tuple;
+import obvious.data.util.IntIterator;
+import obvious.impl.TupleImpl;
 import weka.core.Attribute;
 import weka.core.AttributeStats;
 import weka.core.FastVector;
@@ -42,441 +46,411 @@ import weka.core.Instances;
 public class ObviousWekaInstances extends Instances {
   
   private Table table;
+ 
+  protected int m_classIndex;
+  
+  protected FastVector m_Instances = new FastVector();
+  
+  protected FastVector m_Attributes = new FastVector();
   
   public ObviousWekaInstances(Table table, String name, FastVector attInfo, int cap) {
     super(name, attInfo, cap);
     this.table = table;
+    IntIterator iter = this.table.rowIterator();
+    while(iter.hasNext()) {
+      m_Attributes.addElement(attribute(iter.nextInt()));
+    }
   }
   
   @Override
   public void add(Instance instance) {
-    // TODO Auto-generated method stub
-    super.add(instance);
+    double[] values = instance.toDoubleArray();
+    Object[] obvValues = new Object[table.getSchema().getColumnCount()];
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      Attribute att = instance.attribute(i);
+      Class<?> c = table.getSchema().getColumnType(i);
+      if(att.isString() && ObviousWekaUtils.isString(c)) {
+        obvValues[i] = instance.attribute(i).value(i);
+      } else if (att.isNumeric() && ObviousWekaUtils.isNumeric(c)) {
+        obvValues[i] = instance.value(att);
+      } else if (att.isDate() && ObviousWekaUtils.isDate(c)) {
+        obvValues[i] = new Date((long) values[i]);
+      } else {
+        obvValues[i] = null;
+      }
+    }
+    Tuple tuple = new TupleImpl(table.getSchema(), obvValues);
+    m_Instances.addElement(new ObviousWekaInstance(tuple, this));
+    table.addRow(tuple);
   }
 
   @Override
   public Attribute attribute(int index) {
-    // TODO Auto-generated method stub
-    return super.attribute(index);
+    FastVector fastVect = new FastVector();
+    IntIterator iter = table.rowIterator();
+    while (iter.hasNext()) {
+      int row = iter.nextInt();
+      fastVect.addElement(table.getValue(row, index));
+    }
+    return new Attribute(table.getSchema().getColumnName(index), fastVect);
   }
 
   @Override
   public Attribute attribute(String arg0) {
-    // TODO Auto-generated method stub
-    return super.attribute(arg0);
+    return attribute(table.getSchema().getColumnIndex(arg0));
   }
 
   @Override
   public AttributeStats attributeStats(int arg0) {
-    // TODO Auto-generated method stub
     return super.attributeStats(arg0);
   }
 
   @Override
   public double[] attributeToDoubleArray(int arg0) {
-    // TODO Auto-generated method stub
     return super.attributeToDoubleArray(arg0);
   }
 
   @Override
   public boolean checkForAttributeType(int attType) {
-    // TODO Auto-generated method stub
-    return super.checkForAttributeType(attType);
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      if (attribute(i).type() == attType) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
   public boolean checkForStringAttributes() {
-    // TODO Auto-generated method stub
     return super.checkForStringAttributes();
   }
 
   @Override
   public boolean checkInstance(Instance arg0) {
-    // TODO Auto-generated method stub
     return super.checkInstance(arg0);
   }
 
   @Override
   public Attribute classAttribute() {
-    // TODO Auto-generated method stub
     return super.classAttribute();
   }
 
   @Override
   public int classIndex() {
-    // TODO Auto-generated method stub
     return super.classIndex();
   }
 
   @Override
   public void compactify() {
-    // TODO Auto-generated method stub
-    super.compactify();
+    m_Instances.trimToSize();
   }
 
   @Override
   protected void copyInstances(int arg0, Instances arg1, int arg2) {
-    // TODO Auto-generated method stub
     super.copyInstances(arg0, arg1, arg2);
   }
 
   @Override
   public void delete() {
-    // TODO Auto-generated method stub
+    table.removeAllRows();
     super.delete();
   }
 
   @Override
   public void delete(int index) {
-    // TODO Auto-generated method stub
+    table.removeRow(index);
     super.delete(index);
   }
 
   @Override
   public void deleteAttributeAt(int arg0) {
-    // TODO Auto-generated method stub
     super.deleteAttributeAt(arg0);
   }
 
   @Override
   public void deleteAttributeType(int attType) {
-    // TODO Auto-generated method stub
     super.deleteAttributeType(attType);
   }
 
   @Override
   public void deleteStringAttributes() {
-    // TODO Auto-generated method stub
     super.deleteStringAttributes();
   }
 
   @Override
   public void deleteWithMissing(Attribute att) {
-    // TODO Auto-generated method stub
     super.deleteWithMissing(att);
   }
 
   @Override
   public void deleteWithMissing(int arg0) {
-    // TODO Auto-generated method stub
     super.deleteWithMissing(arg0);
   }
 
   @Override
   public void deleteWithMissingClass() {
-    // TODO Auto-generated method stub
     super.deleteWithMissingClass();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Enumeration enumerateAttributes() {
-    // TODO Auto-generated method stub
     return super.enumerateAttributes();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Enumeration enumerateInstances() {
-    // TODO Auto-generated method stub
     return super.enumerateInstances();
   }
 
   @Override
   public boolean equalHeaders(Instances arg0) {
-    // TODO Auto-generated method stub
     return super.equalHeaders(arg0);
   }
 
   @Override
   public Instance firstInstance() {
-    // TODO Auto-generated method stub
     return super.firstInstance();
   }
 
   @Override
   protected void freshAttributeInfo() {
-    // TODO Auto-generated method stub
     super.freshAttributeInfo();
   }
 
   @Override
   public Random getRandomNumberGenerator(long seed) {
-    // TODO Auto-generated method stub
     return super.getRandomNumberGenerator(seed);
   }
 
   @Override
   public String getRevision() {
-    // TODO Auto-generated method stub
     return super.getRevision();
   }
 
   @Override
   protected void initialize(Instances dataset, int capacity) {
-    // TODO Auto-generated method stub
     super.initialize(dataset, capacity);
   }
 
   @Override
   public void insertAttributeAt(Attribute arg0, int arg1) {
-    // TODO Auto-generated method stub
     super.insertAttributeAt(arg0, arg1);
   }
 
   @Override
   public Instance instance(int index) {
-    // TODO Auto-generated method stub
     return super.instance(index);
   }
 
   @Override
   protected String instancesAndWeights() {
-    // TODO Auto-generated method stub
     return super.instancesAndWeights();
   }
 
   @Override
   public double kthSmallestValue(Attribute att, int k) {
-    // TODO Auto-generated method stub
     return super.kthSmallestValue(att, k);
   }
 
   @Override
   public double kthSmallestValue(int attIndex, int k) {
-    // TODO Auto-generated method stub
     return super.kthSmallestValue(attIndex, k);
   }
 
   @Override
   public Instance lastInstance() {
-    // TODO Auto-generated method stub
     return super.lastInstance();
   }
 
   @Override
   public double meanOrMode(Attribute att) {
-    // TODO Auto-generated method stub
     return super.meanOrMode(att);
   }
 
   @Override
   public double meanOrMode(int arg0) {
-    // TODO Auto-generated method stub
     return super.meanOrMode(arg0);
   }
 
   @Override
   public int numAttributes() {
-    // TODO Auto-generated method stub
     return super.numAttributes();
   }
 
   @Override
   public int numClasses() {
-    // TODO Auto-generated method stub
     return super.numClasses();
   }
 
   @Override
   public int numDistinctValues(Attribute att) {
-    // TODO Auto-generated method stub
     return super.numDistinctValues(att);
   }
 
   @Override
   public int numDistinctValues(int arg0) {
-    // TODO Auto-generated method stub
     return super.numDistinctValues(arg0);
   }
 
   @Override
   public int numInstances() {
-    // TODO Auto-generated method stub
     return super.numInstances();
   }
 
   @Override
   protected int partition(int attIndex, int l, int r) {
-    // TODO Auto-generated method stub
     return super.partition(attIndex, l, r);
   }
 
   @Override
   protected void quickSort(int arg0, int arg1, int arg2) {
-    // TODO Auto-generated method stub
     super.quickSort(arg0, arg1, arg2);
   }
 
   @Override
   public void randomize(Random arg0) {
-    // TODO Auto-generated method stub
     super.randomize(arg0);
   }
 
   @Override
   public boolean readInstance(Reader reader) throws IOException {
-    // TODO Auto-generated method stub
     return super.readInstance(reader);
   }
 
   @Override
   public String relationName() {
-    // TODO Auto-generated method stub
     return super.relationName();
   }
 
   @Override
   public void renameAttribute(Attribute att, String name) {
-    // TODO Auto-generated method stub
     super.renameAttribute(att, name);
   }
 
   @Override
   public void renameAttribute(int arg0, String arg1) {
-    // TODO Auto-generated method stub
     super.renameAttribute(arg0, arg1);
   }
 
   @Override
   public void renameAttributeValue(Attribute att, String val, String name) {
-    // TODO Auto-generated method stub
     super.renameAttributeValue(att, val, name);
   }
 
   @Override
   public void renameAttributeValue(int arg0, int arg1, String arg2) {
-    // TODO Auto-generated method stub
     super.renameAttributeValue(arg0, arg1, arg2);
   }
 
   @Override
   public Instances resample(Random random) {
-    // TODO Auto-generated method stub
     return super.resample(random);
   }
 
   @Override
   public Instances resampleWithWeights(Random arg0, double[] arg1) {
-    // TODO Auto-generated method stub
     return super.resampleWithWeights(arg0, arg1);
   }
 
   @Override
   public Instances resampleWithWeights(Random arg0) {
-    // TODO Auto-generated method stub
     return super.resampleWithWeights(arg0);
   }
 
   @Override
   protected int select(int arg0, int arg1, int arg2, int arg3) {
-    // TODO Auto-generated method stub
     return super.select(arg0, arg1, arg2, arg3);
   }
 
   @Override
   public void setClass(Attribute att) {
-    // TODO Auto-generated method stub
     super.setClass(att);
   }
 
   @Override
   public void setClassIndex(int classIndex) {
-    // TODO Auto-generated method stub
     super.setClassIndex(classIndex);
   }
 
   @Override
   public void setRelationName(String newName) {
-    // TODO Auto-generated method stub
     super.setRelationName(newName);
   }
 
   @Override
   public void sort(Attribute att) {
-    // TODO Auto-generated method stub
     super.sort(att);
   }
 
   @Override
   public void sort(int attIndex) {
-    // TODO Auto-generated method stub
     super.sort(attIndex);
   }
 
   @Override
   public void stratify(int arg0) {
-    // TODO Auto-generated method stub
     super.stratify(arg0);
   }
 
   @Override
   protected void stratStep(int arg0) {
-    // TODO Auto-generated method stub
     super.stratStep(arg0);
   }
 
   @Override
   public Instances stringFreeStructure() {
-    // TODO Auto-generated method stub
     return super.stringFreeStructure();
   }
 
   @Override
   protected String stringWithoutHeader() {
-    // TODO Auto-generated method stub
     return super.stringWithoutHeader();
   }
 
   @Override
   public double sumOfWeights() {
-    // TODO Auto-generated method stub
     return super.sumOfWeights();
   }
 
   @Override
   public void swap(int i, int j) {
-    // TODO Auto-generated method stub
     super.swap(i, j);
   }
 
   @Override
   public Instances testCV(int arg0, int arg1) {
-    // TODO Auto-generated method stub
     return super.testCV(arg0, arg1);
   }
 
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
     return super.toString();
   }
 
   @Override
   public String toSummaryString() {
-    // TODO Auto-generated method stub
     return super.toSummaryString();
   }
 
   @Override
   public Instances trainCV(int numFolds, int numFold, Random random) {
-    // TODO Auto-generated method stub
     return super.trainCV(numFolds, numFold, random);
   }
 
   @Override
   public Instances trainCV(int arg0, int arg1) {
-    // TODO Auto-generated method stub
     return super.trainCV(arg0, arg1);
   }
 
   @Override
   public double variance(Attribute att) {
-    // TODO Auto-generated method stub
     return super.variance(att);
   }
 
   @Override
   public double variance(int arg0) {
-    // TODO Auto-generated method stub
     return super.variance(arg0);
   }
   
