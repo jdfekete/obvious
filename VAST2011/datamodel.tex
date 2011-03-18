@@ -1,14 +1,60 @@
-This section describes the data model used in Obvious and the way to create data structures. It also exposes the util package for the data model.
-The data model used in Obvious has been largely specified during the workshop: a consensus has been found among all participants.
+This section describes the data model used in Obvious and the way to
+create data structures. It also exposes the util package for the data
+model.  The data model used in Obvious has been largely specified
+during the workshop: a consensus has been found among all
+participants.
 
-The data model introduced in Obvious derived from the proxy tuple design pattern exposed in [2]. However, originally, this model was containing table, graph and tree (an extension of graph) classes. Obvious was using data the relational graph pattern described in [2]. Nevertheless, if this patterns improves extendability, graphs can not be manipulated in an object oriented way and as many developers are used to manipulate “object oriented graphs”, it was not satisfying to only use the relational graph pattern . That is why, we decide to offer possibility to use proxy tuple pattern, a design pattern combining benefits of the relational graph pattern and of object oriented graphs.
+The data model introduced in Obvious derived from the proxy tuple
+design pattern exposed in [2]. However, originally, this model was
+containing table, graph and tree (an extension of graph)
+classes. Obvious was using data the relational graph pattern described
+in [2]. Nevertheless, if this patterns improves extendability, graphs
+can not be manipulated in an object oriented way and as many
+developers are used to manipulate \emph{object oriented graphs}, it
+was not satisfying to only use the relational graph pattern . That is
+why, we decide to offer possibility to use proxy tuple pattern, a
+design pattern combining benefits of the relational graph pattern and
+of object oriented graphs.
 
-In addition, a major difference exists between our patterns and those introduced in [2]. Our patterns used schema to describe the columns of a table (type, name and default value) instead of a column object, that does not exist in Obvious. Schemas have been introduced, since it is efficient to gather all “meta-data” for the columns of a table in one unique structure and since it facilitates tables and networks instantiations with a factory.
+In addition, a major difference exists between our patterns and those
+introduced in [2]. Our patterns used schema to describe the columns of
+a table (type, name and default value) instead of a column object,
+that does not exist in Obvious. Schemas have been introduced, since it
+is efficient to gather all “meta-data” for the columns of a
+table in one unique structure and since it facilitates tables and
+networks instantiations with a factory.
 
-Thus, the data model used in every implementations [described in the corresponding section] is built around tuples: abstractly tables are composed of tuples and graphs are described as networks  i.e. a combination of two tables one  made of nodes and the other of edges (both classes derived from tuples).
+Thus, the data model used in every implementations [described in the
+  corresponding section] is built around tuples: abstractly tables are
+composed of tuples and graphs are described as networks i.e. a
+combination of two tables one made of nodes and the other of edges
+(both classes derived from tuples).
 
-Also, this model is completed by factories, that allows data structure instantiations. Logically, they used the well known factory pattern. With those factories, it is possible to instantiate tables and networks from a schema or  from an existing object from a targeted Obvious implementation (e.g. a Prefuse table or a JUNG graph...). We also give the possibility to use parameters to provide more arguments used in targeted toolkits. For example, in the Prefuse implementation of Obvious, parameters are used to specify for a graph its source and its target node columns in the edge table.
+Also, this model is completed by factories, that allows data structure
+instantiations. Logically, they used the well known factory
+pattern. With those factories, it is possible to instantiate tables
+and networks from a schema or from an existing object from a targeted
+Obvious implementation (e.g. a Prefuse table or a JUNG graph...). We
+also give the possibility to use parameters to provide more arguments
+used in targeted toolkits. For example, in the Prefuse implementation
+of Obvious, parameters are used to specify for a graph its source and
+its target node columns in the edge table.
 
-Finally, we have defined an utility package obviousx, named in the same way as javax. This package provides different kinds of utility classes for the Obvious data model. First, we have defined in obviousx, reader and writer interfaces allowing to create gateways between the Obvious data model and common data formats such as CSV and GraphML. It is useful since it gives to software developers a standard way to import and export data in Obvious whatever the underlying implementation of the data model is. In addition, for data providers, it simplifies their works because they only have to develop one reader and one writer to be compatible with a large number of toolkits. With the same logic, obviousx furnishes a Java TableModel compatible with the Obvious one: it allows to quickly create a JTable from an Obvious table. Finally, obviousx also provides wrappers to “transform” obvious data structures into common existing data structures (Prefuse, Ivtk, Jung, more to develop) in order to avoid when using a visualization to copy data from one model to another.
+Finally, we have defined an utility package obviousx, named in the
+same way as javax. This package provides different kinds of utility
+classes for the Obvious data model. First, we have defined in
+obviousx, reader and writer interfaces allowing to create gateways
+between the Obvious data model and common data formats such as CSV and
+GraphML. It is useful since it gives to software developers a standard
+way to import and export data in Obvious whatever the underlying
+implementation of the data model is. In addition, for data providers,
+it simplifies their works because they only have to develop one reader
+and one writer to be compatible with a large number of toolkits. With
+the same logic, obviousx furnishes a Java TableModel compatible with
+the Obvious one: it allows to quickly create a JTable from an Obvious
+table. Finally, obviousx also provides wrappers to “transform”
+obvious data structures into common existing data structures (Prefuse,
+Ivtk, Jung, more to develop) in order to avoid when using a
+visualization to copy data from one model to another.
 
  
