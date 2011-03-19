@@ -16,24 +16,64 @@ model defines three stages: Data Table, Visual Structure and View
 (Figure~\ref{fig:refmodel}).  One of its main value is that is
 explicitly represents the interaction, in contrast with older
 visualization models.
-
 Several articles have described the concrete design of an information
-visualization toolkit.  The InfoVis Toolkit~\cite{InfoVis} is based on
-an in-memory database manager where data is organized in columns,
-contrary to most relational databases.  The main challenge being the
-support of interactive performance for rendering and dynamic queries
-with a small memory footprint.  Prefuse~\cite{Prefuse} also relies on
-an in-memory database but implements the visual structure as an
-extension of the data model (a visual table derives from a data
-table).  It then transforms the data into a \emph{polylithic} graphic
-structures~\cite{Polylithic} whereas all the other toolkits use a
-\emph{monolithic} architecture.  
+visualization toolkit.  We report here on the common and the
+specific parts.
 
+The InfoVis Toolkit~\cite{InfoVis} is based on an \emph{in-memory
+  database manager} where data is organized in columns --- contrary to
+most relational databases --- to improve the memory footprint and
+allow adding new attributes that are needed to manage the interaction
+(e.g. selection or filtering) and to hold attributes computed on
+demand.  The main challenge being the support of interactive
+performance for rendering and dynamic queries with a small memory
+footprint.  The visual structure is managed using a \emph{monolithic}
+architecture~\cite{Polylithic}: each visualization technique is
+implemented as a specific class (e.g. ScatterplotVisualization,
+ParallelCoordinatesVisualization, TreeVisualization) that performs the
+mapping between the data tables and the graphics items to render.
+Finally, the view component is the same for each of the visual
+structures and takes care of scrolling, zooming, overlaying magic
+lenses (e.g. Fisheye or Magic Lenses).  The interaction is managed by
+\emph{Interactor} objects that are associated with the visual
+structures; the views are generic and forward interaction managements
+to the Interactors.  One specific feature provided by the InfoVis
+Toolkit is layering: visualization can be composed on top of each
+others.  Composite visualizations are useful to build complex
+visualization by breaking them into simple parts. For example,
+node-link diagrams are split into links managed as a layer and nodes
+as another.  Magic lenses and Fisheyes are also managed as layers on
+top of other visualizations.
 
-Building upon their experience in the
-Prefuse toolkit~\cite{Prefuse}, Heer et Agrawala~\cite{DesignPatternsIV}
-presents several software design patterns that are common to
-information visualization applications and toolkits.
+Prefuse~\cite{Prefuse} also relies on an in-memory database but
+implements the visual structure using an extension of the data model (a
+visual table derives from a data table).  It then transforms the data
+into a \emph{polylithic} graphic structures whereas all the other
+toolkits use a \emph{monolithic} architecture.  In a polylithic
+architecture, there is only one component in charge of all the visual
+structures.  A visualization object is responsible of managing a
+visual structure: it contains visual tables that augment data tables
+with graphic attributes (shape, color, etc.) Visualizations are in
+charge of computing the layout (assigning a position and shape to
+visual items), the graphic attributes and animations.  They use a
+\emph{Renderer}  object to actually display visual items.  Users can
+control which renderer is used depending on the visualization and the
+object itself.  In Prefuse, data managers, visual managers and views
+are generic, offering a very clean interface to the application
+programmer.  However, as noted by Bederson at al.~\cite{Polylithic},
+polylithic toolkits have a steeper learning curve than monolithic ones
+because the polylithic components do not work out of the box, they
+always need to be configured.  However, code samples provided with the
+toolkit simplify the configuration: Prefuse is very popular.
+
+Building upon their experience in the Prefuse toolkit~\cite{Prefuse},
+Heer et Agrawala~\cite{DesignPatternsIV} have derived software design
+patterns that are common to information visualization applications and
+toolkits. 
+
+Improvise~\cite{Improvise} relies on an in-memory database that is
+row-oriented and its visual structures are monolithic.  
+
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{figures/reference_model}
@@ -42,7 +82,6 @@ information visualization applications and toolkits.
 \label{fig:refmodel}
 \end{figure}
 
-\cite{DesignPatternsIV}
 
 \subsection{Standardization processes}
 ISO, Internet, SQL
