@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{Tulip}
+D.~Auber.
+\newblock Tulip : {A} huge graph visualisation framework.
+\newblock In P.~Mutzel and M.~J\"unger, editors, {\em Graph Drawing Softwares},
+  Mathematics and Visualization, pages 105--126. Springer-Verlag, 2003.
+
 \bibitem{Polylithic}
 B.~B. Bederson, J.~Grosjean, and J.~Meyer.
 \newblock Toolkit design for interactive structured graphics.
@@ -26,6 +32,12 @@ E.~H.-h. Chi and J.~Riedl.
 \newblock In {\em Proceedings of the 1998 IEEE Symposium on Information
   Visualization}, pages 63--70, Washington, DC, USA, 1998. IEEE Computer
   Society.
+
+\bibitem{ADVIZOR}
+S.~G. Eick.
+\newblock Visual discovery and analysis.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  6:44--58, 2000.
 
 \bibitem{InfoVis}
 J.-D. Fekete.
