@@ -1,4 +1,31 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Polylithic}
+B.~B. Bederson, J.~Grosjean, and J.~Meyer.
+\newblock Toolkit design for interactive structured graphics.
+\newblock {\em IEEE Trans. Softw. Eng.}, 30:535--546, August 2004.
+
+\bibitem{thejit}
+N.~G. Belmonte.
+\newblock Javascript infovis toolkit, Mar. 2011.
+
+\bibitem{Protovis}
+M.~Bostock and J.~Heer.
+\newblock Protovis: A graphical toolkit for visualization.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  15:1121--1128, November 2009.
+
+\bibitem{ReadingsIV}
+S.~K. Card, J.~D. Mackinlay, and B.~Shneiderman, editors.
+\newblock {\em Readings in information visualization: using vision to think}.
+\newblock Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 1999.
+
+\bibitem{ChiRefModel}
+E.~H.-h. Chi and J.~Riedl.
+\newblock An operator interaction framework for visualization systems.
+\newblock In {\em Proceedings of the 1998 IEEE Symposium on Information
+  Visualization}, pages 63--70, Washington, DC, USA, 1998. IEEE Computer
+  Society.
 
 \bibitem{InfoVis}
 J.-D. Fekete.
@@ -7,15 +34,15 @@ J.-D. Fekete.
   Visualization}, pages 167--174, Washington, DC, USA, 2004. IEEE Computer
   Society.
 
-\bibitem{vismaster2008}
-J.-D. Fekete.
-\newblock Vismaster workshop on visual analytics software architecture.
-\newblock http://code.google.com/p/obvious/wiki/Motivation, December 2008.
+\bibitem{flare}
+J.~Heer.
+\newblock flare data visualization for the web, Mar. 2011.
 
-\bibitem{DBLP:journals/tvcg/HeerA06a}
+\bibitem{DesignPatternsIV}
 J.~Heer and M.~Agrawala.
 \newblock Software design patterns for information visualization.
-\newblock {\em IEEE Trans. Vis. Comput. Graph.}, 12(5):853--860, 2006.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  12:853--860, September 2006.
 
 \bibitem{Prefuse}
 J.~Heer, S.~K. Card, and J.~A. Landay.
@@ -23,23 +50,10 @@ J.~Heer, S.~K. Card, and J.~A. Landay.
 \newblock In {\em Proceedings of the SIGCHI conference on Human factors in
   computing systems}, CHI '05, pages 421--430, New York, NY, USA, 2005. ACM.
 
-\bibitem{lin01}
-J.~Lin, E.~J. Keogh, S.~Lonardi, J.~P. Lankford, and D.~M. Nystrom.
-\newblock Visually mining and monitoring massive time series.
-\newblock In {\em KDD}, pages 460--469, 2004.
-
 \bibitem{jung2003}
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
 \newblock The jung (java universal graph/network) framework.
 \newblock Technical report, UCI-ICS, 2003.
-
-\bibitem{BENZAKEN:2011:INRIA-00532552:1}
-{Véronique Benzaken and Jean-Daniel Fekete and Pierre-Luc Hémery and Wael
-  Khemiri and Ioana Manolescu}.
-\newblock {EdiFlow: data-intensive interactive workflows for visual analytics}.
-\newblock In {\em {International conference on Data Engineering (ICDE 2011)}},
-  {Hannover, Germany}, {04} {2011}. {IEEE}.
-\newblock {to appear}.
 
 \bibitem{Improvise}
 C.~Weaver.
