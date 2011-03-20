@@ -6,6 +6,13 @@ D.~Auber.
 \newblock In P.~Mutzel and M.~J\"unger, editors, {\em Graph Drawing Softwares},
   Mathematics and Visualization, pages 105--126. Springer-Verlag, 2003.
 
+\bibitem{Gephi}
+M.~Bastian, S.~Heymann, and M.~Jacomy.
+\newblock Gephi: An open source software for exploring and manipulating
+  networks.
+\newblock In {\em International AAAI Conference on Weblogs and Social Media},
+  2009.
+
 \bibitem{Polylithic}
 B.~B. Bederson, J.~Grosjean, and J.~Meyer.
 \newblock Toolkit design for interactive structured graphics.
@@ -87,6 +94,11 @@ P.~Shannon, A.~Markiel, O.~Ozier, N.~S. Baliga, J.~T. Wang, D.~Ramage, N.~Amin,
 \newblock {Cytoscape: a software environment for integrated models of
   biomolecular interaction networks.}
 \newblock {\em Genome research}, 13(11):2498--2504, Nov. 2003.
+
+\bibitem{BGL}
+J.~G. Siek, L.-Q. Lee, and A.~Lumsdaine.
+\newblock {\em The Boost Graph Library: User Guide and Reference Manual}.
+\newblock Addison-Wesley, 2002.
 
 \bibitem{Improvise}
 C.~Weaver.

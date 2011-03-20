@@ -34,50 +34,55 @@ ParallelCoordinatesVisualization, TreeVisualization) that performs the
 mapping between the data tables and the graphics items to render.
 Finally, the view component is the same for each of the visual
 structures and takes care of scrolling, zooming, overlaying magic
-lenses (e.g. Fisheye or Magic Lenses).  The interaction is managed by
-\emph{Interactor} objects that are associated with the visual
-structures; the views are generic and forward interaction managements
-to the Interactors.  One specific feature provided by the InfoVis
-Toolkit is layering: visualization can be composed on top of each
-others.  Composite visualizations are useful to build complex
-visualization by breaking them into simple parts. For example,
-node-link diagrams are split into links managed as a layer and nodes
-as another.  Magic lenses and Fisheyes are also managed as layers on
-top of other visualizations.
+lenses (e.g. Fisheye or Magic Lenses). A \emph{notification mechanism}
+implements the communication between the data tables and the visual
+structure: each time a data table is modified, it notifies all the
+registered handlers of the details of the modification. The
+interaction is managed by \emph{Interactor} objects that are
+associated with the visual structures; the views are generic and
+forward interaction managements to the Interactors.  One specific
+feature provided by the InfoVis Toolkit is layering: visualization can
+be composed on top of each others.  Composite visualizations are
+useful to build complex visualization by breaking them into simple
+parts. For example, node-link diagrams are split into links managed as
+a layer and nodes as another.  Magic lenses and Fisheyes are also
+managed as layers on top of other visualizations.
 
-Prefuse~\cite{Prefuse} also relies on an in-memory database but
-implements the visual structure using an extension of the data model
-(a visual table derives from a data table).  It then transforms the
-data into a \emph{polylithic} graphic structures whereas all the other
-toolkits use a \emph{monolithic} architecture.  In a polylithic
-architecture, there is only one component in charge of all the visual
-structures.  A visualization object is responsible of managing a
-visual structure: it contains visual tables that augment data tables
-with graphic attributes (shape, color, etc.) Visualizations are in
-charge of computing the layout (assigning a position and shape to
-visual items), the graphic attributes and animations.  Visualizations
-use a \emph{Renderer} object to actually display visual items.  Users
-can control which renderer is used depending on the visualization and
-the object itself.  In Prefuse, data managers, visual managers and
-views are generic, offering a very clean interface to the application
-programmer.  However, as noted by Bederson at al.~\cite{Polylithic},
-polylithic toolkits have a steeper learning curve than monolithic ones
-because the polylithic components do not work out of the box, they
-always need to be configured.  To address this issue, Prefuse comes
-with code samples that simplify the initial setup.
+Prefuse~\cite{Prefuse} also relies on an in-memory database with
+notification but implements the visual structure using an extension of
+the data model (a visual table derives from a data table).  It then
+transforms the data into a \emph{polylithic} graphic structures
+whereas all the other toolkits use a \emph{monolithic} architecture.
+In a polylithic architecture, there is only one component in charge of
+all the visual structures.  A visualization object is responsible of
+managing a visual structure: it contains visual tables that augment
+data tables with graphic attributes (shape, color, etc.)
+Visualizations are in charge of computing the layout (assigning a
+position and shape to visual items), the graphic attributes and
+animations.  Visualizations use a \emph{Renderer} object to actually
+display visual items.  Users can control which renderer is used
+depending on the visualization and the object itself.  In Prefuse,
+data managers, visual managers and views are generic, offering a very
+clean interface to the application programmer.  However, as noted by
+Bederson at al.~\cite{Polylithic}, polylithic toolkits have a steeper
+learning curve than monolithic ones because the polylithic components
+do not work out of the box, they always need to be configured.  To
+address this issue, Prefuse comes with code samples that simplify the
+initial setup.
 
 Building upon their experience in the Prefuse toolkit~\cite{Prefuse},
 Heer et Agrawala~\cite{DesignPatternsIV} have derived software design
 patterns that are common to information visualization applications and
 toolkits. 
 
-Improvise~\cite{Improvise} relies on an in-memory database that is
-row-oriented and its visual structures are monolithic.  The main
-characteristic of Improvise lies in its management of coordinated
-views.  To this aim, it relies on several design patterns
-not supported by Prefuse; compared to the other information
-visualization toolkits, it adds a coordination component that is
-central and unique.
+Improvise~\cite{Improvise} relies on an in-memory database with
+notification that is row-oriented and its visual structures are
+monolithic.  The main characteristic of Improvise lies in its
+management of coordinated views.  To this aim, it relies on several
+design patterns not supported by Prefuse; compared to the other
+information visualization toolkits, it adds a coordination component
+that is central and extends the notification mechanism implemented
+by the InfoVis Toolkit or Prefuse.
 
 Other information visualization toolkits can mostly be described using
 the three toolkits above, even if they use a different programming
@@ -93,18 +98,58 @@ and graph libraries.
 
 \subsection{Scene-Graph Managers}
 
-Scene-graph managers are toolkits focused on computer graphics and
-interaction.  Compared to the reference model, they only deal with the
-visual structure and view.  Piccolo and Jazz~\cite{Polylithic} are
-popular 2D scene-graph managers that have been used to create several
-information visualization applications
-(e.g.~\cite{SpaceTree,Geneaquilt}.) Piccolo has also been used as
-graphics engine for the Cytoscape graph visualization
-system~\cite{Cytoscape} but dropped for performance issues.
+Visual analytics applications can manage their own data structure and
+manage the mapping from data to visual structure on their own.  At
+this point, they can use scene-graph toolkits to manage the
+visual structure and view as described in the reference model.
+
+Scene-graph toolkits are focused on computer graphics and interaction:
+they only deal with the visual structure and view.  Piccolo and
+Jazz~\cite{Polylithic} are popular 2D scene-graph managers that have
+been used to create several information visualization applications
+(e.g.~\cite{SpaceTree,Geneaquilt}.) An early version of Piccolo has
+also been used as graphics engine for the Cytoscape graph
+visualization system~\cite{Cytoscape} but dropped for performance
+reasons.
+
+High-performance information visualization applications use
+scene-graph optimization techniques to speed-up the rendering of
+scenes.  Tulip~\cite{Tulip} and Gephi~\cite{Gephi} maintain a spatial
+indexing structure to avoid rendering objects that are not visible.
+
+Although scene-graph technologies are mature and used in a wide
+variety of graphics applications such as games, virtual-reality
+applications and scientific visualization systems, they are not
+adequate for information visualization systems because they require
+the explicit specification of geometry and graphic attributes for each
+displayed objects.  Very often, information visualization can quickly
+compute graphic attribute and even geometry from data attributes.  For
+example, the position of an item using a scatterplot visualization is
+computed using a simple affine transformation from two data
+attributes.  There is no need to store the computed values when
+computing them on the fly is very cheap.  The same is true for color
+etc.  Copying this information is costly in term of time and memory.
+
+Still, by separating the data-model from the visual model, scene-graph
+managers offer more flexibility than information visualization systems
+for complex graphics and sophisticated interaction.  This is why
+several information visualization systems still use them.
 
 \subsection{Graph Managers}
 
+While most table-based visualization toolkits rely on an in-memory
+database, several graph-based visualization systems manage their
+data-structures using a model inspired from graph-theory where
+topology is the main focus and data associated with graph entities is
+less important.  This is the case for the JUNG library~\cite{jung2003}
+or the Boost Graph Library (BGL)~\cite{BGL}, as well as for the graph
+library used by Cytoscape~\cite{Cytoscape}.
 
+These libraries support graphs as set of vertices and edges (the
+topological entities) that can be associated with arbitrary data.
+This data is just stored by the graph entities as a convenience for
+the application: the library does not implement any integrity check
+between data and graph entities. ++
 
 
 \begin{figure}

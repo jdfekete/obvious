@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  20 MAR 2011 08:46
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  20 MAR 2011 14:24
 entering extended mode
 **obvious
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.tex
@@ -355,18 +355,18 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 
 
 ]
-<figures/reference_model.png, id=60, 602.25pt x 210.7875pt>
+<figures/reference_model.png, id=65, 602.25pt x 210.7875pt>
 File: figures/reference_model.png Graphic file (type png)
 
 <use figures/reference_model.png>)
 (C:\Fekete\src\obvious-papers\VAST2011\design.tex)
-(C:\Fekete\src\obvious-papers\VAST2011\datamodel.tex
+(C:\Fekete\src\obvious-papers\VAST2011\datamodel.tex [2 <C:/Fekete/src/obvious-
+papers/VAST2011/figures/reference_model.png (PNG copy)>]
 Missing character: There is no “ in font ptmr7t!
 Missing character: There is no ” in font ptmr7t!
 Missing character: There is no “ in font ptmr7t!
 Missing character: There is no ” in font ptmr7t!
- [2 <C:/Fekete/src/obvious-papers/VAST2011/figures/reference_model.png (PNG cop
-y)>])
+)
 (C:\Fekete\src\obvious-papers\VAST2011\viewvis.tex)
 (C:\Fekete\src\obvious-papers\VAST2011\implementation.tex
 Missing character: There is no ’ in font ptmr7t!
@@ -374,15 +374,15 @@ Missing character: There is no “ in font ptmr7t!
 Missing character: There is no ” in font ptmr7t!
 Missing character: There is no “ in font ptmr7t!
 Missing character: There is no ” in font ptmr7t!
-Missing character: There is no “ in font ptmr7t!
-Missing character: There is no ” in font ptmr7t!
-Missing character: There is no “ in font ptmr7t!
-Missing character: There is no ” in font ptmr7t!
-Missing character: There is no “ in font ptmr7t!
-Missing character: There is no ” in font ptmr7t!
-Missing character: There is no “ in font ptmr7t!
-Missing character: There is no ” in font ptmr7t!
  [3]
+Missing character: There is no “ in font ptmr7t!
+Missing character: There is no ” in font ptmr7t!
+Missing character: There is no “ in font ptmr7t!
+Missing character: There is no ” in font ptmr7t!
+Missing character: There is no “ in font ptmr7t!
+Missing character: There is no ” in font ptmr7t!
+Missing character: There is no “ in font ptmr7t!
+Missing character: There is no ” in font ptmr7t!
 LaTeX Font Info:    Try loading font information for OMS+ptm on input line 56.
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\omsptm.fd"
@@ -397,31 +397,29 @@ Underfull \hbox (badness 1584) in paragraph at lines 9--10
 ns
  []
 
-) (C:\Fekete\src\obvious-papers\VAST2011\futurework.tex)
+[4]) (C:\Fekete\src\obvious-papers\VAST2011\futurework.tex)
 (C:\Fekete\src\obvious-papers\VAST2011\conclusion.tex)
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.bbl
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.brf)
 \tf@brf=\write4
- [4])
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 111.
- [5
-
-]
+ [5]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 111.
 
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 111.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
-(rerunfilecheck)             Checksum: 86AE3303438F8A799578BE89EB2EEB95;860.
+(rerunfilecheck)             Checksum: 572F93A5A13932F28AE9CBD3313E83CB;1090.
  ) 
 Here is how much of TeX's memory you used:
- 5223 strings out of 495285
- 79502 string characters out of 3179884
- 162653 words of memory out of 3000000
- 8232 multiletter control sequences out of 15000+200000
+ 5233 strings out of 495285
+ 79580 string characters out of 3179884
+ 162707 words of memory out of 3000000
+ 8240 multiletter control sequences out of 15000+200000
  45401 words of font info for 89 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 42i,16n,26p,846b,430s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,16n,26p,846b,350s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.8/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program 
 Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Fil
@@ -430,9 +428,9 @@ es (x86)/MiKTeX 2.8/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)
 2.8/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/t
 ype1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on obvious.pdf (5 pages, 125985 bytes).
+Output written on obvious.pdf (5 pages, 131653 bytes).
 PDF statistics:
- 160 PDF objects out of 1000 (max. 8388607)
- 53 named destinations out of 1000 (max. 500000)
+ 172 PDF objects out of 1000 (max. 8388607)
+ 55 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
