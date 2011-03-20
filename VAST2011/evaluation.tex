@@ -74,7 +74,8 @@ Weka is a software suite of machine learning. It has been proven useful to desig
 
 \subsection{EdiDuplicate (a DDupe-Like application)}
 
-During the development of Obvious, the meta-toolkit has been used to create piece of software used in scientific project such as Ediflow [1]. In this project, we have to check for  duplicated authors in the INRIA database of publications with the Ediflow environment. Thus, we decide for our use case to create a DDupe equivalent in Java able to work with a database: EdiDuplicate.
+INRIA maintains a database for the publication of its member. Researchers regularly fill this database, called HALINRIA, with their new publications. However, mistakes often appears during this process: duplicated authors, institutions or papers. That is why Obvious has been used
+to create a DDupe like application to detect duplicated authors in the database.
 
 DDupe is a software initially written in .NET dedicated to detect and merge duplicated nodes (often modeling people)  in (social) network to facilitate data analysis. It uses similarity metric to compare each pair  of authors and class results in descending order of similarity. In addition, DDupe allows the user to see the neighbourhood of the pair of nodes before merging them, in order to check if common nodes exist among their neighbors and then to confirm metric results.
 
@@ -84,6 +85,6 @@ DDupe is a software initially written in .NET dedicated to detect and merge dupl
 \label{fig:ediduplicate}
 \end{figure}
 
-Our application EdiDuplicate offers the same possibility. Concretely, we have implemented a loader to create an Obvious network from the  database. This structure is then fed by an external application with metrics for each pair of authors. Then, those statistics are displayed in a JTable (automically created from the Obvious structure). When, the user clicks on a cell a view of the neighbourhood of the current nodes is created. Then, with this information, the user is able to decide if the potential duplicated authors has to be merged. In addition, it is possible to query the Obvious structure to only display pair of duplicates for a specific authors. The user can also change the layout used to display the neighbourhood network with a JList: all graph layouts introduced in Infovis Toolkit are available. 
+Our application EdiDuplicate offers the same possibilities but with extensions to cover specific needs. Concretely, we have implemented a loader to create an Obvious network from the  database. This structure is then fed by an external application with metrics for each pair of authors. Then, those statistics are displayed in a JTable (automically created from the Obvious structure). When, the user clicks on a cell a view of the neighbourhood of the current nodes is created. Then, with this information, the user is able to decide if the potential duplicated authors has to be merged. In addition, it is possible to query the Obvious structure to only display pair of duplicates for a specific authors. The user can also change the layout used to display the neighbourhood network with a JList: all graph layouts introduced in Infovis Toolkit are available. 
 
 Concretely, the application mainly combines Obvious components and Swing components (derived from Obvious structure). For the data model, an Obvious Network is used (from the obvious-ivtk implementation), the visualization and the view part are also provided by this implementation. Building this application takes about less than a week.
