@@ -11,11 +11,11 @@ development of the application.
 Historically, this proliferation of toolkits can be explained by
 several factors: each created toolkit addresses a specific set of
 problems, is designed with a specific application domain in mind or
-simply offer different tradeoffs.  However, it results in a dispersion
+simply offers different tradeoffs.  However, it results in a dispersion
 in terms of capabilities since each toolkit has unique and useful
 techniques for visualization and interaction.  For example, the
 Prefuse~\cite{Prefuse} and JUNG~\cite{jung2003} toolkits offer several
-graph layouts algorithms whereas Improvise~\cite{Improvise} supports
+graph layout algorithms whereas Improvise~\cite{Improvise} supports
 very sophisticated coordinated views with limited graph capabilities.
 
 The choice of the information visualization toolkit should be made
@@ -28,14 +28,17 @@ data-management and analysis will be made on data structures
 compatible with the visualization and tied to the visualization
 toolkit.
 
-Once the choice is made, all the missing components should then be
-added specifically for the toolkit: if a special data manager is
-required (e.g. reading a particular data format), it should be
+\jo{changed language in the following paragraph to emphasise that this is a consequence of a lack of meta-toolkit/interface rather than advice.}
+
+Once the choice is made, any missing components have to be
+added specifically to the toolkit: if a special data manager is
+required (e.g. reading a particular data format), it has to be
 implemented specifically for the data structure managed by the
-toolkit. Analytical components should also be written or adapted to
-the toolkit. If needed, new visualization techniques should also be
-implemented for the toolkit, hoping that the initial choice is not
-questioned later-on in the development.
+toolkit. Analysis not supported by the toolkit requires the authoring
+or adaptation of analytical toolkit components. Likewise, if visualization
+techniques are required that are not supported by the chosen toolkit,
+they must be added, creating a strong dependency that may prevent
+change of toolkit later-on in development.
 
 The effort required by one application to implement the missing
 components cannot easily be reused in other applications using another

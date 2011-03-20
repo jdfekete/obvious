@@ -1,6 +1,6 @@
 Obvious is a set of interfaces and extension classes for wrapping
 around existing information visualization toolkits.  It generalizes
-and extend the standard architecture as defined in the Information
+and extends the standard architecture as defined in the Information
 Visualization reference model to try to abstract all the existing
 implementations.  In this section, we list all of the existing
 toolkits and explain what is common and how they differ.  In the
@@ -13,9 +13,8 @@ Mostly all the existing information visualization toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
 Card, Mackinlay and Shneiderman~\cite{ChiRefModel,ReadingsIV}.  The
 model defines three stages: Data Table, Visual Structure and View
-(Figure~\ref{fig:refmodel}).  One of its main value is that is
-explicitly represents the interaction, in contrast with older
-visualization models.
+(Figure~\ref{fig:refmodel}).  One of its main benefits is that it
+explicitly represents interaction, in contrast to older visualization models.
 Several articles have described the concrete design of an information
 visualization toolkit.  We report here on the common and the
 specific parts.
@@ -23,7 +22,7 @@ specific parts.
 The InfoVis Toolkit~\cite{InfoVis} is based on an \emph{in-memory
   database manager} where data is organized in columns --- contrary to
 most relational databases --- to improve the memory footprint and
-allow adding new attributes that are needed to manage the interaction
+allow addition of new attributes that are needed to manage the interaction
 (e.g. selection or filtering) and to hold attributes computed on
 demand.  The main challenge being the support of interactive
 performance for rendering and dynamic queries with a small memory
@@ -34,7 +33,7 @@ ParallelCoordinatesVisualization, TreeVisualization) that performs the
 mapping between the data tables and the graphics items to render.
 Finally, the view component is the same for each of the visual
 structures and takes care of scrolling, zooming, overlaying magic
-lenses (e.g. Fisheye or Magic Lenses). A \emph{notification mechanism}
+lenses (e.g. Fisheye or Magic Lenses).   A \emph{notification mechanism}
 implements the communication between the data tables and the visual
 structure: each time a data table is modified, it notifies all the
 registered handlers of the details of the modification. The
@@ -84,9 +83,11 @@ information visualization toolkits, it adds a coordination component
 that is central and extends the notification mechanism implemented
 by the InfoVis Toolkit or Prefuse.
 
+\jo{I'm not sure I am convinced of the assertion in the following paragraph. The three toolkits above are described in some detail, not all of which is relevant to other toolkits. Perhaps we should instead abstract their distinct design characters. e.g. Row-oriented vs column oriented; in-memory vs cached database management; monolithic vs polylithic etc. The point being that while they all attempt to achieve similar general aims, their lower-level approach to doing so requires different programming approaches, hence the need for Obvious.}
+
 Other information visualization toolkits can mostly be described using
 the three toolkits above, even if they use a different programming
-language.  Tulip is a graph-oriented toolkit programmed in C++ that
+language.  Tulip~\cite{Tulip} is a graph-oriented toolkit programmed in C++ that
 uses data tables for vertices and edges, like the InfoVis Toolkit and
 Prefuse.  It implements several complex graph layout algorithms and
 uses OpenGL for its rendering but the conceptual architecture is
@@ -95,6 +96,8 @@ table-based and monolithic.
 There are also lower-level toolkits that can be used to build visual
 analytics applications.  Two popular families are scene-graph managers
 and graph libraries.
+
+\jo{I'm not sure what point is being made here with the discussion of lower level visualization toolkits. Are we asserting that the standardization implied by Obvious is also appropriate for lower level approaches to VA software construction? If so, we need to identify what is lacking in an approach without Obvious as well as demonstrating (later on in the paper) that implementing the Obvious interfaces in lower level visualization environments is both practical and beneficial. An interesting test case might be \emph{Processing} (processing.org). This is, compared to the other examples cited, a very low level approach to visualization software development. However, it is designed for rapid-prototyping, and if it could be easily integrated with Obvious it might provide a nice example of how early prototypes could be transformed into more robust applications using Obvious as the bridge. I'd be happy to write some words on this if you think it fits well with the theme of the paper.}
 
 \subsection{Scene-Graph Managers}
 
@@ -135,7 +138,10 @@ managers offer more flexibility than information visualization systems
 for complex graphics and sophisticated interaction.  This is why
 several information visualization systems still use them.
 
+
 \subsection{Graph Managers}
+
+\jo{Referred to as `graph libraries' above.}
 
 While most table-based visualization toolkits rely on an in-memory
 database, several graph-based visualization systems manage their
