@@ -107,4 +107,11 @@ C.~Weaver.
   Visualization}, pages 159--166, Washington, DC, USA, 2004. IEEE Computer
   Society.
 
+\bibitem{wood_terrain_2008}
+J.~Wood.
+\newblock Terrain parameterization in {LandSerf}.
+\newblock In T.~Hengl and H.~Reuter, editors, {\em Geomorphometry: Concepts,
+  Software and Applications}, volume Ch. 14, pages 333--349. Elsevier, London,
+  2008.
+
 \end{thebibliography}

@@ -19,6 +19,14 @@ Several articles have described the concrete design of an information
 visualization toolkit.  We report here on the common and the
 specific parts.
 
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/reference_model}
+\caption{The Information Visualization Reference Model (drawing by
+  J. Heer)}
+\label{fig:refmodel}
+\end{figure}
+
+
 The InfoVis Toolkit~\cite{InfoVis} is based on an \emph{in-memory
   database manager} where data is organized in columns --- contrary to
 most relational databases --- to improve the memory footprint and
@@ -138,6 +146,8 @@ managers offer more flexibility than information visualization systems
 for complex graphics and sophisticated interaction.  This is why
 several information visualization systems still use them.
 
+% say something about the fact that scene-graph toolkits are
+% classically for 3D scenes.
 
 \subsection{Graph Managers}
 
@@ -155,21 +165,32 @@ These libraries support graphs as set of vertices and edges (the
 topological entities) that can be associated with arbitrary data.
 This data is just stored by the graph entities as a convenience for
 the application: the library does not implement any integrity check
-between data and graph entities. ++
+between data and graph entities.  In contrast, the InfoVis Toolkit,
+Prefuse and Tulip maintain a close consistency between graphs and data
+tables: removing a data table entry associated with a graph entity
+(vertex or edge) also removes the entity from the graph structure.
+
+Thus, there is no clear consensus on how a graph data structure should
+be managed internally; the design choices are quite different
+depending on the communities such as graph theory, information
+visualization, database and semantic web.
 
 
-\begin{figure}
-\includegraphics[width=\columnwidth]{figures/reference_model}
-\caption{The Information Visualization Reference Model (drawing by
-  J. Heer)}
-\label{fig:refmodel}
-\end{figure}
+\subsection{Standardization Processes}
 
+Standardization is a well established habit in the software community;
+several standardization models have been used in the past and these
+models tend to evolve due to the growing pace of software development
+taking place nowadays.
 
-\subsection{Standardization processes}
-ISO, Internet, SQL
-
-
-
-
+Standards have been specified by national and international
+organization such as the International Organization for
+Standardization (e.g. ISO, ASCII), non-profit organizations (e.g. the
+Unicode Consortium or OMG), consortia of public or private
+organizations (e.g. the World Wide Web Consortium (W3C)). Closer to
+the information visualization community, ``The Open Geospatial
+Consortium (OGC)\footnote{\url{http://www.opengeospatial.org}} is an
+international industry consortium of 423 companies, government
+agencies and universities participating in a consensus process to
+develop publicly available interface standards.''
 
