@@ -15,6 +15,12 @@ B.~B. Bederson, J.~Grosjean, and J.~Meyer.
 N.~G. Belmonte.
 \newblock Javascript infovis toolkit, Mar. 2011.
 
+\bibitem{Geneaquilt}
+A.~Bezerianos, P.~Dragicevic, J.-D. Fekete, J.~Bae, and B.~Watson.
+\newblock Geneaquilts: A system for exploring large genealogies.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  16(6):1073--1081, Nov-Dec 2010.
+
 \bibitem{Protovis}
 M.~Bostock and J.~Heer.
 \newblock Protovis: A graphical toolkit for visualization.
@@ -66,6 +72,21 @@ J.~Heer, S.~K. Card, and J.~A. Landay.
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
 \newblock The jung (java universal graph/network) framework.
 \newblock Technical report, UCI-ICS, 2003.
+
+\bibitem{SpaceTree}
+C.~Plaisant, J.~Grosjean, and B.~B. Bederson.
+\newblock Spacetree: Supporting exploration in large node link tree, design
+  evolution and empirical evaluation.
+\newblock In {\em Proceedings of the IEEE Symposium on Information
+  Visualization (InfoVis'02)}, INFOVIS '02, pages 57--, Washington, DC, USA,
+  2002. IEEE Computer Society.
+
+\bibitem{Cytoscape}
+P.~Shannon, A.~Markiel, O.~Ozier, N.~S. Baliga, J.~T. Wang, D.~Ramage, N.~Amin,
+  B.~Schwikowski, and T.~Ideker.
+\newblock {Cytoscape: a software environment for integrated models of
+  biomolecular interaction networks.}
+\newblock {\em Genome research}, 13(11):2498--2504, Nov. 2003.
 
 \bibitem{Improvise}
 C.~Weaver.

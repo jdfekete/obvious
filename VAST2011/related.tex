@@ -7,7 +7,7 @@ toolkits and explain what is common and how they differ.  In the
 second section, we describe the most common standardization processes
 for software systems.
 
-\subsection{Existing toolkits}
+\subsection{Visualization Toolkits}
 
 Mostly all the existing information visualization toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
@@ -46,25 +46,25 @@ as another.  Magic lenses and Fisheyes are also managed as layers on
 top of other visualizations.
 
 Prefuse~\cite{Prefuse} also relies on an in-memory database but
-implements the visual structure using an extension of the data model (a
-visual table derives from a data table).  It then transforms the data
-into a \emph{polylithic} graphic structures whereas all the other
+implements the visual structure using an extension of the data model
+(a visual table derives from a data table).  It then transforms the
+data into a \emph{polylithic} graphic structures whereas all the other
 toolkits use a \emph{monolithic} architecture.  In a polylithic
 architecture, there is only one component in charge of all the visual
 structures.  A visualization object is responsible of managing a
 visual structure: it contains visual tables that augment data tables
 with graphic attributes (shape, color, etc.) Visualizations are in
 charge of computing the layout (assigning a position and shape to
-visual items), the graphic attributes and animations.  They use a
-\emph{Renderer}  object to actually display visual items.  Users can
-control which renderer is used depending on the visualization and the
-object itself.  In Prefuse, data managers, visual managers and views
-are generic, offering a very clean interface to the application
+visual items), the graphic attributes and animations.  Visualizations
+use a \emph{Renderer} object to actually display visual items.  Users
+can control which renderer is used depending on the visualization and
+the object itself.  In Prefuse, data managers, visual managers and
+views are generic, offering a very clean interface to the application
 programmer.  However, as noted by Bederson at al.~\cite{Polylithic},
 polylithic toolkits have a steeper learning curve than monolithic ones
 because the polylithic components do not work out of the box, they
-always need to be configured.  However, code samples provided with the
-toolkit simplify the configuration: Prefuse is very popular.
+always need to be configured.  To address this issue, Prefuse comes
+with code samples that simplify the initial setup.
 
 Building upon their experience in the Prefuse toolkit~\cite{Prefuse},
 Heer et Agrawala~\cite{DesignPatternsIV} have derived software design
@@ -72,7 +72,39 @@ patterns that are common to information visualization applications and
 toolkits. 
 
 Improvise~\cite{Improvise} relies on an in-memory database that is
-row-oriented and its visual structures are monolithic.  
+row-oriented and its visual structures are monolithic.  The main
+characteristic of Improvise lies in its management of coordinated
+views.  To this aim, it relies on several design patterns
+not supported by Prefuse; compared to the other information
+visualization toolkits, it adds a coordination component that is
+central and unique.
+
+Other information visualization toolkits can mostly be described using
+the three toolkits above, even if they use a different programming
+language.  Tulip is a graph-oriented toolkit programmed in C++ that
+uses data tables for vertices and edges, like the InfoVis Toolkit and
+Prefuse.  It implements several complex graph layout algorithms and
+uses OpenGL for its rendering but the conceptual architecture is
+table-based and monolithic.
+
+There are also lower-level toolkits that can be used to build visual
+analytics applications.  Two popular families are scene-graph managers
+and graph libraries.
+
+\subsection{Scene-Graph Managers}
+
+Scene-graph managers are toolkits focused on computer graphics and
+interaction.  Compared to the reference model, they only deal with the
+visual structure and view.  Piccolo and Jazz~\cite{Polylithic} are
+popular 2D scene-graph managers that have been used to create several
+information visualization applications
+(e.g.~\cite{SpaceTree,Geneaquilt}.) Piccolo has also been used as
+graphics engine for the Cytoscape graph visualization
+system~\cite{Cytoscape} but dropped for performance issues.
+
+\subsection{Graph Managers}
+
+
 
 
 \begin{figure}
