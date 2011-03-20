@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.20)  20 MAR 2011 19:57
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.20)  20 MAR 2011 20:49
 entering extended mode
 **C:/Pougne/VAST2011/obvious.tex
 (C:/Pougne/VAST2011/obvious.tex
@@ -107,6 +107,30 @@ Package: times 2005/04/12 PSNFSS-v9.2a (SPQR)
 \CommentStream=\write3
 
 Excluding comment 'comment')
+(C:\Users\raynor81\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.sty
+\lst@mode=\count88
+\lst@gtempboxa=\box26
+\lst@token=\toks15
+\lst@length=\count89
+\lst@currlwidth=\dimen107
+\lst@column=\count90
+\lst@pos=\count91
+\lst@lostspace=\dimen108
+\lst@width=\dimen109
+\lst@newlines=\count92
+\lst@lineno=\count93
+\lst@maxwidth=\dimen110
+
+(C:\Users\raynor81\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count94
+\lst@skipnumbers=\count95
+\lst@framebox=\box27
+)
+(C:\Users\raynor81\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
@@ -176,9 +200,9 @@ Package: letltxmacro 2008/06/24 v1.3 Let assignment for LaTeX macros (HO)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2010/02/22 v3.7 Keyval support for LaTeX options (HO)
 )
-\@linkdim=\dimen107
-\Hy@linkcounter=\count88
-\Hy@pagecounter=\count89
+\@linkdim=\dimen111
+\Hy@linkcounter=\count96
+\Hy@pagecounter=\count97
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2010/10/30 v6.81t Hyperref: PDFDocEncoding definition (HO)
@@ -186,7 +210,7 @@ File: pd1enc.def 2010/10/30 v6.81t Hyperref: PDFDocEncoding definition (HO)
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\intcalc.sty"
 Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
 )
-\Hy@SavedSpaceFactor=\count90
+\Hy@SavedSpaceFactor=\count98
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -220,7 +244,7 @@ Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 71.
 ))
-\c@Hy@tempcnt=\count91
+\c@Hy@tempcnt=\count99
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
 \Urlmuskip=\muskip10
@@ -231,9 +255,9 @@ LaTeX Info: Redefining \url on input line 4566.
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\bitset.sty"
 Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
 )
-\Fld@menulength=\count92
-\Field@Width=\dimen108
-\Fld@charsize=\dimen109
+\Fld@menulength=\count100
+\Field@Width=\dimen112
+\Fld@charsize=\dimen113
 Package hyperref Info: Hyper figures OFF on input line 5626.
 Package hyperref Info: Link nesting OFF on input line 5631.
 Package hyperref Info: Hyper index ON on input line 5634.
@@ -247,59 +271,60 @@ LaTeX Info: Redefining \pageref on input line 5700.
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\atbegshi.sty"
 Package: atbegshi 2010/03/25 v1.12 At begin shipout hook (HO)
 )
-\Hy@abspage=\count93
-\c@Item=\count94
-\c@Hfootnote=\count95
+\Hy@abspage=\count101
+\c@Item=\count102
+\c@Hfootnote=\count103
 )
 
 Package hyperref Message: Driver: hpdftex.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2010/10/30 v6.81t Hyperref driver for pdfTeX
-\Fld@listcount=\count96
-\c@bookmark@seq@number=\count97
+\Fld@listcount=\count104
+\c@bookmark@seq@number=\count105
 \Hy@SectionHShift=\skip47
 )
 (C:\Pougne\VAST2011\abstract.tex) (C:\Pougne\VAST2011\obvious.aux
 
-LaTeX Warning: Label `fig:refmodel' multiply defined.
+LaTeX Warning: Label `codeSample1' multiply defined.
 
 )
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 72.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 73.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-\big@size=\dimen110
+\big@size=\dimen114
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count98
-\scratchdimen=\dimen111
-\scratchbox=\box26
-\nofMPsegments=\count99
-\nofMParguments=\count100
-\everyMPshowfont=\toks15
-\MPscratchCnt=\count101
-\MPscratchDim=\dimen112
-\MPnumerator=\count102
-\everyMPtoPDFconversion=\toks16
+\scratchcounter=\count106
+\scratchdimen=\dimen115
+\scratchbox=\box28
+\nofMPsegments=\count107
+\nofMParguments=\count108
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count109
+\MPscratchDim=\dimen116
+\MPnumerator=\count110
+\everyMPtoPDFconversion=\toks17
 )
-\AtBeginShipoutBox=\box27
-Package hyperref Info: Link coloring ON on input line 72.
+\c@lstlisting=\count111
+\AtBeginShipoutBox=\box29
+Package hyperref Info: Link coloring ON on input line 73.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 
@@ -309,63 +334,63 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2009/12/18 v1.3 Cleanup title references (HO)
 )
-\c@section@level=\count103
+\c@section@level=\count112
 )
-LaTeX Info: Redefining \ref on input line 72.
-LaTeX Info: Redefining \pageref on input line 72.
-LaTeX Info: Redefining \nameref on input line 72.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 77.
+LaTeX Info: Redefining \ref on input line 73.
+LaTeX Info: Redefining \pageref on input line 73.
+LaTeX Info: Redefining \nameref on input line 73.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 78.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1phv.fd"
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 77.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 77
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 78.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 78
 .
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ztmcm.fd"
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 77
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 78
 .
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlztmcm.fd"
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 77
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 78
 .
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsztmcm.fd"
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 77
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 78
 .
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omxztmcm.fd"
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
-LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
+LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5.47603> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <4.44003> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 77.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 78.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 
 (C:\Pougne\VAST2011\introduction.tex
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
@@ -461,7 +486,7 @@ Overfull \hbox (10.4929pt too wide) in paragraph at lines 10--10
  []
 
 ) (C:\Pougne\VAST2011\datamodel.tex
-<figures/obviousdataclass.png, id=82, 705.63625pt x 544.0325pt>
+<figures/obviousdataclass.png, id=81, 705.63625pt x 544.0325pt>
 File: figures/obviousdataclass.png Graphic file (type png)
 
 <use figures/obviousdataclass.png> [3 <C:/Pougne/VAST2011/figures/obviousdatacl
@@ -524,19 +549,57 @@ Underfull \hbox (badness 1584) in paragraph at lines 9--10
 ns
  []
 
-<figures/ediduplicate.jpg, id=110, 1209.10852pt x 732.75496pt>
+(C:\Users\raynor81\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <7> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 19.
+
+Overfull \hbox (19.45766pt too wide) in paragraph at lines 38--39
+[][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (19.45766pt too wide) in paragraph at lines 51--52
+[][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (19.45766pt too wide) in paragraph at lines 53--54
+[][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+LaTeX Font Info:    Try loading font information for OML+ptm on input line 56.
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlptm.fd"
+File: omlptm.fd 
+)
+LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <7> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 56.
+
+Overfull \hbox (2.65749pt too wide) in paragraph at lines 56--57
+[][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+[][][][][][][][][][][][][][][][][]
+ []
+
+<figures/ediduplicate.jpg, id=158, 1209.10852pt x 732.75496pt>
 File: figures/ediduplicate.jpg Graphic file (type jpg)
 
-<use figures/ediduplicate.jpg> [5]) (C:\Pougne\VAST2011\futurework.tex)
+<use figures/ediduplicate.jpg>) (C:\Pougne\VAST2011\futurework.tex)
 (C:\Pougne\VAST2011\conclusion.tex) (C:\Pougne\VAST2011\obvious.bbl
 (C:\Pougne\VAST2011\obvious.brf)
 \tf@brf=\write4
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 121.
- [6 <C:/Pougne/VAST2011/figures/ediduplicate.jpg>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 121.
+ [6 <C:/Pougne/VAST2011/figures/ediduplicate.jpg>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 122.
+ [7
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 122.
  (C:\Pougne\VAST2011\obvious.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 121.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 122.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
 (rerunfilecheck)             Checksum: F7BFDC287EECCC59C88E4BE0F65929B7;1281.
 
@@ -545,25 +608,27 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5689 strings out of 494019
- 85239 string characters out of 3146489
- 177278 words of memory out of 3000000
- 8759 multiletter control sequences out of 15000+200000
- 57370 words of font info for 111 fonts, out of 3000000 for 9000
+ 7083 strings out of 494019
+ 105640 string characters out of 3146489
+ 261614 words of memory out of 3000000
+ 10080 multiletter control sequences out of 15000+200000
+ 60365 words of font info for 116 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 42i,16n,26p,1456b,350s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,16n,40p,1456b,1659s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files/MiKTeX 2.9/font
-s/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/hel
-vetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Progra
-m Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.
-9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on obvious.pdf (6 pages, 542573 bytes).
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmsy9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courie
+r/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
+times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb
+>
+Output written on obvious.pdf (7 pages, 570175 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 60 named destinations out of 1000 (max. 500000)
+ 273 PDF objects out of 1000 (max. 8388607)
+ 110 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

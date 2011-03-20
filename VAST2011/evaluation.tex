@@ -14,6 +14,60 @@ Once the data is ready, the next step is to create the visualization. As explain
 
 Finally,  created Visualizations are injected in a View component. Since all examples use Swing, they are added to Jframes and then those frames are displayed to the final user. It is also possible to add zoom and pan control to created views in order to add interactivity to those examples.
 
+\lstset{basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
+\begin{lstlisting}
+/*
+* Creates the graph structure.
+*/
+infovis.Graph g = Algorithms.getGridGraph(10, 10);
+Network network = new IvtkObviousNetwork(g);
+
+/*
+* Creates the associated visualization using the factory
+* for visualization.
+* I specify no predicate and no extra parameter.
+*/
+Visualization vis = new IvtkVisualizationFactory()
+    .createVisualization(network, null, "network", null);
+
+/*
+* Creates the view.
+*/
+view = new IvtkObviousView(vis, null, null, null);
+JFrame frame = new JFrame();
+JScrollPane panel = new JScrollPane(view.getViewJComponent());
+frame.add(panel);
+frame.pack();
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.setVisible(true);
+\end{lstlisting}
+
+\lstset{basicstyle=\small,language=Java,caption={Combining different Obvious implementations to display a scatterplot},label=codeSample1}
+\begin{lstlisting}
+// Defining the data factory to use,
+// obvious-prefuse will be used for the data structures.
+System.setProperty("obvious.DataFactory",
+    "obvious.prefuse.PrefuseDataFactory");
+// Creating an Obvious CSV reader and loading an Obvious table
+CSVImport csv = new CSVImport(new File(
+    "src//main//resources//articlecombinedexample.csv"), ',');
+Table table = csv.loadTable();
+// Creating the parameter map for the monolithic object.
+Map<String, Object> param = new HashMap<String, Object>();
+param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // xfield
+param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // yfield
+
+// Creating the visualization then the view...
+Visualization vis = new IvtkScatterPlotVis(table, null,
+    null, param);
+
+IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
+JFrame frame = new JFrame("");
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.add(view.getViewJComponent());
+frame.pack();
+frame.setVisible(true);
+\end{lstlisting}
 \subsection{Example using Weka}
 
 Weka is a software suite of machine learning. It has been proven useful to design such applications, even in visual analytics. That is why in the obviousx package (utils), we have chosen to introduce mechanisms to support Weka. So, in practice, with one line of code, it is possible to create a Weka Instances (Weka data structure) from an Obvious table. Thus, each toolkit implementing Obvious can be easily linked with Weka.
