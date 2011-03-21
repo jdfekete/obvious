@@ -29,6 +29,8 @@ public class ObviousWekaInstance extends Instance {
    */
   public ObviousWekaInstance(Tuple tuple, Instances instances) {
     this.tuple = tuple;
+    this.instances = instances;
+    this.m_Weight = 1.0;
   }
   
   @Override
@@ -228,7 +230,8 @@ public class ObviousWekaInstance extends Instance {
     if (ObviousWekaUtils.isNumeric(c)) {
       value = Double.valueOf(tuple.get(attIndex).toString());
     } else if (ObviousWekaUtils.isString(c)) {
-      value = Double.valueOf(attIndex);
+      value = Double.valueOf(attribute(attIndex).indexOfValue(
+          tuple.getString(attIndex)));
     } else if (ObviousWekaUtils.isDate(c)) {
       value = tuple.getDate(attIndex).getTime();
     }

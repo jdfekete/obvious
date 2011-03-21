@@ -42,6 +42,7 @@ import weka.core.AttributeStats;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Utils;
 
 public class ObviousWekaInstances extends Instances {
   
@@ -58,10 +59,9 @@ public class ObviousWekaInstances extends Instances {
           new TupleImpl(table, iter.nextInt()), this));
     }
     for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+
       m_Attributes.addElement(attribute(i));
     }
-    System.out.println(m_Instances.size());
-    System.out.println(m_Attributes.size());
   }
   
   @Override
@@ -116,8 +116,37 @@ public class ObviousWekaInstances extends Instances {
   }
 
   @Override
-  public AttributeStats attributeStats(int arg0) {
-    return super.attributeStats(arg0);
+  public AttributeStats attributeStats(int index) {
+    ObviousWekaAttStats result = new ObviousWekaAttStats();
+    if (attribute(index).isNominal()) {
+      result.nominalCounts = new int [attribute(index).numValues()];
+    }
+    if (attribute(index).isNumeric()) {
+      result.numericStats = new weka.experiment.Stats();
+    }
+    result.totalCount = numInstances();
+
+    double [] attVals = attributeToDoubleArray(index);
+    int [] sorted = Utils.sort(attVals);
+    int currentCount = 0;
+    double prev = Instance.missingValue();
+    for (int j = 0; j < numInstances(); j++) {
+      Instance current = instance(sorted[j]);
+      if (current.isMissing(index)) {
+        result.missingCount = numInstances() - j;
+        break;
+      }
+      if (current.value(index) == prev) {
+        currentCount++;
+      } else {
+        result.addDistinct(prev, currentCount);
+        currentCount = 1;
+        prev = current.value(index);
+      }
+    }
+    result.addDistinct(prev, currentCount);
+    result.distinctCount--; // So we don't count "missing" as a value
+    return result;
   }
 
   @Override
@@ -256,7 +285,7 @@ public class ObviousWekaInstances extends Instances {
 
   @Override
   public Instance instance(int index) {
-    return super.instance(index);
+    return new ObviousWekaInstance(new TupleImpl(table, index), this);
   }
 
   @Override
@@ -467,6 +496,31 @@ public class ObviousWekaInstances extends Instances {
   @Override
   public double variance(int arg0) {
     return super.variance(arg0);
+  }
+  
+  public static class ObviousWekaAttStats extends AttributeStats {
+    
+    public void addDistinct(double value, int count) {
+      if (count > 0) {
+        if (count == 1) {
+          uniqueCount++;
+        }
+        if (Utils.eq(value, (double)((int)value))) {
+          intCount += count;
+        } else {
+          realCount += count;
+        }
+        if (nominalCounts != null) {
+          nominalCounts[(int)value] = count;
+        }
+        if (numericStats != null) {
+          numericStats.add(value, count);
+          numericStats.calculateDerived();
+        }
+      }
+      distinctCount++;
+    }
+    
   }
   
 }
