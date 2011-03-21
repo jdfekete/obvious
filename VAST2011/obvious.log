@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.21)  21 MAR 2011 16:25
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.21)  21 MAR 2011 16:52
 entering extended mode
 **C:/Documents*and*Settings/plhemery/Mes*documents/VAST2011/obvious.tex
 ("C:/Documents and Settings/plhemery/Mes documents/VAST2011/obvious.tex"
@@ -586,7 +586,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 64--65
 [][][][][][][][][][][][][][][][][]
  []
 
-<figures/ediduplicate.jpg, id=140, 1209.10852pt x 732.75496pt>
+<figures/ediduplicate.jpg, id=141, 1209.10852pt x 732.75496pt>
 File: figures/ediduplicate.jpg Graphic file (type jpg)
 
 <use figures/ediduplicate.jpg>)
@@ -607,13 +607,13 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 140.
  ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\obvious.aux")
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 140.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
-(rerunfilecheck)             Checksum: 8BF2F35F5B6B10A0EB85764D2E2D2190;1281.
+(rerunfilecheck)             Checksum: 0AF678927537C0B884D0A24EDF78EFB0;1325.
  ) 
 Here is how much of TeX's memory you used:
- 7087 strings out of 494019
- 106815 string characters out of 3146435
- 255801 words of memory out of 3000000
- 10083 multiletter control sequences out of 15000+200000
+ 7092 strings out of 494019
+ 106854 string characters out of 3146435
+ 255828 words of memory out of 3000000
+ 10087 multiletter control sequences out of 15000+200000
  60365 words of font info for 116 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  42i,16n,40p,1495b,1715s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -628,9 +628,9 @@ es/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
 times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on obvious.pdf (7 pages, 573691 bytes).
+Output written on obvious.pdf (7 pages, 574470 bytes).
 PDF statistics:
- 279 PDF objects out of 1000 (max. 8388607)
- 111 named destinations out of 1000 (max. 500000)
+ 282 PDF objects out of 1000 (max. 8388607)
+ 112 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -59,6 +59,11 @@ J.-D. Fekete.
   Visualization}, pages 167--174, Washington, DC, USA, 2004. IEEE Computer
   Society.
 
+\bibitem{Weka}
+M.~Hall, E.~Frank, G.~Holmes, B.~Pfahringer, P.~Reutemann, and I.~H. Witten.
+\newblock The weka data mining software: an update.
+\newblock {\em SIGKDD Explorations}, 11(1):10--18, 2009.
+
 \bibitem{flare}
 J.~Heer.
 \newblock flare data visualization for the web, Mar. 2011.
