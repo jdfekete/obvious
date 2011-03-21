@@ -70,7 +70,14 @@ frame.setVisible(true);
 \end{lstlisting}
 \subsection{Example using Weka}
 
-Weka is a software suite of machine learning. It has been proven useful to design such applications, even in visual analytics. That is why in the obviousx package (utils), we have chosen to introduce mechanisms to support Weka. So, in practice, with one line of code, it is possible to create a Weka Instances (Weka data structure) from an Obvious table. Thus, each toolkit implementing Obvious can be easily linked with Weka.
+Weka is a suite of machine learning software widely used to design applications particularly for visual analytics \pierreluc{I should put a reference here to justify this affirmation. Can you suggest one?}. Thus, Obvious in its obviousx package supports mechanisms to build Instances (main data structure of Weka) from Obvious Table. Several methods exist to link an Obvious structure with a Weka one:
+
+\begin{itemize}
+\item an Obvious table can be loaded into a Weka Instances. Since "Instances" is a data structure specially optimized for fast processing with clustering and machine learning algorithms, with this approach the developer benefits from Weka optimizations in terms of execution time.
+\item an Obvious table can wrap a Weka Instances: Obvious tables translates its methods to Weka ones. With this approach, data are not duplicated in memory.
+\end{itemize}
+
+Both methods are equivalent in terms of lines of code and can be completed with the same machine learning algorithms from Weka. To illustrate these functions, we have used a CSV file describing clients of a fictive bank (ID, age, sex, income...). This file is first loaded into an Obvious table and is then wrapped (or loaded) into a Weka Instances. Finally, statistics operations are performed (mean and variance) and a clustering algorithm is applied to the data set. Both methods give the same result.
 
 \subsection{EdiDuplicate (a DDupe-Like application)}
 
@@ -79,7 +86,7 @@ to create a DDupe like application to detect duplicated authors in the database.
 
 DDupe is a software initially written in .NET dedicated to detect and merge duplicated nodes (often modeling people)  in (social) network to facilitate data analysis. It uses similarity metric to compare each pair  of authors and class results in descending order of similarity. In addition, DDupe allows the user to see the neighbourhood of the pair of nodes before merging them, in order to check if common nodes exist among their neighbors and then to confirm metric results.
 
-\begin{figure}
+\begin{figure}[!h]
 \includegraphics[width=\columnwidth]{figures/ediduplicate}
 \caption{A screenshot of Ediduplicate}
 \label{fig:ediduplicate}

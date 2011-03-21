@@ -3,6 +3,7 @@ Unlike the data model, during the workshop, no consensus emerged concerning the 
 However, we propose a solution to address this problem for monolithic toolkits. We propose wrapping monolithic components in a black box fed by an Obvious data structure and a map of parameters allowing configuration of the component. For example, it is possible to indicate the X and Y axis columns for a scatter-plot. If a developer needs a non-existing visualization component, it simply adds the choice of an implementation toolkit to create it, then this new visualization will be compatible with all data models. Our solution does not generate extra costs of development.
 
 \jo{Can we sure about the last sentence above?. The discussion of Prefuse in 6.1 is an example of this, but requires the user of Prefuse to develop new visualization components and wrap them in Obvious. This seems like an 'extra cost of development' to me.}
+\pierreluc{Wrap them in Obvious is pretty easy (about ten lines of code). So yes, there is a tiny extra cost of development.}
 
 Concerning the view, we choose to implement a simplified version of the camera pattern introduced in [2]. The black box concept is still present : a view simply wraps a view component of a targeted toolkit.
 
