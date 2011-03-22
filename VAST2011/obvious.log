@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.21)  22 MAR 2011 16:05
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.3.21)  22 MAR 2011 17:02
 entering extended mode
 **C:/Documents*and*Settings/plhemery/Mes*documents/VAST2011/obvious.tex
 ("C:/Documents and Settings/plhemery/Mes documents/VAST2011/obvious.tex"
@@ -516,46 +516,46 @@ Overfull \hbox (10.4929pt too wide) in paragraph at lines 5--5
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 10--10
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
 []
  []
 
 
-Overfull \hbox (10.4929pt too wide) in paragraph at lines 10--10
+Overfull \hbox (10.4929pt too wide) in paragraph at lines 12--12
 [][]\OMS/ztmcm/m/n/9 !$ 
  []
 
 
-Overfull \hbox (10.4929pt too wide) in paragraph at lines 10--10
+Overfull \hbox (10.4929pt too wide) in paragraph at lines 12--12
 []$\OMS/ztmcm/m/n/9  [][]$ 
  []
 
-) ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\implementation.te
-x" [4 <C:/Documents and Settings/plhemery/Mes documents/VAST2011/figures/notifi
-cation.png>]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 50.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
+) [4 <C:/Documents and Settings/plhemery/Mes documents/VAST2011/figures/notific
+ation.png>]
+("C:\Documents and Settings\plhemery\Mes documents\VAST2011\implementation.tex"
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 52.
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 50.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 52.
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--55
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
 []
  []
 
 
-Overfull \hbox (10.4929pt too wide) in paragraph at lines 55--55
+Overfull \hbox (10.4929pt too wide) in paragraph at lines 58--58
 [][]\OMS/ztmcm/m/n/9 !$ 
  []
 
 
-Overfull \hbox (10.4929pt too wide) in paragraph at lines 55--55
+Overfull \hbox (10.4929pt too wide) in paragraph at lines 58--58
 []$\OMS/ztmcm/m/n/9  [][]$ 
  []
 
-) ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\evaluation.tex"
-[5]
+[5]) ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\evaluation.tex
+"
 Underfull \hbox (badness 1584) in paragraph at lines 9--10
 []\OT1/ptm/m/n/9 The two first ex-am-ples use two dif-fer-ent im-ple-men-ta-tio
 ns
@@ -597,23 +597,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 64--65
 [][][][][][][][][][][][][][][][][]
  []
 
-<figures/ediduplicate.jpg, id=131, 1209.10852pt x 732.75496pt>
+[6] <figures/ediduplicate.jpg, id=190, 1209.10852pt x 732.75496pt>
 File: figures/ediduplicate.jpg Graphic file (type jpg)
 
-<use figures/ediduplicate.jpg>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[6]) ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\futurework.tex
-") ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\conclusion.tex")
+<use figures/ediduplicate.jpg>)
+("C:\Documents and Settings\plhemery\Mes documents\VAST2011\futurework.tex")
+("C:\Documents and Settings\plhemery\Mes documents\VAST2011\conclusion.tex")
 ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\obvious.bbl"
 ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\obvious.brf")
 \tf@brf=\write4
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 140.
 
 [7 <C:/Documents and Settings/plhemery/Mes documents/VAST2011/figures/ediduplic
-ate.jpg>]
+ate.jpg>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 140.
+ [8
+
+]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 140.
 
 ("C:\Documents and Settings\plhemery\Mes documents\VAST2011\obvious.aux")
@@ -622,13 +621,13 @@ Package rerunfilecheck Info: File `obvious.brf' has not changed.
 (rerunfilecheck)             Checksum: 30C3CA6FC3CA1367486CBF2B344708A3;1444.
  ) 
 Here is how much of TeX's memory you used:
- 7101 strings out of 494019
- 107039 string characters out of 3146435
- 271797 words of memory out of 3000000
+ 7102 strings out of 494019
+ 107045 string characters out of 3146435
+ 272625 words of memory out of 3000000
  10092 multiletter control sequences out of 15000+200000
  60365 words of font info for 116 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 42i,16n,40p,1495b,1373s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,16n,40p,1495b,1429s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 
 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/font
@@ -640,9 +639,9 @@ es/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
 times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on obvious.pdf (7 pages, 580498 bytes).
+Output written on obvious.pdf (8 pages, 581916 bytes).
 PDF statistics:
- 298 PDF objects out of 1000 (max. 8388607)
- 115 named destinations out of 1000 (max. 500000)
+ 302 PDF objects out of 1000 (max. 8388607)
+ 116 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

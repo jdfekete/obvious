@@ -6,6 +6,8 @@ Prefuse was the first targeted implementation of Obvious since its design patter
 
 Prefuse is currently the only polylithic Information Visualization toolkit used with Obvious. However, Obvious does not currently offer a visualization abstraction for polylithic components since no consensus has emerged yet. Thus, we choose to provide some pre-built monolithic components based on Prefuse for well know visualization techniques such as scatter plots, force directed graphs, radial graphs... Currently, if a software developer wants to use a non existing technique, he has to write it with Prefuse as a component and wrap it with the Obvious visualization interface.
 
+Prefuse have also been used to introduce predicate support for all existing implementations of the Obvious data model. Since an Obvious tuple can easily be wrapped into a Prefuse one, the first Obvious predicate implementation is based on Prefuse predicate engine and its syntax.
+
 \subsection{Infovis Toolkit}
 
 The Obvious implementation based on Infovis Toolkit realizes all introduced design patterns. Since it is a monolithic toolkit, we do not encounter problems seen with the Prefuse implementation. We simply bind Infovis Toolkit components to Obvious ones.
@@ -26,7 +28,7 @@ The Obvious implementation based on JDBC only uses the data model of Obvious. It
 
 Concretely, it  translates obvious methods into SQL queries. For example, getters are implemented as SELECT queries, setters as UPDATE ones, add as INSERT queries and remove as DELETE queries. Also, this original implementation passes all predefined unit tests.
 
-In addition, we use as a proof of concept to test the syntax and advanced functionalities (batch and transaction) that can be handled by the Obvious notification system. The tested model includes support for transaction and batch for modifications: these functionalities are based on mechanisms provided by the database.
+In addition, we use as a proof of concept to test the syntax and advanced functionalities (batch and transaction) that can be handled by the Obvious notification system.
 
 \subsection{JUNG}
 
@@ -40,7 +42,7 @@ Since we have defined a consensual abstraction for the data model, we take advan
 
 Due to the similarities of Obvious and Prefuse, the binding has been used to set up unit tests for the data model in Obvious. Unit tests allow authors of Obvious bindings to automatically test whether their implementation behaves in conformance with the intended semantics of Obvious. Also, authors are able to extend these existing tests to perform more advanced features for their binding.
 
-Concretely , unit tests have been defined with JUnit  for Schema (14 tests) , Table (11 tests), Network (13 tests) and Tree interfaces (8 tests) in the Obvious core package.
+Concretely , unit tests have been defined with JUnit  for Schema (14 tests) , Table (11 tests), Network (13 tests) and Tree interfaces (8 tests) in the Obvious core package. These tests have been systematically run for each new Obvious data model development: all presented implementations successfully passed those tests.
 
 \subsection{Lessons learned}
 
@@ -49,6 +51,7 @@ We have learned several lessons during the development of those implementations:
 \begin{itemize}
 \item the need for a specification of a clear semantic for notifications that can support simple models and more advanced ones (with batches and transactions for example)
 \item the need for support for a polylithic approach to define an abstraction model for visualizations
+\item the more abstractions defined the more unit tests we can define to validate new implementations
 \item toolkits need to adopt patterns close to Obvious ones in order to enhance code quality of the implementations and to facilitate the sharing of functionalities among existing toolkits
 \end{itemize}
 
