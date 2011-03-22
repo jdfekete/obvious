@@ -2,7 +2,7 @@
 
 This section describes the data model used in Obvious and the way to create data structures. It also exposes the util package for the data model.  The data model used in Obvious has been largely specified during the workshop: a consensus has been found among all participants.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \includegraphics[width=\columnwidth]{figures/obviousdataclass}
 \caption{Class diagram of the data model}
 \label{fig:datamodel}
@@ -21,4 +21,19 @@ table. Finally, obviousx also provides wrappers to \emph{transform} obvious data
 
 Information visualization toolkits (such as other softwares) uses notification systems to propagate information about changes affecting the data model. During the development of Obvious implementations, notification systems included in toolkits appears to be widely different in terms of syntax and functionalities. That is why the notification system introduced in Obvious is designed to support a large variety of existing notification techniques even those not currently implemented in toolkits. For example, it supports transaction and batch techniques usually found in database system.
 
-As in many toolkits \cite{Prefuse,InfoVis,jung2003}, the notification system in Obvious is based on listeners placed on data structures that propagates changes to listening objects. Since one operation can affect a large amout of data, flow of notifications concerning the same action could be generated. Thus, we introduce a method to control the number of emitted notifications: the \emph{beginEdit/endEdit mechanism}. The way this mechanism acts can differ from one implementation to another: no notification emitted when the mechanism is triggered or it can start a transaction.
+As in many toolkits \cite{Prefuse,InfoVis,jung2003}, the notification system in Obvious is based on listeners placed on data structures that propagates changes to listening objects. Since one operation can affect a large amout of data, flow of notifications concerning the same action could be generated. This flow can be a problem, since it can increase response time of the application.
+
+\begin{figure}[!ht]
+\includegraphics[width=\columnwidth]{figures/notification}
+\caption{Sequence diagram for the notification system}
+\label{fig:notification}
+\end{figure}
+
+Thus, we introduce a method to control the number of emitted notifications: the \emph{beginEdit/endEdit mechanism}. As shown in the figure \ref{fig:notification}, when no mechanism is triggered the change is transmitted to the Listener with \emph{tableChanged} method. This method have several arguments describing the current event (affected Table, rows, columns and operation type). When the \emph{beginEdit} mechanism is enabled, changes are also propagated but different strategies can be applied. It is possible to select a specific strategy with the \emph{mode} parameter. The following strategies have already been developed  in one or more Obvious implementations:
+
+\begin{description}
+\item[Lazy strategy] the listener do nothing until it is awake by the endEdit method
+\item[Transaction strategy] the listener only commits after the \emph{endEdit} if all data changes occuring between the \emph{beginEdit} and \emph{endEdit} have not violated defined invariants (for example, no null value for a specific field)
+\item[Batch strategy] if the batch mode is enabled, all data changes occuring between the \emph{beginEdit} and \emph{endEdit} are placed in a batch, executed after the \emph{endEdit}
+\end{description}
+
