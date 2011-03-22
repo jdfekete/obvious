@@ -95,3 +95,17 @@ DDupe is a software initially written in .NET dedicated to detect and merge dupl
 Our application EdiDuplicate offers the same possibilities but with extensions to cover specific needs. Concretely, we have implemented a loader to create an Obvious network from the  database. This structure is then fed by an external application with metrics for each pair of authors. Then, those statistics are displayed in a JTable (automically created from the Obvious structure). When, the user clicks on a cell a view of the neighbourhood of the current nodes is created. Then, with this information, the user is able to decide if the potential duplicated authors has to be merged. In addition, it is possible to query the Obvious structure to only display pair of duplicates for a specific authors. The user can also change the layout used to display the neighbourhood network with a JList: all graph layouts introduced in Infovis Toolkit are available. 
 
 Concretely, the application mainly combines Obvious components and Swing components (derived from Obvious structure). For the data model, an Obvious Network is used (from the obvious-ivtk implementation), the visualization and the view part are also provided by this implementation. Building this application takes about less than a week.
+
+\subsection{Implementing a cross-toolkit layout component}
+
+Some of us have tested a potentially important usage scenario: devising a novel layout algorithm and using the Ovious toolkit to make it available in a variety of toolkits. This layout component is a generalized treemap algorithm ~\cite{Treemaps2011}. Its interface makes it easy to port as this algorithm takes as input a data model and renders using a Visitor design pattern accross a renderer, making it very convenient to implement accross polyglyphic toolkits like prefuse or Discovery. Considering the current visualization model is mostly targeted at enabling monoglyphic patterns, Obvious in its current state turns out to be of limited use for our purpose.
+
+Still, we have found that the existing data model and utilities have made developing our layout algorithm on top of Obvious worthwhile: we could implement very easily a simple monoglyphic visualization and view instances, and relying on the default data model already saves us time in the development of our prototype, while we have the assurance that only minimal work may be needed to port our method to the toolkits targeted by Obvious.
+
+
+
+
+
+
+
+

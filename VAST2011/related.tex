@@ -2,14 +2,14 @@ Obvious is a set of interfaces and extension classes for wrapping
 around existing information visualization toolkits.  It generalizes
 and extends the standard architecture as defined in the Information
 Visualization reference model to try to abstract all the existing
-implementations.  In this section, we list all of the existing
-toolkits and explain what is common and how they differ.  In the
+implementations.  In this section, we list some major existing
+toolkits and explain what they share and how they differ.  In the
 second section, we describe the most common standardization processes
 for software systems.
 
 \subsection{Visualization Toolkits}
 
-Mostly all the existing information visualization toolkits follow the
+Pretty much all existing information visualization toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
 Card, Mackinlay and Shneiderman~\cite{ChiRefModel,ReadingsIV}.  The
 model defines three stages: Data Table, Visual Structure and View
@@ -91,10 +91,15 @@ information visualization toolkits, it adds a coordination component
 that is central and extends the notification mechanism implemented
 by the InfoVis Toolkit or Prefuse.
 
+Discovery~cite{Discovery1,Discovery2,Discovery3} shares most of its characteristics with Prefuse:
+ini-memory, column-oriented data base and polyglyphic graphic model. Its main specifities is the absence of a scene graph, 
+replaced with data-model to rendering functors organized in a dataflow, and a differed notification strategies meant to allow 
+data editing.
+
 \jo{I'm not sure I am convinced of the assertion in the following paragraph. The three toolkits above are described in some detail, not all of which is relevant to other toolkits. Perhaps we should instead abstract their distinct design characters. e.g. Row-oriented vs column oriented; in-memory vs cached database management; monolithic vs polylithic etc. The point being that while they all attempt to achieve similar general aims, their lower-level approach to doing so requires different programming approaches, hence the need for Obvious.}
 
 Other information visualization toolkits can mostly be described using
-the three toolkits above, even if they use a different programming
+the four toolkits above, even if they use a different programming
 language.  Tulip~\cite{Tulip} is a graph-oriented toolkit programmed in C++ that
 uses data tables for vertices and edges, like the InfoVis Toolkit and
 Prefuse.  It implements several complex graph layout algorithms and
