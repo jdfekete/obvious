@@ -32,8 +32,8 @@ infovis.Graph g = Algorithms.getGridGraph(10, 10);
 Network network = new IvtkObviousNetwork(g);
 
 /*
-* Creates the associated visualization using the factory
-* for visualization.
+* Creates the associated visualization using the
+* factory for visualization.
 * I specify no predicate and no extra parameter.
 */
 Visualization vis = new IvtkVisualizationFactory()
@@ -44,7 +44,8 @@ Visualization vis = new IvtkVisualizationFactory()
 */
 view = new IvtkObviousView(vis, null, null, null);
 JFrame frame = new JFrame();
-JScrollPane panel = new JScrollPane(view.getViewJComponent());
+JScrollPane panel = new JScrollPane(view.
+    getViewJComponent());
 frame.add(panel);
 frame.pack();
 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,9 +58,11 @@ frame.setVisible(true);
 // obvious-prefuse will be used for the data structures.
 System.setProperty("obvious.DataFactory",
     "obvious.prefuse.PrefuseDataFactory");
-// Creating an Obvious CSV reader and loading an Obvious table
+// Creating an Obvious CSV reader and loading an
+// Obvious table
 CSVImport csv = new CSVImport(new File(
-    "src//main//resources//articlecombinedexample.csv"), ',');
+    "src//main//resources//articlecombinedexample.csv"),
+    ',');
 Table table = csv.loadTable();
 // Creating the parameter map for the monolithic object.
 Map<String, Object> param = new HashMap<String, Object>();
@@ -86,12 +89,21 @@ Weka \cite{Weka} is a suite of machine learning software widely used to design a
 \item an Obvious table can wrap a Weka Instances: Obvious tables translates its methods to Weka ones. With this approach, data are not duplicated in memory.
 \end{itemize}
 
-Both methods are equivalent in terms of lines of code and can be completed with the same machine learning algorithms from Weka. To illustrate these functions, we have used a CSV file describing clients of a fictive bank (ID, age, sex, income...). This file is first loaded into an Obvious table and is then wrapped (or loaded) into a Weka Instances. Finally, statistics operations are performed (mean and variance) and a clustering algorithm is applied to the data set. Both methods give the same result.
+Both methods are equivalent in terms of lines of code and can be completed with the same machine learning algorithms from Weka. For instance, to wrap an existing table into a weka Instances, developpers simply need to add the following line to the code sample \ref{codeSample2} :
+
+\lstset{basicstyle=\small,language=Java,caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample}
+\begin{lstlisting}
+   Instances inst = new ObviousWekaInstances(table,
+     "Instances", new FastVector(), table.getRowCount());
+\end{lstlisting}
+
+To wrap the Obvious structure, the constructor simply needs as argument the Obvious table, a name for the weka Instances, a weka FastVector and the number of existing tuple in the table. Then, developpers can apply to this new Instances all machine learning algorithms introduced in Weka. Creating this wrapper takes less than a week.
+
+This example demonstrates an important gain of Obvious: when a toolkit adopts Obvious it can immediately benefit from existing wrappers to complementaries functionalities. Thus, with the obviousx.weka package, all Obvious implementations can now provide advanced machine learning capabilities to their users.
 
 \subsection{EdiDuplicate (a DDupe-Like application)}
 
-INRIA maintains a database for the publication of its member. Researchers regularly fill this database, called HALINRIA, with their new publications. However, mistakes often appears during this process: duplicated authors, institutions or papers. That is why Obvious has been used
-to create a DDupe like application to detect duplicated authors in the database.
+INRIA maintains a database for the publication of its member. Researchers regularly fill this database, called HALINRIA, with their new publications. However, mistakes often appears during this process: duplicated authors, institutions or papers. That is why Obvious has been used to create a DDupe like application to detect duplicated authors in the database.
 
 DDupe is a software initially written in .NET dedicated to detect and merge duplicated nodes (often modeling people)  in (social) network to facilitate data analysis. It uses similarity metric to compare each pair  of authors and class results in descending order of similarity. In addition, DDupe allows the user to see the neighbourhood of the pair of nodes before merging them, in order to check if common nodes exist among their neighbors and then to confirm metric results.
 
