@@ -13,6 +13,29 @@ M.~Bastian, S.~Heymann, and M.~Jacomy.
 \newblock In {\em International AAAI Conference on Weblogs and Social Media},
   2009.
 
+\bibitem{Discovery2}
+T.~Baudel.
+\newblock Visualisations compactes: une approche declarative pour la
+  visualisation d'information.
+\newblock In {\em Proceedings of the 14th French-speaking conference on
+  Human-computer interaction (Conference Francophone sur l'Interaction
+  Homme-Machine)}, IHM '02, pages 161--168, New York, NY, USA, 2002. ACM.
+
+\bibitem{Discovery1}
+T.~Baudel.
+\newblock Browsing through an information visualization design space.
+\newblock In {\em CHI '04 extended abstracts on Human factors in computing
+  systems}, CHI EA '04, pages 765--766, New York, NY, USA, 2004. ACM.
+
+\bibitem{Discovery3}
+T.~Baudel.
+\newblock From information visualization to direct manipulation: extending a
+  generic visualization framework for the interactive editing of large
+  datasets.
+\newblock In {\em Proceedings of the 19th annual ACM symposium on User
+  interface software and technology}, UIST '06, pages 67--76, New York, NY,
+  USA, 2006. ACM.
+
 \bibitem{Polylithic}
 B.~B. Bederson, J.~Grosjean, and J.~Meyer.
 \newblock Toolkit design for interactive structured graphics.
@@ -27,6 +50,11 @@ A.~Bezerianos, P.~Dragicevic, J.-D. Fekete, J.~Bae, and B.~Watson.
 \newblock Geneaquilts: A system for exploring large genealogies.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   16(6):1073--1081, Nov-Dec 2010.
+
+\bibitem{visinfrastructure2}
+K.~Borner, B.~Herr, and J.-D. Fekete.
+\newblock 2007 workshop on information visualization software infrastructures.
+\newblock https://nwb.slis.indiana.edu/events/ivsi2007/, July 2007.
 
 \bibitem{Protovis}
 M.~Bostock and J.~Heer.
@@ -58,6 +86,27 @@ J.-D. Fekete.
 \newblock In {\em Proceedings of the IEEE Symposium on Information
   Visualization}, pages 167--174, Washington, DC, USA, 2004. IEEE Computer
   Society.
+
+\bibitem{vismaster2008}
+J.-D. Fekete.
+\newblock Vismaster workshop on visual analytics software architecture.
+\newblock http://code.google.com/p/obvious/wiki/Motivation, December 2008.
+
+\bibitem{visinfrastructure1}
+J.-D. Fekete and K.~Borner.
+\newblock 2004 workshop on information visualization software infrastructures.
+\newblock http://vw.indiana.edu/ivsi2004/, November 2004.
+
+\bibitem{Treemaps2011}
+O.~for~reviewing purposes.
+\newblock A unified approach to sequential space-filling layouts.
+\newblock In {\em Submitted to the 2011 IEEE Symposium on Information
+  Visualization}.
+
+\bibitem{Axiis}
+T.~Gonzales and M.~VanDaniker.
+\newblock Axiis open source data visualization.
+\newblock web site, 2009-2011.
 
 \bibitem{Weka}
 M.~Hall, E.~Frank, G.~Holmes, B.~Pfahringer, P.~Reutemann, and I.~H. Witten.

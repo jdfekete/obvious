@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99cThe top-level auxiliary file: obvious.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: C:\Documents and Settings\plhemery\Mes documents\VAST2011\obvious.aux
 The style file: abbrv.bst
 Database file #1: obvious.bib
 I was expecting a `,' or a `}'---line 104 of file obvious.bib
@@ -6,7 +6,5 @@ I was expecting a `,' or a `}'---line 104 of file obvious.bib
  :  url = {http://ww.axiis.org},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "visinfrastructure1"
-Warning--I didn't find a database entry for "visinfrastructure2"
 Warning--empty year in Treemaps2011
 (There was 1 error message)
