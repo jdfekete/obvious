@@ -34,22 +34,17 @@ import java.util.Date;
 public class ObviousWekaUtils {
 
   public static boolean isNumeric(Class<?> c) {
-    if(c.equals(int.class) || c.equals(Integer.class) ||
+    return (c.equals(int.class) || c.equals(Integer.class) ||
         c.equals(double.class) || c.equals(Double.class) ||
         c.equals(float.class) || c.equals(Float.class) ||
         c.equals(short.class) || c.equals(Short.class) ||
         c.equals(long.class) || c.equals(Long.class) ||
-        c.equals(BigDecimal.class) || c.equals(BigInteger.class)) {
-      return true;
-    }
-    return false;
+        c.equals(BigDecimal.class) || c.equals(BigInteger.class));
   }
   
   public static boolean isString(Class<?> c) {
-    if (c.equals(String.class)) {
-      return true;
-    }
-    return false;
+    return (c.equals(String.class));
+
   }
   
   public static boolean isRelational(Class<?> c) {
@@ -57,10 +52,8 @@ public class ObviousWekaUtils {
   }
   
   public static boolean isDate(Class<?> c) {
-    if (c.equals(Date.class)) {
-      return true;
-    }
-    return false;
+    return (c.equals(Date.class));
+
   }
   
   public static boolean isNominal(Class<?> c) {
