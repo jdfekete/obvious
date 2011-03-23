@@ -285,7 +285,7 @@ public class ObviousWekaInstances extends Instances {
 
   @Override
   public Instance instance(int index) {
-    return new ObviousWekaInstance(new TupleImpl(table, index), this);
+    return (Instance) m_Instances.elementAt(index);
   }
 
   @Override

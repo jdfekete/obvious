@@ -1,7 +1,5 @@
 package obviousx.io.weka;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 
@@ -30,7 +28,10 @@ public class ObviousWekaInstance extends Instance {
   public ObviousWekaInstance(Tuple tuple, Instances instances) {
     this.tuple = tuple;
     this.instances = instances;
+    this.m_Dataset = this.instances;
     this.m_Weight = 1.0;
+    this.m_AttValues = new double[tuple.getSchema().getColumnCount()];
+    this.m_AttValues = toDoubleArray();
   }
   
   @Override
@@ -196,11 +197,10 @@ public class ObviousWekaInstance extends Instance {
 
   @Override
   public double[] toDoubleArray() {
-    double[] values = new double[tuple.getSchema().getColumnCount()];
-    for (int i = 0; i < tuple.getSchema().getColumnCount(); i++) {
-      values[i] = this.value(i);
+    for (int i = tuple.getSchema().getColumnCount() - 1; i >= 0; i--) {
+      m_AttValues[i] = this.value(i);
     }
-    return values;
+    return m_AttValues;
   }
 
   @Override
@@ -228,12 +228,12 @@ public class ObviousWekaInstance extends Instance {
     Class<?> c = tuple.getSchema().getColumnType(attIndex);
     double value = -1;
     if (ObviousWekaUtils.isNumeric(c)) {
-      value = Double.valueOf(tuple.get(attIndex).toString());
+      return Double.valueOf(tuple.get(attIndex).toString());
     } else if (ObviousWekaUtils.isString(c)) {
-      value = Double.valueOf(attribute(attIndex).indexOfValue(
+      return Double.valueOf(attribute(attIndex).indexOfValue(
           tuple.getString(attIndex)));
     } else if (ObviousWekaUtils.isDate(c)) {
-      value = tuple.getDate(attIndex).getTime();
+      return tuple.getDate(attIndex).getTime();
     }
     return value;
   }
