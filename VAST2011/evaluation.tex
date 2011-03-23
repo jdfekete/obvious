@@ -107,14 +107,8 @@ Concretely, the application mainly combines Obvious components and Swing compone
 
 \subsection{Implementing a cross-toolkit layout component}
 
-Some of us have tested a potentially important usage scenario: devising a novel layout algorithm and using the Ovious toolkit to make it available in a variety of toolkits. This layout component is a generalized treemap algorithm ~\cite{Treemaps2011}. Its interface makes it easy to port as this algorithm takes as input a data model and renders using a Visitor design pattern accross a renderer, making it very convenient to implement accross polyglyphic toolkits like prefuse or Discovery. Considering the current visualization model is mostly targeted at enabling monoglyphic patterns, Obvious in its current state turns out to be of limited use for our purpose.
+Some of us have tested a potentially important usage scenario: devising a novel layout algorithm and using the Ovious toolkit to make it available in a variety of toolkits. This layout component is a generalized treemap algorithm.
+% ~\cite{Treemaps2011}. 
+Its interface makes it easy to port as this algorithm takes as input a data model and renders using a Visitor design pattern accross a renderer, making it very convenient to implement accross polyglyphic toolkits like prefuse or Discovery. Considering the current visualization model is mostly targeted at enabling monoglyphic patterns, Obvious in its current state turns out to be of limited use for our purpose.
 
 Still, we have found that the existing data model and utilities have made developing our layout algorithm on top of Obvious worthwhile: we could implement very easily a simple monoglyphic visualization and view instances, and relying on the default data model already saves us time in the development of our prototype, while we have the assurance that only minimal work may be needed to port our method to the toolkits targeted by Obvious.
-
-
-
-
-
-
-
-
