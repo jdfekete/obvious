@@ -11,49 +11,50 @@ for software systems.
 
 Pretty much all existing information visualization toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
-Card, Mackinlay and Shneiderman~\cite{ChiRefModel,ReadingsIV}.  The
-model defines three stages: Data Table, Visual Structure and View
+Card, Mackinlay and Shneiderman~\cite{ChiRefModel,ReadingsIV} and has
+been described as a design pattern in~\cite{DesignPatternsIV}.  The
+model defines three stages: \emph{DataSet} or \emph{Data Tables},
+\emph{Visualization} or \emph{Visual Structure} and \emph{View}
 (Figure~\ref{fig:refmodel}).  One of its main benefits is that it
-explicitly represents interaction, in contrast to older visualization models.
-Several articles have described the concrete design of an information
-visualization toolkit.  We report here on the common and the
-specific parts.
+explicitly represents interaction, in contrast to older visualization
+models.  Several articles have described the concrete design of an
+information visualization toolkit.  We report here on the common and
+the specific parts.
 
 \begin{figure}
-\includegraphics[width=\columnwidth]{figures/reference_model}
-\caption{The Information Visualization Reference Model (drawing by
-  J. Heer)}
+\includegraphics[width=\columnwidth]{figures/refmodpat}
+\caption{The Information Visualization Reference Model~\cite{DesignPatternsIV}}
 \label{fig:refmodel}
 \end{figure}
 
 
 The InfoVis Toolkit~\cite{InfoVis} is based on an \emph{in-memory
   database manager} where data is organized in columns --- contrary to
-most relational databases --- to improve the memory footprint and
-allow addition of new attributes that are needed to manage the interaction
-(e.g. selection or filtering) and to hold attributes computed on
-demand.  The main challenge being the support of interactive
-performance for rendering and dynamic queries with a small memory
-footprint.  The visual structure is managed using a \emph{monolithic}
-architecture~\cite{Polylithic}: each visualization technique is
-implemented as a specific class (e.g. ScatterplotVisualization,
-ParallelCoordinatesVisualization, TreeVisualization) that performs the
-mapping between the data tables and the graphics items to render.
-Finally, the view component is the same for each of the visual
-structures and takes care of scrolling, zooming, overlaying magic
-lenses (e.g. Fisheye or Magic Lenses).   A \emph{notification mechanism}
-implements the communication between the data tables and the visual
-structure: each time a data table is modified, it notifies all the
-registered handlers of the details of the modification. The
-interaction is managed by \emph{Interactor} objects that are
-associated with the visual structures; the views are generic and
-forward interaction managements to the Interactors.  One specific
-feature provided by the InfoVis Toolkit is layering: visualization can
-be composed on top of each others.  Composite visualizations are
-useful to build complex visualization by breaking them into simple
-parts. For example, node-link diagrams are split into links managed as
-a layer and nodes as another.  Magic lenses and Fisheyes are also
-managed as layers on top of other visualizations.
+most persistent relational databases --- to improve the memory
+footprint and allow addition of new attributes that are needed to
+manage the interaction (e.g. selection or filtering) and to hold
+attributes computed on demand.  The main challenge being the support
+of interactive performance for rendering and dynamic queries with a
+small memory footprint.  The visual structure is managed using a
+\emph{monolithic} architecture~\cite{Polylithic}: each visualization
+technique is implemented as a specific class
+(e.g. ScatterplotVisualization, ParallelCoordinatesVisualization,
+TreeVisualization) that performs the mapping between the data set and
+the graphics items to render.  Finally, the view component is the same
+for each of the visual structures and takes care of scrolling,
+zooming, overlaying magic lenses (e.g. Fisheye or Magic Lenses).  A
+\emph{notification mechanism} implements the communication between the
+data tables and the visual structure: each time a data table is
+modified, it notifies all the registered handlers of the details of
+the modification. The interaction is managed by \emph{Interactor}
+objects that are associated with the visual structures; the views are
+generic and forward interaction managements to the Interactors.  One
+specific feature provided by the InfoVis Toolkit is layering:
+visualization can be composed on top of each others.  Composite
+visualizations are useful to build complex visualization by breaking
+them into simple parts. For example, node-link diagrams are split into
+links managed as a layer and nodes as another.  Magic lenses and
+Fisheyes are also managed as layers on top of other visualizations.
 
 Prefuse~\cite{Prefuse} also relies on an in-memory database with
 notification but implements the visual structure using an extension of
@@ -91,10 +92,13 @@ information visualization toolkits, it adds a coordination component
 that is central and extends the notification mechanism implemented
 by the InfoVis Toolkit or Prefuse.
 
-Discovery~\cite{Discovery1,Discovery2,Discovery3} shares most of its characteristics with Prefuse:
-ini-memory, column-oriented data base and polyglyphic graphic model. Its main specifities is the absence of a scene graph, 
-replaced with data-model to rendering functors organized in a dataflow, and a differed notification strategies meant to allow 
-data editing.
+Discovery~\cite{Discovery1,Discovery2,Discovery3} shares most of its
+characteristics with Prefuse: it uses an in-memory, column-oriented
+database and a polylithic graphic model. Its two main features are 1)
+the absence of a scene graph, replaced by a dataflow pipeline made of
+short operations called \emph{functors} that renders directly from the
+data-model, and 2) a deferred notification strategy to allow data
+editing.
 
 \jo{I'm not sure I am convinced of the assertion in the following paragraph. The three toolkits above are described in some detail, not all of which is relevant to other toolkits. Perhaps we should instead abstract their distinct design characters. e.g. Row-oriented vs column oriented; in-memory vs cached database management; monolithic vs polylithic etc. The point being that while they all attempt to achieve similar general aims, their lower-level approach to doing so requires different programming approaches, hence the need for Obvious.}
 
