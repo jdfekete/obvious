@@ -23,36 +23,29 @@ For both examples and in fact every creation of an Obvious application, developp
  \item creation of an Obvious view with the created visualization
 \end{itemize} 
 
-\lstset{basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
+\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
 \begin{lstlisting}
-/*
-* Creates the graph structure.
-*/
+// Creates the graph structure.
 infovis.Graph g = Algorithms.getGridGraph(10, 10);
 Network network = new IvtkObviousNetwork(g);
 
-/*
-* Creates the associated visualization using the
-* factory for visualization.
-* I specify no predicate and no extra parameter.
-*/
+// Creates the associated visualization using the
+// factory for visualization.
 Visualization vis = new IvtkVisualizationFactory()
     .createVisualization(network, null, "network", null);
 
-/*
-* Creates the view.
-*/
-view = new IvtkObviousView(vis, null, null, null);
+// Creates the view.
+View view = new IvtkObviousView(vis, null, null, null);
+// Standard Java window creation
 JFrame frame = new JFrame();
-JScrollPane panel = new JScrollPane(view.
-    getViewJComponent());
+JScrollPane panel = new JScrollPane(
+    view.getViewJComponent());
 frame.add(panel);
 frame.pack();
-frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 frame.setVisible(true);
 \end{lstlisting}
 
-\lstset{basicstyle=\small,language=Java,caption={Combining different Obvious implementations to display a scatterplot},label=codeSample2}
+\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Combining different Obvious implementations to display a scatterplot},label=codeSample2}
 \begin{lstlisting}
 // Defining the data factory to use,
 // obvious-prefuse will be used for the data structures.
@@ -64,6 +57,7 @@ CSVImport csv = new CSVImport(new File(
     "src//main//resources//articlecombinedexample.csv"),
     ',');
 Table table = csv.loadTable();
+
 // Creating the parameter map for the monolithic object.
 Map<String, Object> param = new HashMap<String, Object>();
 param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // xfield
@@ -73,13 +67,11 @@ param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // yfield
 Visualization vis = new IvtkScatterPlotVis(table, null,
     null, param);
 
-IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
-JFrame frame = new JFrame("");
-frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-frame.add(view.getViewJComponent());
-frame.pack();
-frame.setVisible(true);
+View view = new IvtkObviousView(vis,  null, "scatterplot", null);
+// Standard Java window creation
+...
 \end{lstlisting}
+
 \subsection{Example using Weka}
 
 Weka \cite{Weka} is a suite of machine learning software widely used to design applications particularly for visual analytics \pierreluc{I should put a reference here to justify this affirmation. Can you suggest one?}. Thus, Obvious in its obviousx package supports mechanisms to build Instances (main data structure of Weka) from Obvious Table. Several methods exist to link an Obvious structure with a Weka one:
@@ -91,10 +83,10 @@ Weka \cite{Weka} is a suite of machine learning software widely used to design a
 
 Both methods are equivalent in terms of lines of code and can be completed with the same machine learning algorithms from Weka. For instance, to wrap an existing table into a weka Instances, developpers simply need to add the following line to the code sample \ref{codeSample2} :
 
-\lstset{basicstyle=\small,language=Java,caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample}
+\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample}
 \begin{lstlisting}
-   Instances inst = new ObviousWekaInstances(table,
-     "Instances", new FastVector(), table.getRowCount());
+Instances inst = new ObviousWekaInstances(
+    table, "Instances", new FastVector(), table.getRowCount());
 \end{lstlisting}
 
 To wrap the Obvious structure, the constructor simply needs as argument the Obvious table, a name for the weka Instances, a weka FastVector and the number of existing tuple in the table. Then, developpers can apply to this new Instances all machine learning algorithms introduced in Weka. Creating this wrapper takes less than a week.
