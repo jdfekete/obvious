@@ -59,9 +59,7 @@ System.setProperty("obvious.DataFactory",
     "obvious.prefuse.PrefuseDataFactory");
 // Creating an Obvious CSV reader and loading an
 // Obvious table
-CSVImport csv = new CSVImport(new File(
-    "src//main//resources//articlecombinedexample.csv"),
-    ',');
+CSVImport csv = new CSVImport(new File("example.csv"), ',');
 Table table = csv.loadTable();
 
 // Creating the parameter map for the monolithic object.
