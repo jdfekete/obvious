@@ -16,9 +16,7 @@ That is why unlike the Obvious implementation for Prefuse, to create Obvious vis
 
 \subsection{Improvise}
 
-Currently, the Obvious implementation based on Improvise only implements the data model part -for tables-.
-
-Even if Improvise is a monolithic toolkit, we cannot directly bind Improvise visualization components, since the toolkit does not expose its visualization pipeline publicly. Components are intended to be totally monolithic from scratch. To address those problems, a solution to expose the visualization pipeline is to create in Improvise a specific visualization interface making public needed methods. In addition, Improvise does not provide dynamic data support: a functionality intended to be in every obvious implementation.
+Currently, the Obvious implementation based on Improvise only implements the data model part -for tables-. Even if Improvise is a monolithic toolkit, we cannot directly bind Improvise visualization components, since the toolkit does not expose its visualization pipeline publicly. Components are intended to be totally monolithic from scratch. To address those problems, a solution to expose the visualization pipeline is to create in Improvise a specific visualization interface making public needed methods. In addition, Improvise does not provide dynamic data support: a functionality intended to be in every obvious implementation.
 
 Thus, this implementation shows that \emph{coevolution} between Obvious and existing toolkits is needed to apply abstractions.
 
@@ -34,14 +32,14 @@ Finally, this implementation shows one interest of Obvious: its abstraction can 
 
 The motivation to create an Obvious implementation based on JUNG is that others implementations concern applications and data structures agnostic toolkits (Prefuse and Infovis Toolkit). Thus, JUNG, a toolkit dedicated to graph structure, is a good candidate to test abstractions introduced in Obvious on another kind of toolkit. 
 
-Concretely, JUNG implementation of Obvious realizes Visualization and View patterns and the Network abstraction, because JUNG already follows this pattern and does not have the notion of table. Since JUNG can easily provides monolithic visualizations , we simply bind existing JUNG visualization components to Obvious ones. As JUNG does not offer schema class, we use a predefined schema implementation from obvious core package to respect our patterns.
+Concretely, this implementation realizes all interfaces defined in Obvious, except for tables and schemas, since those notions do not exist in JUNG. Schemas are mandatory in Obvious, so this implementation uses predefined schema implementation from obvious core package. Network structures of Obvious are close enough to JUNG graph that is why the data model of JUNG was easy to wrap in Obvious. Concerning visualization and view parts, Since JUNG can easily provides monolithic visualizations, this implementation simply binds existing JUNG visualization components to Obvious ones.
 
-From all existing implementations, this one was the easiest to create, since it fits well in Obvious assumptions (network pattern for the data model and easily providing monolithic components). Thus, it demonstrates when an existing toolkit and obvious have the same (or close)  hypotheses, it greatly facilitates implementation.
+This implementation was the easiest to create since Obvious and JUNG share common hypotheses: for their data model (Obvious network and JUNG graph are equivalent) and JUNG and Obvious are both compatible with the monolithic approach. Thus, it demonstrates when an existing toolkit and obvious have the same (or close) hypotheses, it greatly facilitates implementation.
 
 \subsection{Units tests}
 \label{sub:unittests}
 
-Since we have defined a consensual abstraction for the data model, we take advantage of this consensus to create unit tests for this abstraction. If such a consensus emerges for the visualization and/or the view part, the same approach could be adopted.
+Since we have defined a consensual abstraction for the data model, we take advantage of this consensus to create unit tests for this part of the \emph{meta-toolkit}. If such a consensus emerges for the visualization and/or the view part, the same approach could be adopted.
 
 Due to the similarities of Obvious and Prefuse, the binding has been used to set up unit tests for the data model in Obvious. Unit tests allow authors of Obvious bindings to automatically test whether their implementation behaves in conformance with the intended semantics of Obvious. Also, authors are able to extend these existing tests to perform more advanced features for their binding.
 
