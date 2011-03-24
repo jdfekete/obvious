@@ -44,6 +44,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;
 
+@SuppressWarnings("serial")
 public class ObviousWekaInstances extends Instances {
   
   private Table table;
@@ -62,6 +63,10 @@ public class ObviousWekaInstances extends Instances {
 
       m_Attributes.addElement(attribute(i));
     }
+  }
+  
+  public ObviousWekaInstances(Table table, String name) {
+    this(table, name, new FastVector(), table.getRowCount());
   }
   
   @Override
