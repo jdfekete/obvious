@@ -25,21 +25,27 @@ For both examples and in fact every creation of an Obvious application, developp
 
 \lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
 \begin{lstlisting}
-// Creates the graph structure.
+// Creates the graph structure. First, set the factory to use (ivtk).
+// Then load the native data structure, and get a factory instance.
+// Finally, call the convenient getter of the factory.
+System.setProperty("obvious.DataFactory",
+    "obvious.ivtk.data.IvtkDataFactory");
 infovis.Graph g = Algorithms.getGridGraph(10, 10);
-Network network = new IvtkObviousNetwork(g);
+DataFactory factory = DataFactory.getInstance()
+Network network = factory.createGraph(g);
 
 // Creates the associated visualization using the
-// factory for visualization.
+// factory for visualization. No predicate and extra
+// parameters are given to the constructor.
 Visualization vis = new IvtkVisualizationFactory()
     .createVisualization(network, null, "network", null);
 
-// Creates the view.
-View view = new IvtkObviousView(vis, null, null, null);
+// Creates the view. No predicates and extra parameters are given to
+// the constructor.
+View view = new IvtkObviousView(vis, null, "graphview", null);
 // Standard Java window creation
 JFrame frame = new JFrame();
-JScrollPane panel = new JScrollPane(
-    view.getViewJComponent());
+JScrollPane panel = new JScrollPane(view.getViewJComponent());
 frame.add(panel);
 frame.pack();
 frame.setVisible(true);
@@ -63,11 +69,11 @@ Map<String, Object> param = new HashMap<String, Object>();
 param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // xfield
 param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // yfield
 
-// Creating the visualization then the view...
-Visualization vis = new IvtkScatterPlotVis(table, null,
-    null, param);
+// Creating the visualization then the view. No predicates are given to
+// the constructor.
+Visualization vis = new IvtkScatterPlotVis(table, null, "plot", param);
 
-View view = new IvtkObviousView(vis,  null, "scatterplot", null);
+View view = new IvtkObviousView(vis,  null, "plot", null);
 // Standard Java window creation
 ...
 \end{lstlisting}
@@ -85,11 +91,10 @@ Both methods are equivalent in terms of lines of code and can be completed with 
 
 \lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample}
 \begin{lstlisting}
-Instances inst = new ObviousWekaInstances(
-    table, "Instances", new FastVector(), table.getRowCount());
+Instances inst = new ObviousWekaInstances(table, "Instances");
 \end{lstlisting}
 
-To wrap the Obvious structure, the constructor simply needs as argument the Obvious table, a name for the weka Instances, a weka FastVector and the number of existing tuple in the table. Then, developpers can apply to this new Instances all machine learning algorithms introduced in Weka. Creating this wrapper takes less than a week.
+To wrap the Obvious structure, the constructor simply needs as argument the Obvious table and a name for the weka Instances. Then, developpers can apply to this new Instances all machine learning algorithms defined in Weka. Creating this wrapper takes less than a week for one developper knowing well Obvious but discovering Weka.
 
 This example demonstrates an important gain of Obvious: when a toolkit adopts Obvious it can immediately benefit from existing wrappers to complementaries functionalities. Thus, with the obviousx.weka package, all Obvious implementations can now provide advanced machine learning capabilities to their users.
 
