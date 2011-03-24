@@ -27,6 +27,7 @@ Yet new and important usage patterns for combining visualization and data editin
 While most toolkit need to provide a unified notification system to propagate information about changes affecting the data model, it is also not a must-have in the context of an information visualization data-model. Stil,l notification is also an important feature to provide most advanced visualization services. During the development of Obvious implementations, notification systems included in toolkits appeared to be widely different in terms of syntax and functionalities.  That is why the notification system introduced in Obvious is designed to support a large variety of existing notification techniques even those not currently implemented in toolkits. Yet, as in many toolkits \cite{Prefuse,InfoVis,jung2003,Discovery1}, the notification system in Obvious is based on listeners placed on data structures that propagates changes to listening objects. In addition, it supports transaction and batch techniques usually found in database system, as will be seen later.
 
 \subsection{Combining Notification and Modifiability}
+\label{sub:combiningnotif}
 
 Combining Notification and Modifiability however raises a challenge. Since one operation can affect a large amout of data, flow of notifications concerning the same action could be generated. This flow can be a problem, since it can increase response time of the application.
 
