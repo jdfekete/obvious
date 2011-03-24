@@ -100,37 +100,73 @@ short operations called \emph{functors} that renders directly from the
 data-model, and 2) a deferred notification strategy to allow data
 editing.
 
-\jo{I'm not sure I am convinced of the assertion in the following paragraph. The three toolkits above are described in some detail, not all of which is relevant to other toolkits. Perhaps we should instead abstract their distinct design characters. e.g. Row-oriented vs column oriented; in-memory vs cached database management; monolithic vs polylithic etc. The point being that while they all attempt to achieve similar general aims, their lower-level approach to doing so requires different programming approaches, hence the need for Obvious.}
+%% \jo{I'm not sure I am convinced of the assertion in the following
+%%   paragraph. The three toolkits above are described in some detail,
+%%   not all of which is relevant to other toolkits. Perhaps we should
+%%   instead abstract their distinct design characters. e.g. Row-oriented
+%%   vs column oriented; in-memory vs cached database management;
+%%   monolithic vs polylithic etc. The point being that while they all
+%%   attempt to achieve similar general aims, their lower-level approach
+%%   to doing so requires different programming approaches, hence the
+%%   need for Obvious.}
 
 Other information visualization toolkits can mostly be described using
 the four toolkits above, even if they use a different programming
-language.  Tulip~\cite{Tulip} is a graph-oriented toolkit programmed in C++ that
-uses data tables for vertices and edges, like the InfoVis Toolkit and
-Prefuse.  It implements several complex graph layout algorithms and
-uses OpenGL for its rendering but the conceptual architecture is
-table-based and monolithic.
+language.  Tulip~\cite{Tulip} is a graph-oriented toolkit programmed
+in C++ that uses data tables for vertices and edges, like the InfoVis
+Toolkit and Prefuse.  It implements several complex graph layout
+algorithms and uses OpenGL for its rendering but the conceptual
+architecture is table-based and monolithic.  Therefore, information
+visualization toolkits share a global organization, they all implement
+an in-memory database with two variants (row-based or column-based), a
+visual structure with two variants (monolithic or polylithic) and
+several specific features.  Even if some choices made by toolkits
+designers were carefully decided, other were probably made without
+being aware of the alternatives.  Combining the best possible features
+for a next-generation toolkit might be tempting but there are still
+trade-offs that cannot be solved.  For example, the power of
+coordinated and linked views offered by Improvise comes at the cost of
+maintaining caches that should be flushed when the data change so
+there seems to be a trade-off there that still needs research to be
+solved.
 
 There are also lower-level toolkits that can be used to build visual
-analytics applications.  Two popular families are scene-graph managers
+analytics applications.  Two popular families are graphics libraries
 and graph libraries.
 
-\jo{I'm not sure what point is being made here with the discussion of lower level visualization toolkits. Are we asserting that the standardization implied by Obvious is also appropriate for lower level approaches to VA software construction? If so, we need to identify what is lacking in an approach without Obvious as well as demonstrating (later on in the paper) that implementing the Obvious interfaces in lower level visualization environments is both practical and beneficial. An interesting test case might be \emph{Processing} (processing.org). This is, compared to the other examples cited, a very low level approach to visualization software development. However, it is designed for rapid-prototyping, and if it could be easily integrated with Obvious it might provide a nice example of how early prototypes could be transformed into more robust applications using Obvious as the bridge. I'd be happy to write some words on this if you think it fits well with the theme of the paper.}
+%% \jo{I'm not sure what point is being made here with the discussion of
+%%   lower level visualization toolkits. Are we asserting that the
+%%   standardization implied by Obvious is also appropriate for lower
+%%   level approaches to VA software construction? If so, we need to
+%%   identify what is lacking in an approach without Obvious as well as
+%%   demonstrating (later on in the paper) that implementing the Obvious
+%%   interfaces in lower level visualization environments is both
+%%   practical and beneficial. An interesting test case might be
+%%   \emph{Processing} (processing.org). This is, compared to the other
+%%   examples cited, a very low level approach to visualization software
+%%   development. However, it is designed for rapid-prototyping, and if
+%%   it could be easily integrated with Obvious it might provide a nice
+%%   example of how early prototypes could be transformed into more
+%%   robust applications using Obvious as the bridge. I'd be happy to
+%%   write some words on this if you think it fits well with the theme of
+%%   the paper.}
 
-\subsection{Scene-Graph Managers}
+\subsection{Graphics Libraries}
 
 Visual analytics applications can manage their own data structure and
-manage the mapping from data to visual structure on their own.  At
-this point, they can use scene-graph toolkits to manage the
-visual structure and view as described in the reference model.
+take care of the mapping from data to visualization on their own.  At
+this point, they can use \emph{scene-graphs} or \emph{direct-graphics}
+libraries.  
 
-Scene-graph toolkits are focused on computer graphics and interaction:
-they only deal with the visual structure and view.  Piccolo and
-Jazz~\cite{Polylithic} are popular 2D scene-graph managers that have
-been used to create several information visualization applications
-(e.g.~\cite{SpaceTree,Geneaquilt}.) An early version of Piccolo has
-also been used as graphics engine for the Cytoscape graph
-visualization system~\cite{Cytoscape} but dropped for performance
-reasons.
+Scene-Graph toolkits can manage the visual structure and view as
+described in the reference model.  They are focused on computer
+graphics and interaction: they only deal with the visual structure and
+view.  Piccolo and Jazz~\cite{Polylithic} are popular 2D scene-graph
+managers that have been used to create several information
+visualization applications (e.g.~\cite{SpaceTree,Geneaquilt}.) An
+early version of Piccolo has also been used as graphics engine for the
+Cytoscape graph visualization system~\cite{Cytoscape} but dropped for
+performance reasons.
 
 High-performance information visualization applications use
 scene-graph optimization techniques to speed-up the rendering of
@@ -139,7 +175,7 @@ indexing structure to avoid rendering objects that are not visible.
 
 Although scene-graph technologies are mature and used in a wide
 variety of graphics applications such as games, virtual-reality
-applications and scientific visualization systems, they are not
+applications and scientific visualization systems, they are not always
 adequate for information visualization systems because they require
 the explicit specification of geometry and graphic attributes for each
 displayed objects.  Very often, information visualization can quickly
@@ -148,19 +184,25 @@ example, the position of an item using a scatterplot visualization is
 computed using a simple affine transformation from two data
 attributes.  There is no need to store the computed values when
 computing them on the fly is very cheap.  The same is true for color
-etc.  Copying this information is costly in term of time and memory.
+etc.  Copying and storing this information is costly in term of time
+and memory.
 
-Still, by separating the data-model from the visual model, scene-graph
-managers offer more flexibility than information visualization systems
-for complex graphics and sophisticated interaction.  This is why
-several information visualization systems still use them.
+Direct-graphics libraries such as \emph{Processing} or \emph{OpenGL}
+can also be used to implement the visualization technique while
+drawing for rapid prototyping or high-performance reasons.
+
+[Add a section on Processing]
+
+Still, when separating the data-model from the visual model,
+scene-graph managers offer more flexibility than information
+visualization systems for complex graphics and sophisticated
+interaction.  This is why several information visualization systems
+still use them.
 
 % say something about the fact that scene-graph toolkits are
 % classically for 3D scenes.
 
-\subsection{Graph Managers}
-
-\jo{Referred to as `graph libraries' above.}
+\subsection{Graph Libraries}
 
 While most table-based visualization toolkits rely on an in-memory
 database, several graph-based visualization systems manage their
@@ -203,3 +245,4 @@ international industry consortium of 423 companies, government
 agencies and universities participating in a consensus process to
 develop publicly available interface standards.''
 
+\jdf{More to come..}
