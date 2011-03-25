@@ -6,21 +6,21 @@ Another method, used to validate Prefuse [3] would be to re-implement complex Vi
 
 This section shows how Obvious can implement common applications in information visualization such as the creation of a scatterplot or of a graph visualization. These examples explain how to combine obvious component to build an application, how to create data structure and spot patterns to use. The first usecase concerns the coding of a graph visualization with Obvious InfoVis Toolkit implementation and the second one based on the coding of a scatterplot by combining component from different Obvious implementations.
 
-For both examples and in fact every creation of an Obvious application, developpers have to follow the same steps:
+For both examples and in fact every creation of an Obvious application, developpers have to follow the following steps:
 
 \begin{itemize}
- \item creation of an Obvious data structure, three ways exist:
+ \item creation of an Obvious data structure directly with a constructor or through a factory. Three ways exist to fill the data structure:
  \begin{enumerate}
-  \item wrapping an existing data structure from a targeted toolkit as shown in first example
+  \item wrapping an existing data structure from a targeted toolkit as shown in the first example
   \item using an Obvious reader to load an Obvious structure from a well known file format (CSV, GraphML...) as shown in the second example
   \item using Obvious methods to directly manipulate the data structure (addRow, addNode, addEdge...), this is not shown in both examples 
  \end{enumerate}
- \item creation of an Obvious visualization with the created data structure and a map of parameters
+ \item creation of an Obvious visualization with the created data structure and a map of parameters directly with a constructor or through a factory
  \begin{enumerate}
   \item as shown in the second example, it is possible to combine data structure from one Obvious implementation with visualization from another Obvious implementation
   \item the map parameter allows developpers to customize the Obvious monolithic component (in the second example, the map indicates columns used for X and Y axis of the scatterplot)
  \end{enumerate}
- \item creation of an Obvious view with the created visualization
+ \item creation of an Obvious view with the created visualization directly with a constructor or through a factory
 \end{itemize} 
 
 \lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
@@ -111,7 +111,6 @@ Concretely, DDupe is a software initially written in .NET dedicated to detect an
 EdiDuplicate offers the same possibilities but with extensions to cover specific needs. Concretely, we have implemented a loader to create an Obvious network from the  database. This structure is then fed by an external application with metrics for each pair of authors. Then, those statistics are displayed in a JTable (automically created from the Obvious structure). When, the user clicks on a cell a view of the neighbourhood of the current nodes is created. Then, with this information, the user is able to decide if the potential duplicated authors have to be merged. In addition, it is possible to query the Obvious structure to only display pair of duplicates for a specific authors. The user can also change the layout used to display the neighbourhood network with a JList: all graph layouts introduced in Infovis Toolkit are available. 
 
 Concretely, the application mainly combines Obvious components and Swing components (derived from Obvious structure). For the data model, an Obvious Network is used from the InfoVis Toolkit implementation of Obvious, the visualization and the view part are also provided by this implementation. Building this application takes about less than a week.
-
 \subsection{Implementing a cross-toolkit layout component}
 
 Some of us have tested a potentially important usage scenario: devising a novel layout algorithm and using the Ovious toolkit to make it available in a variety of toolkits. This layout component is a generalized treemap algorithm.
