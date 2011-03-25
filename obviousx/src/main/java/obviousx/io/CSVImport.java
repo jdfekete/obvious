@@ -93,7 +93,7 @@ public class CSVImport implements TableImporter {
     this.separator = sep;
     this.formatFactory = new FormatFactoryImpl();
   }
-  
+
   public CSVImport(File inputFile, char sep) {
     this(inputFile, null, sep);
   }
@@ -135,7 +135,7 @@ public class CSVImport implements TableImporter {
       ArrayList<Object> defaultValue = new ArrayList<Object>();
       String[] nextline = null;
       Integer lineCount = 0;
-      while (lineCount < HEADERSIZE) {
+      while (lineCount < HEADERSIZE - 1) {
         nextline = reader.readNext();
         for (int j = 0; j < nextline.length; j++) {
           switch(lineCount) {
@@ -154,19 +154,24 @@ public class CSVImport implements TableImporter {
         }
         lineCount++;
       }
-      
-      // Lazely initialize the schema here, it also avoids throwing exceptions from the ctor.
+
+      // Lazely initialize the schema here, it also avoids throwing exceptions
+      // from the ctor.
       this.fileSchema = DataFactory.getInstance().createSchema();
-      
       for (int i = 0; i < title.size(); i++) {
         TypedFormat format = formatFactory.getFormat(type.get(i));
         Class<?> spottedClass = format.getFormattedClass();
-        this.fileSchema.addColumn(title.get(i), spottedClass,
-            defaultValue.get(i));
-
+        if (defaultValue == null) {
+          this.fileSchema.addColumn(title.get(i), spottedClass,
+              defaultValue.get(i));
+        } else {
+          this.fileSchema.addColumn(title.get(i), spottedClass,
+              null);
+        }
       }
       reader.close();
     } catch (Exception e) {
+      e.printStackTrace();
       throw new ObviousxException(e);
     }
   }
@@ -179,9 +184,8 @@ public class CSVImport implements TableImporter {
     try {
       this.readSchema();
       if (this.table == null) {
-      	this.table = DataFactory.getInstance().createTable(fileSchema);
+        this.table = DataFactory.getInstance().createTable(fileSchema);
       }
-      
       CSVReader reader = new CSVReader(new FileReader(file), separator);
       String[] nextline;
       Integer lineCount = 0;
@@ -202,7 +206,6 @@ public class CSVImport implements TableImporter {
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
-    
     return this.table;
   }
 
