@@ -1,59 +1,178 @@
-This section points out encountered difficulties, raised problems and learned lessons during implementations of Obvious. Each implementation has its own particularities and allows  to better identify gaps in existing design patterns and models. Thus, we start by describing specific points in realized implementations and then we conclude with lessons learned during the whole step of implementation.
+This section points the lessons learned during implementations binding
+Obvious interfaces to wrappers around concrete toolkits.  Each toolkit
+has its own design choices that are discussed in articles but some of
+the implications came to light when implementing the bindings, for
+example differences of interpretations of design patterns.  We briefly
+describe the most important lessons here.
 
 \subsection{Prefuse}
 
-Prefuse was the first targeted implementation of Obvious since its design patterns are very close to those of Obvious.  The binding implements all abstractions described in the core Obvious interfaces for all data model structures, visualizations, views.
+Prefuse was the first binding implemented because its architecture is,
+by design, very close to Obvious.  The binding implements all the
+abstractions described in the core Obvious interfaces for all data
+models, visualizations and views.
 
-Prefuse is currently the only polylithic Information Visualization toolkit used with Obvious. However, Obvious does not currently offer a visualization abstraction for polylithic components since no consensus has emerged yet. Thus, we choose to provide some pre-built monolithic components based on Prefuse for well know visualization techniques such as scatter plots, force directed graphs, radial graphs... Currently, if a software developer wants to use a non existing technique, he has to write it with Prefuse as a component and wrap it with the Obvious visualization interface. Prefuse have also been used to introduce predicate support for all existing implementations of the Obvious data model. Since an Obvious tuple can easily be wrapped into a Prefuse one, the first Obvious predicate implementation is based on Prefuse predicate engine and its syntax.
+For the visualization, Prefuse is currently the only polylithic
+Information Visualization toolkit with an binding for Obvious.  As
+explained in~\ref{sec:viewvis}, Obvious does not offer a visualization
+abstraction for polylithic components.  Thus, Obvious provides
+components pre-configured for well know visualization techniques such
+as scatter-plots or force directed graphs.  Currently, if a software
+developer wants visualize an Obvious table using a Prefuse
+visualization not offered in the Obvious visualization factory, the
+only requirement is to convert the data model to a Prefuse data table
+using an obviousx component.  
 
-This demonstrates that creating an implementation of Obvious allows other implementations to benefit of new features. It is one of the main goal of Obvious: binding toolkits to extend their capabilities. 
+%% [jdf] we never mentioned predicates
+%% Prefuse have also been used to implement and test predicates for all
+%% the implementations of the Obvious data model. Since an Obvious tuple
+%% can easily be wrapped into a Prefuse one, the first Obvious predicate
+%% implementation is based on Prefuse predicate engine and its syntax.
 
-\subsection{Infovis Toolkit}
+Several interfaces defined by Obvious are based on a Prefuse concrete
+class.  Therefore, Prefuse was used as a complete implementation of
+Obvious to check its model and syntax.
 
-Since the Infovis Toolkit is monolithic and follows the reference Information Visualization model, this implementation can realize all interfaces for the data model, visualization and view introduced in Obvious.
+%% This demonstrates that creating an implementation of Obvious allows
+%% other implementations to benefit of new features. It is one of the
+%% main goal of Obvious: binding toolkits to extend their capabilities.
 
-That is why unlike the Obvious implementation for Prefuse, to create Obvious visualization component, it is simply needed to wrap existing monolithic component of Infovis Toolkit. However, the data model of Obvious and the one of Infovis Toolkit are different: both models do not share the same object relationships -for example, in Infovis Toolkit the Graph interface is not a superinterface for the Tree interface-. In addition, data model classes are more specialized in Infovis Toolkit and do not offer the same granularity for method than in Obvious: for instance, tables can be described as static tables or dynamic tables. Thus, to implement the Obvious data model for Infovis Toolkit, some complementary code that plays with existing methods in the Infovis Toolkit was needed and so complicates the development and the maintenance of the implementation.
+\subsection{InfoVis Toolkit}
+
+Since the Infovis Toolkit is monolithic and follows the reference
+Information Visualization model, its Obvious binding realizes all the
+interfaces for the data model, visualization and view introduced in
+Obvious.
+
+Since the InfoVis Toolkit has monolithic visualizations, providing
+them simply consisted in wrapping them in an Obvious visualization
+class and implementing a factory to create them by name.
+
+However, the data model of the InfoVis Toolkit differs from Obvious
+for trees and networks: in the Infovis Toolkit, the Graph interface is
+not a super-interface of the Tree interface.  In addition, some data
+model classes are more specialized in the Infovis Toolkit than in
+Obvious. For example, tables can be described as static tables or
+dynamic tables.  The binding was therefore complicated by these
+mismatches that needed more code and a more complicated development
+than for Prefuse.
+
+Nevertheless, the InfoVis Toolkit binding is operational and
+reliable.
 
 \subsection{Improvise}
 
-Currently, the Obvious implementation based on Improvise only implements the data model part -for tables-. Even if Improvise is a monolithic toolkit, we cannot directly bind Improvise visualization components, since the toolkit does not expose its visualization pipeline publicly. Components are intended to be totally monolithic from scratch. To address those problems, a solution to expose the visualization pipeline is to create in Improvise a specific visualization interface making public needed methods. In addition, Improvise does not provide dynamic data support: a functionality intended to be in every obvious implementation.
+Currently, the Obvious implementation based on Improvise only
+implements the data model part for tables.  Even if Improvise is a
+monolithic toolkit, Obvious cannot directly bind Improvise
+visualization components because the toolkit does not expose its
+visualization pipeline publicly: Improvise components are intended to
+be complete black boxes.  Addressing this problem would require some
+changes inside the current version of Improvise. In addition,
+Improvise does not support well dynamic data, which is a functionality
+intended to be in every obvious implementation.
 
-Thus, this implementation shows that \emph{coevolution} between Obvious and existing toolkits is needed to apply abstractions.
+Currently, Improvise can use a data table from an Obvious data table
+but the rest of the Improvise pipeline is hidden from
+Obvious. Providing a complete binding for Improvise in Obvious would
+require some changes in Improvise.
 
 \subsection{JDBC}
 
-This implementation is built to prove that Obvious can handle a large variety of data model and not only models coming from information visualization toolkit. JDBC was chosen in this purpose since databases are often used as a data source for applications and since the others toolkits we use to create implementation do not support functionalities such as transactions to test the notification model introduced formerly. Logically, this implementation only supports the data model of Obvious.
+JDBC is the standard Java interface to standard SQL databases.  We
+wrapped JDBC in an Obvious data table to prove that Obvious can
+support a large variety of data model, not only models coming from
+information visualization toolkits.  JDBC was chosen because databases
+are frequently used as data sources for applications and since JDBC
+provides additional features not available in the toolkits data tables
+such as atomic and batched transactions.  We used it to test the
+notification model introduced formerly.  As expected, this
+implementation only supports the data model of Obvious.
 
-Concretely, this implementation  translates obvious methods into SQL queries. For example, getters are implemented as SELECT queries, setters as UPDATE ones, add as INSERT queries and remove as DELETE queries. Queries used are written in "`standard"' SQL and the implementation has been tested (with tests introduced in \ref{sub:unittests}) and several applications have been written on different DBMS such as MySQL and Oracle. In addition, for the notification system, table listeners compatible with transaction and batch strategies presented in \ref{sub:combiningnotif} have been developped to validate it.
-
-Finally, this implementation shows one interest of Obvious: its abstraction can be applied to different fields than information visualization and it is another way to extend capabilities of all Obvious implementations.
+Concretely, this implementation translates obvious methods into SQL
+queries.  For example, the data table ``get'' methods are implemented
+as SELECT queries, the ``set'' methods as UPDATE queries, the ``add''
+methods as INSERT queries, and the ``remove'' methods as DELETE
+queries.  Queries are written in standard SQL and several applications
+have been written to work with different DBMS such as MySQL and
+Oracle.  In addition, for the notification system, table listeners
+compatible with transaction and batch strategies presented in
+\ref{sub:combiningnotif} have been developed and help validate the
+Obvious notification model.
 
 \subsection{JUNG}
 
-The motivation to create an Obvious implementation based on JUNG is that others implementations concern applications and data structures agnostic toolkits (Prefuse and Infovis Toolkit). Thus, JUNG, a toolkit dedicated to graph structure, is a good candidate to test abstractions introduced in Obvious on another kind of toolkit. 
+JUNG is a graph library in Java that mainly manages the graph topology
+but associates arbitrary attributes with vertices and edges.
+Concretely, this implementation realizes all interfaces defined in
+Obvious, except for tables and schemas since these notions do not
+exist in JUNG.  Schemas are mandatory in Obvious, so this
+implementation uses a default schema implementation from the obvious
+core package.  The network structure of Obvious is similar to JUNG's
+graph; therefore, the data model of JUNG was easy to wrap as an
+Obvious Network.  Concerning the visualizations and views, JUNG
+provides monolithic visualizations.  The Obvious implementation simply
+binds existing JUNG visualization components to Obvious visualizations.
 
-Concretely, this implementation realizes all interfaces defined in Obvious, except for tables and schemas, since those notions do not exist in JUNG. Schemas are mandatory in Obvious, so this implementation uses predefined schema implementation from obvious core package. Network structures of Obvious are close enough to JUNG graph that is why the data model of JUNG was easy to wrap in Obvious. Concerning visualization and view parts, Since JUNG can easily provides monolithic visualizations, this implementation simply binds existing JUNG visualization components to Obvious ones.
+This implementation was the easiest to create since Obvious and JUNG
+share common hypotheses: for their data model (Obvious network and
+JUNG graph are equivalent) and JUNG and Obvious are both compatible
+with the monolithic approach.  
 
-This implementation was the easiest to create since Obvious and JUNG share common hypotheses: for their data model (Obvious network and JUNG graph are equivalent) and JUNG and Obvious are both compatible with the monolithic approach. Thus, it demonstrates when an existing toolkit and obvious have the same (or close) hypotheses, it greatly facilitates implementation.
 
 \subsection{Units tests}
 \label{sub:unittests}
 
-Since we have defined a consensual abstraction for the data model, we take advantage of this consensus to create unit tests for this part of the \emph{meta-toolkit}. If such a consensus emerges for the visualization and/or the view part, the same approach could be adopted.
+Obvious is specified using Java interfaces and some comments in the
+implementation files but without any formal specification of the
+precise behavior of the defined interfaces.  To very that all the
+implementations behave consistently, we have implemented \emph{Unit
+  Tests}: a suite of classes aimed at testing all the methods of all
+the classes.
 
-Due to the similarities of Obvious and Prefuse, the binding has been used to set up unit tests for the data model in Obvious. Unit tests allow authors of Obvious bindings to automatically test whether their implementation behaves in conformance with the intended semantics of Obvious. Also, authors are able to extend these existing tests to perform more advanced features for their binding.
+Currently, the tests are only defined on the data model of Obvious.
+The level of specification of Obvious visualizations and views is not
+sufficient to perform useful tests.
 
-Concretely , unit tests have been defined with JUnit  for Schema (14 tests) , Table (11 tests), Network (13 tests) and Tree interfaces (8 tests) in the Obvious core package. These tests have been systematically run for each new Obvious data model development: all presented implementations successfully passed those tests.
+Unit tests need an implementation to work, they cannot test abstract
+classes or interfaces.  Due to the similarities of Obvious and
+Prefuse, the Prefuse binding has been used to set up the unit tests
+for the data model of Obvious.  They have then been moved to the core
+Obvious module to be usable by all the bindings.  Unit tests allow
+authors of Obvious bindings to automatically test whether their
+implementation behaves in conformance with the intended semantics of
+Obvious.  Also, authors are able to extend these existing tests to
+perform more advanced ones for their binding.
+
+Concretely, unit tests have been defined with JUnit~\cite{JUnit} for
+the following interfaces: Schema (14 tests), Table (11 tests), Network
+(13 tests) and Tree (8 tests); all part of the Obvious core package.
+These tests have been systematically run for each new Obvious data
+model development: all presented implementations successfully passed
+those tests.
+
 
 \subsection{Lessons learned}
 
-We have learned several lessons during the development of those implementations: mainly concerning lack of precision in the Information Visualization reference model. We can list the following lessons:
++++ revise
+
+We have learned several lessons during the development of Obvious
+bindings:
+%implementations: mainly concerning lack of precision in the
+%Information Visualization reference model. We can list the following
+%lessons:
 
 \begin{itemize}
-\item the need for a specification of a clear semantic for notifications that can support simple models and more advanced ones (with batches and transactions for example)
-\item the need for support for a polylithic approach to define an abstraction model for visualizations
-\item the more abstractions defined the more unit tests we can define to validate new implementations
-\item toolkits need to adopt patterns close to Obvious ones in order to enhance code quality of the implementations and to facilitate the sharing of functionalities among existing toolkits
+\item the need for a specification of a clear semantic for the
+  notifications; the notification model can support simple models and
+  more advanced ones (with batches and transactions for example)
+\item the need for support for a polylithic approach to define an
+  abstraction model for visualizations
+\item the more abstractions defined the more unit tests we can define
+  to validate new implementations
+\item toolkits need to adopt patterns close to Obvious ones in order
+  to enhance code quality of the implementations and to facilitate the
+  sharing of functionalities among existing toolkits
 \end{itemize}
 
 \jo{The last itemized point above seems like an important one, and one we should revisit in the conclusion. It exposes the issue of the degree to which existing toolkits need to adapt to allow interoperability through Obvious. It is good that we are honest about this, but it does seem to be a significant weakness with the approach, especially if we wish to support VA that use data structures that don't fit well into those modelled in Obvious (e.g. geospatial Rasters, fuzzy sets).}
