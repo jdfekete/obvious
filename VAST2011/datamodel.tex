@@ -143,15 +143,15 @@ database triggers) will arrive in batches.  The semantics of Obvious
 notification handles this case correctly but the observer should be
 aware that the tableChanged method can be called much later than when
 the table is actually changed.  This is the case for database atomic
-and batched transactions: the actual notification is propagated after
-the end of the transaction when the database engine has done all the
-integrity checks.
+transactions: the actual notification is propagated after the end of
+the transaction when the database engine has done all the integrity
+checks.
 
 In practice, the three strategies we have described have been
 sufficient to handle all the cases required inside toolkits.
 
 
-\subsection{Data services}
+\subsection{Other services}
 
 To leverage our core implementation and offer some immediately useful
 services to Obvious users, we have defined a utility package

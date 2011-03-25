@@ -4,7 +4,7 @@ Another method, used to validate Prefuse [3] would be to re-implement complex Vi
 
 \subsection{Coding applications with Obvious}
 
-This section shows how Obvious can implement common applications in information visualization such as the creation of a scatterplot or of a graph visualization. These examples explain how to combine obvious component to build an application, how to create data structure and spot patterns to use. The first usecase concerns the coding of a graph visualization with Obvious InfoVis Toolkit implementation and the second one based on the coding of a scatterplot by combining component from different Obvious implementations.
+This section shows how Obvious can implement common applications in information visualization such as the creation of a scatter-plot or of a graph visualization. These examples explain how to combine obvious component to build an application, how to create data structure and spot patterns to use. The first usecase concerns the coding of a graph visualization with Obvious InfoVis Toolkit implementation and the second one based on the coding of a scatter-plot by combining component from different Obvious implementations.
 
 For both examples and in fact every creation of an Obvious application, developpers have to follow the following steps:
 
@@ -18,13 +18,12 @@ For both examples and in fact every creation of an Obvious application, developp
  \item creation of an Obvious visualization with the created data structure and a map of parameters directly with a constructor or through a factory
  \begin{enumerate}
   \item as shown in the second example, it is possible to combine data structure from one Obvious implementation with visualization from another Obvious implementation
-  \item the map parameter allows developpers to customize the Obvious monolithic component (in the second example, the map indicates columns used for X and Y axis of the scatterplot)
+  \item the map parameter allows developpers to customize the Obvious monolithic component (in the second example, the map indicates columns used for X and Y axis of the scatter-plot)
  \end{enumerate}
  \item creation of an Obvious view with the created visualization directly with a constructor or through a factory
 \end{itemize} 
 
-\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Visualizing a graph with Obvious},label=codeSample1}
-\begin{lstlisting}
+\begin{lstlisting}[caption={Visualizing a graph with Obvious},label=codeSample1]
 // Creates the graph structure. First, set the factory to use (ivtk).
 // Then load the native data structure, and get a factory instance.
 // Finally, call the convenient getter of the factory.
@@ -51,8 +50,7 @@ frame.pack();
 frame.setVisible(true);
 \end{lstlisting}
 
-\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Combining different Obvious implementations to display a scatterplot},label=codeSample2}
-\begin{lstlisting}
+\begin{lstlisting}[caption={Combining different Obvious implementations to display a scatter-plot},label=codeSample2]
 // Defining the data factory to use,
 // obvious-prefuse will be used for the data structures.
 System.setProperty("obvious.DataFactory",
@@ -64,8 +62,8 @@ Table table = csv.loadTable();
 
 // Creating the parameter map for the monolithic object.
 Map<String, Object> param = new HashMap<String, Object>();
-param.put(IvtkScatterPlotVis.X_AXIS, "id"); // xfield
-param.put(IvtkScatterPlotVis.Y_AXIS, "age"); // yfield
+param.put("x", "id"); // xfield
+param.put("y", "age"); // yfield
 
 // Creating the visualization then the view. No predicates are given to
 // the constructor.
@@ -87,8 +85,7 @@ Weka \cite{Weka} is a suite of machine learning software widely used to design a
 
 Both methods are equivalent in terms of lines of code and can be completed with the same machine learning algorithms from Weka. For instance, to wrap an existing table into a weka Instances, developpers simply need to add the following line to the code sample \ref{codeSample2} :
 
-\lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample}
-\begin{lstlisting}
+\begin{lstlisting}[caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample]
 Instances inst = new ObviousWekaInstances(table, "Instances");
 \end{lstlisting}
 
