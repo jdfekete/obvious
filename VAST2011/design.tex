@@ -1,21 +1,60 @@
+Beyond proposing a unifying design, perhaps the most novel approach of
+Obvious is the \emph{process} carried to obtain this design.  The
+project started through a sequence of Information Visualization
+Infrastructure workshops~\cite{visinfrastructure1, visinfrastructure2,
+vismaster2008}, during which consensus was reached that:
 
-
-Beyond proposing a unifying design, perhaps the most novel approach of Obvious is the \emph{process} carried to obtain this design.
-The project started through a sequence of Information Visualization Infrastructure workshops~\cite{visinfrastructure1,visinfrastructure2,vismaster2008},
-during which consensus was reached that:
-\begin{enumerate}
-\item many common traits were shared among toolkits, often in slightly incompatible ways.
-\item much mundane work was needlessly repeated accross toolkits.
-\item creating a unified toolkit from scratch was out of reach due to varying needs and design tradeoffs
+\begin{enumerate}[noitemsep]
+\item many common traits were shared among toolkits, often in slightly
+  incompatible ways,
+\item much mundane work was needlessly repeated across toolkits,
+\item creating a unified toolkit from scratch was out of reach due to
+  varying needs and design tradeoffs.
 \end{enumerate}
-Based on those observations, consensus was reached to try the new approach of defining a "meta-toolkit" that would allow at first sharing and implementing
-cross-compatible services (such as data readers), then design and implement, one by one, the components on which common consensus could be reached 
-for a unified design.
 
-For this reason, Obvious is organized according to the Information Visualization Reference Model in three main packages: data, visualisation and view. Additionally, it provides utility classes in the util package. Next, efforts were focused on designing a consensual data model. To this day, the data model is the most elaborated and successful part of the framework. Subsequent efforts shall focus on the next modules of the Visualization Reference Model, even though simple stubs for these packages have already been successfully designed.
+Based on those observations, an attempt was made for a new approach of
+defining a ``meta-toolkit'' that would allow sharing and implementing
+cross-compatible services (such as data readers), then design and
+implement, one by one, the components on which common consensus could
+be reached for a unified design.
 
-Resting on these fundation modules (data, visualisation, view), some actual service packages have been developed, such as data readers, or shall be developed, such as dimension to scalar functors, to provide immediate utility to both the Obvious users and the toolkit designers.
+For this reason, Obvious is organized according to the Information
+Visualization Reference Model in three main packages: data,
+visualisation and view. Additionally, it provides utility classes in
+the ``util'' package.  Next, efforts were focused on designing a
+consensual data model. For now, the data model is the most elaborated
+and successful part of the framework.  
+%% Subsequent efforts shall focus
+%% on the next modules of the Visualization Reference Model, even though
+%% simple stubs for these packages have already been successfully
+%% designed.
 
-\jo{It seems to me that there were two categories of contributors to the consensus. Firstly there were the developers of existing comparatively generic vis toolkits (InfoVis Toolkit, Prefuse, Improvise). While they had different approaches to their architecture (as detailed in the previous section), they are all relatively application-agnostic. This has understandably had the main influence on the design of Obvious since they are sufficiently generic to offer wide applicability to other toolkits.  Then there developers who worked with specific types of data or application (Jung, Cytoscape, LandSerf~\cite{wood_terrain_2008}, Mondrian). These data/applications have particular character that shaped the design of the Obvious interface (e.g. need for robust graph handling; need for geospatial raster handling; statistical graphics). Sometimes these application areas fit well with the initial Obvious interface (e.g. JUNG graphs), but some others were a little more problematic (e.g. large geospatial rasters can be modelled as tables, but not particularly efficiently. This raises the design question as to what extent Obvious should accommodate these application areas and to what extent should they adapt their internal architectures to accommodate a common Obvious framework? I think this would lead nicely into the next section that provides details on the Obvious data model.}
+Resting on these foundation modules (data, visualisation, view), some
+actual service packages have been developed, such as data readers,
+writers, conversions to provide immediate utility to both the Obvious
+users and the toolkit designers.
+
+\jo{It seems to me that there were two categories of contributors to
+  the consensus. Firstly there were the developers of existing
+  comparatively generic vis toolkits (InfoVis Toolkit, Prefuse,
+  Improvise). While they had different approaches to their
+  architecture (as detailed in the previous section), they are all
+  relatively application-agnostic. This has understandably had the
+  main influence on the design of Obvious since they are sufficiently
+  generic to offer wide applicability to other toolkits.  Then there
+  developers who worked with specific types of data or application
+  (Jung, Cytoscape, LandSerf~\cite{wood_terrain_2008},
+  Mondrian). These data/applications have particular character that
+  shaped the design of the Obvious interface (e.g. need for robust
+  graph handling; need for geospatial raster handling; statistical
+  graphics). Sometimes these application areas fit well with the
+  initial Obvious interface (e.g. JUNG graphs), but some others were a
+  little more problematic (e.g. large geospatial rasters can be
+  modelled as tables, but not particularly efficiently. This raises
+  the design question as to what extent Obvious should accommodate
+  these application areas and to what extent should they adapt their
+  internal architectures to accommodate a common Obvious framework? I
+  think this would lead nicely into the next section that provides
+  details on the Obvious data model.}
 
 
