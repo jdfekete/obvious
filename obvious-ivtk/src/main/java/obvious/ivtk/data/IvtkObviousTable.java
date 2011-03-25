@@ -185,13 +185,18 @@ public class IvtkObviousTable implements Table {
    * @return number of rows
    */
   public int addRow() {
+    Object defaultValue = "n/a";
     try {
       if (canAddRow()) {
         int rowId = table.addRow();
         for (int i = 0; i < schema.getColumnCount(); i++) {
           TypedFormat format = formatFactory.getFormat(
              schema.getColumnType(i).getSimpleName());
-          StringBuffer val = format.format(schema.getColumnDefault(i),
+          defaultValue = schema.getColumnDefault(i);
+          if (schema.getColumnDefault(i) == null) {
+            defaultValue = setDefaultValue(format);
+          }
+          StringBuffer val = format.format(defaultValue,
               new StringBuffer(), new FieldPosition(0));
           table.setValueAt(val.toString(), rowId, i);
           //table.getColumnAt(i).setValueAt(table.getColumnAt(i).size(),
@@ -204,6 +209,13 @@ public class IvtkObviousTable implements Table {
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
     }
+  }
+
+  private Object setDefaultValue(TypedFormat format) {
+    if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
+      return 0;
+    }
+    return "null";
   }
 
   /**
