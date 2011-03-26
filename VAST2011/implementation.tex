@@ -1,9 +1,18 @@
-This section points the lessons learned during implementations binding
-Obvious interfaces to wrappers around concrete toolkits.  Each toolkit
-has its own design choices that are discussed in articles but some of
-the implications came to light when implementing the bindings, for
-example differences of interpretations of design patterns.  We briefly
-describe the most important lessons here.
+This section describes the implementation of Obvious and points the
+lessons learned during implementations binding Obvious interfaces to
+wrappers around concrete toolkits.  Each toolkit has its own design
+choices that are discussed in articles but some of the implications
+came to light when implementing the bindings, for example differences
+of interpretations of design patterns.  We briefly describe the most
+important lessons here.
+
+The core of Obvious is a small (40Kb) Java
+project\footnote{\url{http://code.google.com/p/obvious}} managed by
+Maven~\cite{Maven} to facilitate its deployment.  It consists in 44
+java files, 23 interfaces and 21 utility classes organized in 5
+top-level packages: data, viz, view, util and impl.  It has been
+designed to be small and lightweight.  Therefore, the substantial
+parts are in each concrete toolkit binding.
 
 \subsection{Prefuse}
 
@@ -36,6 +45,7 @@ Obvious to check its model and syntax.
 %% This demonstrates that creating an implementation of Obvious allows
 %% other implementations to benefit of new features. It is one of the
 %% main goal of Obvious: binding toolkits to extend their capabilities.
+\jdf{Add size of obvious-prefuse and size of prefuse}
 
 \subsection{InfoVis Toolkit}
 
@@ -60,6 +70,8 @@ than for Prefuse.
 Nevertheless, the InfoVis Toolkit binding is operational and
 reliable.
 
+\jdf{Add size of obvious-ivtk and size of ivtk}
+
 \subsection{Improvise}
 
 Currently, the Obvious implementation based on Improvise only
@@ -76,6 +88,8 @@ Currently, Improvise can use a data table from an Obvious data table
 but the rest of the Improvise pipeline is hidden from
 Obvious. Providing a complete binding for Improvise in Obvious would
 require some changes in Improvise.
+
+\jdf{Add size of obvious-improvise and size of Improvise}
 
 \subsection{JDBC}
 
@@ -100,6 +114,8 @@ compatible with transaction and batch strategies presented in
 \ref{sub:combiningnotif} have been developed and help validate the
 Obvious notification model.
 
+\jdf{Add size of obvious-jdbc and size of jdbc binding (oracle + mysql)}
+
 \subsection{JUNG}
 
 JUNG is a graph library in Java that mainly manages the graph topology
@@ -119,16 +135,17 @@ share common hypotheses: for their data model (Obvious network and
 JUNG graph are equivalent) and JUNG and Obvious are both compatible
 with the monolithic approach.  
 
+\jdf{Add size of obvious-jung and size of jung}
 
 \subsection{Units tests}
 \label{sub:unittests}
 
 Obvious is specified using Java interfaces and some comments in the
 implementation files but without any formal specification of the
-precise behavior of the defined interfaces.  To very that all the
-implementations behave consistently, we have implemented \emph{Unit
-  Tests}: a suite of classes aimed at testing all the methods of all
-the classes.
+precise behavior of the defined interfaces.  To verify that all the
+implementations behave correctly and consistently, we have implemented
+\emph{Unit Tests}: a suite of classes and methods aimed at testing all
+the methods of all the classes.
 
 Currently, the tests are only defined on the data model of Obvious.
 The level of specification of Obvious visualizations and views is not
@@ -141,8 +158,8 @@ for the data model of Obvious.  They have then been moved to the core
 Obvious module to be usable by all the bindings.  Unit tests allow
 authors of Obvious bindings to automatically test whether their
 implementation behaves in conformance with the intended semantics of
-Obvious.  Also, authors are able to extend these existing tests to
-perform more advanced ones for their binding.
+Obvious.  Also, authors are able to extend these existing tests in
+their own module to perform more advanced ones for their binding.
 
 Concretely, unit tests have been defined with JUnit~\cite{JUnit} for
 the following interfaces: Schema (14 tests), Table (11 tests), Network
@@ -152,7 +169,16 @@ model development: all presented implementations successfully passed
 those tests.
 
 
-\subsection{Lessons learned}
+%\subsection{Lessons learned}
+
+With the exception of Improvise, all the toolkits we wanted to support
+are now available with Obvious.  The extra code required for binding a
+concrete toolkit is quite modest compared to the toolkit itself and
+the overhead in time has always been negligible.  At this point,
+Obvious is usable with a wide range of concrete implementations and we
+report on its uses in the next section.
+
+\begin{comment}
 
 +++ revise
 
@@ -177,4 +203,6 @@ bindings:
 
 \jo{The last itemized point above seems like an important one, and one we should revisit in the conclusion. It exposes the issue of the degree to which existing toolkits need to adapt to allow interoperability through Obvious. It is good that we are honest about this, but it does seem to be a significant weakness with the approach, especially if we wish to support VA that use data structures that don't fit well into those modelled in Obvious (e.g. geospatial Rasters, fuzzy sets).}
 
+
+\end{comment}
 
