@@ -21,7 +21,7 @@ elements of all structures: tables are composed of tuples and
 graphs/trees are implemented as networks i.e. graphs built around two
 tables one for the nodes and the other for the edges.
 
-This model is instantiated via factories, that allows cross-toolkit
+This model is instantiated via factories that allow cross-toolkit
 interoperable data structure instantiation. With those factories, it
 is possible to instantiate tables and networks from a schema or from
 an existing object from a targeted Obvious implementation (e.g. a
@@ -42,7 +42,7 @@ emulated.
 Introspection means the capability of a program to inspect its own
 content. In the context of the data model it means mostly that objects
 expose their own schema explicitly and allow manipulating it as a
-full fledged object.  As an improvement over \cite{DesignPatternsIV},
+full-fledged object.  As an improvement over \cite{DesignPatternsIV},
 our data model uses a meta-circular schema design (the schema is
 itself a table) instead of a column object, that does not exist in
 Obvious.  Schemas have been introduced because they are an efficient
@@ -50,8 +50,8 @@ an elegant mean to gather all \emph{meta-data} for the columns of a
 table in one unique structure, allowing easy table and network
 instantiations with a factory.  The main use of introspection in a
 toolkit, though, is to enable generic implementation of a variety of
-side services as varied as generic persistence, undo/redo, universal
-object editors.
+side services as varied as generic persistence, undo/redo, and
+universal object editors.
 
 \subsection{Batch Editing}
 
@@ -69,7 +69,7 @@ All the popular information visualization toolkits
 (e.g. \cite{Prefuse, InfoVis, jung2003, Discovery1}) implement
 notification using the ``Observer'' pattern from~\cite{DesignPatterns}
 to propagate information about changes affecting the data model.
-During the design of Obvious, we realized there was some variants in
+During the design of Obvious, we realized there were some variants in
 the way toolkits implemented this notification pattern.  This is why
 the notification system introduced in Obvious is designed to support a
 wide variety of notification techniques, even those not currently

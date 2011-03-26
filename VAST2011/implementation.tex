@@ -22,7 +22,7 @@ abstractions described in the core Obvious interfaces for all data
 models, visualizations and views.
 
 For the visualization, Prefuse is currently the only polylithic
-Information Visualization toolkit with an binding for Obvious.  As
+Information Visualization toolkit with a binding for Obvious.  As
 explained in~\ref{sec:viewvis}, Obvious does not offer a visualization
 abstraction for polylithic components.  Thus, Obvious provides
 components pre-configured for well know visualization techniques such
@@ -49,7 +49,7 @@ Obvious to check its model and syntax.
 
 \subsection{InfoVis Toolkit}
 
-Since the Infovis Toolkit is monolithic and follows the reference
+Since the InfoVis Toolkit is monolithic and follows the reference
 Information Visualization model, its Obvious binding realizes all the
 interfaces for the data model, visualization and view introduced in
 Obvious.
@@ -59,9 +59,9 @@ them simply consisted in wrapping them in an Obvious visualization
 class and implementing a factory to create them by name.
 
 However, the data model of the InfoVis Toolkit differs from Obvious
-for trees and networks: in the Infovis Toolkit, the Graph interface is
+for trees and networks: in the InfoVis Toolkit, the Graph interface is
 not a super-interface of the Tree interface.  In addition, some data
-model classes are more specialized in the Infovis Toolkit than in
+model classes are more specialized in the InfoVis Toolkit than in
 Obvious. For example, tables can be described as static tables or
 dynamic tables.  The binding was therefore complicated by these
 mismatches that needed more code and a more complicated development
@@ -151,7 +151,7 @@ Currently, the tests are only defined on the data model of Obvious.
 The level of specification of Obvious visualizations and views is not
 sufficient to perform useful tests.
 
-Unit tests need an implementation to work, they cannot test abstract
+Unit tests need an implementation to work; they cannot test abstract
 classes or interfaces.  Due to the similarities of Obvious and
 Prefuse, the Prefuse binding has been used to set up the unit tests
 for the data model of Obvious.  They have then been moved to the core
