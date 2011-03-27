@@ -1,12 +1,14 @@
+%% -*- mode: LaTeX; -*-
+
 Over the past few years, several information visualization toolkits
 have flourished in various languages such as Java~\cite{InfoVis,
-  Prefuse, jung2003, Improvise,Discovery2}, C++~\cite{Tulip,ADVIZOR}, Flash~\cite{Axiis} or
-JavaScript~\cite{flare,thejit,Protovis} to name a few.  When starting
-a Visual Analytics project, the choice of the toolkit is a major
-initial decision and this proliferation of toolkits can be confusing
-for visual analytics software developers who know that an
-inappropriate choice can lead to unanticipated limitations during the
-development of the application.
+  Prefuse, jung2003, Improvise,Discovery2}, C++~\cite{Tulip,ADVIZOR},
+Flash/Flex~\cite{flare,Axiis} or JavaScript~\cite{thejit,Protovis} to
+name a few.  When starting a Visual Analytics project, the choice of
+the toolkit is a major initial decision and this proliferation of
+toolkits can be confusing for visual analytics software developers who
+know that an inappropriate choice can lead to unanticipated
+limitations during the development of the application.
 
 Historically, this proliferation of toolkits can be explained by
 several factors: each created toolkit addresses a specific set of
@@ -62,6 +64,20 @@ This article presents three contributions:
   with Obvious,
 \item it presents rationales for the social process we started and
   want to follow for the future of Obvious.
+\end{enumerate}
+
+The main benefits offered by Obvious are:
+\begin{enumerate}[noitemsep]
+\item it defers the choice of concrete toolkits to a later stage of the
+  VA development;
+\item it enforces a better separation of concerns in VA applications so
+  that the data models can be specified independently of the
+  visualizations and views;
+\item it improves the interoperability of code, data models and
+  visualizations;
+\item it improves the reusability of code and components;
+\item clarifies issues with notification and allows scaling up++;
+\item it specifies a stable vocabulary which simplifies learning.
 \end{enumerate}
 
 \begin{comment}
@@ -150,4 +166,3 @@ of several toolkits and components with Obvious. Section 4 shows
 examples of Obvious in action to assess its usefulness. Section 5
 discusses the social process we have used and how we envision the
 evolution of Obvious before concluding.
-
