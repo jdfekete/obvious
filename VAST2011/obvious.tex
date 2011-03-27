@@ -10,6 +10,8 @@
 \usepackage{times}
 \usepackage{comment}
 \usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
 \usepackage{listings}
 \lstset{%
   frame=single,
@@ -31,6 +33,9 @@
 \newcommand{\pierreluc}[1]{\textcolor[rgb]{.5, .2, .5}{[Pierre-Luc: #1]}}
 \newcommand{\jdf}[1]{\textcolor{blue}{[JDF: #1]}}
 
+\newdimen\tableCol
+\tableCol=\columnwidth
+\divide\tableCol by 7
 % ------------------------- End of comment commands --------------------------------------------
 
 

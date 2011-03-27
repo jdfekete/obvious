@@ -175,6 +175,26 @@ the overhead in time has always been negligible.  At this point,
 Obvious is usable with a wide range of concrete implementations and we
 report on its uses in the next section.
 
+\begin{table}[h]
+\caption{\label{tab:obviousfootprint} Footprint of Obvious bindings}
+\small
+\begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
+    \hline
+    \textbf{Bindings} & \textbf{obvious.data} & \textbf{obvious.vis} & \textbf{obvious.view} & \textbf{JAR} \\
+    \hline
+    \textit{Prefuse} & 10 classes \newline(1235 lines) & 7 classes \newline(446 lines) & 2 classes \newline(94 lines) & 120 kB \\
+    \hline
+    \textit{Infovis} Toolkit & 6 classes \newline(1404 lines) & 5 classes \newline(460 lines) & 1 class \newline(105 lines) & 115 kB \\
+    \hline
+    \textit{Improvise} & 3 classes \newline(519 lines) & None & None & 27 kB \\
+    \hline
+    \textit{JDBC} & 8 classes \newline(1936 lines) & None & None & 75 kB \\
+    \hline
+    \textit{JUNG} & 3 classes \newline(714 lines) & 1 class \newline(139 lines) & 2 classes \newline(114 lines) & 93 kB \\
+    \hline
+\end{tabular}
+\normalsize
+\end{table}
 \begin{comment}
 
 +++ revise
@@ -195,7 +215,7 @@ bindings:
   to validate new implementations
 \item toolkits need to adopt patterns close to Obvious ones in order
   to enhance code quality of the implementations and to facilitate the
-  sharing of functionalities among existing toolkits
+  sharing of functionalities among existing toolkits 
 \end{itemize}
 
 \jo{The last itemized point above seems like an important one, and one we should revisit in the conclusion. It exposes the issue of the degree to which existing toolkits need to adapt to allow interoperability through Obvious. It is good that we are honest about this, but it does seem to be a significant weakness with the approach, especially if we wish to support VA that use data structures that don't fit well into those modelled in Obvious (e.g. geospatial Rasters, fuzzy sets).}
