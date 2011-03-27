@@ -234,27 +234,62 @@ several standardization models have been used in the past and these
 models tend to evolve due to the accelerating pace of software
 development taking place nowadays.
 
-Standards have been specified by national and international
-organization such as the International Organization for
-Standardization (e.g. ISO, ASCII), non-profit organizations (e.g. the
-Unicode Consortium or OMG), and consortia of public or private
-organizations (e.g. the World Wide Web Consortium (W3C)). Closer to
-the information visualization community, ``The Open Geospatial
-Consortium (OGC)\footnote{\url{http://www.opengeospatial.org}} is an
-international industry consortium of companies, government agencies
-and universities participating in a consensus process to develop
-publicly available interface standards for geospatial data.
+According to Wikipedia: ``The goals of standardization can be to help
+with independence of single suppliers (commoditization),
+compatibility, interoperability, safety, repeatability, or quality.''
+The goals raised in this article are well among them: compatibility,
+interoperability, and quality.
 
-At the other extreme are the application domains where one system
-becomes the standard.  For example, in Scientific Visualization,
-VTK~\cite{VTK} has become, in the latest years, the standard toolkit:
-it is used by researchers and practitioners, and newer solutions are
-getting integrated quickly into VTK.  This is possible when a either a
-system reaches a certain level of popularity --- such as Microsoft
-Word for Word Processors --- or when the quality and features of the
-system are unmatched --- such as VTK.
+Standardization follow roughly four models: 
+\begin{enumerate}
+\item Specified by national and international organization such as the
+  International Organization for Standardization (e.g. ISO, ASCII),
 
+\item Specified by a private or public consortium (e.g. the Unicode
+  Consortium, the OMG, the World Wide Web Consortium (W3C). Closer to
+  the information visualization community, ``The Open Geospatial
+  Consortium (OGC)\footnote{\url{http://www.opengeospatial.org}},
+  which is an international industry consortium of companies,
+  government agencies and universities participating in a consensus
+  process to develop publicly available interface standards for
+  geospatial data.
 
+\item Community-driven: looser groups can be faster and allow for more
+  experiments than formal standardization bodies or consortia.
+  Communities, such as the \emph{Boost
+    Community}\footnote{\url{http://www.boost.org}} --- designing
+  libraries for the ISO C++ language --- experiment, develop and
+  document software that sometimes become part of formal ISO
+  standards.  The \emph{Java Community
+    Process}\footnote{\url{http://www.jcp.org/}} plays a similar role
+  for the Java language and programming environment.
 
+  Standard specified by established organizations go through a formal
+  process that take substantial time; usually years.  On the other
+  side, ad-hoc organizations such as consortia can issue standards or
+  recommendations faster.  In particular, the W3C or community-drive
+  consortia define stages for their ``recommendations'' (the name for
+  standard issued by the W3C) before they are considered final.  In
+  all cases, these organizations establish steering committees to
+  control the processes and require substantial involvements from many
+  organizations to achieve standards.
 
-\jdf{More to come..}
+\item \textit{De facto}: at the other extreme are the application
+  domains where one system becomes the standard.  For example, in
+  Scientific Visualization, VTK~\cite{VTK} has become, in the latest
+  years, the \textit{de facto} standard toolkit: it is used by
+  researchers and practitioners, and newer solutions are getting
+  integrated quickly into VTK.  This is possible when either a
+  system reaches a certain level of popularity --- such as Microsoft
+  Word for Word Processors --- or when the quality and features of the
+  system are unmatched --- such as VTK.
+\end{enumerate}
+
+At the current stage, Information Visualization toolkits are not
+understood well-enough to start a formal standardization process.  It
+seems that one toolkit will not become a \textit{de facto} standard
+due to their stretch in scope and capabilities.  Two models remain:
+consortium-driven or community driven.  Obvious has started as a
+community-driven initiative.  It is up to the community to decide how
+it wants to coordinate its software development for better
+compatibility, interoperability and quality.
