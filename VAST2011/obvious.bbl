@@ -74,6 +74,11 @@ E.~H.-h. Chi and J.~Riedl.
   Visualization}, pages 63--70, Washington, DC, USA, 1998. IEEE Computer
   Society.
 
+\bibitem{Maven}
+S.~Company.
+\newblock {\em {Maven: The Definitive Guide}}.
+\newblock O'Reilly Media, Inc., 1 edition, Oct. 2008.
+
 \bibitem{ADVIZOR}
 S.~G. Eick.
 \newblock Visual discovery and analysis.
@@ -96,6 +101,12 @@ J.-D. Fekete.
 J.-D. Fekete and K.~Borner.
 \newblock 2004 workshop on information visualization software infrastructures.
 \newblock http://vw.indiana.edu/ivsi2004/, November 2004.
+
+\bibitem{DesignPatterns}
+E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides.
+\newblock {\em {Design patterns: elements of reusable object-oriented
+  software}}.
+\newblock Addison-Wesley Professional, 1995.
 
 \bibitem{Axiis}
 T.~Gonzales and M.~VanDaniker.
@@ -123,6 +134,13 @@ J.~Heer, S.~K. Card, and J.~A. Landay.
 \newblock In {\em Proceedings of the SIGCHI conference on Human factors in
   computing systems}, CHI '05, pages 421--430, New York, NY, USA, 2005. ACM.
 
+\bibitem{DDupe}
+H.~Kang, L.~Getoor, B.~Shneiderman, M.~Bilgic, and L.~Licamele.
+\newblock {Interactive Entity Resolution in Relational Data: A Visual Analytic
+  Tool and Its Evaluation}.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  14:999--1014, 2008.
+
 \bibitem{jung2003}
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
 \newblock The jung (java universal graph/network) framework.
@@ -147,6 +165,14 @@ P.~Shannon, A.~Markiel, O.~Ozier, N.~S. Baliga, J.~T. Wang, D.~Ramage, N.~Amin,
 J.~G. Siek, L.-Q. Lee, and A.~Lumsdaine.
 \newblock {\em The Boost Graph Library: User Guide and Reference Manual}.
 \newblock Addison-Wesley, 2002.
+
+\bibitem{JUnit}
+P.~D. Stotts, M.~Lindsey, and A.~Antley.
+\newblock {An Informal Formal Method for Systematic JUnit Test Case
+  Generation.}
+\newblock In D.~Wells and L.~A. Williams, editors, {\em XP/Agile Universe},
+  volume 2418 of {\em Lecture Notes in Computer Science}, pages 131--143.
+  Springer, 2002.
 
 \bibitem{Improvise}
 C.~Weaver.

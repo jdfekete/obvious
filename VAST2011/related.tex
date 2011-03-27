@@ -33,7 +33,7 @@ The InfoVis Toolkit~\cite{InfoVis} is based on an \emph{in-memory
 most persistent relational databases --- to improve the memory
 footprint and allow addition of new attributes that are needed to
 manage the interaction (e.g. selection or filtering) and to hold
-attributes computed on demand.  The main challenge being the support
+attributes computed on demand;  the main challenge being the support
 of interactive performance for rendering and dynamic queries with a
 small memory footprint.  The visual structure is managed using a
 \emph{monolithic} architecture~\cite{Polylithic}: each visualization
@@ -59,7 +59,7 @@ Fisheyes are also managed as layers on top of other visualizations.
 Prefuse~\cite{Prefuse} also relies on an in-memory database with
 notification but implements the visual structure using an extension of
 the data model (a visual table derives from a data table).  It then
-transforms the data into a \emph{polylithic} graphic structures
+transforms the data into a \emph{polylithic} graphic structure
 whereas all the other toolkits use a \emph{monolithic} architecture.
 In a polylithic architecture, there is only one component in charge of
 all the visual structures.  A visualization object is responsible of
@@ -122,7 +122,7 @@ an in-memory database with two variants (row-based or column-based), a
 visual structure with two variants (monolithic or polylithic) and
 several specific features.  Even if some choices made by toolkits
 designers were carefully decided, other were probably made without
-being aware of the alternatives.  Combining the best possible features
+being aware of alternatives.  Combining the best possible features
 for a next-generation toolkit might be tempting but there are still
 tradeoffs that cannot be solved.  For example, the power of
 coordinated and linked views offered by Improvise comes at the cost of

@@ -52,20 +52,17 @@ Obvious to check its model and syntax.
 Since the InfoVis Toolkit is monolithic and follows the reference
 Information Visualization model, its Obvious binding realizes all the
 interfaces for the data model, visualization and view introduced in
-Obvious.
-
-Since the InfoVis Toolkit has monolithic visualizations, providing
-them simply consisted in wrapping them in an Obvious visualization
+Obvious. The InfoVis Toolkit has monolithic visualizations, providing
+them simply consists in wrapping an Obvious visualization around them
 class and implementing a factory to create them by name.
 
 However, the data model of the InfoVis Toolkit differs from Obvious
 for trees and networks: in the InfoVis Toolkit, the Graph interface is
 not a super-interface of the Tree interface.  In addition, some data
 model classes are more specialized in the InfoVis Toolkit than in
-Obvious. For example, tables can be described as static tables or
+Obvious.  For example, tables can be described as static tables or
 dynamic tables.  The binding was therefore complicated by these
-mismatches that needed more code and a more complicated development
-than for Prefuse.
+mismatches that needed a more complicated code than for Prefuse.
 
 Nevertheless, the InfoVis Toolkit binding is operational and
 reliable.

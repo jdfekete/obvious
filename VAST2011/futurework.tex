@@ -1,22 +1,45 @@
 \subsection{Extending the feature set}
 
-As said before, Obvious aims at covering all the features of an infomation visualization toolkit for which a consensual interface can be drawn. Progress in this respect is actually more advanced conceptually than in the implementation. Indeed, a few specific services have already been described that could giverise to a shared implementation:
+As said before, Obvious aims at covering all the features of an
+infomation visualization toolkit for which a consensual interface can
+be drawn. Progress in this respect is actually more advanced
+conceptually than in the implementation. Indeed, a few specific
+services have already been described that could give rise to a shared
+implementation:
 
 \begin{enumerate}
-\item value set to scalar mappings: this feature is used accross visualization definitions, to map screen coordinates, color gradients and many other visual dimensions onto data dimensions. Because the API of such a feature is somewhat small and well known, consensus appears reachable.
+\item value set to scalar mappings: this feature is used across
+  visualization definitions, to map screen coordinates, color
+  gradients and many other visual dimensions onto data
+  dimensions. Because the API of such a feature is somewhat small and
+  well known, consensus appears reachable.
 \item selection representation (to implement cross-toolkit brushing)
 \item some interaction techniques such as zoom and pan, selection...
 \item scales
-\item ancilliary panels, such as object editors...
+\item ancillary panels, such as object editors.
 \end{enumerate}
 
-While most of those features would be of high value and we feel consensus can be reached, we have not, as of yet, proposed unifiying designs. The main reason is that while the core structure of those services is consensual, they rely on parts which are not yet consensual, such as the application bus, and more elaborated view, visualization and interaction models.
+While most of those features would be of high value and we feel consensus can be reached, we have not, as of yet, proposed unifying designs. The main reason is that while the core structure of those services is consensual, they rely on parts which are not yet consensual, such as the application bus, and more elaborated view, visualization and interaction models.
 
 \subsection{Adding new toolkits and new languages}
 
-A true test of the generalizability and unifying power Obvious would be post-hoc integration of a new toolkit. Discovery ~\cite{Discovery2} is one such example being under consideration, eventhough the toolkit is proprietary toolkit, thereby limiting the potential impact of such an integration.
+A true test of how generalizable and unifying Obvious would be
+post-hoc integration of a new toolkit. Discovery ~\cite{Discovery2} is
+one such example being under consideration, even though the toolkit is
+proprietary toolkit, thereby limiting the potential impact of such an
+integration.
 
-Another wished extension would consist in porting the toolkit to other languages and platforms, such as C++. This endeavour raises some new challenges: each language and platforms supposes some specific idioms that are hardly translatable in concepts of the other languages. Java has a generic collection type, for instance, that does not map to a standard equivalent in C++. In translating the design verbatim from a language to another, we would insure some level of compatibility, but at the expense of idosyncrasies in our library, which would preclude widespread adoption in our target languages. Conversely, adopting the target language's idioms would preclude interoperability of the Obvious platform accross languages.
+Another wished extension would consist in porting the toolkit to other
+languages and platforms, such as C++. This endeavor raises some new
+challenges: each language and platforms supposes some specific idioms
+that are hardly translatable in concepts of the other languages. Java
+has a generic collection type, for instance, that does not map to a
+standard equivalent in C++. In translating the design verbatim from a
+language to another, we would insure some level of compatibility, but
+at the expense of idiosyncrasies in our library, which would preclude
+widespread adoption in our target languages. Conversely, adopting the
+target language's idioms would preclude interoperability of the
+Obvious platform across languages.
 
 \subsection{Reinforcing the consensus building process}
 
