@@ -210,6 +210,7 @@ view parts are also provided by this implementation.  Building this
 application took less than a week.
 
 \subsection{DBMS Caching Data Table}
+\label{dbmscachingtable}
 
 The need to create DBMS caching data table appears during the development
 of Ediflow, a Scientific Workflow system for Visual Analytics \cite{Ediflow}.
@@ -242,7 +243,34 @@ is presented in the next section.
 
 \subsection{Large Wall Network Visualization}
 
-\jdf{Add description of implementing the visualization from scratch}
+INRIA owns a large wall of 32 display screens
+\footnote{\url{http://www.lri.fr/~mbl/WILD/}}. An application using it
+has been developped to visualize with Obvious a large network visualization
+of the co-authorship graph of INRIA. The idea is to create a visualization
+component loaded on the 16 machines composing the wall, each component
+displaying a part of this social network.
+
+An Oracle DBMS stores publications data in two tables : one for the author
+(containing id and name) and one for publications (containing pairs
+of publication id and author id).
+
+The first step is to calculate visual attributes to complete the
+``VISUALATTRIBUTES'' table introduced in \ref{dbmscachingtable}.
+This is done by a program that creates an Obvious network from
+the authors and publications tables of the DBMS. Once the network is filled,
+an Obvious visualization component from the Prefuse binding computes visual
+attributes and they are written into the corresponding table of the
+DBMS.
+
+Then, on each machine of the wall a DBMS caching table linked to
+``VISUALATTRIBUTES'' is loaded. This cached table contains the data
+located in the portion of the screen that the machine has to display.
+Then, corresponding visualizations and views are built from those
+cached tables with component from the Prefuse binding.
+
+Since cached tables are synchronized with the DBMS when the visual
+attributes table of the DBMS is changed, the layout of the graph is
+recomputed and changes appear on the wall.
 
 \subsection{Implementing a Cross-Toolkit Layout Component}
 
