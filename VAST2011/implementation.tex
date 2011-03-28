@@ -1,3 +1,4 @@
+
 This section describes the implementation of Obvious and points the
 lessons learned during implementations binding Obvious interfaces to
 wrappers around concrete toolkits.  Each toolkit has its own design
@@ -46,10 +47,6 @@ Obvious to check its model and syntax.
 %% other implementations to benefit of new features. It is one of the
 %% main goal of Obvious: binding toolkits to extend their capabilities.
 
-This binding is composed of 19 classes in three packages (data, viz and
-view). The size of the resulting JAR is 120KB and the one of the
-Prefuse core is 3.3 MB.
-
 \subsection{InfoVis Toolkit}
 
 Since the InfoVis Toolkit is monolithic and follows the reference
@@ -68,9 +65,7 @@ dynamic tables.  The binding was therefore complicated by these
 mismatches that needed a more complicated code than for Prefuse.
 
 Nevertheless, the InfoVis Toolkit binding is operational and
-reliable. This binding is composed of 12 classes in three packages
-(data, viz and view). The size of the resulting JAR is 115KB and the
-one of the Infovis toolkit core is 10MB.
+reliable.
 
 \subsection{Improvise}
 
@@ -176,19 +171,19 @@ and we report on its uses in the next section.
 
 \begin{table}[h]
 \small
-\begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
+\begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
     \hline
-    \textbf{Bindings} & \textbf{obvious.data} & \textbf{obvious.vis} & \textbf{obvious.view} & \textbf{Size} \\
+    \textbf{Bindings} & \textbf{obvious\newline{.data}} & \textbf{obvious\newline{.vis}} & \textbf{obvious\newline{.view}} & \textbf{Binding Size} & \textbf{Toolkit Size} \\
     \hline
-    \textit{Prefuse} & 10 classes \newline\textit{1235} & 7 classes \newline\textit{446} & 2 classes \newline\textit{94} & 120 kB \\
+    \textit{Prefuse} & 10 classes \newline\textit{1235} & 7 classes \newline\textit{446} & 2 classes \newline\textit{94} & 120KB & 3.3MB \\
     \hline
-    \textit{InfoVis Toolkit} & 6 classes \newline\textit{1404} & 5 classes \newline\textit{460} & 1 class \newline\textit{105} & 115 kB \\
+    \textit{InfoVis Toolkit} & 6 classes \newline\textit{1404} & 5 classes \newline\textit{460} & 1 class \newline\textit{105} & 115KB & 10MB \\
     \hline
-    \textit{Improvise} & 3 classes \newline\textit{519} &  &  & 27 kB \\
+    \textit{Improvise} & 3 classes \newline\textit{519} &  &  & 27KB &  5.7 MB \\
     \hline
-    \textit{JDBC} & 8 classes \newline\textit{1936} &  &  & 75 kB \\
+    \textit{JDBC} & 8 classes \newline\textit{1936} &  &  & 75KB & 3MB \\
     \hline
-    \textit{JUNG} & 3 classes \newline\textit{714} & 1 class \newline\textit{139} & 2 classes \newline\textit{114} & 93 kB \\
+    \textit{JUNG} & 3 classes \newline\textit{714} & 1 class \newline\textit{139} & 2 classes \newline\textit{114} & 93KB & 4.3MB \\
     \hline
 \end{tabular}
 \caption{Footprint of Obvious bindings. Numbers in italics refer to
