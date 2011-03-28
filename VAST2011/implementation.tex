@@ -45,7 +45,10 @@ Obvious to check its model and syntax.
 %% This demonstrates that creating an implementation of Obvious allows
 %% other implementations to benefit of new features. It is one of the
 %% main goal of Obvious: binding toolkits to extend their capabilities.
-\jdf{Add size of obvious-prefuse and size of prefuse}
+
+This binding is composed of 19 classes in three packages (data, viz and
+view). The size of the resulting JAR is 120KB and the one of the
+Prefuse core is 3.3 MB.
 
 \subsection{InfoVis Toolkit}
 
@@ -65,9 +68,9 @@ dynamic tables.  The binding was therefore complicated by these
 mismatches that needed a more complicated code than for Prefuse.
 
 Nevertheless, the InfoVis Toolkit binding is operational and
-reliable.
-
-\jdf{Add size of obvious-ivtk and size of ivtk}
+reliable. This binding is composed of 12 classes in three packages
+(data, viz and view). The size of the resulting JAR is 115KB and the
+one of the Infovis toolkit core is 10MB.
 
 \subsection{Improvise}
 
@@ -86,7 +89,9 @@ but the rest of the Improvise pipeline is hidden from
 Obvious. Providing a complete binding for Improvise in Obvious would
 require some changes in Improvise.
 
-\jdf{Add size of obvious-improvise and size of Improvise}
+The current Improvise binding is composed of 3 classes in the package
+data. The size of the resulting JAR is 27KB. The core of Improvise is
+composed of two JAR files Improvise (255KB) and Oblivion (5.4MB). 
 
 \subsection{JDBC}
 
@@ -111,7 +116,9 @@ compatible with transaction and batch strategies presented in
 \ref{sub:combiningnotif} have been developed and help validate the
 Obvious notification model.
 
-\jdf{Add size of obvious-jdbc and size of jdbc binding (oracle + mysql)}
+The current JDBC binding is composed of 8 classes in the package data.
+The size of the resulting JAR is 75KB and those of JDBC binding for Oracle
+and MySQL are 2MB and 3MB.
 
 \subsection{JUNG}
 
@@ -132,7 +139,9 @@ share common hypotheses: for their data model (Obvious network and
 JUNG graph are equivalent) and JUNG and Obvious are both compatible
 with the monolithic approach.  
 
-\jdf{Add size of obvious-jung and size of jung}
+This binding is composed of 6 classes in three packages (data, viz
+and view). The size of the resulting JAR is 93kB and the one of the
+JUNG core is 4.3MB.
 
 \subsection{Units tests}
 \label{sub:unittests}
@@ -182,15 +191,15 @@ report on its uses in the next section.
     \hline
     \textbf{Bindings} & \textbf{obvious.data} & \textbf{obvious.vis} & \textbf{obvious.view} & \textbf{JAR} \\
     \hline
-    \textit{Prefuse} & 10 classes \newline(1235 lines) & 7 classes \newline(446 lines) & 2 classes \newline(94 lines) & 120 kB \\
+    \textit{Prefuse} & 10 classes \newline(1235 lines) & 7 classes \newline(446 lines) & 2 classes \newline(94 lines) & 120KB \\
     \hline
-    \textit{Infovis} Toolkit & 6 classes \newline(1404 lines) & 5 classes \newline(460 lines) & 1 class \newline(105 lines) & 115 kB \\
+    \textit{Infovis} Toolkit & 6 classes \newline(1404 lines) & 5 classes \newline(460 lines) & 1 class \newline(105 lines) & 115KB \\
     \hline
-    \textit{Improvise} & 3 classes \newline(519 lines) & None & None & 27 kB \\
+    \textit{Improvise} & 3 classes \newline(519 lines) & None & None & 27KB \\
     \hline
-    \textit{JDBC} & 8 classes \newline(1936 lines) & None & None & 75 kB \\
+    \textit{JDBC} & 8 classes \newline(1936 lines) & None & None & 75KB \\
     \hline
-    \textit{JUNG} & 3 classes \newline(714 lines) & 1 class \newline(139 lines) & 2 classes \newline(114 lines) & 93 kB \\
+    \textit{JUNG} & 3 classes \newline(714 lines) & 1 class \newline(139 lines) & 2 classes \newline(114 lines) & 93KB \\
     \hline
 \end{tabular}
 \normalsize
