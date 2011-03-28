@@ -1,26 +1,32 @@
 
 \subsection{Extending Obvious Supported Features}
 
-Obvious aims at covering all the features of an infomation
+Obvious aims at covering all the features of an information
 visualization toolkit for which a consensual interface can be
-specified.  Progress in this respect is actually more advanced
-conceptually than in the implementations.  A few specific services
-have already been described that could give rise to a shared
-implementation:
+specified.  Relying on a common reference model helps tremendously but
+falls short on some implementation design choices.  Still, a few
+specific services have already been mentioned during workshops that
+could give rise to a shared implementation:
 
 \begin{enumerate}
-\item value set to scalar mappings: this feature is used across
-  visualization definitions, to map screen coordinates, color
-  gradients and many other visual dimensions onto data
-  dimensions. Because the API of such a feature is somewhat small and
-  well known, consensus appears reachable.
-\item selection representation (to implement cross-toolkit brushing)
-\item some interaction techniques such as zoom and pan, selection...
-\item scales
-\item ancillary panels, such as object editors.
+\item selection management: to implement cross-toolkit brushing and
+  linking,
+\item Mappings of data value to scalar value: this feature is used by
+  all the visualizations to map data dimensions to screen coordinates,
+  color gradients and many other visual attributes. Because the
+  interface of such features is small and well understood, consensus
+  is reachable,
+\item visualization scale, tick-mark and tick-label management,
+\item graph layout computation.
+%\item ancillary panels, such as object editors.
 \end{enumerate}
 
-While most of those features would be of high value and we feel consensus can be reached, we have not, as of yet, proposed unifying designs. The main reason is that while the core structure of those services is consensual, they rely on parts which are not yet consensual, such as the application bus, and more elaborated view, visualization and interaction models.
+While most of those features would be of high value and we feel
+consensus can be reached, we have not, as of yet, proposed unifying
+designs.  The main reason is that while the core structure of those
+services is consensual, they rely on parts which are not yet
+consensual, such as the application architecture and more elaborated
+view, visualization and interaction models.
 
 \subsection{Adding Additional Toolkits and Languages}
 
@@ -41,13 +47,58 @@ widespread adoption in our target languages. Conversely, adopting the
 target language's idioms would preclude interoperability of the
 Obvious platform across languages.
 
+\begin{comment}
+% thb style
+\subsection{Community Building}
+
+Perhaps the most novel experience we retain from Obvious is the
+community-driven process to reach consensus and realize a reference
+implementation.  In many respects, this process is akin to a
+standardization process, only it lacks the industry incentive and
+backing. Like open source projects, we shall only count on voluntary
+contributions (aside partial of funding from public research grants),
+only, in the present state of toolkits, it is much more tempting to
+devise and expand one's own toolkit than contribute and make
+compromise to use a shared design which still lacks serious adoption.
+
+We intend to experiment on various means to carry this
+community-driven consensus building, to see how it can help
+consolidate acquired experience in the craft of toolkit design.
+
+As an afterthought, we find such consolidation effort is rarely found
+in research domains, and yet should surely help make the field more
+visible and readable from an outsider perspective.
+\end{comment}
 
 \subsection{Obvious and Other Visualizations}
 
+Visual Analytics often needs to combine Information Visualization with
+Scientific Visualization and/or GeoSpatial Visualization.  These two
+domains are more mature than information visualization for
+standardization: the Scientific Visualization community is converging
+towards using VTK~\cite{VTK} as a \textit{de facto} standard whereas
+the GeoSpatial Visualization community already has a mature GeoSpatial
+Consortium producing
+software\footnote{\url{http://www.opengeospatial.org}}.
 
-\subsection{Community Building}
+Geometrical data structures are much less sophisticated in information
+visualization than in the two others visualization fields.
+Pre-computing complex geometries and maintaining them dynamically is a
+main concern in Scientific Visualization and GeoSpatial Visualization;
+not so much in Information Visualization.  Moreover, even if at the
+abstract level Scientific Visualization and GeoSpatial Visualization
+share this concern, at the implementation level, their geometrical
+structures are quite different, adding another level of complexity to
+the problem.
 
-Perhaps the most novel experience we retain from the Obvious experiment is the community-driven process to reach consensus and realize a reference implementation. 
-In many respects, this process is akin to a standardization process, only it lacks the industry incentive and backing. Like open source projects, we shall only count on voluntary contributions (aside partial of funding from public research grants), only, in the present state of toolkits, it is much more tempting to devise and expand one's own toolkit than contribute and make compromise to use a shared design which still lacks serious adoption.
+Currently, the state of the art in combining these visualizations is
+to put them side-by-side and allow coordination~\cite{vrvis}.  This
+kind of integration can use separate data structures, separate
+visualizations and views; coordination can be done through ad-hoc
+common identifiers shared across the visualization and acting as
+pivots.  From a user-centered viewpoint, unifying the interactions
+would also improve the usability of mixed visualization applications.
 
-We intend to experiment on various means to carry this "freeform" consensus building, to see how it can help consolidate acquired experience in the art of toolkit design. As an afterthought, we find such consolidation effort is rarely found in research domains, and yet should surely help make the field more visible and readable from an outsider perspective.
+Combining two or the three fields at the software infrastructure
+level will require more discussions and experiments between the
+communities and seems like a long-term goal.
