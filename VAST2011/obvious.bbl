@@ -134,6 +134,12 @@ J.~Heer, S.~K. Card, and J.~A. Landay.
 \newblock In {\em Proceedings of the SIGCHI conference on Human factors in
   computing systems}, CHI '05, pages 421--430, New York, NY, USA, 2005. ACM.
 
+\bibitem{VTK}
+L.~Ibanez, W.~Schroeder, L.~Ng, and J.~Cates.
+\newblock {\em The {ITK} {S}oftware {G}uide}.
+\newblock Kitware, Inc. ISBN 1-930934-15-7,
+  http://www.itk.org/ItkSoftwareGuide.pdf, second edition, 2005.
+
 \bibitem{DDupe}
 H.~Kang, L.~Getoor, B.~Shneiderman, M.~Bilgic, and L.~Licamele.
 \newblock {Interactive Entity Resolution in Relational Data: A Visual Analytic
@@ -180,12 +186,5 @@ C.~Weaver.
 \newblock In {\em Proceedings of the IEEE Symposium on Information
   Visualization}, pages 159--166, Washington, DC, USA, 2004. IEEE Computer
   Society.
-
-\bibitem{wood_terrain_2008}
-J.~Wood.
-\newblock Terrain parameterization in {LandSerf}.
-\newblock In T.~Hengl and H.~Reuter, editors, {\em Geomorphometry: Concepts,
-  Software and Applications}, volume Ch. 14, pages 333--349. Elsevier, London,
-  2008.
 
 \end{thebibliography}

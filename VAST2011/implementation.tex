@@ -89,10 +89,6 @@ but the rest of the Improvise pipeline is hidden from
 Obvious. Providing a complete binding for Improvise in Obvious would
 require some changes in Improvise.
 
-The current Improvise binding is composed of 3 classes in the package
-data. The size of the resulting JAR is 27KB. The core of Improvise is
-composed of two JAR files Improvise (255KB) and Oblivion (5.4MB). 
-
 \subsection{JDBC}
 
 JDBC is the standard Java interface to standard SQL databases.  We
@@ -116,10 +112,6 @@ compatible with transaction and batch strategies presented in
 \ref{sub:combiningnotif} have been developed and help validate the
 Obvious notification model.
 
-The current JDBC binding is composed of 8 classes in the package data.
-The size of the resulting JAR is 75KB and those of JDBC binding for Oracle
-and MySQL are 2MB and 3MB.
-
 \subsection{JUNG}
 
 JUNG is a graph library in Java that mainly manages the graph topology
@@ -138,10 +130,6 @@ This implementation was the easiest to create since Obvious and JUNG
 share common hypotheses: for their data model (Obvious network and
 JUNG graph are equivalent) and JUNG and Obvious are both compatible
 with the monolithic approach.  
-
-This binding is composed of 6 classes in three packages (data, viz
-and view). The size of the resulting JAR is 93kB and the one of the
-JUNG core is 4.3MB.
 
 \subsection{Units tests}
 \label{sub:unittests}
@@ -180,33 +168,34 @@ those tests.
 With the exception of Improvise, all the toolkits we wanted to support
 are now available with Obvious.  The extra code required for binding a
 concrete toolkit is quite modest compared to the toolkit itself and
-the overhead in time has always been negligible.  At this point,
-Obvious is usable with a wide range of concrete implementations and we
-report on its uses in the next section.
+the overhead in time has always been negligible.
+Table~\ref{tab:obviousfootprint} summarizes the footprint of the
+implemented Obvious modules and the services they support.  At this
+point, Obvious is usable with a wide range of concrete implementations
+and we report on its uses in the next section.
 
 \begin{table}[h]
-\caption{\label{tab:obviousfootprint} Footprint of Obvious bindings}
 \small
 \begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
     \hline
-    \textbf{Bindings} & \textbf{obvious.data} & \textbf{obvious.vis} & \textbf{obvious.view} & \textbf{JAR} \\
+    \textbf{Bindings} & \textbf{obvious.data} & \textbf{obvious.vis} & \textbf{obvious.view} & \textbf{Size} \\
     \hline
-    \textit{Prefuse} & 10 classes \newline(1235 lines) & 7 classes \newline(446 lines) & 2 classes \newline(94 lines) & 120KB \\
+    \textit{Prefuse} & 10 classes \newline\textit{1235} & 7 classes \newline\textit{446} & 2 classes \newline\textit{94} & 120 kB \\
     \hline
-    \textit{Infovis} Toolkit & 6 classes \newline(1404 lines) & 5 classes \newline(460 lines) & 1 class \newline(105 lines) & 115KB \\
+    \textit{InfoVis Toolkit} & 6 classes \newline\textit{1404} & 5 classes \newline\textit{460} & 1 class \newline\textit{105} & 115 kB \\
     \hline
-    \textit{Improvise} & 3 classes \newline(519 lines) & None & None & 27KB \\
+    \textit{Improvise} & 3 classes \newline\textit{519} &  &  & 27 kB \\
     \hline
-    \textit{JDBC} & 8 classes \newline(1936 lines) & None & None & 75KB \\
+    \textit{JDBC} & 8 classes \newline\textit{1936} &  &  & 75 kB \\
     \hline
-    \textit{JUNG} & 3 classes \newline(714 lines) & 1 class \newline(139 lines) & 2 classes \newline(114 lines) & 93KB \\
+    \textit{JUNG} & 3 classes \newline\textit{714} & 1 class \newline\textit{139} & 2 classes \newline\textit{114} & 93 kB \\
     \hline
 \end{tabular}
-\normalsize
+\caption{Footprint of Obvious bindings. Numbers in italics refer to
+  the number of lines of Java code.}\label{tab:obviousfootprint}
 \end{table}
 \begin{comment}
 
-+++ revise
 
 We have learned several lessons during the development of Obvious
 bindings:
@@ -222,12 +211,13 @@ bindings:
   abstraction model for visualizations
 \item the more abstractions defined the more unit tests we can define
   to validate new implementations
-\item toolkits need to adopt patterns close to Obvious ones in order
-  to enhance code quality of the implementations and to facilitate the
-  sharing of functionalities among existing toolkits 
+\item toolkits need to adopt patterns close to Obvious ones to enhance
+  the code quality of the implementations and to facilitate the
+  sharing of functionalities among existing toolkits.
 \end{itemize}
 
-\jo{The last itemized point above seems like an important one, and one we should revisit in the conclusion. It exposes the issue of the degree to which existing toolkits need to adapt to allow interoperability through Obvious. It is good that we are honest about this, but it does seem to be a significant weakness with the approach, especially if we wish to support VA that use data structures that don't fit well into those modelled in Obvious (e.g. geospatial Rasters, fuzzy sets).}
+
+%\jo{The last itemized point above seems like an important one, and one we should revisit in the conclusion. It exposes the issue of the degree to which existing toolkits need to adapt to allow interoperability through Obvious. It is good that we are honest about this, but it does seem to be a significant weakness with the approach, especially if we wish to support VA that use data structures that don't fit well into those modelled in Obvious (e.g. geospatial Rasters, fuzzy sets).}
 
 
 \end{comment}
