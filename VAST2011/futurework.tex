@@ -30,30 +30,65 @@ view, visualization and interaction models.
 
 \subsection{Adding Additional Toolkits and Languages}
 
-A true test of how generalizable and unifying Obvious would be
-post-hoc integration of a new toolkit. IBM ILOG JViews ~\cite{JViews} is
-one such example being considered. Because it is a commercial product, this would 
-have the advantage of bringing considerable exposure to the platform. 
+\begin{comment}
+% [jdf] I disagree. JViews is more like Piccolo or a structured
+% graphics system. It is data-agnostic.  I am not sure how it would
+% fit with Obvious.
 
-Another wished extension would consist in porting the toolkit to other
-languages and platforms, such as C++. This endeavor raises some new
-challenges: each language and platforms supposes some specific idioms
-that are hardly translatable in concepts of the other languages. Java
-has a generic collection type, for instance, that does not map to a
-standard equivalent in C++. In translating the design verbatim from a
-language to another, we would insure some level of compatibility, but
-at the expense of idiosyncrasies in our library, which would preclude
-widespread adoption in our target languages. Conversely, adopting the
-target language's idioms would preclude interoperability of the
-Obvious platform across languages.
+A true test of how generalizable and unifying Obvious would be
+post-hoc integration of a new toolkit. IBM ILOG JViews~\cite{JViews}
+is one such example being considered. Because it is a commercial
+product, this would have the advantage of bringing considerable
+exposure to the platform.
+\end{comment}
+
+A wished extension would consist in porting the toolkit to other
+languages and platforms, such as C++, JavaScript and C\#.  Obvious has
+been designed to avoid using idioms too specific to Java so we believe
+it could be done without much difficulties.  There would be at least
+two benefits: the availability of a meta-toolkit is these languages to
+wrap Information Visualization toolkits, and the availability of a
+common application programmer's interface (API) for information
+visualization that would simplify learning and spreading the best
+practices.  Multi-language APIs already exist and are popular in
+recommendations of the W3C. For example, the Document Object Model API
+(DOM, see \url{http://www.w3.org/DOM/}) used to manipulate HTML or XML
+documents has official bindings for Java and JavaScript and
+non-standard bindings for several of the major languages
+(\url{http://www.w3.org/DOM/Bindings}) with slight variations to cope
+with the language idioms.
 
 \begin{comment}
-% thb style
+% C++ has generic containers in the STL (which is standard)
+This
+endeavor raises some new challenges: each language and platforms
+supposes some specific idioms that are hardly translatable in concepts
+of the other languages. Java has a generic collection type, for
+instance, that does not map to a standard equivalent in C++. In
+translating the design verbatim from a language to another, we would
+insure some level of compatibility, but at the expense of
+idiosyncrasies in our library, which would preclude widespread
+adoption in our target languages. Conversely, adopting the target
+language's idioms would preclude interoperability of the Obvious
+platform across languages.
+\end{comment}
+
 \subsection{Community Building}
 
 Perhaps the most novel experience we retain from Obvious is the
 community-driven process to reach consensus and realize a reference
-implementation.  In many respects, this process is akin to a
+implementation.  We intend to formalize this process, either through a
+formal consortium of with a less formal community-driven process,
+depending on the response of the community.
+
+\begin{comment}
+ experiment on various means to carry this
+community-driven consensus building, to see how it can help
+consolidate acquired experience in the craft of toolkit design.
+
+
+% thb style
+In many respects, this process is akin to a
 standardization process, only it lacks the industry incentive and
 backing. Like open source projects, we shall only count on voluntary
 contributions (aside partial of funding from public research grants),
@@ -61,9 +96,6 @@ only, in the present state of toolkits, it is much more tempting to
 devise and expand one's own toolkit than contribute and make
 compromise to use a shared design which still lacks serious adoption.
 
-We intend to experiment on various means to carry this
-community-driven consensus building, to see how it can help
-consolidate acquired experience in the craft of toolkit design.
 
 As an afterthought, we find such consolidation effort is rarely found
 in research domains, and yet should surely help make the field more
@@ -92,12 +124,13 @@ structures are quite different, adding another level of complexity to
 the problem.
 
 Currently, the state of the art in combining these visualizations is
-to put them side-by-side and allow coordination~\cite{vrvis}.  This
-kind of integration can use separate data structures, separate
-visualizations and views; coordination can be done through ad-hoc
-common identifiers shared across the visualization and acting as
-pivots.  From a user-centered viewpoint, unifying the interactions
-would also improve the usability of mixed visualization applications.
+to put them side-by-side with coordinated interactions ( brushing and
+linking, dynamic queries)~\cite{Coord3D}.  This kind of integration 
+can be implemented by maintaining separate data structures, separate
+visualizations and views; coordination being done through ad-hoc item
+identifiers shared across the visualizations and acting as pivots.
+From a user-centered viewpoint, unifying the interactions would also
+improve the usability of mixed visualization applications.
 
 Combining two or the three fields at the software infrastructure
 level will require more discussions and experiments between the

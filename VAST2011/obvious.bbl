@@ -140,18 +140,19 @@ L.~Ibanez, W.~Schroeder, L.~Ng, and J.~Cates.
 \newblock Kitware, Inc. ISBN 1-930934-15-7,
   http://www.itk.org/ItkSoftwareGuide.pdf, second edition, 2005.
 
-\bibitem{JViews}
-IBM.
-\newblock Ilog visualization for java.
-\newblock web site:
-  http://www-01.ibm.com/software/integration/visualization/java/, 1998-2011.
-
 \bibitem{DDupe}
 H.~Kang, L.~Getoor, B.~Shneiderman, M.~Bilgic, and L.~Licamele.
 \newblock {Interactive Entity Resolution in Relational Data: A Visual Analytic
   Tool and Its Evaluation}.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   14:999--1014, 2008.
+
+\bibitem{Coord3D}
+D.~Keefe, M.~Ewert, W.~Ribarsky, and R.~Chang.
+\newblock Interactive coordinated multiple-view visualization of biomechanical
+  motion data.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  15:1383--1390, 2009.
 
 \bibitem{jung2003}
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
