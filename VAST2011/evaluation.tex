@@ -211,7 +211,34 @@ application took less than a week.
 
 \subsection{DBMS Caching Data Table}
 
-\jdf{Add description of EdiFlow cached data manager}
+The need to create DBMS caching data table appears during the development
+of Ediflow, a Scientific Workflow system for Visual Analytics \cite{Ediflow}.
+Ediflow is organized around a DBMS (Oracle) and runs modules processing
+large amount of data stored in the DBMS. Ediflow is a distribued system
+allowing workflows to be shared on several platforms.
+
+When running a visualization component with Ediflow, all its resulting
+visual attributes are stored in a table of the DBMS called
+``VISUALATTRIBUTES''. This table is then used to create and maintain
+views on other platforms using Ediflow.
+
+To set up and maintain thoses view, in-memory caching tables are needed
+to only select in ``VISUALATTRIBUTES''  data useful for those views
+and to locally store it.
+
+Those cached tables are implemented using Obvious (different bindings
+have been used Prefuse, Infovis and JUNG). Not only Obvious cached
+tables stores store data from ``VISUALATTRIBUTES'' but also they are
+synchronized with it.
+
+The Oracle DBMS has been extended to trigger notifications when
+``VISUALATTRIBUTES'' changes (data are added, removed or updated). Those
+notifications are received by Obvious cached tables that update their
+content and launch recomputing of their layout.
+
+Several applications has been built around Obvious DBMS caching
+tables. They are introduced in \cite{Ediflow}. One of this application
+is presented in the next section.
 
 \subsection{Large Wall Network Visualization}
 

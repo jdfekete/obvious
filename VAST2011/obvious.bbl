@@ -111,7 +111,7 @@ E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides.
 \bibitem{Axiis}
 T.~Gonzales and M.~VanDaniker.
 \newblock Axiis open source data visualization.
-\newblock web site, 2009-2011.
+\newblock web site: http://ww.axiis.org, 2009-2011.
 
 \bibitem{Weka}
 M.~Hall, E.~Frank, G.~Holmes, B.~Pfahringer, P.~Reutemann, and I.~H. Witten.
@@ -139,6 +139,12 @@ L.~Ibanez, W.~Schroeder, L.~Ng, and J.~Cates.
 \newblock {\em The {ITK} {S}oftware {G}uide}.
 \newblock Kitware, Inc. ISBN 1-930934-15-7,
   http://www.itk.org/ItkSoftwareGuide.pdf, second edition, 2005.
+
+\bibitem{JViews}
+IBM.
+\newblock Ilog visualization for java.
+\newblock web site:
+  http://www-01.ibm.com/software/integration/visualization/java/, 1998-2011.
 
 \bibitem{DDupe}
 H.~Kang, L.~Getoor, B.~Shneiderman, M.~Bilgic, and L.~Licamele.
@@ -179,6 +185,14 @@ P.~D. Stotts, M.~Lindsey, and A.~Antley.
 \newblock In D.~Wells and L.~A. Williams, editors, {\em XP/Agile Universe},
   volume 2418 of {\em Lecture Notes in Computer Science}, pages 131--143.
   Springer, 2002.
+
+\bibitem{Ediflow}
+{V\'eronique Benzaken and Jean-Daniel Fekete and Pierre-Luc H\'emery and Wael
+  Khemiri and Ioana Manolescu}.
+\newblock {EdiFlow: data-intensive interactive workflows for visual analytics}.
+\newblock In {\em {International conference on Data Engineering (ICDE 2011)}},
+  {Hannover, Germany}, {04} {2011}. {IEEE}.
+\newblock {to appear}.
 
 \bibitem{Improvise}
 C.~Weaver.
