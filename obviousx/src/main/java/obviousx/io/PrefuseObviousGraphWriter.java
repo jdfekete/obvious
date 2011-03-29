@@ -34,7 +34,6 @@ import obvious.data.Network;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 import prefuse.data.io.AbstractGraphWriter;
-import prefuse.data.io.DataIOException;
 
 /**
  * Wrapper for Prefuse writter to be compatible with obvious.
@@ -46,16 +45,19 @@ public class PrefuseObviousGraphWriter implements Exporter {
   /**
    * Target file.
    */
+  @SuppressWarnings("unused")
   private File file;
 
   /**
    * Exported obvious network.
    */
+  @SuppressWarnings("unused")
   private Network network;
 
   /**
    * Wrapped prefuse writer.
    */
+  @SuppressWarnings("unused")
   private AbstractGraphWriter prefWriter;
 
   /**
@@ -73,6 +75,7 @@ public class PrefuseObviousGraphWriter implements Exporter {
   @Override
   public void createFile() throws ObviousxException {
     try {
+      return;
       //prefWriter.writeGraph(new WrapToPrefGraph(network), file);
     } catch (Exception e) {
       e.printStackTrace();

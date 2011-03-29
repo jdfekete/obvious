@@ -41,6 +41,7 @@ import obvious.data.Table;
  * @author Pierre-Luc Hemery
  *
  */
+@SuppressWarnings("serial")
 public class ObviousTableModel extends AbstractTableModel {
 
   /**
@@ -168,7 +169,12 @@ public class ObviousTableModel extends AbstractTableModel {
     fireTableCellUpdated(rowIndex, columnIndex);
   }
 
+  /**
+   * Unused method.
+   * @param e a TableModelEvent event
+   */
   public void tableChanged(TableModelEvent e) {
+    return;
   }
 
 }

@@ -85,6 +85,7 @@ public class CSVImport implements TableImporter {
   /**
    * Constructor.
    * @param inputFile external file to load
+   * @param inputTable Obvious input Table
    * @param sep the separator char used for CSV
    */
   public CSVImport(File inputFile, Table inputTable, char sep) {
@@ -94,6 +95,11 @@ public class CSVImport implements TableImporter {
     this.formatFactory = new FormatFactoryImpl();
   }
 
+  /**
+   * Constructor.
+   * @param inputFile external file to load
+   * @param sep the separator char used for CSV
+   */
   public CSVImport(File inputFile, char sep) {
     this(inputFile, null, sep);
   }
@@ -127,6 +133,7 @@ public class CSVImport implements TableImporter {
    * Reads the schema of the file.
    * @throws ObviousxException if an exception occurs.
    */
+  @SuppressWarnings("null")
   public void readSchema() throws ObviousxException {
     try {
       CSVReader reader = new CSVReader(new FileReader(file), separator);
@@ -178,6 +185,7 @@ public class CSVImport implements TableImporter {
 
   /**
    * Loads the table with the data of the external file.
+   * @return an Obvious Table
    * @throws ObviousxException when exception occurs
    */
   public Table loadTable() throws ObviousxException {

@@ -97,7 +97,6 @@ public class PrefuseObviousTableReader implements TableImporter {
     } catch (ObviousException e) {
       e.printStackTrace();
     }
-    
     return table;
   }
 
