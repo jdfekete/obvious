@@ -117,8 +117,12 @@ public class IvtkObviousTree implements Tree<Node, Edge> {
     }
   }
 
-  public IvtkObviousTree(infovis.Tree tree) {
-    this.tree = tree;
+  /**
+   * Constructor.
+   * @param inTree Ivtk tree to wrap
+   */
+  public IvtkObviousTree(infovis.Tree inTree) {
+    this.tree = inTree;
   }
 
   /**

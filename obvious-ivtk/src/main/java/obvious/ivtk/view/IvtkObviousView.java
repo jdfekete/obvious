@@ -186,7 +186,6 @@ public class IvtkObviousView extends JView {
     Rectangle2D bounds = new Rectangle2D.Float(
         0, 0, getViewJComponent().getWidth() + indx,
         getViewJComponent().getHeight() + indy);
-    System.out.println("PANBOUNDS" + bounds.getCenterX() + " : " + bounds.getCenterY());
     this.customPanel.setBounds(bounds);
     this.customPanel.setPanValues((double) indx,  (double) indy);
     this.paint(g);

@@ -211,6 +211,12 @@ public class IvtkObviousTable implements Table {
     }
   }
 
+  /**
+   * Sets the default value (internal method to avoid null pointer exception).
+   * @param format format used
+   * @return a convenient default value when the null value is specified as
+   * default value
+   */
   private Object setDefaultValue(TypedFormat format) {
     if (format instanceof FormatFactoryImpl.TypedDecimalFormat) {
       return 0;

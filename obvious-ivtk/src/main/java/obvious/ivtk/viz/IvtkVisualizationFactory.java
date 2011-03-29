@@ -101,8 +101,8 @@ public class IvtkVisualizationFactory extends VisualizationFactory {
           return new IvtkTreeMapVis((Tree<Node, Edge>) network, pred,
                   visName, param);
       } catch (ClassCastException e) {
-         e.printStackTrace(); 
-         return new 
+         e.printStackTrace();
+         return new
                  IvtkNodeLinkGraphVis(network, pred, visName, param);
       }
     } else {
