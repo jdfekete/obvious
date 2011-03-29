@@ -5,6 +5,12 @@
   <name>obvious-ivtk</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>obvious-ivtk	</description>
+  <repositories>
+    <repository>
+  	<id>ivtk-sourceforge-repository</id>
+  	<url>http://ivtk.sourceforge.net/maven/</url>
+  	</repository>
+  </repositories>
   <dependencies>
   	<dependency> <!-- reuse src/main/java code from moduleA, normal dependencies --> 
   	<groupId>obvious</groupId>
@@ -20,14 +26,14 @@
 	<scope>test</scope>
 	</dependency>
     <dependency>
-    	<groupId>infovis</groupId>
-    	<artifactId>infovis</artifactId>
-    	<version>0.10-alpha-2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
     	<groupId>obviousx</groupId>
     	<artifactId>obviousx</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>infovis</groupId>
+    	<artifactId>infovis</artifactId>
+    	<version>0.10-alpha-1</version>
     </dependency>
   </dependencies>
 </project>
