@@ -187,14 +187,6 @@ P.~D. Stotts, M.~Lindsey, and A.~Antley.
   volume 2418 of {\em Lecture Notes in Computer Science}, pages 131--143.
   Springer, 2002.
 
-\bibitem{Ediflow}
-{V\'eronique Benzaken and Jean-Daniel Fekete and Pierre-Luc H\'emery and Wael
-  Khemiri and Ioana Manolescu}.
-\newblock {EdiFlow: data-intensive interactive workflows for visual analytics}.
-\newblock In {\em {International conference on Data Engineering (ICDE 2011)}},
-  {Hannover, Germany}, {04} {2011}. {IEEE}.
-\newblock {to appear}.
-
 \bibitem{Improvise}
 C.~Weaver.
 \newblock Building highly-coordinated visualizations in improvise.

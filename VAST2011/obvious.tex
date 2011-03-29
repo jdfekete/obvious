@@ -5,6 +5,7 @@
 %\documentclass[preprint]{vgtc}               % preprint
 \documentclass[electronic]{vgtc}             % electronic version
 
+\usepackage[usenames,dvipsnames]{color}
 \usepackage{mathptmx}
 \usepackage{graphicx}
 \usepackage{times}
@@ -12,6 +13,15 @@
 \usepackage{enumitem}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{%
+  arrows,%
+  shapes.geometric,%
+  shapes.symbols,%
+  shapes.arrows,%
+  shadows} 
+\usepackage{pgf-umlsd}
+\usepgflibrary{arrows} % for pgf-umlsd
 \usepackage{listings}
 \lstset{%
   frame=single,

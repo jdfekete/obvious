@@ -93,6 +93,33 @@ updating visual structures, e.g. recomputing a layout for each
 modified item.  This typically leads to the application being
 unresponsive for a long time.
 
+\begin{figure}
+  \centering
+	\begin{sequencediagram}
+		\newthread{table}{Table}{Table}
+		\newinst[2]{lstnr}{Listener}{Listener}
+			\begin{callself}{table}{addRow(Tuple tuple)}{}
+			\end{callself}
+			\begin{call}{table}{tableChanged(...)}{lstnr}{Change propagated}
+			\end{call}
+			\begin{call}{table}{beginEdit(int mode)}{lstnr}{}
+			\end{call}
+			\begin{callself}{table}{addRow(Tuple tuple)}{}
+			\end{callself}
+			\begin{call}{table}{tableChanged(...)}{lstnr}{Custom strategy}
+			\end{call}
+			\begin{callself}{table}{addRow(Tuple tuple)}{}
+			\end{callself}
+			\begin{call}{table}{tableChanged(...)}{lstnr}{Custom strategy}
+			\end{call}
+			\begin{call}{table}{endEdit(int mode)}{lstnr}{}
+			\end{call}
+	\end{sequencediagram}
+	\caption{Sequence diagram for the notification system}
+	\label{fig:notification}
+\end{figure}
+
+\begin{comment}
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=.5\columnwidth]{figures/notification}
@@ -100,6 +127,7 @@ unresponsive for a long time.
   \caption{Sequence diagram for the notification system}
   \label{fig:notification}
 \end{figure}
+\end{comment}
 
 Thus, Obvious introduces a method to control the management of batch
 notifications: the \emph{beginEdit/endEdit} mechanism.
