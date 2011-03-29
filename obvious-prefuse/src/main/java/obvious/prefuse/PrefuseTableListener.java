@@ -29,7 +29,7 @@ package obvious.prefuse;
 
 import obvious.data.Table;
 import obvious.data.event.TableListener;
-import obviousx.wrappers.prefuse.WrapToPrefTable;
+import obvious.prefuse.utils.wrappers.WrapToPrefTable;
 
 /**
  * A prefuse based implementation of obvious TableListener interface.

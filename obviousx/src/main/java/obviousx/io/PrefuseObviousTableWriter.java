@@ -30,9 +30,9 @@ package obviousx.io;
 import java.io.File;
 
 import obvious.data.Table;
+//import obvious.prefuse.utils.wrappers.WrapToPrefTable;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
-import obviousx.wrappers.prefuse.WrapToPrefTable;
 import prefuse.data.io.AbstractTableWriter;
 import prefuse.data.io.DataIOException;
 
@@ -74,8 +74,8 @@ public class PrefuseObviousTableWriter implements Exporter {
   @Override
   public void createFile() throws ObviousxException {
     try {
-      prefWriter.writeTable(new WrapToPrefTable(table), file);
-    } catch (DataIOException e) {
+      //prefWriter.writeTable(new WrapToPrefTable(table), file);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

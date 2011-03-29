@@ -30,9 +30,9 @@ package obviousx.io;
 import java.io.File;
 
 import obvious.data.Network;
+//import obvious.prefuse.utils.wrappers.WrapToPrefGraph;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
-import obviousx.wrappers.prefuse.WrapToPrefGraph;
 import prefuse.data.io.AbstractGraphWriter;
 import prefuse.data.io.DataIOException;
 
@@ -73,8 +73,8 @@ public class PrefuseObviousGraphWriter implements Exporter {
   @Override
   public void createFile() throws ObviousxException {
     try {
-      prefWriter.writeGraph(new WrapToPrefGraph(network), file);
-    } catch (DataIOException e) {
+      //prefWriter.writeGraph(new WrapToPrefGraph(network), file);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
