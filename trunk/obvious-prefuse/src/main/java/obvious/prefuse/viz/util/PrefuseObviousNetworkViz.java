@@ -73,7 +73,6 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
         groupName = (String) param.get(GROUP_NAME);
       }
       if (param.containsKey(LABEL_KEY)) {
-          System.out.println("coucou");
         label = (String) param.get(LABEL_KEY);
       }
     }
