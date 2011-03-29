@@ -4,8 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.AncestorEvent;
@@ -26,11 +25,13 @@ public class CustomIvtkJComponent extends VisualizationPanel {
   /**
    * Checks if the component has already been displayed.
    */
+  @SuppressWarnings("unused")
   private boolean firstLaunch = false;
 
   /**
    * Translations coordinates.
    */
+  @SuppressWarnings("unused")
   private double dx = 0, dy = 0, scale = 1;
 
   /**
@@ -94,14 +95,30 @@ public class CustomIvtkJComponent extends VisualizationPanel {
     paint(g);
   }
 
+  /**
+   * Sets the view.
+   * @param view obvious view to set
+   */
   public void setView(IvtkObviousView view) {
     this.ivtkView = view;
   }
 
+  /**
+   * Internal listener.
+   * @author Hemery
+   *
+   */
   public static class ThisListener extends ComponentAdapter {
 
+    /**
+     * Listened comp.
+     */
     private CustomIvtkJComponent comp;
 
+    /**
+     * Constructor.
+     * @param inComp listened comp.
+     */
     public ThisListener(CustomIvtkJComponent inComp) {
       this.comp = inComp;
     }
@@ -112,27 +129,39 @@ public class CustomIvtkJComponent extends VisualizationPanel {
       comp.ivtkView.pan(1, 1);
     }
   }
+  /**
+   * Internal class.
+   * @author Hemery
+   *
+   */
   public static class AncestorTener implements AncestorListener {
 
+    /**
+     * Obvious component.
+     */
+    @SuppressWarnings("unused")
     private CustomIvtkJComponent comp;
-    
+
+    /**
+     * Constructor.
+     * @param inComp obvious component
+     */
     public AncestorTener(CustomIvtkJComponent inComp) {
       this.comp = inComp;
     }
-    
+
+    @Override
     public void ancestorAdded(AncestorEvent event) {
-      System.out.println("ADDED");
     }
 
+    @Override
     public void ancestorMoved(AncestorEvent event) {
-      System.out.println("MOVED");
-      comp.ivtkView.pan(50, 50);
+      //comp.ivtkView.pan(50, 50);
     }
 
+    @Override
     public void ancestorRemoved(AncestorEvent event) {
-      System.out.println("REMOVED");
     }
-    
   }
 
 }

@@ -50,7 +50,6 @@ import obvious.impl.ObviousLinkNetworkListener;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.data.IvtkObviousTree;
-import obvious.ivtk.utils.wrappers.WrapToIvtkTable;
 import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
@@ -69,9 +68,14 @@ public class IvtkObviousVisualization extends Visualization {
   private infovis.Visualization vis;
 
   /**
-   * Enum for the surrounding data model.
+   * Enum for the data model.
+   * @author Hemery
+   *
    */
   protected enum DataModel {
+    /**
+     * Values for each data structure.
+     */
     TABLE, NETWORK, TREE
   }
 
@@ -312,7 +316,8 @@ public class IvtkObviousVisualization extends Visualization {
   /**
    * Dedicated to the implementation IvtkObviousVisualization, this method
    * allows to set visual columns for infovis toolkit visualization.
-   * @param param
+   * @param param map of parameters
+   * @param m data model used
    */
   protected void setVisualAllColumns(Map<String, Object> param, DataModel m) {
   }

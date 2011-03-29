@@ -36,7 +36,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.MutableAttributeSet;
 
 import infovis.Column;
-import infovis.column.FilterColumn;
 import infovis.utils.RowIterator;
 
 import obvious.ObviousException;
