@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import obvious.data.DataFactory;
 import obvious.data.Edge;
 import obvious.data.Graph;
 import obvious.data.Network;
@@ -94,6 +95,11 @@ public class GraphMLImport implements GraphImporter {
    * Map linking XML id to columns name.
    */
   private Map<String, String> idToName;
+
+  /**
+   * Map linking XML node id to obvious Node.
+   */
+  private Map<String, Node> idToNode = new HashMap<String, Node>();
 
   /**
    * Encountered edges.
@@ -158,6 +164,34 @@ public class GraphMLImport implements GraphImporter {
       this.xpp.setInput(new FileReader(file));
     } catch (Exception e) {
       throw new ObviousxException(e);
+    }
+  }
+
+  /**
+   * Constructor.
+   * @param inputFile external file to load
+   */
+  public GraphMLImport(File inputFile) {
+    try {
+      this.file = inputFile;
+      this.formatFactory = new FormatFactoryImpl();
+      this.idToName = new HashMap<String, String>();
+      this.nodeSchema = new SchemaImpl();
+      this.edgeSchema = new SchemaImpl();
+      XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+      factory.setNamespaceAware(true);
+      this.xpp = factory.newPullParser();
+      this.xpp.setInput(new FileReader(file));
+      readSchema();
+      this.sourceCol = "source";
+      this.targetCol = "target";
+      edgeSchema.addColumn(sourceCol, int.class, null);
+      edgeSchema.addColumn(targetCol, int.class, null);
+      this.network = DataFactory.getInstance().createGraph(
+          nodeSchema, edgeSchema);
+      this.nodeId = prefuse.data.Graph.DEFAULT_NODE_KEY;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -227,7 +261,8 @@ public class GraphMLImport implements GraphImporter {
       } while (!xpp.getName().equals("graph"));
       schemaLoaded = true;
     } catch (Exception e) {
-      throw new ObviousxException(e);
+      e.printStackTrace();
+      //throw new ObviousxException(e);
     }
   }
 
@@ -281,6 +316,10 @@ public class GraphMLImport implements GraphImporter {
       }
       TypedFormat format = formatFactory.getFormat(type);
       Object value = format.parseObject(defaultValue, new ParsePosition(0));
+      Class<?> c = format.getFormattedClass();
+      if (c == Integer.class) {
+        c = int.class;
+      }
       currentSchema.addColumn(columnName, format.getFormattedClass(), value);
       idToName.put(id, columnName);
       xpp.nextTag();
@@ -327,6 +366,12 @@ public class GraphMLImport implements GraphImporter {
   private void processNodeElement() throws ObviousxException {
     try {
       Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
+      String id = "";
+      for (int i = 0; i < xpp.getAttributeCount(); i++) {
+        if (xpp.getAttributeName(i).equals("id")) {
+          id = xpp.getAttributeValue(i);
+        }
+      }
       for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
         nodeAttr[i] = nodeSchema.getColumnDefault(i);
       }
@@ -353,6 +398,7 @@ public class GraphMLImport implements GraphImporter {
       } while (xpp.getName() == null || !xpp.getName().equals("node"));
       Node node = (Node) new NodeImpl(network.getNodeTable().getSchema(),
           nodeAttr);
+      idToNode.put(id, node);
       network.addNode(node);
       xpp.nextTag();
     } catch (Exception e) {
@@ -367,6 +413,7 @@ public class GraphMLImport implements GraphImporter {
   private void processEdgeElement() throws ObviousxException {
     try {
       // Determine the correct edge type.
+      String source = "", target = "";
       Graph.EdgeType currentEdgeType = defaultEdgeType;
       for (int i = 0; i < xpp.getAttributeCount(); i++) {
         if (xpp.getAttributeName(i).equals("directed")) {
@@ -375,12 +422,22 @@ public class GraphMLImport implements GraphImporter {
           } else {
             currentEdgeType = Graph.EdgeType.UNDIRECTED;
           }
+        } else if (xpp.getAttributeName(i).equals("source")) {
+          source = xpp.getAttributeValue(i);
+        } else if (xpp.getAttributeName(i).equals("target")) {
+          target = xpp.getAttributeValue(i);
         }
       }
       // Load default values.
       Object[] edgeAttr = new Object[edgeSchema.getColumnCount()];
       for (int i = 0; i < edgeSchema.getColumnCount(); i++) {
-        edgeAttr[i] = edgeSchema.getColumnDefault(i);
+        if (edgeSchema.getColumnName(i).equals("source")) {
+          edgeAttr[i] = source;
+        } else if (edgeSchema.getColumnName(i).equals("target")) {
+          edgeAttr[i] = target;
+        } else {
+          edgeAttr[i] = edgeSchema.getColumnDefault(i);
+        }
       }
       // Load attribute values contained in the graphml file.
       int eventType = xpp.next();
@@ -429,9 +486,7 @@ public class GraphMLImport implements GraphImporter {
           return node;
         }
       } else {
-        if (Integer.toString(node.getRow()).equals(id.toString())) {
-        return node;
-        }
+        return idToNode.get(id);
       }
     }
     return null;

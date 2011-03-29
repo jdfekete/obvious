@@ -25,64 +25,51 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers.ivtk;
+package obvious.ivtk.utils.wrappers;
 
-import infovis.utils.RowIterator;
+import infovis.Column;
+import infovis.Table;
 
 /**
- * Wrapper for obvious row iterator to ivtk row iterator.
+ * Wrapper for ivtk interface item.
  * @author Hemery
  *
  */
-public class WrapToIvtkIterator implements infovis.utils.RowIterator {
+public class WrapToIvtkItem implements infovis.table.Item {
 
   /**
-   * Backing iterator.
+   * Row index of the item.
    */
-  private obvious.data.util.IntIterator it;
+  private int rowId;
 
   /**
-   * Backing row index.
+   * Backing ivtk table.
    */
-  private int currentRow = 0;
+  private Table table;
 
   /**
    * Constructor.
-   * @param iterator an obvious iterator
+   * @param inTable backing ivtk table
+   * @param row row index
    */
-  public WrapToIvtkIterator(obvious.data.util.IntIterator iterator) {
-    this.it = iterator;
+  public WrapToIvtkItem(Table inTable, int row) {
+    this.table = inTable;
+    this.rowId = row;
   }
 
   @Override
-  public RowIterator copy() {
-    return new WrapToIvtkIterator(it);
+  public Column getColumn() {
+    return null;
   }
 
   @Override
-  public int nextRow() {
-    currentRow = it.nextInt();
-    return currentRow;
+  public int getId() {
+    return rowId;
   }
 
   @Override
-  public int peekRow() {
-    return currentRow + 1;
+  public Table getTable() {
+    return table;
   }
 
-  @Override
-  public boolean hasNext() {
-    return it.hasNext();
-  }
-
-  @Override
-  public Object next() {
-    return it.next();
-  }
-
-  @Override
-  public void remove() {
-    it.remove();
-  }
 }
-

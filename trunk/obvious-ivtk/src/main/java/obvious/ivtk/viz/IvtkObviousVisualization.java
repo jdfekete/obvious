@@ -50,11 +50,11 @@ import obvious.impl.ObviousLinkNetworkListener;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.data.IvtkObviousTree;
+import obvious.ivtk.utils.wrappers.WrapToIvtkTable;
 import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
-import obviousx.wrappers.ivtk.WrapToIvtkTable;
 
 /**
  * Infovis Toolkit implementation of obvious Visualization abstract class.

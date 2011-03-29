@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010, INRIA
+* Copyright (c) 2011, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -26,10 +26,7 @@
 */
 
 /**
- * <h1>Package obviousx.wrappers</h1>
- *
- * This package contains wrappers for obvious structure to classic toolkit
- * implementations (ivtk).
- *
+ * <h1>Package obvious.ivtk.utils.wrappers</h1>
+ * To do.
  */
-package obviousx.wrappers.ivtk;
+package obvious.ivtk.utils.wrappers;
