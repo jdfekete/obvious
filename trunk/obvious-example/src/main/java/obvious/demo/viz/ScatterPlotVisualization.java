@@ -2,7 +2,7 @@ package obvious.demo.viz;
 
 import javax.swing.JFrame;
 
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;

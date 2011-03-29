@@ -28,7 +28,7 @@ import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;

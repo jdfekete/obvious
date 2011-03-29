@@ -1,0 +1,19 @@
+id,age,category
+Integer,Integer,String
+1,25,homeless
+1,22,worker
+2,60,unemployed
+3,32,worker
+4,20,unemployed
+5,72,worker
+6,40,unemployed
+7,52,worker
+8,35,unemployed
+9,32,worker
+10,44,unemployed
+11,27,worker
+12,38,unemployed
+13,53,worker
+14, 49,unemployed
+15,21,worker
+16,36,unemployed

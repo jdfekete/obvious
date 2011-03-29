@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import obvious.data.Network;
-import obvious.prefuse.PrefuseObviousNetwork;
+import obvious.prefuse.data.PrefuseObviousNetwork;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
@@ -87,7 +87,7 @@ public class ObviousGraphView extends JPanel {
     /*
      * Creating the visualization.
      */
-    vis = new PrefuseObviousNetworkViz(network, null, "test", param);
+    vis = new PrefuseObviousNetworkViz(network, null, null, param);
 
     /*
      * Building view.

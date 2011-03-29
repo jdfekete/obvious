@@ -12,7 +12,7 @@ import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;

@@ -36,7 +36,7 @@ import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 
-import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.viz.Visualization;
 import obvious.data.Schema;
 import obvious.data.Table;
