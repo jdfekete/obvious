@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers.jung;
+package obvious.jung.utils.wrappers;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -30,13 +30,11 @@ package obvious.jung.visualization;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
@@ -44,20 +42,15 @@ import obvious.data.Data;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Edge;
-import obvious.data.Schema;
 import obvious.data.Tree;
 import obvious.data.Tuple;
-import obvious.data.event.NetworkListener;
 import obvious.data.util.Predicate;
-import obvious.impl.ObviousLinkNetworkListener;
-import obvious.jung.data.JungObviousNetwork;
+import obvious.jung.utils.wrappers.WrapToJungGraph;
+import obvious.jung.utils.wrappers.WrapToJungTree;
 import obvious.jung.view.ObviousVisualizationServer;
-import obvious.util.ObviousLib;
 import obvious.viz.Action;
 import obvious.viz.Renderer;
 import obvious.viz.Visualization;
-import obviousx.wrappers.jung.WrapToJungGraph;
-import obviousx.wrappers.jung.WrapToJungTree;
 
 /**
  * Visualization class for the obvious-jung implementation.
