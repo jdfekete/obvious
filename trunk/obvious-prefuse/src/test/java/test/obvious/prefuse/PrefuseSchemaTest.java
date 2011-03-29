@@ -29,7 +29,7 @@ package test.obvious.prefuse;
 
 import static org.junit.Assert.assertFalse;
 import obvious.data.Schema;
-import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import test.obvious.data.SchemaTest;
 
 /**

@@ -29,7 +29,7 @@ public class ObviousWekaExample {
   public static void main(String[] args) throws Exception {
 
     System.setProperty("obvious.DataFactory",
-    "obvious.prefuse.PrefuseDataFactory");
+    "obvious.prefuse.data.PrefuseDataFactory");
     CSVImport importer = new CSVImport(new File(
         "src//main/resources//bank-data.csv"), ',');
     Table table = importer.loadTable();
@@ -39,7 +39,7 @@ public class ObviousWekaExample {
    Instances inst = loader.loadInstances();
    inst.setClassIndex(6); */
    //System.out.println(inst.toSummaryString());
-   
+
    /*
    System.out.println(inst.toSummaryString());
    System.out.println(inst.meanOrMode(2));

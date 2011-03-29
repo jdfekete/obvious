@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011, INRIA
+* Copyright (c) 2009, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,49 +25,43 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
+package obvious.prefuse.data;
 
-import obvious.data.Table;
-import obvious.data.event.TableListener;
-import obvious.prefuse.utils.wrappers.WrapToPrefTable;
+import obvious.data.Node;
 
 /**
- * A prefuse based implementation of obvious TableListener interface.
- * @author Hemery
+ * Implementation of an Obvious Node based on Prefuse toolkit.
+ * It subclasses PrefuseObviousTuple.
+ * This class is mainly a factory to build Obvious compatible node from
+ * Prefuse node.
+ * @author Pierre-Luc Hemery
  *
  */
-public class PrefuseTableListener implements TableListener {
+public class PrefuseObviousNode extends PrefuseObviousTuple implements Node {
 
   /**
-   * Wrapped prefuse TableListener.
+   * Constructor for PrefuseObviousNode.
+   * @param node a prefuse Node
    */
-  private prefuse.data.event.TableListener prefListener;
-
-  /**
-   * Constructor.
-   * @param listener Prefuse TableListener to wrap.
-   */
-  public PrefuseTableListener(prefuse.data.event.TableListener listener) {
-    this.prefListener = listener;
+  public PrefuseObviousNode(prefuse.data.Node node) {
+    super(node);
   }
 
   @Override
-  public void beginEdit(int context) {
+  public boolean equals(Object obj) {
+    try {
+      return this.getRow() == ((PrefuseObviousNode) obj).getRow();
+    } catch (ClassCastException e) {
+      return false;
+    }
   }
 
   @Override
-  public boolean checkInvariants() {
-    return false;
-  }
-
-  @Override
-  public boolean endEdit(int context) {
-    return false;
-  }
-
-  @Override
-  public void tableChanged(Table t, int start, int end, int col, int type) {
-    prefListener.tableChanged(new WrapToPrefTable(t), start, end, col, type);
+  public int hashCode() {
+    final int startValue = 3;
+    int result = startValue;
+    final int multiplier = 5;
+    return result * multiplier + this.getRow();
   }
 
 }
