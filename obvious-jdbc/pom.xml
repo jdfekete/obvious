@@ -30,11 +30,6 @@
 	<scope>test</scope>
 	</dependency>
 	<dependency>
-		<groupId>oracle</groupId>
-		<artifactId>oracle</artifactId>
-		<version>6.0</version>
-	</dependency>
-	<dependency>
 		<groupId>noackmaven</groupId>
 		<artifactId>noackmaven</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
