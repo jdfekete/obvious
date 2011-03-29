@@ -23,7 +23,7 @@ abstractions described in the core Obvious interfaces for all data
 models, visualizations and views.
 
 For the visualization, Prefuse is currently the only polylithic
-Information Visualization toolkit with a binding for Obvious.  As
+infovis toolkit with a binding for Obvious.  As
 explained in~\ref{sec:viewvis}, Obvious does not offer a visualization
 abstraction for polylithic components.  Thus, Obvious provides
 components pre-configured for well know visualization techniques such
@@ -47,24 +47,23 @@ Obvious to check its model and syntax.
 %% other implementations to benefit of new features. It is one of the
 %% main goal of Obvious: binding toolkits to extend their capabilities.
 
-\subsection{InfoVis Toolkit}
+\subsection{IVTK}
 
-Since the InfoVis Toolkit is monolithic and follows the reference
-Information Visualization model, its Obvious binding realizes all the
+Since IVTK is monolithic and follows the reference
+infovis model, its Obvious binding realizes all the
 interfaces for the data model, visualization and view introduced in
-Obvious. The InfoVis Toolkit has monolithic visualizations, providing
+Obvious. IVTK has monolithic visualizations, providing
 them simply consists in wrapping an Obvious visualization around them
 class and implementing a factory to create them by name.
 
-However, the data model of the InfoVis Toolkit differs from Obvious
-for trees and networks: in the InfoVis Toolkit, the Graph interface is
+However, the data model of IVTK differs from Obvious
+for trees and networks: in IVTK, the Graph interface is
 not a super-interface of the Tree interface.  In addition, some data
-model classes are more specialized in the InfoVis Toolkit than in
+model classes are more specialized in IVTK than in
 Obvious.  For example, tables can be described as static tables or
 dynamic tables.  The binding was therefore complicated by these
 mismatches that needed a more complicated code than for Prefuse.
-
-Nevertheless, the InfoVis Toolkit binding is operational and
+Nevertheless, IVTK binding is operational and
 reliable.
 
 \subsection{Improvise}
@@ -89,7 +88,7 @@ require some changes in Improvise.
 JDBC is the standard Java interface to standard SQL databases.  We
 wrapped JDBC in an Obvious data table to prove that Obvious can
 support a large variety of data model, not only models coming from
-information visualization toolkits.  JDBC was chosen because databases
+infovis toolkits.  JDBC was chosen because databases
 are frequently used as data sources for applications and since JDBC
 provides additional features not available in the toolkits data tables
 such as atomic and batched transactions.  We used it to test the
@@ -175,19 +174,18 @@ and we report on its uses in the next section.
     \hline
     \textbf{Bindings} & \textbf{obvious\newline{.data}} & \textbf{obvious\newline{.vis}} & \textbf{obvious\newline{.view}} & \textbf{Binding Size} & \textbf{Toolkit Size} \\
     \hline
-    \textit{Prefuse} & 10 classes \newline\textit{1235} & 7 classes \newline\textit{446} & 2 classes \newline\textit{94} & 120KB & 3.3MB \\
+    \textit{Prefuse} & 10 classes \newline\textit{1235 lines} & 7 classes \newline\textit{446 lines} & 2 classes \newline\textit{94 lines} & 120KB & 3.3MB \\
     \hline
-    \textit{InfoVis Toolkit} & 6 classes \newline\textit{1404} & 5 classes \newline\textit{460} & 1 class \newline\textit{105} & 115KB & 10MB \\
+    \textit{IVTK} & 6 classes \newline\textit{1404 lines} & 5 classes \newline\textit{460 lines} & 1 class \newline\textit{105 lines} & 115KB & 10MB \\
     \hline
-    \textit{Improvise} & 3 classes \newline\textit{519} &  &  & 27KB &  5.7 MB \\
+    \textit{Improvise} & 3 classes \newline\textit{519 lines} &  &  & 27KB &  5.7 MB \\
     \hline
-    \textit{JDBC} & 8 classes \newline\textit{1936} &  &  & 75KB & 3MB \\
+    \textit{JDBC} & 8 classes \newline\textit{1936 lines} &  &  & 75KB & 3MB \\
     \hline
-    \textit{JUNG} & 3 classes \newline\textit{714} & 1 class \newline\textit{139} & 2 classes \newline\textit{114} & 93KB & 4.3MB \\
+    \textit{JUNG} & 3 classes \newline\textit{714 lines} & 1 class \newline\textit{139 lines} & 2 classes \newline\textit{114 lines} & 93KB & 4.3MB \\
     \hline
 \end{tabular}
-\caption{Footprint of Obvious bindings. Numbers in italics refer to
-  the number of lines of Java code.}\label{tab:obviousfootprint}
+\caption{Footprint of Obvious bindings. }\label{tab:obviousfootprint}
 \end{table}
 \begin{comment}
 
@@ -195,7 +193,7 @@ and we report on its uses in the next section.
 We have learned several lessons during the development of Obvious
 bindings:
 %implementations: mainly concerning lack of precision in the
-%Information Visualization reference model. We can list the following
+%infovis reference model. We can list the following
 %lessons:
 
 \begin{itemize}

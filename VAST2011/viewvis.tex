@@ -5,7 +5,7 @@ workshop~\cite{vismaster2008}; the main reason being the different
 approaches chosen among toolkits.  One important issue is the
 monolithic vs. polylithic approach. Another one is related to tables
 vs. objects: some toolkits keep the visualization data in tables
-(e.g. Prefuse, the InfoVis Toolkit and Tulip) whereas others create
+(e.g. Prefuse, IVTK and Tulip) whereas others create
 objects for displaying (e.g. Improvise, Cytoscape) or nothing at all
 when there is a pipeline as in Discovery.  So, more work is needed to
 design the abstractions required to wrap the different
@@ -39,7 +39,7 @@ component wrapped as an Obvious visualization and configured as a
 scatter-plot visualization.
 
 If a developer needs a visualization component that does not exist in
-the default implementation (e.g. an InfoVis Toolkit time-series with a
+the default implementation (e.g. an IVTK time-series with a
 Prefuse-wrapped data table), the visualization can be created directly
 from a specified factory or from the Obvious class:\\
 \lstinline!new IvtkTimeSeriesVis(table, null, "timeseries", params)!
@@ -58,7 +58,7 @@ when the visualization and the data model are from the same
 implementation (e.g. Prefuse).
 
 This mechanism avoids copying data from one structure to another,
-which is a crucial point for visual analytics.  Alternatively, Obvious
+which is a crucial point for VA.  Alternatively, Obvious
 also provides a default mechanism to quickly copy and synchronize data
 models when no wrapper has been defined for a specific toolkit.
 Current wrappers are lightweight, adding very little overhead to the

@@ -1,12 +1,12 @@
 
 \subsection{Extending Obvious Supported Features}
 
-Obvious aims at covering all the features of an information
-visualization toolkit for which a consensual interface can be
-specified.  Relying on a common reference model helps tremendously but
-falls short on some implementation design choices.  Still, a few
-specific services have already been mentioned during workshops that
-could give rise to a shared implementation:
+Obvious aims at covering all the features of an infovis toolkit for
+which a consensual interface can be specified.  Relying on a common
+reference model helps tremendously but falls short on some
+implementation design choices.  Still, a few specific services have
+already been mentioned during workshops that could give rise to a
+shared implementation:
 
 \begin{enumerate}
 \item selection management: to implement cross-toolkit brushing and
@@ -47,16 +47,15 @@ languages and platforms, such as C++, JavaScript and C\#.  Obvious has
 been designed to avoid using idioms too specific to Java so we believe
 it could be done without much difficulties.  There would be at least
 two benefits: the availability of a meta-toolkit is these languages to
-wrap Information Visualization toolkits, and the availability of a
-common application programmer's interface (API) for information
-visualization that would simplify learning and spreading the best
-practices.  Multi-language APIs already exist and are popular in
-recommendations of the W3C. For example, the Document Object Model API
-(DOM, see \url{http://www.w3.org/DOM/}) used to manipulate HTML or XML
-documents has official bindings for Java and JavaScript and
-non-standard bindings for several of the major languages
-(\url{http://www.w3.org/DOM/Bindings}) with slight variations to cope
-with the language idioms.
+wrap infovis toolkits, and the availability of a common application
+programmer's interface (API) for infovis that would simplify learning
+and spreading the best practices.  Multi-language APIs already exist
+and are popular in recommendations of the W3C. For example, the
+Document Object Model API (DOM, see \url{http://www.w3.org/DOM/}) used
+to manipulate HTML or XML documents has official bindings for Java and
+JavaScript and non-standard bindings for several of the major
+languages (\url{http://www.w3.org/DOM/Bindings}) with slight
+variations to cope with the language idioms.
 
 \begin{comment}
 % C++ has generic containers in the STL (which is standard)
@@ -104,24 +103,22 @@ visible and readable from an outsider perspective.
 
 \subsection{Obvious and Other Visualizations}
 
-Visual Analytics often needs to combine Information Visualization with
-Scientific Visualization and/or GeoSpatial Visualization.  These two
-domains are more mature than information visualization for
-standardization: the Scientific Visualization community is converging
-towards using VTK~\cite{VTK} as a \textit{de facto} standard whereas
-the GeoSpatial Visualization community already has a mature GeoSpatial
-Consortium producing
+VA often needs to combine infovis with Scientific
+Visualization and/or GeoSpatial Visualization.  These two domains are
+more mature than infovis for standardization: the Scientific
+Visualization community is converging towards using VTK~\cite{VTK} as
+a \textit{de facto} standard whereas the GeoSpatial Visualization
+community already has a mature GeoSpatial Consortium producing
 software\footnote{\url{http://www.opengeospatial.org}}.
 
-Geometrical data structures are much less sophisticated in information
-visualization than in the two others visualization fields.
-Pre-computing complex geometries and maintaining them dynamically is a
-main concern in Scientific Visualization and GeoSpatial Visualization;
-not so much in Information Visualization.  Moreover, even if at the
-abstract level Scientific Visualization and GeoSpatial Visualization
-share this concern, at the implementation level, their geometrical
-structures are quite different, adding another level of complexity to
-the problem.
+Geometrical data structures are much less sophisticated in infovis
+than in the two others visualization fields.  Pre-computing complex
+geometries and maintaining them dynamically is a main concern in
+Scientific Visualization and GeoSpatial Visualization; not so much in
+infovis.  Moreover, even if at the abstract level Scientific
+Visualization and GeoSpatial Visualization share this concern, at the
+implementation level, their geometrical structures are quite
+different, adding another level of complexity to the problem.
 
 Currently, the state of the art in combining these visualizations is
 to put them side-by-side with coordinated interactions ( brushing and

@@ -1,36 +1,37 @@
-Formally evaluating the effectiveness of a meta-toolkit for visual
-analytics is complex. Arguably the most convincing method would
-require two groups of programmers of equivalent skills to implement
-the same set of visual analytics programs with and without
-Obvious. Then, a judgment could be made from the time spent and the
-quality of the results. This methodology has been used to assess the
-InfoVis Toolkit~\cite{InfoVis} with students but is impractical for
-real Visual Analytics applications that are more complex and would not
-fit the scope of student projects.
+%% -*- mode: latex; -*-
+
+Formally evaluating the effectiveness of a meta-toolkit for VA is
+complex. Arguably the most convincing method would require two groups
+of programmers of equivalent skills to implement the same set of
+VA programs with and without Obvious. Then, a judgment
+could be made from the time spent and the quality of the results. This
+methodology has been used to assess IVTK~\cite{InfoVis} with students
+but is impractical for real VA applications that are
+more complex and would not fit the scope of student projects.
 
 Another method --- used to validate Prefuse~\cite{Prefuse} -- would be
-to re-implement complex Visual Analytics applications using Obvious
+to re-implement complex VA applications using Obvious
 and assess the results, again in term of time and quality. This is
 what we have done and we report on our results here.
 
 \subsection{Coding applications with Obvious}
 
 This section shows how Obvious can implement common applications in
-information visualization such as the creation of a scatter-plot or of
+infovis such as the creation of a scatter-plot or of
 a network visualization.  These examples explain how to combine
 Obvious components to build an application, how to create data
 structure and spot patterns to use.  The first use-case concerns the
-coding of a network visualization with the Obvious-InfoVis Toolkit
+coding of a network visualization with the Obvious-IVTK
 implementation and the second based on the coding of a scatter-plot by
 combining component from different Obvious implementations.
 
 For both examples and more generally for every creation of an Obvious
 application, developers have to follow the following steps:
-\begin{itemize}
+\begin{itemize}[noitemsep]
 \item Creation of an Obvious data structure, either directly with a
   standard constructor or through a factory.  Three ways exist to fill
   the data structure:
-  \begin{enumerate}
+  \begin{enumerate}[noitemsep]
   \item wrapping an existing data structure from a targeted toolkit as
     shown in the first example,
   \item using an Obvious reader to load an Obvious structure from a
@@ -111,14 +112,14 @@ The obviousx package of Obvious supports two mechanisms to build the
 main data structure of Weka (called ``Instances'') from an Obvious
 Table:
 
-\begin{itemize}
+\begin{itemize}[noitemsep]
 \item an Obvious table can be copied into a Weka ``Instances'', which
-  is a data structure specially optimized for fast processing with
-  clustering and machine learning algorithms.  With this approach,
-  running-time is optimized.
-\item an Obvious table can wrap a Weka ``Instances'': the Obvious
-  table translates its methods into the Weka equivalents.  With this
-  approach, memory-consumption is optimized.
+  is a data structure specially optimized for the fast execution of
+   machine learning algorithms.  With this approach, running-time is
+   optimized.
+\item an Obvious table can be wrapped as a Weka ``Instances'': the
+  Instances translates its methods calls into Obvious equivalents.
+  With this approach, memory-footprint is optimized.
 \end{itemize}
 
 Both methods are equivalent in terms of lines of code and can be
@@ -142,24 +143,37 @@ a binding in Obvious can immediately benefit from a substantial set of
 additional features, such as Weka for advanced machine-learning
 capabilities and several format converters.  Conversely, developers of
 new analysis algorithms could port them to use Obvious data structures
-to become usable by a substantial number of toolkits and application
-programmers to build visual analytics systems.
+so that they become usable by a substantial number of toolkits and
+application programmers to build VA systems.
 
 
 \subsection{EdiDuplicate}
 
-EdiDuplicate is a system built with Obvious, designed to detect and
-merge duplicated entities in the HAL publication database. It is an
-adaptation of the D-Dupe software~\cite{DDupe} written in .NET.  To
-help resolve the entities, two types of information are visualized:
+The French National Institute of Research in Computer Science and
+Control (INRIA) maintains a repository called
+HAL-INRIA\footnote{\url{http://hal.inria.fr}} to store, index and give
+access to its publications.  Entering publications is a manual process
+done by researchers who make mistakes.  These mistakes can result in
+duplicated authors, institutions, or articles. Thus, INRIA needs to
+clean the HAL database with tools that can detect potential duplicates
+and ask skilled users to resolve them by either unifying them or
+confirming that they are different.  Currently, INRIA leaves that task
+to librarians with very primitive tools.
+
+EdiDuplicate is a system designed to detect and merge duplicated
+entities in the INRIA-HAL publication database that has been built
+with Obvious.  It is an adaptation of the D-Dupe software~\cite{DDupe}
+written in .NET.  
+
+To help clean the entities, two types of information are visualized:
 the similarity measures between entities to resolve and the social
 network of these entities, as shown in Figure~\ref{fig:ediduplicate}.
 
-Each time a new entity is created in the HAL database, a module
-computes multiple similarity metrics from this entity to all the ones
-already in the database.  This information is loaded on an Obvious
-table and displayed on the left pane using a standard Java table. Each
-row refers to one pair of names and the columns contain the multiple
+Each time a new entity is created in the database, multiple similarity
+metrics are computed between this entity to all the ones already in
+the database.  This information is loaded on an Obvious table and
+displayed on the left pane using a standard Java table.  Each row
+refers to one pair of names and the columns contain the multiple
 similarity measures with a green-red color coding; the table that can
 then be sorted according to any column order.
 
@@ -171,23 +185,12 @@ through co-authorship relations.  This information helps the user
 decide if the pair of entities has to be merged.
 
 \begin{comment}
-INRIA, the French National Institute of Research in Computer Science
-and Control, maintains an repository called
-HAL-INRIA\footnote{\url{http://hal.inria.fr}} to store, index and give
-access to its publications.  Entering publications is a manual process
-done by researchers who make mistakes.  These mistakes can result in
-duplicated authors, institutions, or articles (HAL treats two entities
-as different when they are the same). Thus, INRIA needs to clean the
-HAL database with tools that can detect potential duplicates and ask
-skilled users to resolve them by either unifying them or confirming
-that they are different.  Currently, INRIA leaves that task to
-librarians with very primitive tools.
 
 This problem has already been addressed by at least two communities:
 the database community, which calls it the ``Record Linkage'' or
-``Entity Resolution'' problem, and the Visual Analytics community with
+``Entity Resolution'' problem, and the VA community with
 the D-Dupe tool~\cite{DDupe}.  D-Dupe uses similarity metrics between
-entity names and information visualization techniques to show a rich
+entity names and infovis techniques to show a rich
 set of information to the librarian to make a decision whether two
 entities are the same or different.  However, since D-Dupe does not
 connect to the workflow of HAL, we used Obvious to build a similar
@@ -204,8 +207,8 @@ EdiDuplicate offers the same features than D-Dupe but with extensions
 to cover needs specific the INRIA-HAL
 database\footnote{\url{http://hal.inria.fr}}. The application mainly
 combines Obvious components and Swing components (derived from Obvious
-structures). For the data model, an Obvious Network is used using the
-InfoVis Toolkit implementation of Obvious; the visualization and the
+structures). For the data model, an Obvious Network is used with the
+IVTK implementation of Obvious; the visualization and the
 view parts are also provided by this implementation.  Building this
 application took less than a week.
 
@@ -213,10 +216,10 @@ application took less than a week.
 \label{dbmscachingtable}
 
 The need to create DBMS caching data table appears during the development
-of Ediflow, a Scientific Workflow system for Visual Analytics \cite{Ediflow}.
+of Ediflow, a Scientific Workflow system for VA~\cite{Ediflow}.
 Ediflow is organized around a DBMS (Oracle) and runs modules processing
 large amount of data stored in the DBMS. Ediflow is a distribued system
-allowing workflows to be shared on several platforms.
+allowing workflows to be distributed on several platforms.
 
 When running a visualization component with Ediflow, all its resulting
 visual attributes are stored in a table of the DBMS called
@@ -228,7 +231,7 @@ to only select in ``VISUALATTRIBUTES''  data useful for those views
 and to locally store it.
 
 Those cached tables are implemented using Obvious (different bindings
-have been used Prefuse, Infovis and JUNG). Not only Obvious cached
+have been used Prefuse, IVTK and JUNG). Not only Obvious cached
 tables stores store data from ``VISUALATTRIBUTES'' but also they are
 synchronized with it.
 
@@ -300,11 +303,10 @@ toolkits targeted by Obvious.
 
 The examples described in this section assess an important strength of
 Obvious: it allows a clear separation of concerns in the development
-of visual analytics applications with a small memory and performance
-footprint.  The data model of the application can be chosen
-independently from the visualization components as long as all these
-components fit the Obvious model.  From our experience, a large number
-of the visual analytics application fit the Obvious model and they
-will benefit from the meta-toolkit in term of richness and
-extensibility.
+of VA applications with a small memory and performance footprint.  The
+data model of the application can be chosen independently from the
+visualization components as long as all these components fit the
+Obvious model.  From our experience, a large number of the VA
+application fit the Obvious model and they will benefit from the
+meta-toolkit in term of richness and extensibility.
 

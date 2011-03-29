@@ -37,7 +37,7 @@ optional, interoperable, features: \emph{introspection}, \emph{batch
 all target toolkit implementations and thus sometimes had to be
 emulated.
  
-\subsection{Introspection}
+\subsubsection{Introspection}
 
 Introspection means the capability of a program to inspect its own
 content. In the context of the data model it means mostly that objects
@@ -53,7 +53,7 @@ toolkit, though, is to enable generic implementation of a variety of
 side services as varied as generic persistence, undo/redo, and
 universal object editors.
 
-\subsection{Batch Editing}
+\subsubsection{Batch Editing}
 
 Batch editing means that one or many cells in a data model may be
 edited at the same time.  This happens when the toolkit manages
@@ -63,9 +63,9 @@ reported to a data column or simply if a user wants to change values
 interactively, either in the data table or through a visualization by
 direct manipulation~\cite{Discovery3}.
 
-\subsection{Notification}
+\subsubsection{Notification}
 
-All the popular information visualization toolkits
+All the popular infovis toolkits
 (e.g. \cite{Prefuse, InfoVis, jung2003, Discovery1}) implement
 notification using the ``Observer'' pattern from~\cite{DesignPatterns}
 to propagate information about changes affecting the data model.  This
@@ -81,7 +81,7 @@ in Obvious is also based on the Observer design pattern with
 extensions to supports transaction and batch techniques usually found
 in database system.
 
-%\subsection{Combining Notification and batch editing}
+%\subsubsection{Combining Notification and batch editing}
 \label{sub:combiningnotif}
 
 Combining Notification and batch editing raises a challenge: since one
@@ -94,7 +94,8 @@ unresponsive for a long time.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=.7\columnwidth]{figures/notification}
+  \includegraphics[width=.5\columnwidth]{figures/notification}
+
   \caption{Sequence diagram for the notification system}
   \label{fig:notification}
 \end{figure}
@@ -155,12 +156,11 @@ checks.
 In practice, the three strategies we have described have been
 sufficient so far to handle all the cases required inside toolkits.
 The impact on performance can be substantial, in particular to manage
-dynamic data, a very standard situation in visual analytics
-applications that has not been well addressed in information
-visualization so far.
+dynamic data, a very standard situation in VA
+applications that has not been well addressed in infovis so far.
 
 
-\subsection{Other services}
+\subsubsection{Other services}
 
 To leverage our core implementation and offer some immediately useful
 services to Obvious users, we have defined a utility package
@@ -179,7 +179,6 @@ With the same logic, obviousx provides compatibility classes to use
 with standard Java components such as a Java Table Model that allows
 the creation of a JTable from an Obvious table.  Finally, obviousx
 also provides wrappers to \emph{map} obvious data structures into
-common existing data structures (e.g. for Prefuse, the InfoVis
-Toolkit, and Jung) to share data structures when using more than one
+common existing data structures (e.g. for Prefuse, IVTK, and Jung) to share data structures when using more than one
 data model.
 
