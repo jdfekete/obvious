@@ -94,7 +94,6 @@ public class JungObviousTree extends JungObviousNetwork
     this(new JungTree(nodeSchema, edgeSchema, source, target));
   }
 
-  
   /**
    * Gets all the child edges of a node.
    * @param node parent node

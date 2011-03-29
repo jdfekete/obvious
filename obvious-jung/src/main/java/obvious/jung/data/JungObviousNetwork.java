@@ -47,7 +47,7 @@ import obvious.data.Table;
 import obvious.data.event.NetworkListener;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.data.PrefuseObviousTable;
 
 /**
  * Implementation of an Obvious Network based on Jung toolkit.

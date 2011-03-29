@@ -48,8 +48,6 @@ import obvious.viz.Visualization;
  * @author Hemery
  *
  */
-
-@SuppressWarnings("serial")
 public class JungObviousView extends JView {
 
   /**
@@ -84,6 +82,7 @@ public class JungObviousView extends JView {
   public void addListener(ViewListener lstnr) {
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public JComponent getViewJComponent() {
     return (VisualizationViewer) backingVis.getUnderlyingImpl(
