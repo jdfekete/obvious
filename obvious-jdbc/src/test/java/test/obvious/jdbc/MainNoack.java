@@ -14,7 +14,7 @@ import noack.NoackListener;
 
 import obvious.data.Schema;
 import obvious.impl.SchemaImpl;
-import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.data.PrefuseObviousSchema;
 
 public class MainNoack {
 

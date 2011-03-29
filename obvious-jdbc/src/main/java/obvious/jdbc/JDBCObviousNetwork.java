@@ -160,13 +160,13 @@ public class JDBCObviousNetwork implements Network {
    * @param edgeId primary key column in edge table
    * @param source source node column in edge table
    * @param target target node column in node table
-   * @param nodeSchema obvious schema for node
-   * @param edgeSchema obvious schema for edge
+   * @param inNodeSchema obvious schema for node
+   * @param inEdgeSchema obvious schema for edge
    * @throws SQLException  if something bad happens
    */
   public JDBCObviousNetwork(Connection con, String nodeTable, String edgeTable,
       String nodeId, String edgeId, String source, String target,
-      Schema nodeSchema, Schema edgeSchema) throws SQLException {
+      Schema inNodeSchema, Schema inEdgeSchema) throws SQLException {
     this.con = con;
     this.nodeTable = nodeTable;
     this.edgeTable = edgeTable;
@@ -174,8 +174,8 @@ public class JDBCObviousNetwork implements Network {
     this.edgeKey = edgeId;
     this.sourceCol = source;
     this.targetCol = target;
-    this.nodeSchema = nodeSchema;
-    this.edgeSchema = edgeSchema;
+    this.nodeSchema = inNodeSchema;
+    this.edgeSchema = inEdgeSchema;
     this.nodeKeyToNodeId = new HashMap<Object, Integer>();
     this.edgeKeyToEdgeId = new HashMap<Object, Integer>();
     this.networkStruct = new HashMap<Integer, Integer[]>();
