@@ -80,11 +80,13 @@ public class PrefuseObviousVisualization extends Visualization {
   /**
    * Boolean indicating if the prefuse graph is directed.
    */
+  @SuppressWarnings("unused")
   private boolean directed = false;
 
   /**
    * Node key for prefuse obvious graph.
    */
+  @SuppressWarnings("unused")
   private String nodeKey = prefuse.data.Graph.DEFAULT_NODE_KEY;
 
   /**

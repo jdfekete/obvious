@@ -30,7 +30,6 @@ package obvious.prefuse.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import obvious.ObviousRuntimeException;
 import obvious.data.Edge;
 import obvious.data.Node;
 import obvious.data.Schema;
