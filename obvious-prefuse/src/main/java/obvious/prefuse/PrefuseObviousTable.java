@@ -83,7 +83,7 @@ public class PrefuseObviousTable implements Table {
     this.listener = new ArrayList<TableListener>();
     for (int i = 0; i < schema.getColumnCount(); i++) {
       this.table.addColumn(schema.getColumnName(i), schema.getColumnType(i),
-          null);
+          schema.getColumnDefault(i));
     }
   }
 
