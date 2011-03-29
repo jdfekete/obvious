@@ -4,7 +4,8 @@ most part during the workshop~\cite{vismaster2008} as consensus has
 emerged, tediously but rapidly on its central and annex features.
 
 \begin{figure}[!ht]
-\includegraphics[width=\columnwidth]{figures/obviousdataclass}
+\centering
+\includegraphics[width=0.8\columnwidth]{figures/obviousdataclass}
 \caption{Class diagram of the data model}
 \label{fig:datamodel}
 \end{figure}
@@ -122,12 +123,11 @@ the observer --- which is acceptable in some cases.  The following
 strategies have already been developed in one or more Obvious
 implementations:
 
-\begin{description}
-\item[Lazy strategy] after a beginEdit, the observer ignores all the
+\paragraph{Lazy strategy} after a beginEdit, the observer ignores all the
   tableChanged calls until the endEdit method is called; then, the
   observer's actions are performed e.g. a layout is recomputed.
 
-\item[Batch strategy] after beginEdit, the observer buffers the
+\paragraph{Batch strategy} after beginEdit, the observer buffers the
   information sent by tableChanged.  When endEdit is called, the
   actions are performed on each of the buffered items.  Note that 
   buffering can be complicated when items are created, deleted or
@@ -135,11 +135,10 @@ implementations:
   management can be heavily optimized depending on the action to
   perform.
 
-\item[Transaction strategy] after beginEdit, the observer buffers the
+\paragraph{Transaction strategy} after beginEdit, the observer buffers the
   information sent by tableChanged.  When endEdit is called, it first
   checks structural invariants (for example, no null value for a
   specific field) before performing its actions on the modified items.
-\end{description}
 
 The \emph{beginEdit/endEdit} mechanism has been added to support batch
 editing and also database transactions.  When the data model

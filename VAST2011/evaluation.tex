@@ -149,40 +149,38 @@ application programmers to build VA systems.
 
 \subsection{EdiDuplicate}
 
-The French National Institute of Research in Computer Science and
-Control (INRIA) maintains a repository called
+INRIA maintains a repository called
 HAL-INRIA\footnote{\url{http://hal.inria.fr}} to store, index and give
 access to its publications.  Entering publications is a manual process
 done by researchers who make mistakes.  These mistakes can result in
 duplicated authors, institutions, or articles. Thus, INRIA needs to
 clean the HAL database with tools that can detect potential duplicates
-and ask skilled users to resolve them by either unifying them or
-confirming that they are different.  Currently, INRIA leaves that task
-to librarians with very primitive tools.
+and ask skilled users to resolve them.  Currently, INRIA leaves that
+task to librarians with very primitive tools.
 
 EdiDuplicate is a system designed to detect and merge duplicated
-entities in the INRIA-HAL publication database that has been built
-with Obvious.  It is an adaptation of the D-Dupe software~\cite{DDupe}
-written in .NET.  
-
-To help clean the entities, two types of information are visualized:
-the similarity measures between entities to resolve and the social
-network of these entities, as shown in Figure~\ref{fig:ediduplicate}.
+entities in the HAL-INRIA publication database that has been built
+with Obvious; it is an adaptation of the D-Dupe software~\cite{DDupe}
+with extensions to cover needs specific the HAL-INRIA
+database\footnote{\url{http://hal.inria.fr}} to perform other
+operation in a workflow.
 
 Each time a new entity is created in the database, multiple similarity
-metrics are computed between this entity to all the ones already in
-the database.  This information is loaded on an Obvious table and
-displayed on the left pane using a standard Java table.  Each row
+metrics are automatically computed between this entity to all the ones
+already in the database.  This information is loaded on an Obvious
+table and displayed, as shown on the left pane of
+Figure~\ref{fig:ediduplicate} using a standard Java table.  Each row
 refers to one pair of names and the columns contain the multiple
 similarity measures with a green-red color coding; the table that can
 then be sorted according to any column order.
 
-When pair is selected by clicking on a row, a network view is created
-on the right visualizing the neighborhood network of the pair of
-entities.  This neighborhood is computed from publication data: for a
-target entity, it contains all the entities already connected to it
-through co-authorship relations.  This information helps the user
-decide if the pair of entities has to be merged.
+When a pair is selected by clicking on a row, a network view is created
+that visualize the neighborhood network of the pair of entities, as
+shown on the right of Figure~\ref{fig:ediduplicate}.  The
+neighborhood is computed from publication data: for a target entity,
+it contains all the entities already connected to it through
+co-authorship relations.  This information helps the user decide if
+the pair of entities has to be merged.
 
 \begin{comment}
 
@@ -203,18 +201,31 @@ tool that we called EdiDuplicate.
 \label{fig:ediduplicate}
 \end{figure}
 
-EdiDuplicate offers the same features than D-Dupe but with extensions
-to cover needs specific the INRIA-HAL
-database\footnote{\url{http://hal.inria.fr}}. The application mainly
-combines Obvious components and Swing components (derived from Obvious
-structures). For the data model, an Obvious Network is used with the
-IVTK implementation of Obvious; the visualization and the
-view parts are also provided by this implementation.  Building this
-application took less than a week.
+The application mainly combines Obvious components and Swing
+components (derived from Obvious structures). For the data model, an
+Obvious Network is used with the IVTK implementation of Obvious; the
+visualization and the view parts are also provided by this
+implementation.  Building this application took less than a week.
 
-\subsection{DBMS Caching Data Table}
+\subsection{DBMS Caching Tables}
 \label{dbmscachingtable}
 
+We have extended the JDBC implementation of Obvious to allow caching
+and notification management directly from a table stored in a DBMS.
+Currently, this mechanism works with the Oracle and MySQL DBMSs.  The
+Obvious data table component reads data on demand from a table in the
+DBMS, stores it in memory and serves it from memory while keeping a
+bidirectional link with the DBMS.  When the DBMS table is modified
+from any application, a database trigger is invoked that notifies the
+Obvious table implementation that some rows are invalid.  They are
+then flushed from memory and will be read again when the application
+needs it.  The communication between the DBMS and the Obvious
+component is done through a fast network connection (UDP packets).
+Oracle provides a standard API to send UDP packets whereas we had to
+add an extension written in C to MySQL to support them (200 lines of
+C).
+
+\begin{comment}
 The need to create DBMS caching data table appears during the development
 of Ediflow, a Scientific Workflow system for VA~\cite{Ediflow}.
 Ediflow is organized around a DBMS (Oracle) and runs modules processing
@@ -229,51 +240,53 @@ views on other platforms using Ediflow.
 To set up and maintain thoses view, in-memory caching tables are needed
 to only select in ``VISUALATTRIBUTES''  data useful for those views
 and to locally store it.
+\end{comment}
 
-Those cached tables are implemented using Obvious (different bindings
-have been used Prefuse, IVTK and JUNG). Not only Obvious cached
-tables stores store data from ``VISUALATTRIBUTES'' but also they are
-synchronized with it.
+The cached tables are implemented using Obvious (different bindings
+have been used: Prefuse, IVTK and JUNG).  Several applications has
+been built around Obvious DBMS caching tables; one of them is
+presented in the next section.
 
-The Oracle DBMS has been extended to trigger notifications when
-``VISUALATTRIBUTES'' changes (data are added, removed or updated). Those
-notifications are received by Obvious cached tables that update their
-content and launch recomputing of their layout.
+\subsection{Network Visualization on a Large Wall}
 
-Several applications has been built around Obvious DBMS caching
-tables. They are introduced in \cite{Ediflow}. One of this application
-is presented in the next section.
+INRIA shares with other institutions a Wall-Size display called
+WILD\footnote{\url{http://www.lri.fr/~mbl/WILD/}} made of 32
+high-resolution 32" screens.  Using Obvious, we have developed an
+application for visualizing co-authorship networks on WILD.  WILD is
+made of 16 machines serving 2 screens each and connected to a fast
+network.
 
-\subsection{Large Wall Network Visualization}
+Our application uses a client-server approach: the server program
+loads the network using Obvious, computes its layout and stores the
+result as a set of graphic primitives in a database table using an
+Obvious-JDBC data table.  For each screen, one client program is
+launched that uses the DBMS caching data-structure to load the
+relevant portion of the nodes and links: the area that is visible on
+the portion of the screen managed by the client.
 
-INRIA owns a large wall of 32 display screens
-\footnote{\url{http://www.lri.fr/~mbl/WILD/}}. An application using it
-has been developped to visualize with Obvious a large network visualization
-of the co-authorship graph of INRIA. The idea is to create a visualization
-component loaded on the 16 machines composing the wall, each component
-displaying a part of this social network.
+An Oracle DBMS is used to store publications data in two tables: one
+for the authors (containing id and name) and one for the publications
+(containing pairs of publication id and author id).
 
-An Oracle DBMS stores publications data in two tables : one for the author
-(containing id and name) and one for publications (containing pairs
-of publication id and author id).
+Our application uses Obvious-Prefuse in the server and in the clients,
+with Obvious-caching data-structures.  A polylithic architecture is
+particularly well suited to this kind client-server approach sharing
+the visualization through the network.
 
-The first step is to calculate visual attributes to complete the
-``VISUALATTRIBUTES'' table introduced in \ref{dbmscachingtable}.
-This is done by a program that creates an Obvious network from
-the authors and publications tables of the DBMS. Once the network is filled,
-an Obvious visualization component from the Prefuse binding computes visual
-attributes and they are written into the corresponding table of the
-DBMS.
+Since cached tables are synchronized with the DBMS, the whole pipeline
+is dynamic: when a data table containing the network is modified
+(e.g. a new author is added), it is reloaded by the server, the layout
+is recomputed by Prefuse and the visual table is stored in the DBMS.
+When the DBMS visual tables is changed, the clients are notified and
+they reload and redisplay their content.
 
-Then, on each machine of the wall a DBMS caching table linked to
-``VISUALATTRIBUTES'' is loaded. This cached table contains the data
-located in the portion of the screen that the machine has to display.
-Then, corresponding visualizations and views are built from those
-cached tables with component from the Prefuse binding.
-
-Since cached tables are synchronized with the DBMS when the visual
-attributes table of the DBMS is changed, the layout of the graph is
-recomputed and changes appear on the wall.
+Designing the application boiled down to having a first version using
+Obvious-Prefuse in memory, then changing the data tables to use the
+JDBC caching, then changing the visualization to store its results in
+the database through an Obvious-JDBC table and then implementing the
+clients.  A step-by-step development where the application logic can
+be tested first on a standard desktop computer and then deployed to a
+more specific setup.
 
 \subsection{Implementing a Cross-Toolkit Layout Component}
 
