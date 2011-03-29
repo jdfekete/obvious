@@ -42,7 +42,6 @@ import obvious.data.Data;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Edge;
-import obvious.data.Tree;
 import obvious.data.Tuple;
 import obvious.data.util.Predicate;
 import obvious.jung.utils.wrappers.WrapToJungGraph;
@@ -213,7 +212,9 @@ public class JungObviousVisualization extends Visualization {
   @Override
   public void setRenderer(Renderer renderer) {
     if (renderer.getUnderlyingImpl(
-        edu.uci.ics.jung.algorithms.layout.Layout.class) != null) { }
+        edu.uci.ics.jung.algorithms.layout.Layout.class) != null) {
+      return;
+    }
     throw new ObviousRuntimeException("The following renderer : "
         + renderer.toString() + " is not supported");
 
