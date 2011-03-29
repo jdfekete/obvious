@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.wrappers.prefuse;
+package obvious.prefuse.utils.wrappers;
 
 import java.util.Iterator;
 

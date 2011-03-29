@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010, INRIA
+* Copyright (c) 2009, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,54 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
-
-import obvious.data.Table;
-import obvious.data.util.Predicate;
-import obvious.impl.TupleImpl;
-import obvious.prefuse.utils.wrappers.WrapToPrefTuple;
-import prefuse.data.expression.parser.ExpressionParser;
-
 /**
- * A wrapper for Prefuse Predicate.
- * @author Hemery
+ * <h1>Package obvious.prefuse.utils.wrappers</h1>
  *
+ * TODO document the package.
  */
-public class PrefuseObviousPredicate implements Predicate {
-
-
-  /**
-   * Wrapped prefuse Predicate.
-   */
-  private prefuse.data.expression.Predicate prefPred;
-
-  /**
-   * Constructor.
-   * @param pred prefuse predicate to wrap
-   */
-  public PrefuseObviousPredicate(prefuse.data.expression.Predicate pred) {
-    this.prefPred = pred;
-  }
-
-  /**
-   * Constructor.
-   * @param expression a String expression used to build the underlying obvious
-   * predicate.
-   */
-  public PrefuseObviousPredicate(String expression) {
-    this.prefPred = (prefuse.data.expression.Predicate)
-      ExpressionParser.parse(expression);
-  }
-
-  /**
-   * Applies a predicate on a table's row.
-   * @param table an obvious table
-   * @param rowId row index
-   * @return true if it applies
-   */
-  public boolean apply(Table table, int rowId) {
-    WrapToPrefTuple tuple = new WrapToPrefTuple(new TupleImpl(table, rowId));
-    return prefPred.getBoolean(tuple);
-  }
-
-}
+package obvious.prefuse.utils.wrappers;
