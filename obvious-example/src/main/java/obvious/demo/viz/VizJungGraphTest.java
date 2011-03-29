@@ -40,7 +40,7 @@ import obvious.data.Schema;
 import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.jung.data.JungObviousNetwork;
-import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisBoost;

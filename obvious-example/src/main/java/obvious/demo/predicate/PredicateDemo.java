@@ -35,8 +35,8 @@ import obvious.impl.TupleImpl;
 import obvious.improvise.data.ImproviseObviousTable;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
-import obvious.prefuse.PrefuseObviousPredicate;
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.prefuse.data.PrefuseObviousPredicate;
+import obvious.prefuse.data.PrefuseObviousTable;
 import prefuse.data.expression.parser.ExpressionParser;
 
 /**

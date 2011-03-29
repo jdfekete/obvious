@@ -50,7 +50,7 @@ import obvious.impl.NodeImpl;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
-import obvious.prefuse.PrefuseObviousSchema;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.view.JView;
 import obvious.viz.Visualization;
 

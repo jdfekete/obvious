@@ -33,7 +33,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import obvious.data.Network;
-import obvious.prefuse.PrefuseObviousNetwork;
+import obvious.prefuse.data.PrefuseObviousNetwork;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;

@@ -1,5 +1,6 @@
 package obvious.demo.viz;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +13,14 @@ import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.prefuse.PrefuseObviousTable;
+import obvious.ivtk.viz.util.IvtkScatterPlotVis;
+import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
+import obviousx.ObviousxException;
+import obviousx.io.CSVImport;
 
 
 /**
@@ -36,68 +40,34 @@ public final class PrefuseVisualTableTestWithIvtkView {
    * Main method.
    * @param args arguments
    * @throws ObviousException if something wrong happens
+   * @throws ObviousxException
    */
-  public static void main(final String[] args) throws ObviousException {
-    // Building the dataset.
-    Schema schema = new IvtkObviousSchema();
-    schema.addColumn("id", Integer.class, 0);
-    schema.addColumn("age", Integer.class, 18);
-    schema.addColumn("category", String.class, "unemployed");
+  public static void main(final String[] args) throws ObviousException,
+      ObviousxException {
 
-    Table table = new PrefuseObviousTable(schema);
+    System.setProperty("obvious.DataFactory",
+        "obvious.prefuse.PrefuseDataFactory");
 
-    table.addRow(new TupleImpl(schema, new Object[] {1, 22, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {2, 60, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {3, 32, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {4, 20, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {5, 72, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {6, 40, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {7, 52, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {8, 35, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {9, 32, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {10, 44, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {11, 27, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {12, 38, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {13, 53, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {14, 49, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {15, 21, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {16, 36, "unemployed"}));
-
+    CSVImport csv = new CSVImport(new File(
+        "src//main//resources//articlecombinedexample.csv"), ',');
+    Table table = csv.loadTable();
     // Creating the parameter map for the monolithic object.
     Map<String, Object> param = new HashMap<String, Object>();
-    param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // name of the xfield
-    param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
-    param.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
+    param.put(IvtkScatterPlotVis.X_AXIS, "id"); // name of the xfield
+    param.put(IvtkScatterPlotVis.Y_AXIS, "age"); // name of the yfield
 
-    // Using the factory to build the visualization
-    System.setProperty("obvious.VisualizationFactory",
-        "obvious.prefuse.viz.PrefuseVisualizationFactory");
-    VisualizationFactory factory = PrefuseVisualizationFactory.getInstance();
-    Visualization vis =
-      factory.createVisualization(table, null, "scatterplot", param);
+    // Creating the visualization.
+    Visualization vis = new IvtkScatterPlotVis(table, null, null, param);
 
     IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
 
-    JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse | View obvious-ivtk | Monolithic");
+    JFrame frame = new JFrame("Data model : obvious-prefuse |"
+        + " Visualisation : obvious-ivtk | View obvious-ivtk | Monolithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(view.getViewJComponent());
     frame.pack();
     frame.setVisible(true);
 
-    table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {20, 19, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {21, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
 
   }
 
