@@ -286,105 +286,120 @@ public class IvtkObviousSchema implements Schema {
     return cleanSchema;
   }
 
+  @Override
   public int addRow() {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  @Override
   public int addRow(Tuple tuple) {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  @Override
   public void addTableListener(TableListener listnr) {
     // TODO Auto-generated method stub
-    
   }
 
+  @Override
   public void beginEdit(int col) throws ObviousException {
     // TODO Auto-generated method stub
-    
   }
 
+  @Override
   public boolean canAddRow() {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public boolean canRemoveRow() {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public boolean endEdit(int col) throws ObviousException {
     return true;
   }
 
+  @Override
   public int getRowCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  @Override
   public Schema getSchema() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public Collection getTableListeners() {
+  @Override
+  public Collection<TableListener> getTableListeners() {
     // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
   public Object getValue(int rowId, String field) {
     // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
   public Object getValue(int rowId, int col) {
     // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
   public boolean isEditing(int col) {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public boolean isValidRow(int rowId) {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public boolean isValueValid(int rowId, int col) {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public void removeAllRows() {
     // TODO Auto-generated method stub
-    
   }
 
+  @Override
   public boolean removeRow(int row) {
     // TODO Auto-generated method stub
     return false;
   }
 
+  @Override
   public void removeTableListener(TableListener listnr) {
     // TODO Auto-generated method stub
-    
   }
 
+  @Override
   public IntIterator rowIterator() {
     // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
   public void set(int rowId, String field, Object val) {
     // TODO Auto-generated method stub
-    
   }
-  
+
   /**
    * Gets an iterator over the row id of this table matching the given
    * predicate.
@@ -395,9 +410,9 @@ public class IvtkObviousSchema implements Schema {
     return null;
   }
 
+  @Override
   public void set(int rowId, int col, Object val) {
     // TODO Auto-generated method stub
-    
   }
 
   /**
@@ -409,7 +424,7 @@ public class IvtkObviousSchema implements Schema {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /**
    * Notifies changes to listener.
    * @param start the starting row index of the changed table region

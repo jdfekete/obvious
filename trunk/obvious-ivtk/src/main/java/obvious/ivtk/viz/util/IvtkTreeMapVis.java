@@ -44,6 +44,13 @@ import obvious.ivtk.viz.IvtkObviousVisualization;
  */
 public class IvtkTreeMapVis extends IvtkObviousVisualization {
 
+    /**
+     * Constructor.
+     * @param parentTree Obvious tree
+     * @param predicate Obvious predicate
+     * @param visName name of the visualization technique
+     * @param param maps of extra parameter
+     */
     public IvtkTreeMapVis(Tree<Node, Edge> parentTree, Predicate predicate,
             String visName, Map<String, Object> param) {
         super(parentTree, predicate, visName, param);
