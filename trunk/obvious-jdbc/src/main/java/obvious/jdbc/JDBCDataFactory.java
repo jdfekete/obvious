@@ -76,7 +76,6 @@ public class JDBCDataFactory extends DataFactory {
    * find an existing key, but the process could fail. Specially, if the key is
    * defined on several columns or does not exist.
    * Extra keys should be simply ignored.
-   * @param name name of the table in the database
    * @param schema original obvious schema for the table
    * @param param a map with connection parameters
    * @throws ObviousException if Table creation failed
