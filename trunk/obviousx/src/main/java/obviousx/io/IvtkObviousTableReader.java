@@ -110,7 +110,6 @@ public class IvtkObviousTableReader implements TableImporter {
       throw new ObviousxRuntimeException(
           "Can't import the given file " + ivtkReader.getName());
     }
-    
     return table;
   }
 

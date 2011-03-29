@@ -26,14 +26,17 @@
 */
 
 /**
- * <h1>Package obviousx</h1>
+ * <h1>Package obviousx</h1>.
  *
   * This package contains at the root level two exceptions : <br\>
- * -) ObviousxException to catch expected exception for each implementation <br\>
- * -) ObviousxRuntimeException to catch unexpected exceptions (implementation) <br\>
- * 
+ * -) ObviousxException to catch expected exception for
+ * each implementation <br\>
+ * -) ObviousxRuntimeException to catch unexpected exceptions
+ * (implementation) <br\>
+ *
  * It contains the following sub-package : <br\>
- * -) obviousx.io : importer and exporter classes for well known formats (CSV) <br\>
+ * -) obviousx.io : importer and exporter classes for well
+ * known formats (CSV) <br\>
  * -) obviousx.text : implementation of Format abstract classes <br\>
  * -) obviousx.util : contains FormatFactory usefull for importers <br\>
  */

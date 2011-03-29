@@ -34,7 +34,7 @@ import obvious.data.Table;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 import prefuse.data.io.AbstractTableWriter;
-import prefuse.data.io.DataIOException;
+//import prefuse.data.io.DataIOException;
 
 /**
  * Wrapper for Prefuse writer to be compatible with obvious.
@@ -46,16 +46,19 @@ public class PrefuseObviousTableWriter implements Exporter {
   /**
    * Target file.
    */
+  @SuppressWarnings("unused")
   private File file;
 
   /**
    * Exported obvious table.
    */
+  @SuppressWarnings("unused")
   private Table table;
 
   /**
    * Wrapped prefuse table writer.
    */
+  @SuppressWarnings("unused")
   private AbstractTableWriter prefWriter;
 
   /**
@@ -74,6 +77,7 @@ public class PrefuseObviousTableWriter implements Exporter {
   @Override
   public void createFile() throws ObviousxException {
     try {
+      return;
       //prefWriter.writeTable(new WrapToPrefTable(table), file);
     } catch (Exception e) {
       e.printStackTrace();
