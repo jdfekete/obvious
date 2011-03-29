@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2011, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,50 +25,49 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
+package obvious.prefuse.data;
 
-import obvious.data.Edge;
+import obvious.data.Table;
+import obvious.data.event.TableListener;
+import obvious.prefuse.utils.wrappers.WrapToPrefTable;
 
 /**
- * Implementation of an Obvious Edge based on Prefuse toolkit.
- * It subclasses PrefuseObviousTuple.
- * This class is mainly a factory to build Obvious compatible edge from
- * Prefuse edge.
- * @author Pierre-Luc Hemery
+ * A prefuse based implementation of obvious TableListener interface.
+ * @author Hemery
  *
  */
-public class PrefuseObviousEdge extends PrefuseObviousTuple implements Edge {
+public class PrefuseTableListener implements TableListener {
 
   /**
-   * Constructor for PrefuseObviousEdge.
-   * @param edge a prefuse Edge
+   * Wrapped prefuse TableListener.
    */
-  public PrefuseObviousEdge(prefuse.data.Edge edge) {
-    super(edge);
-  }
+  private prefuse.data.event.TableListener prefListener;
 
-  /*
-   * Indicates if the current edge is equals to this object.
-   * For a PrefuseObviousEdge its means that their node id/key are the same.
-   * @param obj test object
-   * @return true if the two nodes id/keys are equal
+  /**
+   * Constructor.
+   * @param listener Prefuse TableListener to wrap.
    */
-  @Override
-  public boolean equals(Object obj) {
-    try {
-      boolean rowEqual = this.getRow() == ((PrefuseObviousEdge) obj).getRow();
-      return rowEqual;
-    } catch (ClassCastException e) {
-      return false;
-    }
+  public PrefuseTableListener(prefuse.data.event.TableListener listener) {
+    this.prefListener = listener;
   }
 
   @Override
-  public int hashCode() {
-    final int startValue = 7;
-    int result = startValue;
-    final int multiplier = 11;
-    return result * multiplier + this.getRow();
+  public void beginEdit(int context) {
+  }
+
+  @Override
+  public boolean checkInvariants() {
+    return false;
+  }
+
+  @Override
+  public boolean endEdit(int context) {
+    return false;
+  }
+
+  @Override
+  public void tableChanged(Table t, int start, int end, int col, int type) {
+    prefListener.tableChanged(new WrapToPrefTable(t), start, end, col, type);
   }
 
 }

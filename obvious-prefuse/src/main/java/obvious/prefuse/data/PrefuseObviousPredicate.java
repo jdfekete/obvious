@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
+package obvious.prefuse.data;
 
 import obvious.data.Table;
 import obvious.data.util.Predicate;

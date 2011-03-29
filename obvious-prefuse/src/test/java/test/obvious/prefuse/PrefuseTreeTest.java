@@ -4,7 +4,7 @@ import obvious.data.Edge;
 import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.data.Tree;
-import obvious.prefuse.PrefuseObviousTree;
+import obvious.prefuse.data.PrefuseObviousTree;
 import test.obvious.data.TreeTest;
 
 /**

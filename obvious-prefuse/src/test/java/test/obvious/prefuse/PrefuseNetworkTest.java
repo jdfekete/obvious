@@ -31,7 +31,7 @@ import test.obvious.data.NetworkTest;
 
 import obvious.data.Network;
 import obvious.data.Schema;
-import obvious.prefuse.PrefuseObviousNetwork;
+import obvious.prefuse.data.PrefuseObviousNetwork;
 
 
 /**

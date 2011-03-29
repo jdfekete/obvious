@@ -25,43 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.prefuse;
-
-import obvious.data.Node;
-
 /**
- * Implementation of an Obvious Node based on Prefuse toolkit.
- * It subclasses PrefuseObviousTuple.
- * This class is mainly a factory to build Obvious compatible node from
- * Prefuse node.
- * @author Pierre-Luc Hemery
+ * <h1>Package obvious.prefuse</h1>
  *
+ * TODO document the package.
  */
-public class PrefuseObviousNode extends PrefuseObviousTuple implements Node {
-
-  /**
-   * Constructor for PrefuseObviousNode.
-   * @param node a prefuse Node
-   */
-  public PrefuseObviousNode(prefuse.data.Node node) {
-    super(node);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    try {
-      return this.getRow() == ((PrefuseObviousNode) obj).getRow();
-    } catch (ClassCastException e) {
-      return false;
-    }
-  }
-
-  @Override
-  public int hashCode() {
-    final int startValue = 3;
-    int result = startValue;
-    final int multiplier = 5;
-    return result * multiplier + this.getRow();
-  }
-
-}
+package obvious.prefuse.data;

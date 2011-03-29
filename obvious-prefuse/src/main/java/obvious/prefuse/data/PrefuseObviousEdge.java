@@ -25,9 +25,50 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+package obvious.prefuse.data;
+
+import obvious.data.Edge;
+
 /**
- * <h1>Package obvious.prefuse</h1>
+ * Implementation of an Obvious Edge based on Prefuse toolkit.
+ * It subclasses PrefuseObviousTuple.
+ * This class is mainly a factory to build Obvious compatible edge from
+ * Prefuse edge.
+ * @author Pierre-Luc Hemery
  *
- * TODO document the package.
  */
-package obvious.prefuse;
+public class PrefuseObviousEdge extends PrefuseObviousTuple implements Edge {
+
+  /**
+   * Constructor for PrefuseObviousEdge.
+   * @param edge a prefuse Edge
+   */
+  public PrefuseObviousEdge(prefuse.data.Edge edge) {
+    super(edge);
+  }
+
+  /*
+   * Indicates if the current edge is equals to this object.
+   * For a PrefuseObviousEdge its means that their node id/key are the same.
+   * @param obj test object
+   * @return true if the two nodes id/keys are equal
+   */
+  @Override
+  public boolean equals(Object obj) {
+    try {
+      boolean rowEqual = this.getRow() == ((PrefuseObviousEdge) obj).getRow();
+      return rowEqual;
+    } catch (ClassCastException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    final int startValue = 7;
+    int result = startValue;
+    final int multiplier = 11;
+    return result * multiplier + this.getRow();
+  }
+
+}
