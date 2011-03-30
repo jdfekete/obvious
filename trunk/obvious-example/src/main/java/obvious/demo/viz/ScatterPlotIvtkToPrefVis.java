@@ -1,7 +1,5 @@
 package obvious.demo.viz;
 
-import java.util.Iterator;
-
 import javax.swing.JFrame;
 
 import obvious.data.Schema;
@@ -12,12 +10,10 @@ import obvious.ivtk.data.IvtkObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisBoost;
-import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import obvious.viz.Visualization;
 import prefuse.Constants;
-import prefuse.Display;
 import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
@@ -26,7 +22,6 @@ import prefuse.action.layout.AxisLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
-import prefuse.data.tuple.TupleSet;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.ShapeRenderer;
 import prefuse.util.ColorLib;
@@ -134,7 +129,8 @@ public final class ScatterPlotIvtkToPrefVis {
 
     // JFrame...
     JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse | View obvious-prefuse | Polylithic");
+        + " Visualisation : obvious-prefuse"
+        + "| View obvious-prefuse | Polylithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(view.getViewJComponent());
     frame.pack();

@@ -28,7 +28,6 @@
 package obvious.demo.viz;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 import obvious.data.Network;
 import obvious.ivtk.data.IvtkObviousNetwork;

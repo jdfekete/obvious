@@ -55,7 +55,7 @@ public final class PredicateDemo {
    * Main method.
    * @param args arguments of the main.
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
 
     // Create schema.
     Schema simpleSchema = new IvtkObviousSchema();
@@ -66,7 +66,9 @@ public final class PredicateDemo {
     Table ivtkTable = new IvtkObviousTable(simpleSchema);
     Table improviseTable = new ImproviseObviousTable(simpleSchema);
 
-    for (int i = 0; i < 10; i++) {
+    final int endLoop = 10;
+
+    for (int i = 0; i < endLoop; i++) {
       prefTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
       ivtkTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
       improviseTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));

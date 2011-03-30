@@ -7,18 +7,10 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import obvious.ObviousException;
-import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.impl.TupleImpl;
-import obvious.ivtk.data.IvtkObviousSchema;
-import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
-import obvious.prefuse.data.PrefuseObviousTable;
-import obvious.prefuse.viz.PrefuseVisualizationFactory;
-import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
-import obvious.viz.VisualizationFactory;
 import obviousx.ObviousxException;
 import obviousx.io.CSVImport;
 
@@ -40,7 +32,7 @@ public final class PrefuseVisualTableTestWithIvtkView {
    * Main method.
    * @param args arguments
    * @throws ObviousException if something wrong happens
-   * @throws ObviousxException
+   * @throws ObviousxException if something bad happens
    */
   public static void main(final String[] args) throws ObviousException,
       ObviousxException {

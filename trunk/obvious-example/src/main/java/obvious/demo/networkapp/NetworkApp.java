@@ -29,8 +29,6 @@ package obvious.demo.networkapp;
 
 import infovis.DynamicTable;
 import infovis.graph.visualization.NodeLinkGraphVisualization;
-import infovis.panel.ControlPanel;
-import infovis.panel.ControlPanelFactory;
 
 import java.awt.Dimension;
 import java.util.HashMap;
@@ -40,10 +38,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 
 import obvious.data.Schema;
-import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.data.PrefuseObviousNetwork;
 import obvious.prefuse.data.PrefuseObviousSchema;
@@ -51,23 +47,30 @@ import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
-import obviousx.io.ObviousTableModel;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
 import prefuse.data.io.DataIOException;
 import prefuse.data.io.GraphMLReader;
-import prefuse.data.util.RowManager.RowIterator;
 
 /**
  * NetworkApp class.
  * @author Hemery
  *
  */
-public class NetworkApp {
+public final class NetworkApp {
 
+  /**
+   * Constructor.
+   */
+  private NetworkApp() {
+  }
 
-  public static void main(String[] args) {
+  /**
+   * Main method.
+   * @param args arguments of the main
+   */
+  public static void main(final String[] args) {
 
     // Create the prefuse graph.
     prefuse.data.Graph prefGraph = null;
@@ -135,7 +138,9 @@ public class NetworkApp {
     JSplitPane viewPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     viewPane.add(prefView.getViewJComponent(), 0);
     viewPane.add(new JScrollPane(ivtkView.getViewJComponent()), 1);
-    Dimension viewDim = new Dimension(800, 640);
+    final int height = 800;
+    final int width = 640;
+    Dimension viewDim = new Dimension(height, width);
     viewPane.setMinimumSize(viewDim);
     viewPane.setPreferredSize(viewDim);
 
@@ -147,7 +152,8 @@ public class NetworkApp {
     JPanel networkControlPanel = new NetworkControlPanel(
         frame, network, nodeSchema, realPrefVis, ivtkView.getViewJComponent());
     globalPane.add(networkControlPanel, 1);
-    Dimension controlDim = new Dimension(800, 80);
+    final int controlwidth = 80;
+    Dimension controlDim = new Dimension(height, controlwidth);
     networkControlPanel.setMinimumSize(controlDim);
     networkControlPanel.setPreferredSize(controlDim);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

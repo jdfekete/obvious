@@ -36,7 +36,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 import obvious.data.Network;
 import obvious.prefuse.data.PrefuseObviousNetwork;
@@ -45,15 +44,11 @@ import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
 import obvious.viz.Visualization;
-import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
 import prefuse.util.GraphLib;
-import prefuse.util.force.ForceSimulator;
-import prefuse.util.ui.JForcePanel;
 import prefuse.data.Graph;
-import prefuse.demos.GraphView.GraphMenuAction;
 
 /**
  * Adaptation of the TreeView demo from prefuse and written by Jeffrey Heer.
@@ -63,11 +58,15 @@ import prefuse.demos.GraphView.GraphMenuAction;
 @SuppressWarnings("serial")
 public class ObviousGraphView extends JPanel {
 
-  private static final String graph = "graph";
-  private static final String nodes = "graph.nodes";
-  private static final String edges = "graph.edges";
-
+  /**
+   * Obvious visualization.
+   */
   private static Visualization vis;
+
+  /**
+   * Grid dimension for the graph.
+   */
+  public static final int GRID_DIM = 10;
 
   /**
    * Constructor.
@@ -78,7 +77,7 @@ public class ObviousGraphView extends JPanel {
      * Creation of the graph structure (generated with prefuse then wrapped
      * with obvious).
      */
-    prefuse.data.Graph prefGraph = GraphLib.getGrid(10, 10);
+    prefuse.data.Graph prefGraph = GraphLib.getGrid(GRID_DIM, GRID_DIM);
     Network network = new PrefuseObviousNetwork(prefGraph);
     Map<String, Object> param = new HashMap<String, Object>();
     param.put(PrefuseObviousVisualization.GROUP_NAME, "graph");
@@ -101,6 +100,10 @@ public class ObviousGraphView extends JPanel {
     this.add(prefView.getViewJComponent());
   }
 
+  /**
+   * Sets the graph.
+   * @param network an Obvious network
+   */
   public void setGraph(Network network) {
     ((PrefuseObviousVisualization) vis).clearVisualization();
     ((PrefuseObviousVisualization) vis).setVisualizationData(network);
@@ -111,37 +114,43 @@ public class ObviousGraphView extends JPanel {
   }
 
 
+  /**
+   * Creates the JFrame.
+   * @param view an Obvious Graph View.
+   * @return a JFrame of the view.
+   */
   public static JFrame demo(ObviousGraphView view) {
     JMenu dataMenu = new JMenu("Data");
 
     dataMenu.add(new LoadAction("Clique", view) {
       @Override
       public Graph getGraph() {
-        return GraphLib.getClique(10);
+        return GraphLib.getClique(GRID_DIM);
       }
     });
     dataMenu.add(new LoadAction("Grid", view) {
       @Override
       public Graph getGraph() {
-        return GraphLib.getGrid(10, 10);
+        return GraphLib.getGrid(GRID_DIM, GRID_DIM);
       }
     });
     dataMenu.add(new LoadAction("HoneyComb", view) {
       @Override
       public Graph getGraph() {
-        return GraphLib.getHoneycomb(5);
+        return GraphLib.getHoneycomb(GRID_DIM / 2);
       }
     });
     dataMenu.add(new LoadAction("BalancedTree", view) {
       @Override
       public Graph getGraph() {
-        return GraphLib.getBalancedTree(3, 5);
+        return GraphLib.getBalancedTree(GRID_DIM - 2, GRID_DIM / 2);
       }
     });
     dataMenu.add(new LoadAction("DiamondTree", view) {
       @Override
       public Graph getGraph() {
-        return GraphLib.getDiamondTree(3, 3, 5);
+        return GraphLib.getDiamondTree(GRID_DIM - 2, GRID_DIM - 2,
+            GRID_DIM / 2);
       }
     });
 
@@ -155,7 +164,11 @@ public class ObviousGraphView extends JPanel {
     return frame;
   }
 
-  public static void main(String[] args) {
+  /**
+   * Main method.
+   * @param args arguments of the main
+   */
+  public static void main(final String[] args) {
     ObviousGraphView oView = new ObviousGraphView();
     JFrame frame = demo(oView);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -166,19 +179,40 @@ public class ObviousGraphView extends JPanel {
     realPrefVis.run("layout"); // start up the animated layout
   }
 
-  public static abstract class LoadAction extends AbstractAction {
+  /**
+   * Loading action class.
+   * @author Hemery
+   *
+   */
+  public abstract static class LoadAction extends AbstractAction {
 
+    /**
+     * Obvious Graph View.
+     */
     private ObviousGraphView oView;
 
+    /**
+     * Constructor.
+     * @param name name of the action
+     * @param v Obvious graph view
+     */
     public LoadAction(String name, ObviousGraphView v) {
       this.oView = v;
       this.putValue(AbstractAction.NAME, name);
     }
 
+    /**
+     * Actions performs.
+     * @param e an ActionEvent
+     */
     public void actionPerformed(ActionEvent e) {
       oView.setGraph(new PrefuseObviousNetwork(getGraph()));
     }
 
+    /**
+     * Returns the graph.
+     * @return Obvious Graph view
+     */
     public abstract Graph getGraph();
 
   }

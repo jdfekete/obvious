@@ -54,6 +54,7 @@ public class TreeMapExample {
     /**
      * Constructor.
      */
+    @SuppressWarnings("unchecked")
     public TreeMapExample() {
         /*
          * Creates the data structure. For this example, the election
@@ -79,7 +80,7 @@ public class TreeMapExample {
      * Gets the Obvious view associated to the tree map.
      * @return an obvious JView instance
      */
-    public JView getJView() {
+    public final JView getJView() {
         return this.view;
     }
 
@@ -100,7 +101,7 @@ public class TreeMapExample {
      * Main method.
      * @param args arguments of the main
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         demo();
     }
 }

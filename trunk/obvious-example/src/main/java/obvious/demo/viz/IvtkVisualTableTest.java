@@ -1,7 +1,5 @@
 package obvious.demo.viz;
 
-import infovis.panel.VisualizationPanel;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,14 +7,11 @@ import javax.swing.JFrame;
 
 import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.data.Tuple;
-import obvious.data.util.IntIterator;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.prefuse.data.PrefuseObviousTable;
-import obvious.prefuse.view.PrefuseObviousView;
 import obvious.viz.Visualization;
 
 /**
@@ -67,18 +62,19 @@ public final class IvtkVisualTableTest {
     param.put(IvtkScatterPlotVis.Y_AXIS, "age");
     Visualization vis = new IvtkScatterPlotVis(
         table, null, "scatterplot", param);
-    
+
     /*
     infovis.Visualization ivtkVis = (infovis.Visualization)
         vis.getUnderlyingImpl(infovis.Visualization.class);
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
     */
-    
+
     IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
 
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
+    final int dim = 500;
+    frame.setSize(dim, dim);
     frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
 

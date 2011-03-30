@@ -94,9 +94,10 @@ public final class TransactionDemoBatch {
     table.addTableListener(new TriggerListener(con));
     table.addRow(new TupleImpl(schema, new Object[] {"avantTransac", "Jan"}));
     table.beginEdit(JDBCObviousTable.BATCH_MODE);
-    for (int i = 0; i < 100; i++) {
+    final int endLoop = 100;
+    for (int i = 0; i < endLoop; i++) {
       table.addRow(new TupleImpl(schema, new Object[] {
-          String.valueOf(200 + i), "charles"}));
+          String.valueOf(endLoop + i), "charles"}));
     }
     System.out.println("1");
     table.addRow(new TupleImpl(schema, new Object[] {"dupont", "toto"}));
@@ -147,12 +148,12 @@ public final class TransactionDemoBatch {
         cleanTrigger = con.prepareStatement("DROP TRIGGER IF EXISTS sinceDate");
         cleanTrigger.executeUpdate();
         setTrigger = con.prepareStatement(
-            "CREATE TRIGGER sinceDate " +
-            "BEFORE INSERT ON person " +
-            "FOR EACH ROW " +
-            "BEGIN  " +
-            "SET NEW.SINCE = now(); " +
-            "END;");
+            "CREATE TRIGGER sinceDate "
+            + "BEFORE INSERT ON person "
+            + "FOR EACH ROW "
+            + "BEGIN  "
+            + "SET NEW.SINCE = now(); "
+            + "END;");
         setTrigger.executeUpdate();
       } catch (Exception e) {
         throw new ObviousRuntimeException(e);
@@ -239,10 +240,11 @@ public final class TransactionDemoBatch {
       if (inhibitNotify != 0) {
         return;
       } else if (type == TableListener.DELETE) {
-
+        return;
       } else if (type == TableListener.UPDATE) {
-
+        return;
       } else if (type == TableListener.INSERT) {
+        return;
       } else {
         return;
       }

@@ -121,7 +121,7 @@ public class ObviousPubliExample {
    * Gets the obvious view.
    * @return the obvious view
    */
-  public JView getJView() {
+  public final JView getJView() {
     return this.view;
   }
 
@@ -129,7 +129,7 @@ public class ObviousPubliExample {
    * Gets the obvious visualization.
    * @return the obvious visualization
    */
-  public Visualization getVis() {
+  public final Visualization getVis() {
     return this.vis;
   }
 
@@ -214,7 +214,7 @@ public class ObviousPubliExample {
    * Main method.
    * @param args arguments of the main.
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     demo();
   }
 
@@ -245,6 +245,7 @@ public class ObviousPubliExample {
     /**
      * Graphics variable.
      */
+    @SuppressWarnings("unused")
     private Graphics graphic;
 
     /**
@@ -258,7 +259,7 @@ public class ObviousPubliExample {
      * @param inVis obvious visualization.
      * @param inView obvious view.
      */
-    public MousePubliListener(Visualization inVis, JView inView) {
+    public MousePubliListener(final Visualization inVis, final JView inView) {
       this.vis = inVis;
       this.view = inView;
       this.graphic = view.getViewJComponent().getGraphics();
@@ -268,7 +269,7 @@ public class ObviousPubliExample {
      * Starts when a mouse button is clicked.
      * @param e mouse event.
      */
-    public void mouseClicked(MouseEvent e) {
+    public final void mouseClicked(final MouseEvent e) {
       if (e.getButton() == MouseEvent.BUTTON3) {
         rectangle = null;
         view.getViewJComponent().repaint();
@@ -279,7 +280,7 @@ public class ObviousPubliExample {
      * Not implemented.
      * @param e mouse event.
      */
-    public void mouseEntered(MouseEvent e) {
+    public final void mouseEntered(final MouseEvent e) {
       return;
     }
 
@@ -287,7 +288,7 @@ public class ObviousPubliExample {
      * Not implemented.
      * @param e mouse event.
      */
-    public void mouseExited(MouseEvent e) {
+    public final void mouseExited(final MouseEvent e) {
       return;
     }
 
@@ -295,7 +296,7 @@ public class ObviousPubliExample {
      * Not implemented.
      * @param e mouse event.
      */
-    public void mousePressed(MouseEvent e) {
+    public final void mousePressed(final MouseEvent e) {
       if (selectedIds != null) {
         Table table = ((Network) vis.getData()).getNodeTable();
         for (int i = 0; i < selectedIds.size(); i++) {
@@ -314,7 +315,7 @@ public class ObviousPubliExample {
      * Not implemented.
      * @param e mouse event.
      */
-    public void mouseReleased(MouseEvent e) {
+    public final void mouseReleased(final MouseEvent e) {
       Graphics g = view.getViewJComponent().getGraphics();
       rectangle.setSize(Math.abs(e.getX() - rectangle.x),
           Math.abs(e.getY() - rectangle.y));
@@ -335,7 +336,7 @@ public class ObviousPubliExample {
      * Starts when the mouse is dragged.
      * @param e mouse event.
      */
-    public void mouseDragged(MouseEvent e) {
+    public final void mouseDragged(final MouseEvent e) {
       Graphics g = view.getViewJComponent().getGraphics();
       rectangle.setSize(Math.abs(e.getX() - rectangle.x),
           Math.abs(e.getY() - rectangle.y));
@@ -347,7 +348,7 @@ public class ObviousPubliExample {
      * Not implemented.
      * @param e mouse event.
      */
-    public void mouseMoved(MouseEvent e) {
+    public final void mouseMoved(final MouseEvent e) {
       return;
     }
   }
