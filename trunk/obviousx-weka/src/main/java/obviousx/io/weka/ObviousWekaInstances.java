@@ -273,9 +273,12 @@ public class ObviousWekaInstances extends Instances {
     return super.getRandomNumberGenerator(seed);
   }
 
-  @Override
+  /**
+   * Unused
+   * @return Unused
+   */
   public String getRevision() {
-    return super.getRevision();
+    return "";
   }
 
   @Override

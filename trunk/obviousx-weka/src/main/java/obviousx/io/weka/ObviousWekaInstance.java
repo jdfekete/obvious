@@ -90,9 +90,12 @@ public class ObviousWekaInstance extends Instance {
     return dataset().equalHeaders(inst.dataset());
   }
 
-  @Override
+  /**
+   * Unused
+   * @return Unused
+   */
   public String getRevision() {
-    return super.getRevision();
+    return "";
   }
 
   @Override
@@ -213,7 +216,7 @@ public class ObviousWekaInstance extends Instance {
     return text.toString();
   }
 
-  @Override
+
   protected String toStringNoWeight() {
     return toString();
   }
