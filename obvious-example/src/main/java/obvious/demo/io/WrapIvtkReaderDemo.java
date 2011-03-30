@@ -35,11 +35,12 @@ import obviousx.io.IvtkObviousTableReader;
 
 /**
  * Example for wrapped prefuse reader.
+ * For the moment, this example does not run correctly.
  * @author Hemery
  *
  */
 public final class WrapIvtkReaderDemo {
-
+//TODO
   /**
    * Constructor.
    */
