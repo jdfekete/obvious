@@ -85,7 +85,8 @@ public final class IvtkVisualTableTestWithPrefView {
         prefuse.Visualization.class)).run("draw");
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
+    final int dim = 500;
+    frame.setSize(dim, dim);
     frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
 

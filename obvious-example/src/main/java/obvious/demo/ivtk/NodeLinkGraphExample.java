@@ -57,7 +57,8 @@ public class NodeLinkGraphExample {
         /*
          * Creates the graph structure.
          */
-        infovis.Graph g = Algorithms.getGridGraph(10, 10);
+        final int gridDim = 10;
+        infovis.Graph g = Algorithms.getGridGraph(gridDim, gridDim);
         Network network = new IvtkObviousNetwork(g);
 
         /*
@@ -89,9 +90,9 @@ public class NodeLinkGraphExample {
 
     /**
      * Gets the view associated to the NodeLinkGraph visualization.
-     * @return
+     * @return an Obvious JView
      */
-    public JView getJView() {
+    public final JView getJView() {
         return this.view;
     }
 
@@ -99,7 +100,7 @@ public class NodeLinkGraphExample {
      * Main method.
      * @param args arguments of the main
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         demo();
     }
 }

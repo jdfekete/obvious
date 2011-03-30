@@ -34,12 +34,10 @@ import infovis.io.AbstractReader;
 import infovis.tree.DefaultTree;
 import infovis.tree.io.TreeReaderFactory;
 import obvious.data.Edge;
-import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Tree;
 import obvious.ivtk.data.IvtkObviousTree;
 import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.IvtkVisualizationFactory;
 import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;
@@ -85,7 +83,7 @@ public class NodeLinkTreeExample {
      * Gets the obvious view associated to the node link tree visualization.
      * @return an obvious view.
      */
-    public JView getJView() {
+    public final JView getJView() {
         return this.view;
     }
 
@@ -103,12 +101,12 @@ public class NodeLinkTreeExample {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-    
+
     /**
      * Main method.
      * @param args arguments of the main
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         demo();
     }
 }

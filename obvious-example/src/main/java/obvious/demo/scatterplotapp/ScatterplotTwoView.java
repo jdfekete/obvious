@@ -26,7 +26,6 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.TupleImpl;
 import obvious.ivtk.data.IvtkObviousSchema;
-import obvious.ivtk.data.IvtkObviousTable;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
@@ -40,10 +39,26 @@ import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
 
-public class ScatterplotTwoView {
+/**
+ * Example class.
+ * @author Hemery
+ *
+ */
+public final class ScatterplotTwoView {
 
-  public static void main(String[] args) throws ObviousException {
-    
+  /**
+   * Constructor.
+   */
+  private ScatterplotTwoView() {
+  }
+
+  /**
+   * Main method.
+   * @param args arguments of the main
+   * @throws ObviousException if something bad happens
+   */
+  public static void main(final String[] args) throws ObviousException {
+
     final Schema schema = new IvtkObviousSchema();
     schema.addColumn("id", Integer.class, 0);
     schema.addColumn("age", Integer.class, 18);
@@ -73,16 +88,16 @@ public class ScatterplotTwoView {
     param.put(PrefuseScatterPlotViz.X_AXIS, "id"); // name of the xfield
     param.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
     param.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
-    
+
     // Creating the parameter map for the monolithic object.
     Map<String, Object> paramIvtk = new HashMap<String, Object>();
     paramIvtk.put(PrefuseScatterPlotViz.X_AXIS, "id"); // name of the xfield
     paramIvtk.put(PrefuseScatterPlotViz.Y_AXIS, "age"); // name of the yfield
     paramIvtk.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
-   
+
     // Using the factory to build the visualization
     System.setProperty("obvious.VisualizationFactory",
-        "obvious.prefuse.viz.PrefuseVisualizationFactory");
+        "obvious.prefuse.data.viz.PrefuseVisualizationFactory");
     VisualizationFactory factory = PrefuseVisualizationFactory.getInstance();
     Visualization vis =
       factory.createVisualization(table, null, "scatterplot", param);
@@ -94,16 +109,18 @@ public class ScatterplotTwoView {
     vis.getUnderlyingImpl(prefuse.Visualization.class);
     // Building the prefuse display.
     //Display display = new Display(prefViz);
-    
-    PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
+
+    PrefuseObviousView view = new PrefuseObviousView(
+        vis, null, "scatterplot", null);
     view.addListener(new PrefuseObviousControl(new ZoomControl()));
     view.addListener(new PrefuseObviousControl(new PanControl()));
     view.addListener(new PrefuseObviousControl(new DragControl()));
-    
+
     //System.out.println(display == null);
     view.getViewJComponent().setSize(800, 600);
 
-    IvtkObviousView view2 = new IvtkObviousView(vis,  null, "scatterplot", null);
+    IvtkObviousView view2 = new IvtkObviousView(vis,  null,
+        "scatterplot", null);
 
     Dimension minimumSize = new Dimension(0, 0);
     view.getViewJComponent().setMinimumSize(minimumSize);
@@ -115,7 +132,8 @@ public class ScatterplotTwoView {
     JSplitPane viewsplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
     JTable obviousJTable = new JTable(new ObviousTableModel(table));
-    obviousJTable.addKeyListener(new SimpleTableListener(obviousJTable, prefViz, view2.getViewJComponent()));
+    obviousJTable.addKeyListener(new SimpleTableListener(obviousJTable,
+        prefViz, view2.getViewJComponent()));
     JScrollPane scrollpane = new JScrollPane(obviousJTable);
     JPanel editPane = new JPanel();
     editPane.add(new JButton("+"), 0);
@@ -127,7 +145,8 @@ public class ScatterplotTwoView {
     viewsplitpane.add(view.getViewJComponent(), 0);
     viewsplitpane.add(view2.getViewJComponent(),1);
     mainsplitpane.add(viewsplitpane, 0);
-    mainsplitpane.add(new ScatterplotTwoView().new ControlPanel(table, prefViz, view2.getViewJComponent(), scrollpane, obviousJTable));
+    mainsplitpane.add(new ScatterplotTwoView().new ControlPanel(
+        table, prefViz, view2.getViewJComponent(), scrollpane, obviousJTable));
     globalsplitPane.add(mainsplitpane, 0);
     globalsplitPane.add(tableViewPane, 1);
     frame.getContentPane().add(globalsplitPane);
@@ -136,40 +155,6 @@ public class ScatterplotTwoView {
     frame.setVisible(true);
 
     prefViz.run("draw");
-
-    /*
-    prefViz.cancel("draw");
-    table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {20, 19, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {21, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {17, 28, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {18, 65, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {19, 56, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {20, 19, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {21, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {22, 23, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {23, 45, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {24, 38, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {25, 29, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {26, 26, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {27, 43, "unemployed"}));
-    table.addRow(new TupleImpl(schema, new Object[] {29, 35, "worker"}));
-    table.addRow(new TupleImpl(schema, new Object[] {30, 58, "unemployed"}));
-    for (int i = 0; i < 30; i++) {
-      table.addRow(new TupleImpl(schema, new Object[] {i, i - 20, "unemployed"}));
-    }
-    prefViz.run("draw");
-    */
   }
 
   /**
@@ -198,16 +183,15 @@ public class ScatterplotTwoView {
     //Formats to format and parse numbers
     private NumberFormat numberFormat;
 
-    
     private Table table;
     private prefuse.Visualization prefViz;
-    
+
     private JComponent view;
-    
+
     private JScrollPane scrollpane;
-    
+
     private JTable jtable;
-    
+
     /**
      * Constructor.
      */
@@ -241,22 +225,22 @@ public class ScatterplotTwoView {
       // Button for Update
       addButton = new JButton("Add point");
       addButton.addActionListener(this);
-      
+
       updateButton = new JButton("Update views");
       updateButton.addActionListener(this);
-      
+
       deleteButton = new JButton("Delete selected rows");
       deleteButton.addActionListener(this);
 
       JPanel fieldPane = new JPanel(new GridLayout(0,1));
       fieldPane.add(xField);
       fieldPane.add(yField);
-      
+
       JPanel buttonPane = new JPanel(new GridLayout(0,1));
       buttonPane.add(addButton);
       buttonPane.add(updateButton);
       buttonPane.add(deleteButton);
-      
+
       //Put the panels in this panel, labels on left,
       //text fields on right.
       setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -271,12 +255,13 @@ public class ScatterplotTwoView {
      */
     public void actionPerformed(final ActionEvent e) {
       new Thread(new Runnable() {
-        public void run () {
+        public void run() {
           if (e.getSource() == addButton) {
-            int x = ((Number)xField.getValue()).intValue();
-            int y = ((Number)yField.getValue()).intValue();
+            int x = ((Number) xField.getValue()).intValue();
+            int y = ((Number) yField.getValue()).intValue();
             prefViz.cancel("draw");
-            table.addRow(new TupleImpl(table.getSchema(), new Object[] {x, y, "unemployed"}));
+            table.addRow(new TupleImpl(table.getSchema(), new Object[] {
+              x, y, "unemployed"}));
             //prefViz.run("draw");
           } else if (e.getSource() == deleteButton) {
             int[] rows = jtable.getSelectedRows();
@@ -285,7 +270,8 @@ public class ScatterplotTwoView {
               table.removeRow(jtable.convertRowIndexToModel(rows[i]));
             }
           }
-          final infovis.panel.VisualizationPanel panel = (infovis.panel.VisualizationPanel) view;
+          final infovis.panel.VisualizationPanel panel = (
+              infovis.panel.VisualizationPanel) view;
           SwingUtilities.invokeLater(new Runnable() {
             public void run() {
               prefViz.run("draw");

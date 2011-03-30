@@ -97,17 +97,17 @@ public class ConfigurationPanel extends JSplitPane implements ActionListener {
   /**
    * Constructor.
    * @param inTable an obvious table
-   * @param frame associated frame
-   * @param prefVis prefuse visualization
-   * @param ivtkViewComponent ivtk view component
+   * @param inFrame associated frame
+   * @param inPrefVis prefuse visualization
+   * @param inIvtkViewComponent ivtk view component
    */
-  public ConfigurationPanel(Table inTable, JFrame frame, prefuse.Visualization prefVis,
-      JComponent ivtkViewComponent) {
+  public ConfigurationPanel(Table inTable, JFrame inFrame,
+      prefuse.Visualization inPrefVis, JComponent inIvtkViewComponent) {
     super(JSplitPane.VERTICAL_SPLIT);
     this.table = inTable;
-    this.frame = frame;
-    this.prefVis = prefVis;
-    this.ivtkViewComponent = ivtkViewComponent;
+    this.frame = inFrame;
+    this.prefVis = inPrefVis;
+    this.ivtkViewComponent = inIvtkViewComponent;
     obviousJTable = new JTable(new ObviousTableModel(table));
     jTablePane = new JScrollPane(obviousJTable);
     JPanel editPane = new JPanel();

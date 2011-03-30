@@ -33,15 +33,10 @@ import infovis.tree.DefaultTree;
 import javax.swing.JFrame;
 
 import obvious.data.Edge;
-import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Tree;
-import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.data.IvtkObviousTree;
-import obvious.ivtk.view.IvtkObviousView;
-import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
 import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
-import obvious.view.JView;
 import obvious.viz.Visualization;
 
 /**
@@ -68,17 +63,17 @@ public final class IvtkNodeLinkTree {
 
     Visualization vis = new IvtkNodeLinkTreeVis(ivtkTree, null, null, null);
 
-    
+
     infovis.Visualization ivtkVis = (infovis.Visualization)
     vis.getUnderlyingImpl(infovis.Visualization.class);
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
-    
-    
+
     //JView view = new IvtkObviousView(vis, null, "tree", null);
 
+    final int dim = 500;
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
+    frame.setSize(dim, dim);
     frame.getContentPane().add(panel);
     frame.setVisible(true);
   }

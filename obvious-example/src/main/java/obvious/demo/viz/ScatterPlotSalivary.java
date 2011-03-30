@@ -92,7 +92,8 @@ public final class ScatterPlotSalivary {
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
+    final int dim = 500;
+    frame.setSize(dim, dim);
     frame.getContentPane().add(panel);
     frame.setVisible(true);
   }

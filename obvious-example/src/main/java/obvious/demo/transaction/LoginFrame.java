@@ -30,7 +30,6 @@ package obvious.demo.transaction;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -80,38 +79,44 @@ public class LoginFrame extends JFrame implements ActionListener {
    * Constructor.
    */
   public LoginFrame() {
+
+    final int fieldSize = 15;
+    final int urfFielSize = 50;
+
     userLabel = new JLabel();
     userLabel.setText("User name");
-    userField = new JTextField(15);
+    userField = new JTextField(fieldSize);
 
     pswdLabel = new JLabel();
     pswdLabel.setText("User password");
-    pswdField = new JPasswordField(15);
+    pswdField = new JPasswordField(fieldSize);
 
     tableLabel = new JLabel();
     tableLabel.setText("Table name");
-    tableField = new JTextField(15);
+    tableField = new JTextField(fieldSize);
     tableField.setText("person");
 
     tableKeyLabel = new JLabel();
     tableKeyLabel.setText("Table primary key");
-    tableKeyField = new JTextField(15);
+    tableKeyField = new JTextField(fieldSize);
     tableKeyField.setText("name");
 
     urlLabel = new JLabel();
     urlLabel.setText("Database url");
-    urlField = new JTextField(50);
+    urlField = new JTextField(urfFielSize);
     urlField.setText("jdbc:mysql://localhost/test");
 
     driverLabel = new JLabel();
     driverLabel.setText("Driver classpath");
-    driverField = new JTextField(50);
+    driverField = new JTextField(urfFielSize);
     driverField.setText("com.mysql.jdbc.Driver");
 
     submit = new JButton("SUBMIT");
     submit.addActionListener(this);
 
-    panel = new JPanel(new GridLayout(7, 1));
+    final int firstGridDim = 7;
+    final int secondGridDim = 1;
+    panel = new JPanel(new GridLayout(firstGridDim, secondGridDim));
     panel.add(driverLabel);
     panel.add(driverField);
     panel.add(urlLabel);

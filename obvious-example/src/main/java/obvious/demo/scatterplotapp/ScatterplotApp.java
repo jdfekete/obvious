@@ -73,7 +73,7 @@ public final class ScatterplotApp {
 
     final Schema schema = new IvtkObviousSchema();
     schema.addColumn("id", Integer.class, 0);
-    schema.addColumn("age", Integer.class, 18);
+    schema.addColumn("age", Integer.class, 0);
     schema.addColumn("category", String.class, "unemployed");
 
     final Table table = new PrefuseObviousTable(schema);

@@ -39,7 +39,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import obvious.data.Table;
@@ -96,21 +95,27 @@ public class AddPointDialog extends JDialog implements ActionListener {
   /**
    * Constructor.
    * @param frame associated frame
+   * @param inTable an Obvious table
+   * @param inPrefVis a prefuse Visualization
+   * @param jtablePanel a scrollPane
+   * @param inIvtkViewComponent an Ivtk view (as a JComponent)
    */
-  public AddPointDialog(JFrame frame, Table table, prefuse.Visualization prefVis,
-      JScrollPane jtablePanel, JComponent ivtkViewComponent) {
+  public AddPointDialog(JFrame frame, Table inTable,
+      prefuse.Visualization inPrefVis, JScrollPane jtablePanel,
+      JComponent inIvtkViewComponent) {
     super(frame, "Add a point (X,Y)", true);
     this.setLocationRelativeTo(frame);
-    this.table = table;
+    this.table = inTable;
     this.jTablePane = jtablePanel;
-    this.prefVis = prefVis;
-    this.ivtkViewComponent = ivtkViewComponent;
+    this.prefVis = inPrefVis;
+    this.ivtkViewComponent = inIvtkViewComponent;
+    final int colNum = 10;
     xField = new JFormattedTextField(numberFormat);
     xField.setValue(new Double(0));
-    xField.setColumns(10);
+    xField.setColumns(colNum);
     yField = new JFormattedTextField(numberFormat);
     yField.setValue(new Double(0));
-    yField.setColumns(10);
+    yField.setColumns(colNum);
     JLabel xLabel = new JLabel("X");
     JLabel yLabel = new JLabel("Y");
     JPanel xPanel = new JPanel();

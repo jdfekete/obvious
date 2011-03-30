@@ -71,7 +71,7 @@ public final class WrapPrefuseReaderDemo {
     File graphFile = new File("src//main//resources//socialnet.xml");
     PrefuseObviousGraphReader graphReader = new PrefuseObviousGraphReader(
         new GraphMLReader(), graphFile);
-    
+
     Network network = (Network) graphReader.loadGraph();
     System.out.println(
         "number of nodes for imported graph " + network.getNodes().size()

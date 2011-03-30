@@ -29,10 +29,8 @@ package obvious.demo.io;
 
 import java.io.File;
 
-import obvious.data.Network;
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.IvtkObviousGraphReader;
 import obviousx.io.IvtkObviousTableReader;
 
 /**
