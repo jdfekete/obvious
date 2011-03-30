@@ -87,7 +87,7 @@ public class PrefuseObviousTableReader implements TableImporter {
       prefuse.data.Table prefTable = prefReader.readTable(stream);
       String oldProperty = System.getProperty("obvious.DataFactory");
       System.setProperty("obvious.DataFactory",
-          "obvious.prefuse.PrefuseDataFactory");
+          "obvious.prefuse.data.PrefuseDataFactory");
       table = DataFactory.getInstance().wrapTable(prefTable);
       if (oldProperty != null) {
         System.setProperty("obvious.DataFactory", oldProperty);
