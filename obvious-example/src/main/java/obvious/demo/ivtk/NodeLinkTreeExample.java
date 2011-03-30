@@ -61,7 +61,7 @@ public class NodeLinkTreeExample {
         /*
          * Creates the tree structure.
          */
-        String file = "src/main/resources/election.tm3";
+        String file = "src//main//resources//election.tm3";
         DefaultTree t = new DefaultTree();
         AbstractReader reader =
             TreeReaderFactory.createTreeReader(file, t);
