@@ -28,10 +28,10 @@ explained in~\ref{sec:viewvis}, Obvious does not offer a visualization
 abstraction for polylithic components.  Thus, Obvious provides
 components pre-configured for well know visualization techniques such
 as scatter-plots or force directed graphs.  Currently, if a software
-developer wants visualize an Obvious table using a Prefuse
+developer wants to visualize an Obvious table using a Prefuse
 visualization not offered in the Obvious visualization factory, the
 only requirement is to convert the data model to a Prefuse data table
-using an obviousx component.  
+using an obvious component contained in the Prefuse binding.  
 
 %% [jdf] we never mentioned predicates
 %% Prefuse have also been used to implement and test predicates for all
@@ -53,7 +53,7 @@ Since IVTK is monolithic and follows the reference
 infovis model, its Obvious binding realizes all the
 interfaces for the data model, visualization and view introduced in
 Obvious. IVTK has monolithic visualizations, providing
-them simply consists in wrapping an Obvious visualization around them
+them simply consists in wrapping an Obvious visualization around their
 class and implementing a factory to create them by name.
 
 However, the data model of IVTK differs from Obvious
@@ -68,7 +68,7 @@ reliable.
 
 \subsection{Improvise}
 
-Currently, the Obvious implementation based on Improvise only
+The Obvious implementation based on Improvise only
 implements the data model part for tables.  Even if Improvise is a
 monolithic toolkit, Obvious cannot directly bind Improvise
 visualization components because the toolkit does not expose its
@@ -113,7 +113,7 @@ but associates arbitrary attributes with vertices and edges.
 Concretely, this implementation realizes all interfaces defined in
 Obvious, except for tables and schemas since these notions do not
 exist in JUNG.  Schemas are mandatory in Obvious, so this
-implementation uses a default schema implementation from the obvious
+implementation uses a default schema implementation from the Obvious
 core package.  The network structure of Obvious is similar to JUNG's
 graph; therefore, the data model of JUNG was easy to wrap as an
 Obvious Network.  Concerning the visualizations and views, JUNG
