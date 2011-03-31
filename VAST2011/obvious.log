@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  31 MAR 2011 10:29
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  31 MAR 2011 13:23
 entering extended mode
 **obvious
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.tex
@@ -896,7 +896,7 @@ Package rerunfilecheck Info: File `obvious.brf' has not changed.
 Here is how much of TeX's memory you used:
  17113 strings out of 495285
  315537 string characters out of 3179884
- 496887 words of memory out of 3000000
+ 497895 words of memory out of 3000000
  19713 multiletter control sequences out of 15000+200000
  58103 words of font info for 113 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -911,7 +911,7 @@ fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on obvious.pdf (10 pages, 445255 bytes).
+Output written on obvious.pdf (10 pages, 445327 bytes).
 PDF statistics:
  558 PDF objects out of 1000 (max. 8388607)
  177 named destinations out of 1000 (max. 500000)
