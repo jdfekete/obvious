@@ -28,32 +28,32 @@ the specific parts.
 
 
 The InfoVis Toolkit (IVTK)~\cite{InfoVis} implements an
-\emph{in-memory database manager} where data is organized in columns
---- contrary to most persistent relational databases --- to improve
-the memory footprint, to allow addition of new attributes that are
-needed to manage the interaction (e.g., selection or filtering), and to
-hold attributes computed on demand; the main challenge being the
-support of interactive performance for rendering and dynamic queries
-with a small memory footprint.  The visual structure is managed using
-a \emph{monolithic} architecture~\cite{Polylithic}: each visualization
-technique is implemented as a specific class
-(e.g., ScatterPlotVisualization, ParallelCoordinatesVisualization,
+\emph{in-memory database manager} where data is organized in columns,
+contrary to most persistent relational databases, to improve the
+memory footprint, to allow addition of new attributes that are needed
+to manage the interaction (e.g., selection or filtering), and to hold
+attributes computed on demand; the main challenge being the support of
+interactive performance for rendering and dynamic queries with a small
+memory footprint.  The visual structure is managed using a
+\emph{monolithic} architecture~\cite{Polylithic}: each visualization
+technique is implemented as a specific class (e.g.,
+ScatterPlotVisualization, ParallelCoordinatesVisualization,
 TreeVisualization) that performs the mapping between the data set and
 the graphic items to render.  Finally, the view component is the same
 for each of the visual structures and takes care of scrolling,
-zooming, and overlaying magic lenses (e.g. Fisheye or Magic Lenses).  A
-\emph{notification mechanism} implements the communication between the
-data tables and the visual structures: each time a data table is
+zooming, and overlaying magic lenses (e.g. Fisheye or Magic Lenses).
+A \emph{notification mechanism} implements the communication between
+the data tables and the visual structures: each time a data table is
 modified, it notifies all the registered handlers of the details of
 the modification. The interaction is managed by \emph{Interactor}
 objects that are associated with the visual structures; the views are
 generic and forward interaction managements to the Interactors.  One
-specific feature provided by IVTK is layering: visualization can be
-composed on top of each others.  Composite visualizations are useful
-to build complex visualizations by breaking them into simple parts. For
-example, node-link diagrams are split into links managed as one layer
-and nodes as another.  Magic lenses and Fisheyes are also managed as
-layers on top of other visualizations.
+specific feature provided by IVTK is layering: visualizations can be
+stacked on top of each others.  Composite visualizations are useful
+to build complex visualizations by breaking them into simple
+parts. For example, node-link diagrams are split into links managed as
+one layer and nodes as another.  Magic lenses and Fisheyes are also
+managed as layers on top of other visualizations.
 
 Prefuse~\cite{Prefuse} also relies on an in-memory database with
 notifications but implements the visual structure using an extension of

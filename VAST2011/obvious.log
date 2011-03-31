@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  31 MAR 2011 13:23
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  31 MAR 2011 15:54
 entering extended mode
 **obvious
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.tex
@@ -891,7 +891,7 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
 Package rerunfilecheck Info: File `obvious.out' has not changed.
 (rerunfilecheck)             Checksum: FFE34B22C9EE08783BB95113AE9E5936;2253.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
-(rerunfilecheck)             Checksum: 5883616587D6DC66D1EEB7609504B354;2737.
+(rerunfilecheck)             Checksum: 4E785B08D766E7CC29C45071D94F670B;2737.
  ) 
 Here is how much of TeX's memory you used:
  17113 strings out of 495285
@@ -911,7 +911,7 @@ fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on obvious.pdf (10 pages, 445327 bytes).
+Output written on obvious.pdf (10 pages, 445382 bytes).
 PDF statistics:
  558 PDF objects out of 1000 (max. 8388607)
  177 named destinations out of 1000 (max. 500000)
