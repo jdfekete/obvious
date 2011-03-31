@@ -1,6 +1,6 @@
 Obvious is a set of interfaces and extension classes for wrapping
-around existing infovis toolkits.  It generalizes and extends the
-standard architecture as defined in the infovis reference model to try
+around existing InfoVis toolkits.  It generalizes and extends the
+standard architecture as defined in the InfoVis reference model to try
 to abstract all the existing implementations.  In this section, we
 list some major existing toolkits and explain what they share and how
 they differ.  In the second section, we describe the most common
@@ -10,12 +10,12 @@ standardization processes for software systems.
 
 Pretty much all existing infovis toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
-Card, Mackinlay and Shneiderman~\cite{ChiRefModel,ReadingsIV} and has
+Card, Mackinlay and Shneiderman~\cite{ReadingsIV,ChiRefModel} and has
 been described as a design pattern in~\cite{DesignPatternsIV}.  The
 model defines three stages: \emph{DataSet} or \emph{Data Tables},
-\emph{Visualization} or \emph{Visual Structure} and \emph{View}
+\emph{Visualization} or \emph{Visual Structure}, and \emph{View}
 (Figure~\ref{fig:refmodel}).  One of its main benefits is that it
-explicitly represents interaction, in contrast to older visualization
+explicitly represents interaction, in contrast to older visualization:
 models.  Several articles have described the concrete design of an
 infovis toolkit.  We report here on the common and
 the specific parts.
@@ -30,18 +30,18 @@ the specific parts.
 The InfoVis Toolkit (IVTK)~\cite{InfoVis} implements an
 \emph{in-memory database manager} where data is organized in columns
 --- contrary to most persistent relational databases --- to improve
-the memory footprint and allow addition of new attributes that are
-needed to manage the interaction (e.g. selection or filtering) and to
+the memory footprint, to allow addition of new attributes that are
+needed to manage the interaction (e.g., selection or filtering), and to
 hold attributes computed on demand; the main challenge being the
 support of interactive performance for rendering and dynamic queries
 with a small memory footprint.  The visual structure is managed using
 a \emph{monolithic} architecture~\cite{Polylithic}: each visualization
 technique is implemented as a specific class
-(e.g. ScatterPlotVisualization, ParallelCoordinatesVisualization,
+(e.g., ScatterPlotVisualization, ParallelCoordinatesVisualization,
 TreeVisualization) that performs the mapping between the data set and
 the graphic items to render.  Finally, the view component is the same
 for each of the visual structures and takes care of scrolling,
-zooming, overlaying magic lenses (e.g. Fisheye or Magic Lenses).  A
+zooming, and overlaying magic lenses (e.g. Fisheye or Magic Lenses).  A
 \emph{notification mechanism} implements the communication between the
 data tables and the visual structures: each time a data table is
 modified, it notifies all the registered handlers of the details of
@@ -51,52 +51,52 @@ generic and forward interaction managements to the Interactors.  One
 specific feature provided by IVTK is layering: visualization can be
 composed on top of each others.  Composite visualizations are useful
 to build complex visualizations by breaking them into simple parts. For
-example, node-link diagrams are split into links managed as a layer
+example, node-link diagrams are split into links managed as one layer
 and nodes as another.  Magic lenses and Fisheyes are also managed as
 layers on top of other visualizations.
 
 Prefuse~\cite{Prefuse} also relies on an in-memory database with
-notification but implements the visual structure using an extension of
-the data model (a visual table derives from a data table).  It then
+notifications but implements the visual structure using an extension of
+the data model (a visual table is derived from a data table).  It then
 transforms the data into a \emph{polylithic} graphic structure whereas
 all the other toolkits use a \emph{monolithic} architecture.  In a
 polylithic architecture, there is only one component in charge of all
 the visual structures.  A visualization object is responsible of
 managing a visual structure: it contains visual tables that augment
-data tables with graphic attributes (shape, color, etc.)
+data tables with graphic attributes (shape, color, etc.).
 Visualizations are in charge of computing the layout (assigning a
-position and shape to visual items), the graphic attributes and
+position and shape to visual items), the graphic attributes, and
 animations.  Visualizations use a \emph{Renderer} object to actually
 display visual items.  Users can control which renderer is used
-depending on the visualization and the object itself.  In Prefuse,
-data managers, visual managers and views are generic, offering a very
+depending on the visualization, and the object itself.  In Prefuse,
+data managers, visual managers and views are generic, offering a
 clean interface to the application programmer.  However, as noted by
-Bederson at al.~\cite{Polylithic}, polylithic toolkits have a steeper
+Bederson et al.~\cite{Polylithic}, polylithic toolkits have a steeper
 learning curve than monolithic ones because the polylithic components
 do not work out of the box, they always need to be configured.  To
-address this issue, Prefuse comes with code samples that shows how to
+address this issue, Prefuse comes with code samples that show how to
 do the initial setup.
 
 Building upon their experience in the Prefuse toolkit~\cite{Prefuse},
 Heer and Agrawala~\cite{DesignPatternsIV} have derived software design
-patterns that are common to infovis applications and
+patterns that are common to InfoVis applications and
 toolkits. 
 
 Improvise~\cite{Improvise} relies on an in-memory database with
 notification that is row-oriented and its visual structures are
 monolithic.  The main characteristic of Improvise lies in its
-management of coordinated views.  To this aim, it relies on several
+management of coordinated views.  To achieve this aim, it relies on several
 design patterns not supported by Prefuse; compared to the other
-infovis toolkits, it adds a coordination component
+InfoVis toolkits, it adds a coordination component
 that is central and extends the notification mechanism implemented
 by IVTK or Prefuse.
 
-Discovery~\cite{Discovery1,Discovery2,Discovery3} shares most of its
+Discovery~\cite{Discovery2,Discovery1,Discovery3} shares most of its
 characteristics with Prefuse: it uses an in-memory, column-oriented
-database and a polylithic graphic model. Its two main features are 1)
+database and a polylithic graphic model. Its two main features are (1)
 the absence of a scene graph, replaced by a dataflow pipeline made of
 short operations called \emph{functors} that render directly from the
-data-model, and 2) a deferred notification strategy to allow data
+data-model, and (2) a deferred notification strategy to allow data
 editing.
 
 %% \jo{I'm not sure I am convinced of the assertion in the following
@@ -109,16 +109,16 @@ editing.
 %%   to doing so requires different programming approaches, hence the
 %%   need for Obvious.}
 
-Other infovis toolkits can mostly be described using the four toolkits
+Other InfoVis toolkits can mostly be described using the four toolkits
 above, even if they use a different programming language.
 Tulip~\cite{Tulip} is a graph-oriented toolkit programmed in C++ that
 uses data tables for vertices and edges, like IVTK and Prefuse.  It
 implements several complex graph layout algorithms and uses OpenGL for
-its rendering but the conceptual architecture is table-based and
-monolithic.  Therefore, infovis toolkits share a
+its rendering, but the conceptual architecture is table-based and
+monolithic.  Therefore, InfoVis toolkits share a
 global organization: they all implement an in-memory database with two
 variants (row-based or column-based), a visual structure with two
-variants (monolithic or polylithic) and several specific features.
+variants (monolithic or polylithic), and several specific features.
 Even if some choices made by toolkits designers were carefully
 decided, other were probably made without being aware of alternatives.
 Combining the best possible features for a next-generation toolkit
@@ -130,7 +130,7 @@ that still needs research to be solved.
 
 There are also lower-level toolkits that can be used to build VA
 applications.  Two popular families are graphics libraries
-and graph libraries.
+and graph libraries, which we discuss next.
 
 %% \jo{I'm not sure what point is being made here with the discussion of
 %%   lower level visualization toolkits. Are we asserting that the
@@ -161,12 +161,12 @@ described in the reference model.  They are focused on computer
 graphics and interaction: they only deal with the visual structure and
 view.  Piccolo and Jazz~\cite{Polylithic} are popular 2D scene-graph
 managers that have been used to create several information
-visualization applications (e.g.~\cite{SpaceTree,Geneaquilt}.) An
+visualization applications (e.g., ~\cite{Geneaquilt,SpaceTree}.) An
 early version of Piccolo has also been used as graphics engine for the
 Cytoscape graph visualization system~\cite{Cytoscape} but dropped for
 performance reasons.
 
-High-performance infovis applications use scene-graph optimization
+High-performance InfoVis applications use scene-graph optimization
 techniques to speed-up the rendering of scenes.  Tulip~\cite{Tulip}
 and Gephi~\cite{Gephi} maintain a spatial indexing structure to avoid
 rendering objects that are not visible.
