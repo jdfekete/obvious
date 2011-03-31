@@ -23,6 +23,9 @@
 \usepackage{pgf-umlsd}
 \usepgflibrary{arrows} % for pgf-umlsd
 \usepackage{listings}
+%\usepackage{tikz}
+%\usepackage{pgf-umlsd}
+%\usepgflibrary{arrows} % for pgf-umlsd
 \lstset{%
   frame=single,
   columns=flexible,
@@ -36,7 +39,7 @@
 
 
 % --------------------- Extra comment commands inserted by Jo Wood ---------------------
-\usepackage[dvipsnames,usenames]{color}
+%\usepackage[dvipsnames,usenames]{color}
 \newcommand{\marrow}{\marginpar[\hfill$\longrightarrow$]{$\longleftarrow$}}
 \newcommand{\joremark}[3]{\textcolor{Bittersweet}{\textsc{#1 #2:} \marrow\textsf{#3}}}
 \newcommand{\jo}[2][says]{\joremark{Jo}{#1}{#2}}
@@ -109,7 +112,7 @@ Thomas Baudel\thanks{e-mail:baudelth@fr.ibm.com}\\ %
 
 \input{related}
 
-\section{Design Overview}
+\section{Design}
 
 \input{design}
 
@@ -140,9 +143,8 @@ Thomas Baudel\thanks{e-mail:baudelth@fr.ibm.com}\\ %
 
 %% if specified like this the section will be ommitted in review mode
 \acknowledgements{
-The authors wish to thanks the participants of the VisMaster Workshop
-on Visual Analytics Software Architecture, held Dec. 4-6th 2008 in
-Paris: 
+The authors wish to thank the participants of the VisMaster Workshop
+on Visual Analytics Software Architecture: 
 %Thomas Baudel,
 Fanny Chevalier,
 Christophe Favart,
@@ -155,9 +157,7 @@ Mike Smoot,
 Martin Theus,
 and 
 Chris Weaver.
-This project has been partially funded by the European FET-Open
-Coordination Action project
-VisMaster\footnote{\url{http://www.vismaster.eu}}.
+This work has been partially funded by the VisMaster Project\cite{VisMaster}.
 }
 
 \bibliographystyle{abbrv}

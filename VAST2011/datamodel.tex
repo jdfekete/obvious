@@ -96,6 +96,7 @@ unresponsive for a long time.
 \begin{figure}
   \centering
 	\begin{sequencediagram}
+        \global\def\unitfactor{0.5}
 		\newthread{table}{Table}{Table}
 		\newinst[2]{lstnr}{Listener}{Listener}
 			\begin{callself}{table}{addRow(Tuple tuple)}{}

@@ -27,31 +27,30 @@ combining component from different Obvious implementations.
 
 For both examples and more generally for every creation of an Obvious
 application, developers have to follow the following steps:
-\begin{itemize}[noitemsep]
-\item Creation of an Obvious data structure, either directly with a
-  standard constructor or through a factory.  Three ways exist to fill
-  the data structure:
-  \begin{enumerate}[noitemsep]
-  \item wrapping an existing data structure from a targeted toolkit as
-    shown in the first example,
-  \item using an Obvious reader to load an Obvious structure from a
-    well known file format (CSV, GraphML...) as shown in the second
-    example,
-  \item using Obvious methods to directly manipulate the data
-    structure (addRow, addNode, addEdge...); an example would be too
-    long for this article.
- \end{enumerate}
 
-\item Creation of an Obvious visualization from the created data
-  structure and additional parameters.  This can be done directly with
-  a class constructor or through a factory.  The parameters allow
-  customization of the Obvious monolithic components.  As shown in the
-  second example, it is possible to use the data structure from
-  one Obvious implementation with a visualization from another.
+\paragraph{Step 1:} creation of an Obvious data structure, either
+directly with a standard constructor or through a factory.  Three ways
+exist to fill the data structure:
+\begin{enumerate}[noitemsep]
+\item wrapping an existing data structure from a targeted toolkit as
+  shown in the first example,
+\item using an Obvious reader to load an Obvious structure from a well
+  known file format (CSV, GraphML...) as shown in the second example,
+\item using Obvious methods to directly manipulate the data structure
+  (addRow, addNode, addEdge...); an example would be too long for this
+  article.
+\end{enumerate}
 
- \item Creation of an Obvious view with the created visualization
-   directly with a constructor or through a factory
-\end{itemize} 
+\paragraph{Step 2:} Creation of an Obvious visualization from the
+created data structure and additional parameters.  This can be done
+directly with a class constructor or through a factory.  The
+parameters allow customization of the Obvious monolithic components.
+As shown in the second example, it is possible to use the data
+structure from one Obvious implementation with a visualization from
+another.
+
+\paragraph{Step 3:} Creation of an Obvious view with the created
+visualization directly with a constructor or through a factory.
 
 \begin{lstlisting}[caption={Visualizing a graph with Obvious},label=codeSample1]
 // Creates the graph structure. First, set the factory to use (ivtk).
@@ -150,7 +149,7 @@ application programmers to build VA systems.
 \subsection{EdiDuplicate}
 
 INRIA maintains a repository called
-HAL-INRIA\footnote{\url{http://hal.inria.fr}} to store, index and give
+HAL-INRIA\cite{HAL} to store, index and give
 access to its publications.  Entering publications is a manual process
 done by researchers who make mistakes.  These mistakes can result in
 duplicated authors, institutions, or articles. Thus, INRIA needs to
@@ -162,8 +161,7 @@ EdiDuplicate is a system designed to detect and merge duplicated
 entities in the HAL-INRIA publication database that has been built
 with Obvious; it is an adaptation of the D-Dupe software~\cite{DDupe}
 with extensions to cover needs specific the HAL-INRIA
-database\footnote{\url{http://hal.inria.fr}} to perform other
-operation in a workflow.
+database\cite{HAL} to perform other operation in a workflow.
 
 Each time a new entity is created in the database, multiple similarity
 metrics are automatically computed between this entity to all the ones
@@ -250,11 +248,10 @@ presented in the next section.
 \subsection{Network Visualization on a Large Wall}
 
 INRIA shares with other institutions a Wall-Size display called
-WILD\footnote{\url{http://www.lri.fr/~mbl/WILD/}} made of 32
-high-resolution 32" screens.  Using Obvious, we have developed an
-application for visualizing co-authorship networks on WILD.  WILD is
-made of 16 machines serving 2 screens each and connected to a fast
-network.
+WILD~\cite{Wild} made of 32 high-resolution 32" screens.  Using
+Obvious, we have developed an application for visualizing
+co-authorship networks on WILD.  WILD is made of 16 machines serving 2
+screens each and connected to a fast network.
 
 Our application uses a client-server approach: the server program
 loads the network using Obvious, computes its layout and stores the

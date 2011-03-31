@@ -30,32 +30,34 @@ view, visualization and interaction models.
 
 \subsection{Adding Additional Toolkits and Languages}
 
-\begin{comment}
-% [jdf] I disagree. JViews is more like Piccolo or a structured
-% graphics system. It is data-agnostic.  I am not sure how it would
-% fit with Obvious.
+Regarding porting Obvious to other languages, two competing approaches
+are being considered.  One involves making the API as language neutral
+as possible, the other considers that widespread adoption is only
+possible on a particular platform and language if its idioms are
+respected.
 
-A true test of how generalizable and unifying Obvious would be
-post-hoc integration of a new toolkit. IBM ILOG JViews~\cite{JViews}
-is one such example being considered. Because it is a commercial
-product, this would have the advantage of bringing considerable
-exposure to the unification platform.
-\end{comment}
+With the first approach, a wished extension would consist in porting
+Obvious to other languages and platforms, such as C++, JavaScript and
+C\#.  Obvious has been designed to avoid using idioms too specific to
+Java so we believe it could be done without much difficulties.  There
+would be at least two benefits: the availability of a meta-toolkit is
+these languages to wrap infovis toolkits, and the availability of a
+common application programmer's interface (API) for infovis that would
+simplify learning and spreading the best practices.  Multi-language
+APIs already exist and are popular in recommendations of the W3C. For
+example, the Document Object Model API (DOM, see
+\url{http://www.w3.org/DOM/}) used to manipulate HTML or XML documents
+has official bindings for Java and JavaScript and non-standard
+bindings for several of the major languages
+(\url{http://www.w3.org/DOM/Bindings}) with slight variations to cope
+with the language idioms.
 
-A wished extension would consist in porting the toolkit to other
-languages and platforms, such as C++, JavaScript and C\#.  Obvious has
-been designed to avoid using idioms too specific to Java so we believe
-it could be done without much difficulties.  There would be at least
-two benefits: the availability of a meta-toolkit is these languages to
-wrap infovis toolkits, and the availability of a common application
-programmer's interface (API) for infovis that would simplify learning
-and spreading the best practices.  Multi-language APIs already exist
-and are popular in recommendations of the W3C. For example, the
-Document Object Model API (DOM, see \url{http://www.w3.org/DOM/}) used
-to manipulate HTML or XML documents has official bindings for Java and
-JavaScript and non-standard bindings for several of the major
-languages (\url{http://www.w3.org/DOM/Bindings}) with slight
-variations to cope with the language idioms.
+With the second approach, the Obvious design patterns should leverage
+the support platform/language conventions and blend as well as
+possible with its context. Interoperatbility, which is still strongly
+wished, should focus on communication formats and protocols rather
+than code similarity in the various languages.
+
 
 \begin{comment}
 % C++ has generic containers in the STL (which is standard)
@@ -71,6 +73,28 @@ adoption in our target languages. Conversely, adopting the target
 language's idioms would preclude interoperability of the Obvious
 platform across languages.
 \end{comment}
+
+\begin{comment}
+% [jdf] I disagree. JViews is more like Piccolo or a structured
+% graphics system. It is data-agnostic.  I am not sure how it would
+% fit with Obvious.
+
+A true test of how generalizable and unifying Obvious would be
+post-hoc integration of a new toolkit. IBM ILOG JViews~\cite{JViews}
+is one such example being considered. Because it is a commercial
+product, this would have the advantage of bringing considerable
+exposure to the unification platform.
+\end{comment}
+
+A real-world test of how generalizable and unifying Obvious would be
+post-hoc integration with an industrial toolkit.  For example,
+IBM ILOG JViews ~\cite{JViews} is a commercial monolithic toolkit and
+framework including data models, monolithic visualizations, views, a
+graph model, an extensive library of graph drawing algorithms.
+%including a hierarchical layout that has no rival on the open source market
+Interfacing JViews with Obvious would provide JViews users
+access to novel features brought by the research community, and open a
+venue for research results to make their way into commercial products.
 
 \subsection{Community Building}
 
@@ -109,7 +133,7 @@ more mature than infovis for standardization: the Scientific
 Visualization community is converging towards using VTK~\cite{VTK} as
 a \textit{de facto} standard whereas the GeoSpatial Visualization
 community already has a mature GeoSpatial Consortium producing
-software\footnote{\url{http://www.opengeospatial.org}}.
+software\cite{OpenGeospatial}.
 
 Geometrical data structures are much less sophisticated in infovis
 than in the two others visualization fields.  Pre-computing complex

@@ -15,6 +15,7 @@ top-level packages: data, viz, view, util and impl.  It has been
 designed to be small and lightweight.  Therefore, the substantial
 parts are in each concrete toolkit binding.
 
+
 \subsection{Prefuse}
 
 Prefuse was the first binding implemented because its architecture is,
@@ -168,25 +169,6 @@ implemented Obvious modules and the services they support.  At this
 point, Obvious is usable with a wide range of concrete implementations
 and we report on its uses in the next section.
 
-\begin{table}[h]
-\small
-\begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
-    \hline
-    \textbf{Bindings} & \textbf{obvious\newline{.data}} & \textbf{obvious\newline{.vis}} & \textbf{obvious\newline{.view}} & \textbf{Binding Size} & \textbf{Toolkit Size} \\
-    \hline
-    \textit{Prefuse} & 10 classes \newline\textit{1235 lines} & 7 classes \newline\textit{446 lines} & 2 classes \newline\textit{94 lines} & 120KB & 3.3MB \\
-    \hline
-    \textit{IVTK} & 6 classes \newline\textit{1404 lines} & 5 classes \newline\textit{460 lines} & 1 class \newline\textit{105 lines} & 115KB & 10MB \\
-    \hline
-    \textit{Improvise} & 3 classes \newline\textit{519 lines} &  &  & 27KB &  5.7 MB \\
-    \hline
-    \textit{JDBC} & 8 classes \newline\textit{1936 lines} &  &  & 75KB & 3MB \\
-    \hline
-    \textit{JUNG} & 3 classes \newline\textit{714 lines} & 1 class \newline\textit{139 lines} & 2 classes \newline\textit{114 lines} & 93KB & 4.3MB \\
-    \hline
-\end{tabular}
-\caption{Footprint of Obvious bindings. }\label{tab:obviousfootprint}
-\end{table}
 \begin{comment}
 
 
@@ -215,3 +197,22 @@ bindings:
 
 \end{comment}
 
+\begin{table}[t]
+\small
+\begin{tabular}{|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|p{\tableCol}|}
+    \hline
+    \textbf{Bindings} & \textbf{obvious\newline{.data}} & \textbf{obvious\newline{.vis}} & \textbf{obvious\newline{.view}} & \textbf{Binding Size} & \textbf{Toolkit Size} \\
+    \hline
+    \textit{Prefuse} & 10 classes \newline\textit{1235 lines} & 7 classes \newline\textit{446 lines} & 2 classes \newline\textit{94 lines} & 120KB & 3.3MB \\
+    \hline
+    \textit{IVTK} & 6 classes \newline\textit{1404 lines} & 5 classes \newline\textit{460 lines} & 1 class \newline\textit{105 lines} & 115KB & 10MB \\
+    \hline
+    \textit{Improvise} & 3 classes \newline\textit{519 lines} &  &  & 27KB &  5.7 MB \\
+    \hline
+    \textit{JDBC} & 8 classes \newline\textit{1936 lines} &  &  & 75KB & 3MB \\
+    \hline
+    \textit{JUNG} & 3 classes \newline\textit{714 lines} & 1 class \newline\textit{139 lines} & 2 classes \newline\textit{114 lines} & 93KB & 4.3MB \\
+    \hline
+\end{tabular}
+\caption{Footprint of Obvious bindings. }\label{tab:obviousfootprint}
+\end{table}
