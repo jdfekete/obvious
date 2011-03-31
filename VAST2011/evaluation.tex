@@ -55,8 +55,8 @@ application, developers have to follow the following steps:
 
 \begin{lstlisting}[caption={Visualizing a graph with Obvious},label=codeSample1]
 // Creates the graph structure. First, set the factory to use (ivtk).
-// Then load the native data structure, and get a factory instance.
-// Finally, call the convenient getter of the factory.
+// Then loads the native data structure, and get a factory instance.
+// Finally, calls the convenient method of the factory.
 System.setProperty("obvious.DataFactory",
     "obvious.ivtk.data.IvtkDataFactory");
 infovis.Graph g = Algorithms.getGridGraph(10, 10);
@@ -64,7 +64,7 @@ DataFactory factory = DataFactory.getInstance()
 Network network = factory.createGraph(g);
 
 // Creates the associated visualization using the
-// factory for visualization. No predicate and extra
+// factory for visualization. No predicates and extra
 // parameters are given to the constructor.
 Visualization vis = new IvtkVisualizationFactory()
     .createVisualization(network, null, "network", null);
@@ -81,21 +81,21 @@ frame.setVisible(true);
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Combining different Obvious implementations to display a scatter-plot},label=codeSample2]
-// Defining the data factory to use,
-// obvious-prefuse will be used for the data structures.
+// Defines the data factory to use,
+// Obvious-Prefuse will be used for the data structures.
 System.setProperty("obvious.DataFactory",
     "obvious.prefuse.PrefuseDataFactory");
-// Creating an Obvious CSV reader and loading an
+// Creates an Obvious CSV reader and loading an
 // Obvious table
 CSVImport csv = new CSVImport(new File("example.csv"), ',');
 Table table = csv.loadTable();
 
-// Creating the parameter map for the monolithic object.
+// Creates the parameter map for the monolithic object.
 Map<String, Object> param = new HashMap<String, Object>();
 param.put("x", "id"); // xfield
 param.put("y", "age"); // yfield
 
-// Creating the visualization then the view. No predicates are given to
+// Creates the visualization then the view. No predicates are given to
 // the constructor.
 Visualization vis = new IvtkScatterPlotVis(table, null, "plot", param);
 
@@ -243,7 +243,7 @@ and to locally store it.
 \end{comment}
 
 The cached tables are implemented using Obvious (different bindings
-have been used: Prefuse, IVTK and JUNG).  Several applications has
+have been used: Prefuse, IVTK, JDBC and JUNG). Several applications have
 been built around Obvious DBMS caching tables; one of them is
 presented in the next section.
 
