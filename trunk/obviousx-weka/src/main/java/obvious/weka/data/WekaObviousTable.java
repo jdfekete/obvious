@@ -45,6 +45,13 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 
+
+/**
+ * An implementation of Obvious Table based on Weka.
+ * This table can only contains String, Date and Numeric values.
+ * @author Hemery
+ *
+ */
 public class WekaObviousTable implements Table {
 
   /**
@@ -246,8 +253,7 @@ public class WekaObviousTable implements Table {
 
   @Override
   public IntIterator rowIterator() {
-    // TODO Auto-generated method stub
-    return null;
+    return new WekaObviousIntIterator(instances);
   }
 
   @Override
@@ -293,6 +299,7 @@ public class WekaObviousTable implements Table {
 
   public class WekaObviousIntIterator implements IntIterator {
 
+    @SuppressWarnings("unchecked")
     private Enumeration enumInst;
     
     private int currentIndex = -1;

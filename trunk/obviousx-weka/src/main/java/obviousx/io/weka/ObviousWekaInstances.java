@@ -366,6 +366,7 @@ public class ObviousWekaInstances extends Instances {
     super.randomize(arg0);
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public boolean readInstance(Reader reader) throws IOException {
     return super.readInstance(reader);
