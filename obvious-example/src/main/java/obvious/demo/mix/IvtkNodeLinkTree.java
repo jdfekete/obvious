@@ -40,7 +40,10 @@ import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
 import obvious.viz.Visualization;
 
 /**
- * Simple test based on an ivtk NodeLinKGraph Visualization.
+ * This class shows an Obvious example based on the IVTK binding. It
+ * illustrates how visualizing a wrapped IVTK tree with Obvious. The default
+ * layout of IVTK for tree is used.
+ * No interaction techniques are supported for this example.
  * @author Hemery
  *
  */

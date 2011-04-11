@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.jdbc;
+package obvious.jdbc.data;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

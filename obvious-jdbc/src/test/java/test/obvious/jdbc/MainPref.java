@@ -22,7 +22,7 @@ import obvious.impl.SchemaImpl;
 import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
-import obvious.jdbc.JDBCObviousNetwork;
+import obvious.jdbc.data.JDBCObviousNetwork;
 import obvious.prefuse.data.PrefuseObviousNetwork;
 import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.prefuse.viz.PrefuseObviousVisualization;

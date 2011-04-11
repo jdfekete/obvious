@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.jdbc;
+package obvious.jdbc.data;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -49,6 +49,7 @@ import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.SchemaImpl;
+import obvious.jdbc.utils.FormatFactorySQL;
 
 /**
 *

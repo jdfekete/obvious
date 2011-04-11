@@ -35,7 +35,7 @@ import java.sql.SQLException;
 import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
-import obvious.jdbc.JDBCObviousTable;
+import obvious.jdbc.data.JDBCObviousTable;
 import test.obvious.data.TableTest;
 
 /**

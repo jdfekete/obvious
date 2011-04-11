@@ -77,7 +77,6 @@ public class ObviousWekaExample {
    Instances newInst = Filter.useFilter(inst, remove);
    System.out.println(newInst.toSummaryString());
    SimpleKMeans sKM = new SimpleKMeans();
-   sKM.setMaxIterations(16);
    sKM.setNumClusters(5);
    ClusterEvaluation eval = new ClusterEvaluation();
    sKM.buildClusterer(newInst);

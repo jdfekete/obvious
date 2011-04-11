@@ -75,7 +75,7 @@ public final class GraphMLImportExample {
     }
 
     // Load GraphML File
-    File inputFile = new File("src/main/resources/example.graphML");
+    File inputFile = new File("//src//main//resources//example.graphML");
     System.setProperty(XmlPullParserFactory.PROPERTY_NAME,
         "org.kxml2.io.KXmlParser");
 

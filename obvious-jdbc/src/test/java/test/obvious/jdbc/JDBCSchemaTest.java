@@ -33,7 +33,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import obvious.data.Schema;
-import obvious.jdbc.JDBCObviousSchema;
+import obvious.jdbc.data.JDBCObviousSchema;
 import test.obvious.data.SchemaTest;
 
 /**
