@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +48,7 @@ import obvious.data.Tuple;
 import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
+import obvious.impl.SchemaImpl;
 
 /**
 *
@@ -82,6 +84,11 @@ public class JDBCObviousSchema implements Schema {
   private Table schemaTable;
 
   /**
+   * Index of schema column.
+   */
+  private final int name = 0, type = 1, defaultVal = 2;
+
+  /**
    * Name of the table associated to the schema.
    */
   private String tableName;
@@ -90,6 +97,16 @@ public class JDBCObviousSchema implements Schema {
    * Map between Column and their default value.
    */
   private Map<String, Object> defaultValues;
+
+  /**
+   * Is the schema being edited.
+   */
+  private boolean editing = false;
+
+  /**
+   * ArrayList of listeners.
+   */
+  private ArrayList<TableListener> listener = new ArrayList<TableListener>();
 
   /**
    * Constructor.
@@ -454,95 +471,116 @@ public class JDBCObviousSchema implements Schema {
 
   @Override
   public int addRow() {
-    // TODO Auto-generated method stub
-    return 0;
+    return -1;
   }
 
   @Override
   public void addTableListener(TableListener listnr) {
-    // TODO Auto-generated method stub
+    listener.add(listnr);
   }
 
   @Override
   public void beginEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
+    this.editing = true;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.beginEdit(col);
+    }
   }
 
   @Override
   public boolean canAddRow() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean canRemoveRow() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean endEdit(int col) throws ObviousException {
-    // TODO Auto-generated method stub
     return true;
   }
 
   @Override
+  public boolean canRemoveRow() {
+    return true;
+  }
+
+  @Override
+  public boolean endEdit(int col) throws ObviousException {
+    this.editing = false;
+    for (TableListener listnr : this.getTableListeners()) {
+      listnr.endEdit(col);
+    }
+    return this.editing;
+  }
+
+  @Override
   public int getRowCount() {
-    // TODO Auto-generated method stub
-    return 0;
+    return this.getColumnCount();
   }
 
   @Override
   public Schema getSchema() {
-    // TODO Auto-generated method stub
-    return null;
+    Schema baseSchema = new SchemaImpl();
+    baseSchema.addColumn("name", String.class, "defaulCol");
+    baseSchema.addColumn("type", Class.class, String.class);
+    baseSchema.addColumn("default", Object.class, null);
+    return baseSchema;
   }
 
   @Override
   public Collection<TableListener> getTableListeners() {
-    // TODO Auto-generated method stub
-    return null;
+    return listener;
   }
 
   @Override
   public Object getValue(int rowId, String field) {
-    // TODO Auto-generated method stub
-    return null;
+    return getValue(rowId, getColumnIndex(field));
   }
 
   @Override
   public Object getValue(int rowId, int col) {
-    // TODO Auto-generated method stub
-    return null;
+    if (isValueValid(rowId, col)) {
+      if (col == name) {
+        return getColumnName(rowId);
+      } else if (col == type) {
+        return getColumnType(rowId);
+      } else if (col == defaultVal) {
+        return getColumnDefault(rowId);
+      }
+      return null; // this should not happens
+    } else {
+      return null;
+    }
   }
 
   @Override
   public boolean isEditing(int col) {
-    // TODO Auto-generated method stub
-    return false;
+    return this.editing;
   }
 
   @Override
   public boolean isValidRow(int rowId) {
-    // TODO Auto-generated method stub
-    return false;
+    return rowId < getColumnCount();
   }
 
   @Override
   public boolean isValueValid(int rowId, int col) {
-    // TODO Auto-generated method stub
-    return false;
+    final int colNumber = 3;
+    return isValidRow(rowId) && col < colNumber;
   }
 
   @Override
   public void removeAllRows() {
-    // TODO Auto-generated method stub
+    if (canRemoveRow()) {
+      for (int i = 0; i < getColumnCount(); i++) {
+        removeColumn(i);
+      }
+      this.fireTableEvent(0, getColumnCount(),
+          TableListener.ALL_COLUMN, TableListener.DELETE);
+    }
   }
 
   @Override
   public boolean removeRow(int row) {
-    // TODO Auto-generated method stub
-    return false;
+    boolean removed = removeColumn(row);
+    if (removed) {
+      this.fireTableEvent(row, row,
+          TableListener.ALL_COLUMN, TableListener.DELETE);
+    }
+    return removed;
   }
 
   /**
@@ -557,38 +595,43 @@ public class JDBCObviousSchema implements Schema {
 
   @Override
   public void removeTableListener(TableListener listnr) {
-    // TODO Auto-generated method stub
+    listener.remove(listnr);
   }
 
   @Override
   public IntIterator rowIterator() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public void set(int rowId, String field, Object val) {
-    // TODO Auto-generated method stub
+    set(rowId, getColumnIndex(field), val);
   }
 
   @Override
   public void set(int rowId, int col, Object val) {
-    // TODO Auto-generated method stub
+    return;
   }
 
   @Override
   public int addRow(Tuple tuple) {
-    // TODO Auto-generated method stub
-    return 0;
+    if (tuple.getSchema().equals(getSchema())) {
+      String colName = tuple.getString("name");
+      Class<?> c = (Class<?>) tuple.get("type");
+      Object value = tuple.get("default");
+      addColumn(colName, c, value);
+    }
+    this.fireTableEvent(getColumnCount(), getColumnCount(),
+        TableListener.ALL_COLUMN, TableListener.INSERT);
+    return getColumnCount();
   }
 
   /**
    * Return the underlying implementation.
-   * @param type targeted class
+   * @param inType targeted class
    * @return null
    */
-  public Object getUnderlyingImpl(Class<?> type) {
-    // TODO Auto-generated method stub
+  public Object getUnderlyingImpl(Class<?> inType) {
     return null;
   }
 
@@ -597,14 +640,14 @@ public class JDBCObviousSchema implements Schema {
    * @param start the starting row index of the changed table region
    * @param end the ending row index of the changed table region
    * @param col the column that has changed
-   * @param type the type of modification
+   * @param inType the type of modification
    */
-  public void fireTableEvent(int start, int end, int col, int type) {
+  public void fireTableEvent(int start, int end, int col, int inType) {
    if (this.getTableListeners().isEmpty()) {
      return;
    }
    for (TableListener listnr : this.getTableListeners()) {
-     listnr.tableChanged(this, start, end, col, type);
+     listnr.tableChanged(this, start, end, col, inType);
    }
   }
 
