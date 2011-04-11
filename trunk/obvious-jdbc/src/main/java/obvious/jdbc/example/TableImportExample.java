@@ -40,8 +40,8 @@ import obvious.ObviousException;
 import obvious.data.DataFactory;
 import obvious.data.Table;
 import obvious.impl.DataFactoryImpl;
-import obvious.jdbc.DatabaseImporter;
-import obvious.jdbc.FormatFactorySQL;
+import obvious.jdbc.io.DatabaseImporter;
+import obvious.jdbc.utils.FormatFactorySQL;
 import obviousx.ObviousxException;
 import obviousx.util.FormatFactory;
 

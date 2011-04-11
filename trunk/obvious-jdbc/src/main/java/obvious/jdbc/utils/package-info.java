@@ -26,8 +26,8 @@
 */
 
 /**
- * <h1>Package test.obvious.data</h1>
+ * <h1>Package obvious.jdbc.utils</h1>
  *
  * TODO document the package.
  */
-package obvious.jdbc;
+package obvious.jdbc.utils;

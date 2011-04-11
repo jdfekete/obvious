@@ -37,7 +37,7 @@ import javax.swing.JFrame;
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
 import obvious.impl.TupleImpl;
-import obvious.jdbc.JDBCObviousTable;
+import obvious.jdbc.data.JDBCObviousTable;
 import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.data.Schema;
 import obvious.data.Table;

@@ -34,12 +34,13 @@ import obvious.ivtk.data.IvtkObviousNetwork;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkNodeLinkGraphVis;
 import obvious.view.JView;
-import obvious.view.control.PanControl;
-import obvious.view.control.ZoomControl;
 import obvious.viz.Visualization;
 
 /**
- * Simple test based on an ivtk NodeLinKGraph Visualization.
+ * This class shows an Obvious example based on the IVTK binding. It
+ * illustrates how visualizing a wrapped IVTK graph with Obvious. The default
+ * layout of IVTK for graph is used.
+ * No interaction techniques are supported for this example.
  * @author Hemery
  *
  */
@@ -62,14 +63,12 @@ public final class IvtkNodeLinkGraph {
         gridDim, gridDim);
     Network ivtkNetwork = new IvtkObviousNetwork(graph);
 
+    // Directly creates the visualization with the appropriate constructor.
+    // No extra parameters are given.
     Visualization vis = new IvtkNodeLinkGraphVis(ivtkNetwork, null, null, null);
+    // Creates the view.
     JView view = new IvtkObviousView(vis, null, "network", null);
-    PanControl control = new PanControl(view);
-    ZoomControl zoomcontrol = new ZoomControl(view);
-    view.getViewJComponent().addMouseListener(control);
-    view.getViewJComponent().addMouseMotionListener(control);
-    view.getViewJComponent().addMouseListener(zoomcontrol);
-    view.getViewJComponent().addMouseMotionListener(zoomcontrol);
+    // Standard java window creation.
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     final int dim = 500;

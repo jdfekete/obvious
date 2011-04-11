@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010, INRIA
+* Copyright (c) 2009, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,56 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.demo.viz;
-
-import infovis.panel.VisualizationPanel;
-import infovis.tree.DefaultTree;
-
-import javax.swing.JFrame;
-
-import obvious.data.Edge;
-import obvious.data.Node;
-import obvious.data.Tree;
-import obvious.ivtk.data.IvtkObviousTree;
-import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
-import obvious.viz.Visualization;
-
 /**
- * Simple test based on an ivtk NodeLinKGraph Visualization.
- * @author Hemery
+ * <h1>Package obvious.jdbc.data</h1>
  *
+ * TODO document the package.
  */
-public final class IvtkNodeLinkTree {
-
-  /**
-   * Private constructor.
-   */
-  private IvtkNodeLinkTree() {
-  }
-
-  /**
-   * Main method.
-   * @param args arguments
-   */
-  public static void main(final String[] args) {
-    // Creating the example network.
-    infovis.Tree t = new DefaultTree();
-    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(t);
-
-    Visualization vis = new IvtkNodeLinkTreeVis(ivtkTree, null, null, null);
-
-
-    infovis.Visualization ivtkVis = (infovis.Visualization)
-    vis.getUnderlyingImpl(infovis.Visualization.class);
-    VisualizationPanel panel = new VisualizationPanel(ivtkVis);
-
-    //JView view = new IvtkObviousView(vis, null, "tree", null);
-
-    final int dim = 500;
-    JFrame frame = new JFrame("EXAMPLE");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(dim, dim);
-    frame.getContentPane().add(panel);
-    frame.setVisible(true);
-  }
-}
+package obvious.jdbc.data;

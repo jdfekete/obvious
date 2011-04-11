@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.jdbc;
+package obvious.jdbc.data;
 
 import java.text.FieldPosition;
 import java.util.ArrayList;
@@ -51,6 +51,7 @@ import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.FilterIntIterator;
 import obvious.impl.IntIteratorImpl;
+import obvious.jdbc.utils.FormatFactorySQL;
 import obviousx.text.TypedFormat;
 
 /**
