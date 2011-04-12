@@ -32,4 +32,4 @@
  * test newly introduced features. This package is almost a sandbox and can be
  * useful to discover how to use Obvious.
  */
-package obvious.demo.mix;
+package obvious.demo.misc;
