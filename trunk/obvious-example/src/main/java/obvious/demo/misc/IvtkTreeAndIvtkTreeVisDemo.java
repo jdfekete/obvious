@@ -28,15 +28,19 @@
 package obvious.demo.misc;
 
 import infovis.panel.VisualizationPanel;
-import infovis.tree.DefaultTree;
 
 import javax.swing.JFrame;
 
 import obvious.data.Edge;
+import obvious.data.Graph;
 import obvious.data.Node;
+import obvious.data.Schema;
 import obvious.data.Tree;
+import obvious.impl.EdgeImpl;
+import obvious.impl.NodeImpl;
 import obvious.ivtk.data.IvtkObviousTree;
 import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.viz.Visualization;
 
 /**
@@ -60,10 +64,36 @@ public final class IvtkTreeAndIvtkTreeVisDemo {
    * @param args arguments
    */
   public static void main(final String[] args) {
-    // Creating the example network.
-    infovis.Tree t = new DefaultTree();
-    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(t);
 
+    // Creating the example network.
+    Schema nodeSchema = new PrefuseObviousSchema();
+    Schema edgeSchema = new PrefuseObviousSchema();
+
+    nodeSchema.addColumn("name", String.class, "bob");
+    nodeSchema.addColumn("id", int.class, 0);
+
+    edgeSchema.addColumn("source", int.class, 0);
+    edgeSchema.addColumn("target", int.class, 0);
+
+    // Creating nodes and edges
+    Node node1 = new NodeImpl(nodeSchema, new Object[] {"1", 0});
+    Node node2 = new NodeImpl(nodeSchema, new Object[] {"2", 1});
+    Node node3 = new NodeImpl(nodeSchema, new Object[] {"3", 2});
+    Node node4 = new NodeImpl(nodeSchema, new Object[] {"4", 3});
+
+    Edge edge1 = new EdgeImpl(edgeSchema, new Object[] {0, 1});
+    Edge edge2 = new EdgeImpl(edgeSchema, new Object[] {1, 2});
+    Edge edge4 = new EdgeImpl(edgeSchema, new Object[] {3, 1});
+
+    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(nodeSchema, edgeSchema);
+
+    ivtkTree.addNode(node1);
+    ivtkTree.addNode(node2);
+    ivtkTree.addNode(node3);
+    ivtkTree.addNode(node4);
+    ivtkTree.addEdge(edge1, node1, node2, Graph.EdgeType.DIRECTED);
+    ivtkTree.addEdge(edge2, node2, node3, Graph.EdgeType.DIRECTED);
+    ivtkTree.addEdge(edge4, node2, node4, Graph.EdgeType.DIRECTED);
 
     Visualization vis = new IvtkNodeLinkTreeVis(ivtkTree, null, null, null);
 
