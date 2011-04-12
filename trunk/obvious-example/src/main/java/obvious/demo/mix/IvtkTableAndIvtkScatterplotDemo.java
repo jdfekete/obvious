@@ -22,12 +22,12 @@ import obviousx.io.CSVImport;
  * @author Hemery
  *
  */
-public final class IvtkVisualTableTest {
+public final class IvtkTableAndIvtkScatterplotDemo {
 
   /**
    * Constructor.
    */
-  private IvtkVisualTableTest() { }
+  private IvtkTableAndIvtkScatterplotDemo() { }
 
   /**
    * Main method.

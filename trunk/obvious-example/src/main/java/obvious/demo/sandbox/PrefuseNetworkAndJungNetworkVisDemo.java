@@ -25,152 +25,160 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obvious.demo.mix;
+package obvious.demo.sandbox;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
 
+import obvious.data.Edge;
+import obvious.data.Graph;
+import obvious.data.Network;
+import obvious.data.Node;
 import obvious.data.Schema;
+import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
-import obvious.prefuse.data.PrefuseObviousNetwork;
+import obvious.jung.data.JungObviousNetwork;
 import obvious.prefuse.data.PrefuseObviousSchema;
+import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
 import obvious.prefuse.viz.PrefuseObviousVisBoost;
 import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
-import obvious.prefuse.viz.util.PrefuseObviousNetworkViz;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
-
-import prefuse.Constants;
 import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
-import prefuse.action.assignment.DataColorAction;
 import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.activity.Activity;
-import prefuse.data.io.DataIOException;
-import prefuse.data.io.GraphMLReader;
+import prefuse.controls.DragControl;
+import prefuse.controls.PanControl;
+import prefuse.controls.ZoomControl;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
 import prefuse.visual.VisualItem;
 
 /**
- * Simple test for a graph visualization with obvious-prefuse.
- * Obvious-prefuse implementation is used for data model and visualization.
- * Prefuse standard implementation is used to display.
- * This demo is based on the example of the prefuse manual and the data file
- * comes from it too.
+ * This demo used as data model for a simple network the obvious-jung
+ * implementation. Then, the obvious-prefuse implementation is used for
+ * visualization. The standard prefuse implementation displays it, in the
+ * current version of this example.
+ * This example is based on the example used in the prefuse manual explaining
+ * a way to simply visualize graph.
  * @author Hemery
  *
  */
-public final class VizGraphTest {
+public final class PrefuseNetworkAndJungNetworkVisDemo {
 
   /**
    * Private constructor.
    */
-  private VizGraphTest() { }
+  private PrefuseNetworkAndJungNetworkVisDemo() { }
 
   /**
    * Main method.
-   * @param args args
+   * @param args arguments
    */
   public static void main(final String[] args) {
 
-    // Create the prefuse graph.
-    prefuse.data.Graph prefGraph = null;
-    try {
-      prefGraph = new GraphMLReader().readGraph(
-          "src/main/resources/socialnet.xml");
-    } catch (DataIOException e) {
-      e.printStackTrace();
-      System.err.println("Error loading graph. Exiting...");
-      System.exit(1);
-    }
+    // Creating the example network.
+    Schema nodeSchema = new PrefuseObviousSchema();
+    Schema edgeSchema = new PrefuseObviousSchema();
 
-    // Create the parameter for the visualization.
+    nodeSchema.addColumn("name", String.class, "bob");
+    nodeSchema.addColumn("id", int.class, 0);
+
+    edgeSchema.addColumn("source", int.class, 0);
+    edgeSchema.addColumn("target", int.class, 0);
+
+    // Creating nodes and edges
+    Node node1 = new NodeImpl(nodeSchema, new Object[] {"1", 0});
+    Node node2 = new NodeImpl(nodeSchema, new Object[] {"2", 1});
+    Node node3 = new NodeImpl(nodeSchema, new Object[] {"3", 2});
+    Node node4 = new NodeImpl(nodeSchema, new Object[] {"4", 3});
+
+    Edge edge1 = new EdgeImpl(edgeSchema, new Object[] {0, 1});
+    Edge edge2 = new EdgeImpl(edgeSchema, new Object[] {1, 2});
+    Edge edge3 = new EdgeImpl(edgeSchema, new Object[] {2, 0});
+    Edge edge4 = new EdgeImpl(edgeSchema, new Object[] {3, 1});
+
+    // Building the network
+    Network jungNetwork = new JungObviousNetwork(nodeSchema, edgeSchema,
+        "source", "target");
+    jungNetwork.addNode(node1);
+    jungNetwork.addNode(node2);
+    jungNetwork.addNode(node3);
+    jungNetwork.addNode(node4);
+
+    jungNetwork.addEdge(edge1, node1, node2, Graph.EdgeType.UNDIRECTED);
+    jungNetwork.addEdge(edge2, node2, node3, Graph.EdgeType.UNDIRECTED);
+    jungNetwork.addEdge(edge3, node3, node1, Graph.EdgeType.UNDIRECTED);
+    jungNetwork.addEdge(edge4, node4, node2, Graph.EdgeType.UNDIRECTED);
+
+    // Param for the prefuse visualization (simply group name).
     Map<String, Object> param = new HashMap<String, Object>();
     param.put(PrefuseObviousVisualization.GROUP_NAME, "graph");
-    param.put(PrefuseObviousNetworkViz.LABEL_KEY, "name");
 
-    // Create the obvious-prefuse graph.
-    PrefuseObviousNetwork network = new PrefuseObviousNetwork(prefGraph);
-
-    // Create the obvious-prefuse visualization.
+    // Creating the visualization.
     PrefuseObviousVisualization vis = new PrefuseObviousVisBoost(
-        network, null, null, param);
+        jungNetwork, null, null, param);
 
-    // Using label renderer as in the tutorial of prefuse.
+    // Using label renderer as in the tutorial.
     LabelRenderer r = new LabelRenderer("name");
     r.setRoundedCorner(8, 8); // round the corners
     vis.setRenderer(new PrefuseObviousRenderer(new DefaultRendererFactory(r)));
 
-    // Color for data values.
-   int[] palette = new int[] {
-       ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
-   };
-   DataColorAction fill = new DataColorAction("graph.nodes", "gender",
-       Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
+   // Color for data values.
    ColorAction text = new ColorAction("graph.nodes",
        VisualItem.TEXTCOLOR, ColorLib.gray(0));
-   // Color for edges
+   // Color for edges.
    ColorAction edges = new ColorAction("graph.edges",
        VisualItem.STROKECOLOR, ColorLib.gray(200));
 
    // Creating the prefuse action list.
    ActionList color = new ActionList();
-   color.add(fill);
    color.add(text);
    color.add(edges);
+
    // Wrapping the action list around obvious
    vis.putAction("color", new PrefuseObviousAction(color));
 
 
-   // Creating a Directed force Layout.
+  // Creating a Directed force Layout.
   ActionList layout = new ActionList(Activity.INFINITY);
   layout.add(new ForceDirectedLayout("graph"));
   layout.add(new RepaintAction());
+
   // Wrapping the layout around obvious.
   vis.putAction("layout", new PrefuseObviousAction(layout));
 
-
-  
-
-  /*
-  PrefuseObviousVisualization vis = new PrefuseObviousNetworkViz(network, null, "test", param);
-  */
   // In order to display, we have to call the underlying prefuse visualization.
   // In a complete version of obvious, we don't need that step.
   prefuse.Visualization prefViz = (prefuse.Visualization)
   vis.getUnderlyingImpl(prefuse.Visualization.class);
-  
-  PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot", null);
-  //view.addListener(new PrefuseObviousControl(new ZoomControl()));
-  //view.addListener(new PrefuseObviousControl(new PanControl()));
-  //view.addListener(new PrefuseObviousControl(new DragControl()));
-  obvious.view.control.PanControl control = new obvious.view.control.PanControl(view);
-  obvious.view.control.ZoomControl zoomcontrol = new obvious.view.control.ZoomControl(view);
-  view.getViewJComponent().addMouseListener(control);
-  view.getViewJComponent().addMouseMotionListener(control);
-  view.getViewJComponent().addMouseListener(zoomcontrol);
-  view.getViewJComponent().addMouseMotionListener(zoomcontrol);
-  //create a new window to hold the visualization
-  JFrame frame = new JFrame("DataModel : Obvious-prefuse"
+
+  PrefuseObviousView view = new PrefuseObviousView(vis, null, "scatterplot",
+      null);
+  view.addListener(new PrefuseObviousControl(new ZoomControl()));
+  view.addListener(new PrefuseObviousControl(new PanControl()));
+  view.addListener(new PrefuseObviousControl(new DragControl()));
+
+  //JFrame...
+  JFrame frame = new JFrame("DataModel : Obvious-Jung"
       + " | Visu : Obvious-Prefuse | View : Obvious-Prefuse");
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   frame.add(view.getViewJComponent());
   frame.pack();
   frame.setVisible(true);
 
-  prefViz.run("color");  // assign the colors
-  prefViz.run("layout"); // start up the animated layout
+  prefViz.run("color");
+  prefViz.run("layout");
 
-  Schema nodeSchema = new PrefuseObviousSchema();
-  nodeSchema.addColumn("name", String.class, "bob");
-  nodeSchema.addColumn("gender", String.class, "male");
-  network.addNode(new NodeImpl(nodeSchema, new Object[] {"marc", "male"}));
+  Node node5 = new NodeImpl(nodeSchema, new Object[] {"5", 4});
+  jungNetwork.addNode(node5);
+  Edge edge5 = new EdgeImpl(edgeSchema, new Object[] {5, 2});
+  jungNetwork.addEdge(edge5, node5, node2, Graph.EdgeType.UNDIRECTED);
   }
-
 }

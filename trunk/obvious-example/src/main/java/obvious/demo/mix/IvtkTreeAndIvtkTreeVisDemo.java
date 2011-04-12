@@ -27,32 +27,32 @@
 
 package obvious.demo.mix;
 
-import java.util.HashMap;
-import java.util.Map;
+import infovis.panel.VisualizationPanel;
+import infovis.tree.DefaultTree;
 
 import javax.swing.JFrame;
 
-import obvious.impl.TupleImpl;
-import obvious.ivtk.data.IvtkObviousTable;
-import obvious.ivtk.viz.util.IvtkScatterPlotVis;
-
-import obvious.prefuse.data.PrefuseObviousSchema;
+import obvious.data.Edge;
+import obvious.data.Node;
+import obvious.data.Tree;
+import obvious.ivtk.data.IvtkObviousTree;
+import obvious.ivtk.viz.util.IvtkNodeLinkTreeVis;
 import obvious.viz.Visualization;
-import obvious.data.Schema;
-import obvious.data.Table;
-import infovis.panel.VisualizationPanel;
 
 /**
- * Simple scatter plot test based on obvious-ivtk.
+ * This class shows an Obvious example based on the IVTK binding. It
+ * illustrates how visualizing a wrapped IVTK tree with Obvious. The default
+ * layout of IVTK for tree is used.
+ * No interaction techniques are supported for this example.
  * @author Hemery
  *
  */
-public final class ScatterPlotSalivary {
+public final class IvtkTreeAndIvtkTreeVisDemo {
 
   /**
    * Private constructor.
    */
-  private ScatterPlotSalivary() {
+  private IvtkTreeAndIvtkTreeVisDemo() {
   }
 
   /**
@@ -60,42 +60,24 @@ public final class ScatterPlotSalivary {
    * @param args arguments
    */
   public static void main(final String[] args) {
-    Schema schema = new PrefuseObviousSchema();
-    schema.addColumn("id", Integer.class, 0);
-    schema.addColumn("age", Integer.class, 18);
-    Table table = new IvtkObviousTable(schema);
+    // Creating the example network.
+    infovis.Tree t = new DefaultTree();
+    Tree<Node, Edge> ivtkTree = new IvtkObviousTree(t);
 
-    table.addRow(new TupleImpl(schema, new Object[] {1, 22}));
-    table.addRow(new TupleImpl(schema, new Object[] {2, 60}));
-    table.addRow(new TupleImpl(schema, new Object[] {3, 32}));
-    table.addRow(new TupleImpl(schema, new Object[] {4, 20}));
-    table.addRow(new TupleImpl(schema, new Object[] {5, 72}));
-    table.addRow(new TupleImpl(schema, new Object[] {6, 40}));
-    table.addRow(new TupleImpl(schema, new Object[] {7, 52}));
-    table.addRow(new TupleImpl(schema, new Object[] {8, 35}));
-    table.addRow(new TupleImpl(schema, new Object[] {9, 32}));
-    table.addRow(new TupleImpl(schema, new Object[] {10, 44}));
-    table.addRow(new TupleImpl(schema, new Object[] {11, 2}));
-    table.addRow(new TupleImpl(schema, new Object[] {12, 38}));
-    table.addRow(new TupleImpl(schema, new Object[] {13, 53}));
-    table.addRow(new TupleImpl(schema, new Object[] {14, 49}));
-    table.addRow(new TupleImpl(schema, new Object[] {15, 21}));
-    table.addRow(new TupleImpl(schema, new Object[] {16, 36}));
+    Visualization vis = new IvtkNodeLinkTreeVis(ivtkTree, null, null, null);
 
-    Map<String, Object> param = new HashMap<String, Object>();
-    param.put(IvtkScatterPlotVis.X_AXIS, "id");
-    param.put(IvtkScatterPlotVis.Y_AXIS, "age");
-    Visualization vis = new IvtkScatterPlotVis(
-        table, null, "scatterplot", param);
+
     infovis.Visualization ivtkVis = (infovis.Visualization)
-        vis.getUnderlyingImpl(infovis.Visualization.class);
+    vis.getUnderlyingImpl(infovis.Visualization.class);
     VisualizationPanel panel = new VisualizationPanel(ivtkVis);
+
+    //JView view = new IvtkObviousView(vis, null, "tree", null);
+
+    final int dim = 500;
     JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    final int dim = 500;
     frame.setSize(dim, dim);
     frame.getContentPane().add(panel);
     frame.setVisible(true);
   }
-
 }
