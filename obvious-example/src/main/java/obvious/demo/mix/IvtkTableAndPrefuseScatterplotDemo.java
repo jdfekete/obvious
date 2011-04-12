@@ -1,15 +1,21 @@
 package obvious.demo.mix;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
-import obvious.prefuse.data.PrefuseObviousTable;
-import obvious.prefuse.viz.PrefuseObviousVisualization;
+import obvious.data.Schema;
+import obvious.data.Table;
+import obvious.ivtk.data.IvtkObviousSchema;
+import obvious.prefuse.view.PrefuseObviousControl;
+import obvious.prefuse.view.PrefuseObviousView;
+import obvious.prefuse.viz.PrefuseObviousVisBoost;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import obvious.viz.Visualization;
-import obvious.data.Table;
+import obviousx.ObviousxException;
+import obviousx.io.CSVImport;
 import prefuse.Constants;
-import prefuse.Display;
 import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
@@ -18,7 +24,6 @@ import prefuse.action.layout.AxisLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
-import prefuse.data.io.DelimitedTextTableReader;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.ShapeRenderer;
 import prefuse.util.ColorLib;
@@ -26,49 +31,50 @@ import prefuse.visual.VisualItem;
 import prefuse.visual.expression.VisiblePredicate;
 
 /**
- * A simple visualization test of a scatter plot. This example derived
- * from a the ScatterPlot demo of the prefuse toolkit. It uses the same
- * data file and the same actions / renderer. But it's built with Obvious data
- * model and visualization. In this version, it is displayed with prefuse
- * toolkit.
- * In this example, we use the polylithic approach, that's why some prefuse
- * code is present to build action and renderer.
+ * A simple visualization test of a scatter plot. It uses as data model
+ * an obvious-ivtk table. For visualisation, it uses obvious-prefuse in a
+ * polylithic approach that's why some prefuse code is present to build
+ * action and renderer.
  * @author Hemery
  *
  */
-public final class ScatterPlotVisualization {
+public final class IvtkTableAndPrefuseScatterplotDemo {
 
   /**
    * Private constructor.
    */
-  private ScatterPlotVisualization() { }
+  private IvtkTableAndPrefuseScatterplotDemo() { }
 
   /**
-   * Main function.
+   * Main method.
    * @param args arguments
+   * @throws ObviousxException if something bad happens
    */
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws ObviousxException {
 
-    // Load data into a prefuse table.
-    prefuse.data.Table prefTable = null;
-    try {
-        prefTable = new DelimitedTextTableReader().readTable(
-            "src/main/resources/fisher.iris.txt");
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    // Wrapping the prefuse table to an obvious table.
-    Table table = new PrefuseObviousTable(prefTable);
-    // Creating the obvious visualization.
-    Visualization viz = new PrefuseObviousVisualization(table, null, null,
+    // Building the dataset.
+    Schema schema = new IvtkObviousSchema();
+    schema.addColumn("id", Integer.class, 0);
+    schema.addColumn("age", Integer.class, 0);
+    schema.addColumn("category", String.class, "unemployed");
+
+    System.setProperty("obvious.DataFactory",
+    "obvious.ivtk.data.IvtkDataFactory");
+
+    // Creating an Obvious CSV reader and loading an Obvious table
+    CSVImport csv = new CSVImport(new File(
+      "src//main//resources//articlecombinedexample.csv"), ',');
+    Table table = csv.loadTable();
+
+    // Building the visulalization
+    Visualization viz = new PrefuseObviousVisBoost(table, null, null,
         null);
-
     // We define all useful field and paramaters (such as group name).
-    String xfield = "SepalLength";
-    String yfield = "PetalLength";
-    String sfield = "Species";
+    String xfield = "id";
+    String yfield = "age";
+    String sfield = "category";
     String group = "tupleset";
-    ShapeRenderer mshapeR = new ShapeRenderer(2); // three "kinds" of tuple
+    ShapeRenderer mshapeR = new ShapeRenderer(2);
 
     // Setting the default renderer factory then adding it to obvious vis.
     DefaultRendererFactory rf = new DefaultRendererFactory(mshapeR);
@@ -83,12 +89,14 @@ public final class ScatterPlotVisualization {
         Constants.Y_AXIS, VisiblePredicate.TRUE);
     viz.putAction("y", new PrefuseObviousAction(yAxis));
 
+    final int color1 = 100, color2 = 255;
     ColorAction color = new ColorAction(group,
-        VisualItem.STROKECOLOR, ColorLib.rgb(100,100,255));
+        VisualItem.STROKECOLOR, ColorLib.rgb(color1, color1, color2));
     viz.putAction("color", new PrefuseObviousAction(color));
 
     DataShapeAction shape = new DataShapeAction(group, sfield);
     viz.putAction("shape", new PrefuseObviousAction(shape));
+
     // Building the action list, then add it to obvious visualization.
     ActionList draw = new ActionList();
     draw.add(xAxis);
@@ -106,21 +114,21 @@ public final class ScatterPlotVisualization {
     prefuse.Visualization prefViz = (prefuse.Visualization)
     viz.getUnderlyingImpl(prefuse.Visualization.class);
 
-    // Building the prefuse display.
-    Display display = new Display(prefViz);
-    display.setSize(300, 200);
-    display.addControlListener(new DragControl());
-    display.addControlListener(new PanControl());
-    display.addControlListener(new ZoomControl());
+    PrefuseObviousView view = new PrefuseObviousView(viz, null, "scatterplot",
+        null);
+    view.addListener(new PrefuseObviousControl(new ZoomControl()));
+    view.addListener(new PrefuseObviousControl(new PanControl()));
+    view.addListener(new PrefuseObviousControl(new DragControl()));
 
-    // Jframe...
-    JFrame frame = new JFrame("Data model : obvious-prefuse |"
-        + " Visualisation : obvious-prefuse | View Prefuse | Polylithic");
+    // JFrame...
+    JFrame frame = new JFrame("Data model : obvious-ivtk |"
+        + " Visualisation : obvious-prefuse"
+        + "| View obvious-prefuse | Polylithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(display);
+    frame.add(view.getViewJComponent());
     frame.pack();
     frame.setVisible(true);
     prefViz.run("draw");
-  }
 
+  }
 }

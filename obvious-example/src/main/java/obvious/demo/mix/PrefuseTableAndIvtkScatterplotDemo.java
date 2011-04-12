@@ -7,13 +7,14 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import obvious.ObviousException;
+import obvious.data.Schema;
 import obvious.data.Table;
+import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
 import obviousx.io.CSVImport;
-
 
 /**
  * Test example to check VisualAttributeManager implementation for
@@ -21,12 +22,12 @@ import obviousx.io.CSVImport;
  * @author Hemery
  *
  */
-public final class PrefuseVisualTableTestWithIvtkView {
+public final class PrefuseTableAndIvtkScatterplotDemo {
 
   /**
    * Private constructor.
    */
-  private PrefuseVisualTableTestWithIvtkView() { }
+  private PrefuseTableAndIvtkScatterplotDemo() { }
 
   /**
    * Main method.
@@ -36,30 +37,38 @@ public final class PrefuseVisualTableTestWithIvtkView {
    */
   public static void main(final String[] args) throws ObviousException,
       ObviousxException {
+    // Building the dataset.
+    Schema schema = new IvtkObviousSchema();
+    schema.addColumn("id", Integer.class, 0);
+    schema.addColumn("age", Integer.class, 0);
+    schema.addColumn("category", String.class, "unemployed");
 
     System.setProperty("obvious.DataFactory",
-        "obvious.prefuse.data.PrefuseDataFactory");
+    "obvious.ivtk.data.IvtkDataFactory");
 
+    // Creating an Obvious CSV reader and loading an Obvious table
     CSVImport csv = new CSVImport(new File(
-        "src//main//resources//articlecombinedexample.csv"), ',');
+      "src//main//resources//articlecombinedexample.csv"), ',');
     Table table = csv.loadTable();
+
     // Creating the parameter map for the monolithic object.
     Map<String, Object> param = new HashMap<String, Object>();
     param.put(IvtkScatterPlotVis.X_AXIS, "id"); // name of the xfield
     param.put(IvtkScatterPlotVis.Y_AXIS, "age"); // name of the yfield
+    //param.put(PrefuseScatterPlotViz.SHAPE, "category"); // category field
 
-    // Creating the visualization.
-    Visualization vis = new IvtkScatterPlotVis(table, null, null, param);
 
-    IvtkObviousView view = new IvtkObviousView(vis,  null, "scatterplot", null);
+    // Using the factory to build the visualization
+    Visualization vis = new IvtkScatterPlotVis(table, null, null, null);
+    IvtkObviousView view = new IvtkObviousView(vis,  null,
+        "scatterplot", param);
 
-    JFrame frame = new JFrame("Data model : obvious-prefuse |"
-        + " Visualisation : obvious-ivtk | View obvious-ivtk | Monolithic");
+    JFrame frame = new JFrame("EXAMPLE");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(view.getViewJComponent());
-    frame.pack();
+    final int dim = 500;
+    frame.setSize(dim, dim);
+    frame.getContentPane().add(view.getViewJComponent());
     frame.setVisible(true);
-
 
   }
 

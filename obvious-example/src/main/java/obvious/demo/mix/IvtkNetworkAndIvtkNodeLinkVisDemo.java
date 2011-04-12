@@ -44,12 +44,12 @@ import obvious.viz.Visualization;
  * @author Hemery
  *
  */
-public final class IvtkNodeLinkGraph {
+public final class IvtkNetworkAndIvtkNodeLinkVisDemo {
 
   /**
    * Private constructor.
    */
-  private IvtkNodeLinkGraph() {
+  private IvtkNetworkAndIvtkNodeLinkVisDemo() {
   }
 
   /**

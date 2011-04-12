@@ -1,23 +1,15 @@
-package obvious.demo.mix;
-
-import java.io.File;
+package obvious.demo.sandbox;
 
 import javax.swing.JFrame;
 
-import obvious.data.Schema;
-import obvious.data.Table;
-import obvious.impl.TupleImpl;
-import obvious.ivtk.data.IvtkObviousSchema;
-import obvious.ivtk.data.IvtkObviousTable;
-import obvious.prefuse.view.PrefuseObviousControl;
-import obvious.prefuse.view.PrefuseObviousView;
-import obvious.prefuse.viz.PrefuseObviousVisBoost;
+import obvious.prefuse.data.PrefuseObviousTable;
+import obvious.prefuse.viz.PrefuseObviousVisualization;
 import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import obvious.viz.Visualization;
-import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
+import obvious.data.Table;
 import prefuse.Constants;
+import prefuse.Display;
 import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
@@ -26,6 +18,7 @@ import prefuse.action.layout.AxisLayout;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;
+import prefuse.data.io.DelimitedTextTableReader;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.ShapeRenderer;
 import prefuse.util.ColorLib;
@@ -33,50 +26,49 @@ import prefuse.visual.VisualItem;
 import prefuse.visual.expression.VisiblePredicate;
 
 /**
- * A simple visualization test of a scatter plot. It uses as data model
- * an obvious-ivtk table. For visualisation, it uses obvious-prefuse in a
- * polylithic approach that's why some prefuse code is present to build
- * action and renderer.
+ * A simple visualization test of a scatter plot. This example derived
+ * from a the ScatterPlot demo of the prefuse toolkit. It uses the same
+ * data file and the same actions / renderer. But it's built with Obvious data
+ * model and visualization. In this version, it is displayed with prefuse
+ * toolkit.
+ * In this example, we use the polylithic approach, that's why some prefuse
+ * code is present to build action and renderer.
  * @author Hemery
  *
  */
-public final class ScatterPlotIvtkToPrefVis {
+public final class PrefuseTableAndPolylithicPrefuseScatterplotVisDemo {
 
   /**
    * Private constructor.
    */
-  private ScatterPlotIvtkToPrefVis() { }
+  private PrefuseTableAndPolylithicPrefuseScatterplotVisDemo() { }
 
   /**
-   * Main method.
+   * Main function.
    * @param args arguments
-   * @throws ObviousxException if something bad happens
    */
-  public static void main(final String[] args) throws ObviousxException {
+  public static void main(final String[] args) {
 
-    // Building the dataset.
-    Schema schema = new IvtkObviousSchema();
-    schema.addColumn("id", Integer.class, 0);
-    schema.addColumn("age", Integer.class, 0);
-    schema.addColumn("category", String.class, "unemployed");
-
-    System.setProperty("obvious.DataFactory",
-    "obvious.ivtk.data.IvtkDataFactory");
-
-    // Creating an Obvious CSV reader and loading an Obvious table
-    CSVImport csv = new CSVImport(new File(
-      "src//main//resources//articlecombinedexample.csv"), ',');
-    Table table = csv.loadTable();
-
-    // Building the visulalization
-    Visualization viz = new PrefuseObviousVisBoost(table, null, null,
+    // Load data into a prefuse table.
+    prefuse.data.Table prefTable = null;
+    try {
+        prefTable = new DelimitedTextTableReader().readTable(
+            "src/main/resources/fisher.iris.txt");
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    // Wrapping the prefuse table to an obvious table.
+    Table table = new PrefuseObviousTable(prefTable);
+    // Creating the obvious visualization.
+    Visualization viz = new PrefuseObviousVisualization(table, null, null,
         null);
+
     // We define all useful field and paramaters (such as group name).
-    String xfield = "id";
-    String yfield = "age";
-    String sfield = "category";
+    String xfield = "SepalLength";
+    String yfield = "PetalLength";
+    String sfield = "Species";
     String group = "tupleset";
-    ShapeRenderer mshapeR = new ShapeRenderer(2);
+    ShapeRenderer mshapeR = new ShapeRenderer(2); // three "kinds" of tuple
 
     // Setting the default renderer factory then adding it to obvious vis.
     DefaultRendererFactory rf = new DefaultRendererFactory(mshapeR);
@@ -97,7 +89,6 @@ public final class ScatterPlotIvtkToPrefVis {
 
     DataShapeAction shape = new DataShapeAction(group, sfield);
     viz.putAction("shape", new PrefuseObviousAction(shape));
-
     // Building the action list, then add it to obvious visualization.
     ActionList draw = new ActionList();
     draw.add(xAxis);
@@ -115,21 +106,21 @@ public final class ScatterPlotIvtkToPrefVis {
     prefuse.Visualization prefViz = (prefuse.Visualization)
     viz.getUnderlyingImpl(prefuse.Visualization.class);
 
-    PrefuseObviousView view = new PrefuseObviousView(viz, null, "scatterplot",
-        null);
-    view.addListener(new PrefuseObviousControl(new ZoomControl()));
-    view.addListener(new PrefuseObviousControl(new PanControl()));
-    view.addListener(new PrefuseObviousControl(new DragControl()));
+    // Building the prefuse display.
+    Display display = new Display(prefViz);
+    display.setSize(300, 200);
+    display.addControlListener(new DragControl());
+    display.addControlListener(new PanControl());
+    display.addControlListener(new ZoomControl());
 
-    // JFrame...
-    JFrame frame = new JFrame("Data model : obvious-ivtk |"
-        + " Visualisation : obvious-prefuse"
-        + "| View obvious-prefuse | Polylithic");
+    // Jframe...
+    JFrame frame = new JFrame("Data model : obvious-prefuse |"
+        + " Visualisation : obvious-prefuse | View Prefuse | Polylithic");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(view.getViewJComponent());
+    frame.add(display);
     frame.pack();
     frame.setVisible(true);
     prefViz.run("draw");
-
   }
+
 }
