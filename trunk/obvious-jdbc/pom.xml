@@ -29,10 +29,5 @@
   	  	<type>test-jar</type>
 	<scope>test</scope>
 	</dependency>
-	<dependency>
-		<groupId>noackmaven</groupId>
-		<artifactId>noackmaven</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</dependency>  	
   </dependencies>
 </project>
