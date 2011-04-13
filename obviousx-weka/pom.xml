@@ -34,5 +34,14 @@
         <id>googlecode</id>
         <url>svn:https://obvious.googlecode.com/svn/repo</url>
         </repository>
-  </distributionManagement>  
+  </distributionManagement>
+    <build>
+       <extensions>
+           <extension>
+               <groupId>org.jvnet.wagon-svn</groupId>
+               <artifactId>wagon-svn</artifactId>
+               <version>1.9</version>
+           </extension>
+       </extensions>
+  </build>  
 </project>
