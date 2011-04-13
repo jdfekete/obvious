@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>obvious-ivtk</groupId>
+  <artifactId>obvious-ivtk</artifactId>
+  <name>obvious-ivtk</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>obvious-ivtk	</description>
+  <repositories>
+    <repository>
+  		<id>ivtk-sourceforge-repository</id>
+  		<url>http://ivtk.sourceforge.net/maven/</url>
+  	</repository>
+  	<repository>
+  		<id>maven2-repository.dev.java.net</id>
+  		<name>Java.net Repository for Maven</name>
+  		<url>http://download.java.net/maven/2/</url>
+    </repository>
+  </repositories>
+  <dependencies>
+  	<dependency> <!-- reuse src/main/java code from moduleA, normal dependencies --> 
+  	<groupId>obvious</groupId>
+  	<artifactId>obvious</artifactId>
+  	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+
+	<dependency> <!-- reuse src/test/java code from moduleA! -->
+  	<groupId>obvious</groupId>
+  	<artifactId>obvious</artifactId>
+  	  <version>0.0.1-SNAPSHOT</version>
+  	  	<type>test-jar</type>
+	<scope>test</scope>
+	</dependency>
+    <dependency>
+    	<groupId>obviousx</groupId>
+    	<artifactId>obviousx</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>infovis</groupId>
+    	<artifactId>infovis</artifactId>
+    	<version>0.10-alpha-1</version>
+    </dependency>
+  </dependencies>
+ <distributionManagement>
+        <repository>
+        <uniqueVersion>false</uniqueVersion>
+        <id>googlecode</id>
+        <url>svn:https://obvious.googlecode.com/svn/repo</url>
+        </repository>
+  </distributionManagement>
+  <build>
+       <extensions>
+           <extension>
+               <groupId>org.jvnet.wagon-svn</groupId>
+               <artifactId>wagon-svn</artifactId>
+               <version>1.9</version>
+           </extension>
+       </extensions>
+  </build>
+</project>
