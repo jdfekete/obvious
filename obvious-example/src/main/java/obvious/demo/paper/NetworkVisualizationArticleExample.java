@@ -42,6 +42,12 @@ import obviousx.ObviousxException;
 /**
  * Creation of an Obvious network visualization.
  * This is an example from evaluation section of the paper (listing 1).
+ * This example uses the Infovis Toolkit that needs the graphviz library for
+ * graph layout. Before running it, please ensure this library is already
+ * installed on your computer and that your %PATH% variable include the graphviz
+ * folder (specially on windows).
+ * More informations:
+ * http://www.charlotteregionalstc.com/Downloading_and_Setting_up_the_Graphviz_Tools_Package
  * @author Hemery
  *
  */
