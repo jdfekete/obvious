@@ -4,6 +4,12 @@
   <artifactId>obviousx</artifactId>
   <name>obviousx</name>
   <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+    <repository>
+  	<id>ivtk-sourceforge-repository</id>
+  	<url>http://ivtk.sourceforge.net/maven/</url>
+  	</repository>
+  </repositories>
   <description>obvious advanced packages</description>
   <dependencies>
   	<dependency>
@@ -30,12 +36,7 @@
   	    <dependency>
     	<groupId>infovis</groupId>
     	<artifactId>infovis</artifactId>
-    	<version>0.10-alpha-2-SNAPSHOT</version>
+    	<version>0.10-alpha-1</version>
     </dependency>
-  	    <dependency>
-  	    	<groupId>obvious-improvise</groupId>
-  	    	<artifactId>obvious-improvise</artifactId>
-  	    	<version>0.0.1-SNAPSHOT</version>
-  	    </dependency>
   </dependencies>
 </project>
