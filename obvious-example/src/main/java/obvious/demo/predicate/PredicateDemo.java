@@ -32,7 +32,7 @@ import obvious.data.Table;
 import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.TupleImpl;
-import obvious.improvise.data.ImproviseObviousTable;
+//import obvious.improvise.data.ImproviseObviousTable;
 import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.data.IvtkObviousTable;
 import obvious.prefuse.data.PrefuseObviousPredicate;
@@ -64,14 +64,14 @@ public final class PredicateDemo {
     // Create and fill tables.
     Table prefTable = new PrefuseObviousTable(simpleSchema);
     Table ivtkTable = new IvtkObviousTable(simpleSchema);
-    Table improviseTable = new ImproviseObviousTable(simpleSchema);
+    //Table improviseTable = new ImproviseObviousTable(simpleSchema);
 
     final int endLoop = 10;
 
     for (int i = 0; i < endLoop; i++) {
       prefTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
       ivtkTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
-      improviseTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
+      //improviseTable.addRow(new TupleImpl(simpleSchema, new Object[] {i}));
     }
 
     // Create the predicate.
@@ -95,12 +95,14 @@ public final class PredicateDemo {
     }
     System.out.print("\n");
 
+    /*
     IntIterator improviseIt = improviseTable.rowIterator(pred);
     System.out.print("ImproviseObviousTable filtered rows : ");
     while (improviseIt.hasNext()) {
       System.out.print(improviseIt.nextInt() + " ");
     }
     System.out.print("\n");
+    */
   }
 
 }
