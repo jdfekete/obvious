@@ -110,7 +110,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
 
   @Override
   protected void addColumn(String arg0, Column arg1) {
-    this.addColumn(arg0, arg1.getColumnClass(),
+    this.addColumn(arg0, arg1.getColumnType(),
         arg1.getDefaultValue());
   }
 
@@ -393,7 +393,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
   }
 
   @Override
-  public Object getValueAt(int arg0, int arg1) {
+  public Object get(int arg0, int arg1) {
     return table.getValue(arg0, arg1);
   }
 
@@ -565,7 +565,7 @@ public class WrapToPrefTable extends prefuse.data.Table {
   }
 
   @Override
-  public void setValueAt(int arg0, int arg1, Object arg2) {
+  public void set(int arg0, int arg1, Object arg2) {
     table.set(arg0, arg1, arg2);
   }
 
