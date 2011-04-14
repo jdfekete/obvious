@@ -217,7 +217,7 @@ public class PrefuseObviousTable implements Table {
    * @return value
    */
   public Object getValue(int rowId, int col) {
-    return this.table.getValueAt(rowId, col);
+    return this.table.get(rowId, col);
   }
 
   /**
@@ -339,7 +339,7 @@ public class PrefuseObviousTable implements Table {
    */
   public void set(int rowId, int col, Object val) {
     try {
-      this.table.setValueAt(rowId, col, val);
+      this.table.set(rowId, col, val);
       this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);

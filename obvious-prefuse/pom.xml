@@ -9,7 +9,7 @@
     <dependency>
     	<groupId>org.prefuse</groupId>
     	<artifactId>prefuse</artifactId>
-    	<version>beta-20060220</version>
+    	<version>beta-20071021</version>
     </dependency>
 
   	<dependency> <!-- reuse src/main/java code from moduleA, normal dependencies --> 
