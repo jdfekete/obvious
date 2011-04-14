@@ -49,7 +49,7 @@ public class PrefuseTableTest extends TableTest {
    */
   public Table newInstance(Schema schema) throws ObviousException {
     System.setProperty("obvious.DataFactory",
-        "obvious.prefuse.PrefuseDataFactory");
+        "obvious.prefuse.data.PrefuseDataFactory");
     DataFactory dFactory = DataFactoryImpl.getInstance();
     return dFactory.createTable(schema);
   }
