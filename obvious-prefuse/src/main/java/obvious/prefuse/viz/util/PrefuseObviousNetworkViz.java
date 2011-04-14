@@ -66,7 +66,7 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
   @Override
   protected void initVisualization(Map<String, Object> param) {
     prefuse.Visualization prefVis = new prefuse.Visualization();
-    groupName = "tupleset";
+    groupName = "graph";
     String label = "name";
     if (param != null) {
       if (param.containsKey(GROUP_NAME)) {
@@ -86,12 +86,12 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
     int[] palette = new int[] {
         ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
     };
-    DataColorAction fill = new DataColorAction("graph.nodes", label,
+    DataColorAction fill = new DataColorAction(groupName + ".nodes", label,
         Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
-    ColorAction text = new ColorAction("graph.nodes",
+    ColorAction text = new ColorAction(groupName + ".nodes",
         VisualItem.TEXTCOLOR, ColorLib.gray(0));
     // Color for edges
-    ColorAction edges = new ColorAction("graph.edges",
+    ColorAction edges = new ColorAction(groupName + ".edges",
         VisualItem.STROKECOLOR, ColorLib.gray(200));
 
     // Creating the prefuse action list.
@@ -104,7 +104,7 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
 
     // Creating a Directed force Layout.
     ActionList layout = new ActionList(Activity.INFINITY);
-    layout.add(new ForceDirectedLayout("graph"));
+    layout.add(new ForceDirectedLayout(groupName));
     layout.add(new RepaintAction());
     // Wrapping the layout around obvious.
     this.putAction("layout", new PrefuseObviousAction(layout));

@@ -403,7 +403,6 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
   @Override
   protected void init(Table nodes, Table edges, boolean directed,
       String nodeKey, String sourceKey, String targetKey) {
-    //System.out.println(prefuse.util.TypeLib);
     super.init(nodes, edges, directed, nodeKey, sourceKey, targetKey);
   }
 
