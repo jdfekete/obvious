@@ -227,6 +227,9 @@ public class IvtkObviousSchema implements Schema {
    */
   public Class<?> getColumnType(int col) {
     if (col < getColumnCount()) {
+      if (cols.get(col).getValueClass().equals(Integer.class)) {
+        return int.class;
+      }
       return cols.get(col).getValueClass();
     } else {
       return null;
