@@ -49,7 +49,7 @@ public class JungTreeTest extends TreeTest {
     if  (!eSchema.hasColumn("DESTNODE")) {
       eSchema.addColumn("DESTNODE", Integer.class, new Integer(0));
     }
-    return new JungObviousTree(nSchema, eSchema);
+    return new JungObviousTree(nSchema, eSchema, "SRCNODE", "DESTNODE");
   }
 
 }

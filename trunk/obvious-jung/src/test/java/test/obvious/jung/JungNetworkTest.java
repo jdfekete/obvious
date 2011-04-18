@@ -59,7 +59,7 @@ public class JungNetworkTest extends NetworkTest {
       eSchema.addColumn("DESTNODE", Integer.class, new Integer(0));
     }
     this.customEdgeSchema = eSchema;
-    return new JungObviousNetwork(nSchema, eSchema);
+    return new JungObviousNetwork(nSchema, eSchema, "SRCNODE", "DESTNODE");
   }
 
   @Override
