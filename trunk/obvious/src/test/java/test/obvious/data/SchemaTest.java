@@ -160,7 +160,8 @@ public abstract class SchemaTest {
   @Test
   public void testGetColumnTypeByIndex() {
     assertEquals(String.class, schema.getColumnType(0));
-    assertEquals(Integer.class, schema.getColumnType(1));
+    assertTrue(Integer.class.equals(schema.getColumnType(1))
+        || int.class.equals(schema.getColumnType(1)));
   }
 
   /**
@@ -169,7 +170,8 @@ public abstract class SchemaTest {
   @Test
   public void testGetColumnTypeByField() {
     assertEquals(String.class, schema.getColumnType("col1"));
-    assertEquals(Integer.class, schema.getColumnType("col2"));
+    assertTrue(Integer.class.equals(schema.getColumnType("col2"))
+        || int.class.equals(schema.getColumnType("col2")));
   }
 
   /**

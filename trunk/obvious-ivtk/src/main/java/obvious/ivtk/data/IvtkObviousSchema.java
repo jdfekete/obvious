@@ -132,6 +132,11 @@ public class IvtkObviousSchema implements Schema {
       return false;
     } else {
         Class<?> columnType = this.getColumnType(col);
+        if (columnType != null && columnType.isPrimitive()) {
+          Class<?> envelopType = retrieveObjectType(columnType);
+          return (columnType == null ? false : (c.isAssignableFrom(columnType)
+              || c.isAssignableFrom(envelopType)));
+        }
         return (columnType == null ? false : c.isAssignableFrom(columnType));
     }
   }
@@ -156,12 +161,7 @@ public class IvtkObviousSchema implements Schema {
    * @return true if the types compatibles
    */
   public boolean canSet(int col, Class<?> c) {
-    if (c == null || col < 0) {
-      return false;
-    } else {
-        Class<?> columnType = this.getColumnType(col);
-        return (columnType == null ? false : c.isAssignableFrom(columnType));
-    }
+    return canGet(col, c);
   }
 
   /**
@@ -174,6 +174,37 @@ public class IvtkObviousSchema implements Schema {
   public boolean canSet(String field, Class<?> c) {
     int col = this.getColumnIndex(field);
     return this.canSet(col, c);
+  }
+
+  /**
+   * Retrieves the envelop class of a primitive type.
+   * @param c a class
+   * @return the associated envelop class
+   */
+  private Class<?> retrieveObjectType(Class<?> c) {
+    if (!c.isPrimitive()) {
+      return c;
+    } else {
+      if (c.equals(int.class)) {
+        return Integer.class;
+      } else if (c.equals(boolean.class)) {
+        return Boolean.class;
+      } else if (c.equals(double.class)) {
+        return Double.class;
+      } else if (c.equals(float.class)) {
+        return Float.class;
+      } else if (c.equals(long.class)) {
+        return Long.class;
+      } else if (c.equals(short.class)) {
+        return Short.class;
+      } else if (c.equals(byte.class)) {
+        return Byte.class;
+      } else if (c.equals(char.class)) {
+        return Character.class;
+      } else {
+        return c;
+      }
+    }
   }
 
   /**
@@ -283,7 +314,7 @@ public class IvtkObviousSchema implements Schema {
       if (col < 0 || col >= getColumnCount()) {
         return false;
       }
-      cols.remove(col);
+      cols.remove(getColumnIndex(getColumnName(col)));
       return true;
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);
