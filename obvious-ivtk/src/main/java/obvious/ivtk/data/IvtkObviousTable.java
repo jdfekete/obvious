@@ -504,7 +504,6 @@ public class IvtkObviousTable implements Table {
       } else {
         table.setValueAt(val, rowId, col);
       }
-
       this.fireTableEvent(rowId, rowId, col, TableListener.UPDATE);
     } catch (Exception e) {
       throw new ObviousRuntimeException(e);

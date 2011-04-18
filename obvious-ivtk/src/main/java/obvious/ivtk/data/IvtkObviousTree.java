@@ -298,11 +298,11 @@ public class IvtkObviousTree implements Tree<Node, Edge> {
       int edgeId = edgeTable.addRow();
       edgeToId.put(edge, edgeId);
       for (int i = 0; i < edgeTable.getSchema().getColumnCount(); i++) {
-        edgeTable.set(edgeId, edge.getSchema().getColumnName(i),
+        edgeTable.set(edgeId - 1, edge.getSchema().getColumnName(i),
             edge.get(i));
       }
-      edgeTable.set(edgeId, "parent", new Integer(getNodeId(source)));
-      edgeTable.set(edgeId, "child", getNodeId(target));
+      edgeTable.set(edgeId - 1, "parent", new Integer(getNodeId(source)));
+      edgeTable.set(edgeId - 1, "child", getNodeId(target));
       return true;
     } catch (Exception e) {
       e.printStackTrace();
