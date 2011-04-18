@@ -64,7 +64,9 @@ public class IvtkTreeTest extends TreeTest {
   public void testGetEdges() {
     assertEquals(5, this.getTree().getEdges().size());
     int count = 0;
+    System.out.println("SIZE " + getTree().getEdges().size());
     for (Edge edge : this.getTree().getEdges()) {
+      System.out.println("edge_" + count + " : " + edge.getString("edgeName"));
       assertEquals("edge_" + count, edge.getString("edgeName"));
       count++;
     }
