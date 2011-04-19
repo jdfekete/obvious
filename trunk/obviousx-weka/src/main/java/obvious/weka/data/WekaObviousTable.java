@@ -41,7 +41,9 @@ import obvious.data.event.TableListener;
 import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.SchemaImpl;
+import obviousx.io.weka.ObviousWekaUtils;
 import weka.core.Attribute;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -89,7 +91,7 @@ public class WekaObviousTable implements Table {
       schema.addColumn(att.name(), c, null);
     }
   }
-  
+
   /**
    * Determines the corresponding Obvious class for a Weka instances.
    * @param att
@@ -135,7 +137,8 @@ public class WekaObviousTable implements Table {
         }
       }
     }
-    return 0;
+    instances.add(inst);
+    return getRowCount();
   }
 
   @Override
@@ -209,7 +212,7 @@ public class WekaObviousTable implements Table {
     if (att.isNumeric()) {
       return instances.attributeToDoubleArray(col)[rowId];
     } else if (att.isNominal() || att.isString()) {
-      return att.value(rowId);
+      return instances.instance(rowId).stringValue(col);
     } else if (att.isDate()) {
       double dateValue = instances.attributeToDoubleArray(col)[rowId];
       return att.formatDate(dateValue);
@@ -224,6 +227,9 @@ public class WekaObviousTable implements Table {
 
   @Override
   public boolean isValidRow(int rowId) {
+    if (rowId < 0 || rowId >= this.getRowCount()) {
+      return false;
+    }
     return instances.instance(rowId) != null;
   }
 
