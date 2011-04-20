@@ -34,6 +34,18 @@ The toolkit is divided in four parts :
  * *obvious.view* : the view part of the toolkit [View (complete article)]
  * *obviousx* : this package contains usefull classes for obvious toolkit (wrappers, readers, writters...)
 
+== Composition of the different bindings ==
+
+|| *Binding* || *obvious.data.* || *obvious.vis* || *obvious.view* ||
+|| _Infovis Tookit_ || Yes || Yes ||Yes ||
+|| _Prefuse_ ||Yes ||Yes ||Yes ||
+|| _Jung_ || Yes || Yes || Yes ||
+|| _Improvise_ ||Yes || No || No ||
+|| _Cytoscape_ || Yes || No || No ||
+|| _Weka_ ||Yes || No ||No ||
+|| JDBC || Yes ||No || No ||
+
+
 == Class diagram ==
 
 http://obvious.googlecode.com/svn-history/r306/images/obviousclass.png
