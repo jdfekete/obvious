@@ -2,7 +2,13 @@
 
 = Introduction =
 
-This parts describes the Visualization abstract class and its associated classes in obvious toolkit. 
+This parts describes the Visualization abstract class and its associated classes in obvious toolkit.
+
+Infovis toolkits often uses [http://www.infovis-wiki.net/index.php?title=Polylithic_design polylithic] or [http://www.infovis-wiki.net/index.php?title=Monolithic_design monolithic] design, specialy to implement the visualization part. For the moment, Obvious only propose monolithic visualization, since unlike the data model no consensus among the InfoVis community has been reached to describe visualizations as polylithic components. That is why, Obvious propose to model visualizations as a black box where existing visualization components can be wrapped.
+
+Thus, all visualizations introduced in Obvious are monolithic. When the Obvious binding is based on a monolithic toolkit, to create visualizations it, developers simply need to wrap existing visualization in the black.
+
+However when the binding is based on a polylithic toolkit like Prefuse, it is still possible to use the Obvious black box. A developer can always describe and encapsulates his polylithic component in a monolithic one and then can wrap it into the black box.
 
 
 = Visualization (abstract class) =
@@ -11,8 +17,9 @@ This parts describes the Visualization abstract class and its associated classes
 
 Unlike the data model, Visualization is not an interface, but is implemented as an abstract class. To build a new obvious visualization instance, it is needed to provide an obvious data structure instance (among Table, Network and Tree<Node, Edge>), a [Predicate predicate] (can be null), a visualization technic name (can be null) and a map of parameters (can be null).
 
+== Optional parameters ==
 
-=== Optional parameters ===
+As standard monolithic visualization components, the Obvious black box visualization admits several extra parameters.
 
 Optional parameters for obvious visualizations are contained in a Java map. Known parameters are identified by a key. This key is a java String (list of known keys is available below). If a visualization is provided with an unknown parameter, it will be simply ignored.
 
@@ -28,24 +35,26 @@ The following table presents all existing parameters for visualization :
 || LABEL_KEY || String || obvious-prefuse (could be used by other impl.)|| Column used for nodes label ||
 || SHAPE || String || obvious-prefuse (could be used by other impl.)|| N/A ||
 
-== Specialized visualizations ==
+= Creating visualization =
 
-For each implementation, specialized visualization classes exist for common visualization technics (scatterplot) or graph layouts.
-
-== Monolithic vs Polylithic visualization (toolkit) ==
-
-Infovis toolkits often uses [http://www.infovis-wiki.net/index.php?title=Polylithic_design polylithic] or [http://www.infovis-wiki.net/index.php?title=Monolithic_design monolithic] design, specialy to implement the visualization part. Obvious, as an abstract layer, can not be fully polylithic but tries, for visualizations, to support both monolithic and polylithic designs.
-
-If the developper works with a monolithic toolkit (like ivtk), he should use those specialized classes or write a new subclass of Visualization or one of its subclasses.
-
-Else if the developper works with a polylithic toolkit (like prefuse), he could use existing specialized classes or create new ones. But he could also build his visualization "from scratch" using _putAction_ and _setRenderer_ methods. Obvious Renderer and Action are just tag interfaces : existing implementation are totally dependant from their obvious implementation.
-
-= VisualizationFactory (abstract class) =
+== VisualizationFactory (abstract class) ==
 
 VisualizationFactory is also an abstract class. It provides a list of all visualization technics available for an implementation.
 
 To create a visualization, it is needed to provide an obvious data structure, a [Predicate predicate] (can be null) and a visualization technic name and a map of parameters.
 
 {{{
-    Visualization vis = visFactory.createVisualization(table, pred, "scatterplot", param);
+Map params = new HashMap();
+params.put("x", "id");
+params.put("y", "age");
+Visualization vis = VisualizationFactory.getInstance ()
+  .createVisualization(table , null , "scatterplot", params);
+}}}
+
+== Direct instantiation ==
+
+It is still possible to directly instantiate visualization components with the appropriate Java constructor. For example, if the developer wants to create a time series based on the InfoVis Toolkit, the following lines are needed:
+
+{{{
+new IvtkTimeSeriesVis( table , null , ” timeseries ”, params)
 }}}
