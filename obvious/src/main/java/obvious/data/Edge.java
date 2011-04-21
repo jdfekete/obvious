@@ -31,6 +31,7 @@ package obvious.data;
 /**
  * Interface Edge.
  * This interface subclasses Tuple class. Edges are represented as tuples.
+ * It is simply a tag interface for tuples representing edges.
  * It should be used mainly with Graph, Network and Tree interfaces.
  * @see Tuple
  *

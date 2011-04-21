@@ -34,8 +34,8 @@ import obvious.data.event.NetworkListener;
 
 
 /**
- * Interface Network.
- * It subclasses Graph Interface with Obvious compatible edge and node.
+ * This interface subclasses Graph Interface with Obvious compatible
+ * edge and node.
  * @see Graph
  * @see Node
  * @see Edge

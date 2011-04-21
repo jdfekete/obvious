@@ -37,15 +37,26 @@ import obvious.data.util.Predicate;
 import obvious.util.Adaptable;
 
 /**
- * Interface Table.
+ * Table is the basic data structure in Obvious. A Table contains
+ * {@link Tuple Tuple} instances representing rows of the underlying
+ * data. Inside a tuple data values are stored into columns, that are
+ * described by a Schema instance. Thus, an Obvious Table describes
+ * its organization with an Obvious {@link Schema Schema}. It can
+ * be retrieved with {@link #getSchema() getSchema} method.
+ * Rows can be added and deleted, and their values can be updated or read
+ * column by column.
+ * Values can be accessed via a row id and a column id (or name).
+ * When a tuple is removed, it must become invalid and when an user tries
+ * to access it an exception should be thrown.
+ * @see Schema
+ * @see Tuple
+ * @see Network
  * @author  obvious
  * @version  $Revision$
  */
 public interface Table extends Data, Adaptable {
     /**
      * Missing value.
-     * @uml.property  name="mISSING_VALUE" default="MissingValue.getInstance()"
-     * @uml.associationEnd
      */
     MissingValue MISSING_VALUE = MissingValue.getInstance();
 

@@ -29,11 +29,10 @@ package obvious.data;
 
 
 /**
- * Interface Node.
  * This interface subclasses Tuple class. Nodes are represented as tuples.
- * It should be used mainly with Graph, Network and Tree interfaces.
+ * It is simply a tag interface for tuples representing nodes.
+ * It should be used only with Graph, Network and Tree interfaces.
  * @see Tuple
- *
  * @author Jean-Daniel Fekete
  * @version $Revision$
  */
