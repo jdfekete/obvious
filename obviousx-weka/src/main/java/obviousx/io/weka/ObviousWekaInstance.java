@@ -36,6 +36,16 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 
+/**
+ * This class extends Weka Instance and allows to wrap an Obvious Tuple into
+ * a Weka Instance.
+ * This class should not be normally manipulated directly by a developer
+ * -i.e. outside the ObviousWekaInstances-. To extract Instance from an
+ * Obvious data structure, a developer should first use ObviousWekaInstances
+ * class and then retrieve Instances from it.
+ * @author plhemery
+ *
+ */
 @SuppressWarnings("serial")
 public class ObviousWekaInstance extends Instance {
 

@@ -11,6 +11,16 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 
+/**
+ * This class wraps Weka Instance -that composed Weka Instances- into an
+ * Obvious Tuple. Since Instance only handle String, Date and Numeric types
+ * for values, boolean based methods such as canGetBoolean and so on are
+ * not really support and always return false or null or are empty methods.
+ * However, this class can only be built from a Weka Instance and it can not
+ * contain any boolean, so it totally supports the Obvious Tuple interface.
+ * @author Hemery
+ *
+ */
 public class WekaObviousTuple implements Tuple {
 
   /**

@@ -44,6 +44,15 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;
 
+/**
+ * This class artificialy extends Weka Instances class. It is mostly
+ * a wrapper that wraps an Obvious Table into a Weka Instances. When
+ * using this class, an Obvious Table emulates Weka Instances and thus
+ * no data are duplicated.
+ * Using this class promotes a memory approach.
+ * @author Hemery
+ *
+ */
 @SuppressWarnings("serial")
 public class ObviousWekaInstances extends Instances {
   

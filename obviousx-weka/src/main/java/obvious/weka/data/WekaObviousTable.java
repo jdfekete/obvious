@@ -50,7 +50,9 @@ import weka.core.Instances;
 
 /**
  * An implementation of Obvious Table based on Weka.
- * This table can only contains String, Date and Numeric values.
+ * This table can only contains String, Date and Numeric types of values.
+ * However, this implementation is fully compatible with the Obvious Table
+ * interface.
  * @author Hemery
  *
  */
@@ -90,6 +92,47 @@ public class WekaObviousTable implements Table {
       Class<?> c = checkClass(att);
       schema.addColumn(att.name(), c, null);
     }
+  }
+  
+  /**
+   * Constructor.
+   * @param inSchema an Obvious schema
+   */
+  public WekaObviousTable(Schema inSchema) {
+    this.schema = inSchema;
+    this.instances = createInstances();
+  }
+  
+  protected  Instances createInstances() {
+    FastVector attributes = new FastVector();
+    for (int i = 0; i < schema.getColumnCount(); i++) {
+      Attribute attribute = createAttribute(schema.getColumnName(i),
+          schema.getColumnType(i));
+      attributes.addElement(attribute);
+    }
+    return new Instances("test", attributes, 1);
+  }
+  
+  /**
+   * Creates weka Attribute.
+   * @param colName attribute name
+   * @param colType attribute type
+   * @return a weka Attribute
+   */
+  protected Attribute createAttribute(String colName, Class<?> colType) {
+    Attribute attr = null;
+    if (ObviousWekaUtils.isNumeric(colType)) {
+      attr = new Attribute(colName);
+    } else if (ObviousWekaUtils.isString(colType)) {
+      attr = new Attribute(colName, (FastVector) null);
+    } else if (ObviousWekaUtils.isDate(colType)) {
+      attr = new Attribute(colName, "yyyy-MM-dd");
+    } else if (ObviousWekaUtils.isNominal(colType)) {
+      attr = new Attribute(colName, (FastVector) null);
+    } else if (ObviousWekaUtils.isRelational(colType)) {
+      attr = new Attribute(colName);
+    }
+    return attr;
   }
 
   /**

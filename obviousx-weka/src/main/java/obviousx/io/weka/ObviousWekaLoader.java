@@ -37,6 +37,16 @@ import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 
+/**
+ * This class allows to load an Obvious Table into a Weka Instances.
+ * Data structures are duplicated, so this approach is not memory oriented.
+ * However, it allows to directly use data structures introduced in Weka
+ * that are designed to be efficient with Weka's algorithms.
+ * This class should be used when a developper wants to optimize execution
+ * time.
+ * @author Hemery
+ *
+ */
 public class ObviousWekaLoader {
 
   /**
