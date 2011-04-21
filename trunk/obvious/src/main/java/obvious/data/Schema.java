@@ -29,8 +29,12 @@ package obvious.data;
 
 
 /**
- * Interface Schema.
- *
+ * Schema is an interface describing the columns of a Tuple and by
+ * extension of a Table. Each column is represented by an index, a
+ * name, a Java type and a default value.
+ * Columns could be added or removed.
+ * @see Table
+ * @see Tuple
  * @author obvious
  * @version $Revision$
  */

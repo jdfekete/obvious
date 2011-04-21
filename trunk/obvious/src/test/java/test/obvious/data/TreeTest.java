@@ -125,6 +125,7 @@ public abstract class TreeTest {
       }
       edgeTable.addRow(new TupleImpl(edgeTable.getSchema(), edgeValue));
     }
+    Edge edge = new EdgeImpl(edgeTable, 0);
     tree.addEdge(new EdgeImpl(edgeTable, 0), new NodeImpl(nodeTable, 0),
         new NodeImpl(nodeTable, 1), EdgeType.DIRECTED);
     tree.addEdge(new EdgeImpl(edgeTable, 1), new NodeImpl(nodeTable, 0),

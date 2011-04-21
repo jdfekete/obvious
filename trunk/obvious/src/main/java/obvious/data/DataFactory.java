@@ -32,11 +32,14 @@ import java.util.Map;
 import obvious.ObviousException;
 
 /**
- * Abstract Class DataFactory. A factory that can create Network and
- * Table instances. Several methods are proposed to build such instances
- * from existing instances of other tables or from Obvious Schema(s).
- * Each implementation of Obvious should implement this class.
+ * Abstract Class DataFactory. A factory that can create
+ * {@link Network Network} and {@link Table Table} instances. Several methods
+ * are proposed to build such instances from existing instances of other tables
+ * or from Obvious {@link Schema Schema(s)}.
+ * Each binding of Obvious should implement this class.
  * @author  Jean-Daniel Fekete
+ * @see Table
+ * @see Network
  * @version  $Revision$
  */
 public abstract class DataFactory {

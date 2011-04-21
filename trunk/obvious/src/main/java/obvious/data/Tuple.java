@@ -37,6 +37,7 @@ import java.util.Date;
  * or set data with that Tuple will result in an exception.
  *
  * @author <a href="http://jheer.org">jeffrey heer</a>
+ * @see Table
  */
 public interface Tuple {
 
