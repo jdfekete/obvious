@@ -31,6 +31,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * This class contains many static methods that allows to
+ * test if a Java type is numeric, a date, or nominal.
+ * It is usefull to create the convenient kind of Weka
+ * attributes.
+ * @author Hemery
+ *
+ */
 public class ObviousWekaUtils {
 
   public static boolean isNumeric(Class<?> c) {
