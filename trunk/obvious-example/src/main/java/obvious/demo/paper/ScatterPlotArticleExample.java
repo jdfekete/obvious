@@ -36,6 +36,7 @@ import javax.swing.JScrollPane;
 
 import obvious.data.Table;
 import obvious.ivtk.view.IvtkObviousView;
+import obvious.ivtk.view.util.IvtkScatterPlotView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;
@@ -81,7 +82,7 @@ public final class ScatterPlotArticleExample {
     // the constructor .
     Visualization vis = new IvtkScatterPlotVis(table , null , "plot", param);
 
-    JView view = new IvtkObviousView(vis, null , "plot", null);
+    JView view = new IvtkScatterPlotView(vis, null);
 
     // Standard Java window creation
     JFrame frame = new JFrame("Scatter-plot visualization (article example)");
