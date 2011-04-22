@@ -38,6 +38,8 @@ import obvious.impl.TupleImpl;
 
 /**
  * A class that contains convenient methods for Obvious.
+ * It mainly allows to copy Obvious data structures from one
+ * implementation to another.
  * @author Hemery
  *
  */

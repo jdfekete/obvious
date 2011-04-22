@@ -42,9 +42,9 @@ import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 
 /**
- * Class SchemaImpl.
- * A simple implementation of Schema interface to
- * write unit tests for Table interface.
+ * This is a basic Schema implementation.
+ * It should be used to write bindings where the source implementation
+ * does not provide the notion of schema.
  *
  * @author Pierre-Luc Hemery
  * @version $Revision$
