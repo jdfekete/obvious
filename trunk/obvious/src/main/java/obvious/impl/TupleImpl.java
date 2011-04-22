@@ -37,6 +37,8 @@ import obvious.data.Tuple;
 
 /**
  * Example implementation of Tuple Interface.
+ * This class should be used when for an Obvious binding, the source
+ * implementation does not offer the notion of tuple.
  * @author Pierre-Luc Hemery
  *
  */
