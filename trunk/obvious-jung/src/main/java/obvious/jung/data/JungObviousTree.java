@@ -29,6 +29,7 @@ package obvious.jung.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import obvious.data.Edge;
 import obvious.data.Node;
@@ -165,6 +166,14 @@ public class JungObviousTree extends JungObviousNetwork
     return forest;
   }
 
+  @Override
+  public Object getUnderlyingImpl(Class<?> c) {
+    if (c.equals(edu.uci.ics.jung.graph.Tree.class)) {
+      return jungTree;
+    }
+    return null;
+  }
+
   /**
    * Simple implementation of Jung AbstractGraph.
    * Used as default Jung Graph implementation for Obvious Jung.
@@ -259,7 +268,7 @@ public class JungObviousTree extends JungObviousNetwork
         if (null == this.getParent(node)) {
           return node;
         }
-      } return null;
+      } return this.getVertices().iterator().next();
     }
 
     /**
@@ -318,7 +327,8 @@ public class JungObviousTree extends JungObviousNetwork
      * @return a forest
      */
     public Collection<edu.uci.ics.jung.graph.Tree<Node, Edge>> getTrees() {
-      return null;
+      return Collections.<edu.uci.ics.jung.graph.Tree<Node, Edge>>singleton(
+          this);
     }
 
   }
