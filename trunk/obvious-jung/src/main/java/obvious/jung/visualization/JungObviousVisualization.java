@@ -39,6 +39,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import obvious.ObviousRuntimeException;
 import obvious.data.Data;
+import obvious.data.Forest;
 import obvious.data.Network;
 import obvious.data.Node;
 import obvious.data.Edge;
@@ -74,6 +75,11 @@ public class JungObviousVisualization extends Visualization {
    private edu.uci.ics.jung.graph.Tree<Node, Edge> jungTree = null;
 
    /**
+    * A Jung forest used for this obvious implementation.
+    */
+   private edu.uci.ics.jung.graph.Forest<Node, Edge> jungForest = null;
+
+   /**
     * Constructor.
     * @param inData obvious data instance
     * @param predicate a Predicate used to filter the table
@@ -99,6 +105,10 @@ public class JungObviousVisualization extends Visualization {
       jungGraph = getJungGraph();
       vis = new ObviousVisualizationServer(initLayout(
           layoutValue));
+    } else if (this.getData() instanceof Forest<?, ?>) {
+      jungForest = getJungForest();
+      vis = new ObviousVisualizationServer(initLayout(
+          layoutValue));
     } else {
       throw new ObviousRuntimeException("obvious-jung implementation"
           + "only support Network data structure");
@@ -121,9 +131,14 @@ public class JungObviousVisualization extends Visualization {
           Class<?>  layoutClass = Class.forName((String) layout);
           if (jungTree != null) {
             Constructor<?> constructor = layoutClass.getConstructor(
-                new Class[] {edu.uci.ics.jung.graph.Forest.class});
+                new Class[] {edu.uci.ics.jung.graph.Tree.class});
             layoutInst = (Layout<Node, Edge>)
                 constructor.newInstance(new Object[] {jungTree});
+          } else if (jungForest != null) {
+            Constructor<?> constructor = layoutClass.getConstructor(
+                new Class[] {edu.uci.ics.jung.graph.Forest.class});
+            layoutInst = (Layout<Node, Edge>)
+                constructor.newInstance(new Object[] {jungForest});
           } else {
             Constructor<?> constructor = layoutClass.getConstructor(
                 new Class[] {edu.uci.ics.jung.graph.Graph.class});
@@ -170,6 +185,23 @@ public class JungObviousVisualization extends Visualization {
           edu.uci.ics.jung.graph.Tree.class);
     }
     return new WrapToJungTree((obvious.data.Tree<Node, Edge>) this.getData());
+  }
+
+  /**
+   * Gets a Jung Forest.
+   * @return a Jung Forest.
+   */
+  @SuppressWarnings("unchecked")
+  protected edu.uci.ics.jung.graph.Forest<Node, Edge> getJungForest() {
+    if (((obvious.data.Forest) this.getData()).getUnderlyingImpl(
+        edu.uci.ics.jung.graph.Forest.class) != null) {
+          return (edu.uci.ics.jung.graph.Forest<Node, Edge>)
+          ((obvious.data.Forest) this.getData()).getUnderlyingImpl(
+              edu.uci.ics.jung.graph.Tree.class);
+    } else {
+      throw new ObviousRuntimeException("The current implementation of Forest"
+          + "is unsupported");
+    }
   }
 
   /**
