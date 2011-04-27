@@ -158,8 +158,8 @@ public class ObviousScatterPlotDemo {
         JComponent scatterView = scatterPlot.getJView().getViewJComponent();
         SelectionListener selListener = new SelectionListener(
                 scatterPlot.getVisualization(), scatterPlot.getJView());
-        scatterView.addMouseListener(selListener);
-        scatterView.addMouseMotionListener(selListener);
+        //scatterView.addMouseListener(selListener);
+        //scatterView.addMouseMotionListener(selListener);
         frame.add(scatterView);
         frame.pack();
         frame.setVisible(true);
@@ -168,6 +168,8 @@ public class ObviousScatterPlotDemo {
             scatterPlot.getVisualization().getUnderlyingImpl(
                     prefuse.Visualization.class);
         prefViz.run("draw");
+        prefViz.run("xlabel");
+        prefViz.run("ylabel");
     }
 
     /**
