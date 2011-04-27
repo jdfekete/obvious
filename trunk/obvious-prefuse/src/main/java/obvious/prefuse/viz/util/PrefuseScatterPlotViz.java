@@ -27,6 +27,7 @@
 
 package obvious.prefuse.viz.util;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
 import obvious.data.Table;
@@ -37,6 +38,7 @@ import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
 import prefuse.action.assignment.DataShapeAction;
+import prefuse.action.layout.AxisLabelLayout;
 import prefuse.action.layout.AxisLayout;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.ShapeRenderer;
@@ -75,8 +77,9 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
     this.setPrefVisualization(prefVis);
     groupName = DEF_NAME;
     if  (param != null && param.containsKey(GROUP_NAME)) {
+      /*
       this.getPrefVisualization().add((String) param.get(GROUP_NAME),
-          getPrefuseTable());
+          getPrefuseTable());*/
       groupName = (String) param.get(GROUP_NAME);
     }
     this.getPrefVisualization().add(groupName, getPrefuseTable());
@@ -90,6 +93,14 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
     AxisLayout yAxis = new AxisLayout(groupName,
         (String) param.get(Y_AXIS), Constants.Y_AXIS, VisiblePredicate.TRUE);
     this.putAction("y", new PrefuseObviousAction(yAxis));
+
+    AxisLabelLayout xlabels = new AxisLabelLayout("xlabel", xAxis,
+        new Rectangle2D.Double(), 15);
+    this.putAction("xlabel", new PrefuseObviousAction(xlabels));
+    AxisLabelLayout ylabels = new AxisLabelLayout("ylabel", yAxis,
+        new Rectangle2D.Double(), 15);
+    this.putAction("ylabel", new PrefuseObviousAction(ylabels));
+
     ColorAction color = new ColorAction(groupName,
         VisualItem.STROKECOLOR, ColorLib.rgb(100,100,255));
     this.putAction("color", new PrefuseObviousAction(color));
