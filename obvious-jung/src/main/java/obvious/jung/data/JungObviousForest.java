@@ -31,6 +31,7 @@ package obvious.jung.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.uci.ics.jung.graph.DelegateTree;
 import edu.uci.ics.jung.graph.util.Pair;
 
 import obvious.ObviousRuntimeException;
@@ -226,7 +227,8 @@ public class JungObviousForest implements Forest<Node, Edge> {
 
   @Override
   public Object getUnderlyingImpl(Class<?> type) {
-    if (type.equals(edu.uci.ics.jung.graph.Forest.class)) {
+    if (type.equals(edu.uci.ics.jung.graph.Forest.class)
+        || type.equals(edu.uci.ics.jung.graph.Tree.class)) {
       return jungForest;
     }
     return null;
@@ -237,8 +239,28 @@ public class JungObviousForest implements Forest<Node, Edge> {
    * Used as default Jung Forest implementation for Obvious Jung.
    * @author Hemery
    */
-  protected static class JungForest extends JungGraph implements
+  protected  class JungForest extends JungGraph implements
       edu.uci.ics.jung.graph.Forest<Node, Edge> {
+
+    /**
+     * Obvious node schema.
+     */
+    private Schema nodeSchema;
+
+    /**
+     * Obvious edge schema.
+     */
+    private Schema edgeSchema;
+
+    /**
+     * Source column.
+     */
+    private String source;
+
+    /**
+     * Target column.
+     */
+    private String target;
 
     /**
      * Constructor.
@@ -251,6 +273,10 @@ public class JungObviousForest implements Forest<Node, Edge> {
     protected JungForest(Schema nodeSchema, Schema edgeSchema, String node,
         String source, String target) {
       super(nodeSchema, edgeSchema, node, source, target);
+      this.nodeSchema = nodeSchema;
+      this.edgeSchema = edgeSchema;
+      this.source = source;
+      this.target = target;
     }
 
     @Override
@@ -271,7 +297,10 @@ public class JungObviousForest implements Forest<Node, Edge> {
 
     @Override
     public Node getParent(Node vertex) {
-      return super.getPredecessors(vertex).iterator().next();
+      if (super.getPredecessors(vertex).iterator().hasNext()) {
+        return super.getPredecessors(vertex).iterator().next();
+      }
+      return null;
     }
 
     @Override
@@ -281,8 +310,38 @@ public class JungObviousForest implements Forest<Node, Edge> {
 
     @Override
     public Collection<edu.uci.ics.jung.graph.Tree<Node, Edge>> getTrees() {
-      // TODO Auto-generated method stub
-      return null;
+      Collection<edu.uci.ics.jung.graph.Tree<Node, Edge>> trees =
+        new ArrayList<edu.uci.ics.jung.graph.Tree<Node, Edge>>();
+      Collection<Node> rootNodes = new ArrayList<Node>();
+      for (Node node : getVertices()) {
+        if (getParent(node) == null) {
+          rootNodes.add(node);
+        }
+      }
+      for (Node node : rootNodes) {
+        edu.uci.ics.jung.graph.Tree<Node, Edge> tree = new
+            DelegateTree<Node, Edge>();
+        tree.addVertex(node);
+        populateNetwork(tree, node);
+        trees.add(tree);
+      }
+      return trees;
+    }
+
+    /**
+     * Internal method.
+     * @param tree a Jung tree
+     * @param baseNode an Obvious node
+     */
+    private void populateNetwork(edu.uci.ics.jung.graph.Tree<Node, Edge> tree,
+        Node baseNode) {
+      if (getChildren(baseNode) != null || getChildren(baseNode).size() > 0) {
+        for (Node node : getChildren(baseNode)) {
+          tree.addEdge(getConnectingEdge(baseNode, node), baseNode, node,
+              edu.uci.ics.jung.graph.util.EdgeType.DIRECTED);
+          populateNetwork(tree, node);
+        }
+      }
     }
   }
 
