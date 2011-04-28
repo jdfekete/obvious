@@ -51,6 +51,7 @@ public class IvtkObviousForest extends IvtkObviousNetwork
       Tree<Node, Edge> tree = new IvtkObviousTree(nodeSchema, edgeSchema);
       tree.addNode(node);
       populateNetwork(tree, node);
+      trees.add(tree);
     }
     return trees;
   }
