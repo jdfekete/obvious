@@ -86,8 +86,8 @@ public class PrefuseObviousForest extends PrefuseObviousNetwork
     super(nodeSchema, edgeSchema, directed, nodeId, sourceId, targetId);
     this.nodeSchema = nodeSchema;
     this.edgeSchema = edgeSchema;
-    this.target = target;
-    this.source = source;
+    this.target = targetId;
+    this.source = sourceId;
     this.nodeId = nodeId;
   }
 
@@ -104,6 +104,7 @@ public class PrefuseObviousForest extends PrefuseObviousNetwork
       Tree<Node, Edge> tree = new PrefuseObviousTree(nodeSchema, edgeSchema,
           nodeId, source, target);
       tree.addNode(node);
+      populateNetwork(tree, node);
     }
     return trees;
   }
@@ -113,12 +114,13 @@ public class PrefuseObviousForest extends PrefuseObviousNetwork
    * @param tree a Jung tree
    * @param node an Obvious node
    */
-  private void populateNetwork(Tree tree, Node node) {
+  private void populateNetwork(Tree<Node, Edge> tree, Node node) {
     if (this.getSuccessors(node) != null
         || this.getSuccessors(node).size() > 0) {
       for (Node otherNode : this.getSuccessors(node)) {
         tree.addNode(otherNode);
-        tree.addEdge(null, node, otherNode, EdgeType.DIRECTED); //TODO 
+        tree.addEdge(getConnectingEdge(node, otherNode), node, otherNode,
+            EdgeType.DIRECTED);
         populateNetwork(tree, otherNode);
       }
     }
