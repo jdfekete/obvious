@@ -671,9 +671,11 @@ public class IvtkObviousNetwork implements Network {
       boolean edgeEquals = true;
       for (int i = 0; i < edgeSchema.getColumnCount(); i++) {
         String colName = edgeSchema.getColumnName(i);
-        if (!edge.get(colName).equals(e.getKey().get(colName))) {
-          edgeEquals = false;
-          break;
+        if (graph.getEdgeTable().getColumn(colName) != null) {
+          if (!edge.get(colName).equals(e.getKey().get(colName))) {
+            edgeEquals = false;
+            break;
+          }
         }
       }
       if (edgeEquals) {
