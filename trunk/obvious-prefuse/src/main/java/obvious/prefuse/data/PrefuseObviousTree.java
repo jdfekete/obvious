@@ -45,7 +45,17 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
   implements Tree<Node, Edge> {
 
   /**
-   * Forest associated to this tree.
+   * Implementation of an Obvious {@link obvious.data#Tree Tree} based on
+   * Prefuse toolkit.
+   *
+   * Prefuse to describe trees uses 3 columns to describe: nodes Id, source and
+   * target nodes for edges. If not specified in the constructor default columns
+   * will be used to handle this task. It should be noted that if custom columns
+   * are used their type should be int and not Integer due to prefuse
+   * contraints.
+   * @see obvious.data#Tree
+   * @author Pierre-Luc Hemery
+   *
    */
   private Collection<Tree<Node, Edge>> forest;
 

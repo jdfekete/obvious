@@ -37,9 +37,21 @@ import obvious.data.Schema;
 import obvious.data.Tree;
 
 /**
- * Implementation of an Obvious Network based on Prefuse toolkit.
- * @author Hemery
+ * Implementation of an Obvious {@link obvious.data#Forest Forest} based on
+ * Prefuse toolkit. This implementation mainly subclasses
+ * {@link obvious.prefuse.data#PrefuseObviousNetwork PrefuseObviousNetwork}
+ * class.
  *
+ * It should be noted that this implementation supports
+ * oriented graphs but does not support graph containing both directed and
+ * undirected edges.
+ *
+ * Prefuse to describe graphs uses 3 columns to describe: nodes Id, source and
+ * target nodes for edges. If not specified in the constructor default columns
+ * will be used to handle this task. It should be noted that if custom columns
+ * are used their type should be int and not Integer due to prefuse contraints.
+ * @see obvious.data#Forest
+ * @author Hemery
  */
 public class PrefuseObviousForest extends PrefuseObviousNetwork
     implements Forest<Node, Edge> {
