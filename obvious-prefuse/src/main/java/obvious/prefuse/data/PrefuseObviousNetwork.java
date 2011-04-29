@@ -41,7 +41,17 @@ import obvious.data.Table;
 import obvious.data.event.NetworkListener;
 
 /**
- * Implementation of an Obvious Network based on Prefuse toolkit.
+/**
+ * Implementation of an Obvious {@link obvious.data#Network Network} based on
+ * Prefuse toolkit. It should be noted that this implementation supports
+ * oriented graphs but does not support graph containing both directed and
+ * undirected edges.
+ *
+ * Prefuse to describe graphs uses 3 columns to describe: nodes Id, source and
+ * target nodes for edges. If not specified in the constructor default columns
+ * will be used to handle this task. It should be noted that if custom columns
+ * are used their type should be int and not Integer due to prefuse contraints.
+ * @see obvious.data#Network
  * @author Pierre-Luc Hemery
  *
  */
@@ -54,7 +64,7 @@ public class PrefuseObviousNetwork implements Network {
 
   /**
    * Column used as node id, when default prefuse parameters
-   * are overriden.
+   * are overridden.
    */
   private String nodeKey = null;
 
