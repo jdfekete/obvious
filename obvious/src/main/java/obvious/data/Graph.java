@@ -32,8 +32,13 @@ import java.util.Collection;
 import obvious.util.Adaptable;
 
 /**
- * Interface Graph.
- *
+ * Graph is a generic Obvious interface containing vertices and edges. Since,
+ * the interface can be used in different contexts, this interface can
+ * optionally support these following mechanisms : directed/undirected graph,
+ * mix of directed/undirected edges for a same graph and parallel edges.
+ * Currently, all Obvious bindings do not directly use this interface but the
+ * {@link Network Network} sub-interface, where vertices and edges are
+ * described as {@link Tuple Tuple}.
  * @param <V> Vertex object
  * @param <E> Edge object
  *
@@ -57,13 +62,9 @@ public interface Graph<V, E> extends Data, Adaptable {
    */
   enum EdgeType {
     /**
-     * @uml.property  name="dIRECTED"
-     * @uml.associationEnd  
      */
     DIRECTED,
     /**
-     * @uml.property  name="uNDIRECTED"
-     * @uml.associationEnd  
      */
     UNDIRECTED
   }

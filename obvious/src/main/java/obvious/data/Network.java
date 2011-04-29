@@ -34,8 +34,10 @@ import obvious.data.event.NetworkListener;
 
 
 /**
- * This interface subclasses Graph Interface with Obvious compatible
- * edge and node.
+ * Network is a subclass of the generic {@link Graph Graph} interface
+ * using for nodes and edges classes that derived from {@link Tuple Tuple}:
+ * {@link Node Node} and {@link Edge Edge}.
+ * Currently, all Obvious bindings use this interface to modelize graphs.
  * @see Graph
  * @see Node
  * @see Edge

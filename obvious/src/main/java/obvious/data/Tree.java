@@ -30,11 +30,17 @@ package obvious.data;
 import java.util.Collection;
 
 /**
- * Interface Tree.
- * It subclasses obvious Forest interface.
+ * Tree is a sub-interface of (directed) {@link Graph Graph}. In addition,
+ * Obvious trees are rooted and also implement the {@link Forest Forest}
+ * interface (a tree is a forest containing one tree). Since Obvious Trees are
+ * rooted, this interface can perform several measures: depth (shortest path
+ * between the root and a node) and the height (the maximum depth for the tree).
+ * Concretely, in existing Obvious bindings, Trees are implemented as
+ * Tree<{@link Node Node}, {@link Edge Edge}> and are in fact extending
+ * Networks.
  * @see Graph
  * @see Network
- *
+ * @see Forest
  * @param <V> Vertex object
  * @param <E> Edge object
  *
