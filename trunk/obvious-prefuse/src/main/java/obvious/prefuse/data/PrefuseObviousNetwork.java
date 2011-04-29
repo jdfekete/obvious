@@ -95,7 +95,7 @@ public class PrefuseObviousNetwork implements Network {
     this.targetKey = targetId;
     this.graph = new prefuse.data.Graph((
         (PrefuseObviousTable) node).getPrefuseTable(),
-        ((PrefuseObviousTable) edge).getPrefuseTable(), false,
+        ((PrefuseObviousTable) edge).getPrefuseTable(), directed,
         nodeKey, sourceKey, targetKey);
   }
 
@@ -191,8 +191,14 @@ public class PrefuseObviousNetwork implements Network {
     try {
       // prefuse creates a new edge, so will have to fill it with
       // existing informations of the parameter edge.
-      prefuse.data.Edge prefEdge = graph.addEdge(graph.getNode(source.getRow()),
+      prefuse.data.Edge prefEdge = null;
+      if (nodeKey == null) {
+         prefEdge = graph.addEdge(graph.getNode(source.getRow()),
           graph.getNode(target.getRow()));
+      } else {
+        prefEdge = graph.addEdge(graph.getNodeFromKey(source.getInt(nodeKey)),
+            graph.getNodeFromKey(target.getInt(nodeKey)));
+      }
       // harvesting informations from parameter edge...
       for (int i = 0; i < prefEdge.getColumnCount(); i++) {
         String colName = prefEdge.getColumnName(i);

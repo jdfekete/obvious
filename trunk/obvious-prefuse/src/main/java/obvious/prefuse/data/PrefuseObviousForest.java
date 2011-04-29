@@ -105,6 +105,7 @@ public class PrefuseObviousForest extends PrefuseObviousNetwork
           nodeId, source, target);
       tree.addNode(node);
       populateNetwork(tree, node);
+      trees.add(tree);
     }
     return trees;
   }
