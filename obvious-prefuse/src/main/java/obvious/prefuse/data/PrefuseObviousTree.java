@@ -63,8 +63,7 @@ public class PrefuseObviousTree extends PrefuseObviousNetwork
    */
   public PrefuseObviousTree(Schema nodeSchema , Schema edgeSchema,
       String nodeId, String source, String target) {
-    super(prefuse.data.Tree.DEFAULT_SOURCE_KEY,
-        prefuse.data.Tree.DEFAULT_TARGET_KEY);
+    super(nodeSchema, edgeSchema, true, nodeId, source, target);
     Table node = new PrefuseObviousTable(nodeSchema);
     Table edge = new PrefuseObviousTable(edgeSchema);
     prefuse.data.Tree prefTree = new prefuse.data.Tree(
