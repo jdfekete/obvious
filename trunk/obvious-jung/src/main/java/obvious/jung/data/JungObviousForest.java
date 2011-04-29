@@ -44,7 +44,9 @@ import obvious.jung.data.JungObviousNetwork.JungGraph;
 
 
 /**
- * Implementation of an Obvious Forest based on Jung toolkit.
+ * Implementation of an Obvious {@link obvious.data#Forest Forest} based on
+ * Jung toolkit.
+ * @see obvious.data#Forest
  * @author Hemery
  *
  */
@@ -243,26 +245,6 @@ public class JungObviousForest implements Forest<Node, Edge> {
       edu.uci.ics.jung.graph.Forest<Node, Edge> {
 
     /**
-     * Obvious node schema.
-     */
-    private Schema nodeSchema;
-
-    /**
-     * Obvious edge schema.
-     */
-    private Schema edgeSchema;
-
-    /**
-     * Source column.
-     */
-    private String source;
-
-    /**
-     * Target column.
-     */
-    private String target;
-
-    /**
      * Constructor.
      * @param nodeSchema schema for nodes
      * @param edgeSchema schema for edges
@@ -273,10 +255,6 @@ public class JungObviousForest implements Forest<Node, Edge> {
     protected JungForest(Schema nodeSchema, Schema edgeSchema, String node,
         String source, String target) {
       super(nodeSchema, edgeSchema, node, source, target);
-      this.nodeSchema = nodeSchema;
-      this.edgeSchema = edgeSchema;
-      this.source = source;
-      this.target = target;
     }
 
     @Override

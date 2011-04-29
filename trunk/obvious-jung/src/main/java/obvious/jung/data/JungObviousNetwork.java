@@ -50,7 +50,12 @@ import obvious.impl.NodeImpl;
 import obvious.prefuse.data.PrefuseObviousTable;
 
 /**
- * Implementation of an Obvious Network based on Jung toolkit.
+ * Implementation of an Obvious {@link obvious.data#Network Network} based on
+ * Jung toolkit. This implementation supports the following mechanisms:
+ * directed/undirected graph, mix of directed/undirected edges for a same
+ * graph and parallel edges.
+ *
+ * @see obvious.data#Network
  * @author Pierre-Luc Hemery
  *
  */
