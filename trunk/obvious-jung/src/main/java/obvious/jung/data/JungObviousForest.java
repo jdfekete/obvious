@@ -44,9 +44,11 @@ import obvious.jung.data.JungObviousNetwork.JungGraph;
 
 
 /**
- * Implementation of an Obvious {@link obvious.data#Forest Forest} based on
- * Jung toolkit.
- * @see obvious.data#Forest
+ * Implementation of an Obvious {@link obvious.data.Forest Forest} based on
+ * Jung toolkit. This implementation wraps an existing Jung Forest object.
+ * This class directly binds Jung and Obvious methods since those two toolkits
+ * share the same design for graphs, trees and forests.
+ * @see obvious.data.Forest
  * @author Hemery
  *
  */

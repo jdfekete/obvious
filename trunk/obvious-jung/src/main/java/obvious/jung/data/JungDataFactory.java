@@ -40,11 +40,14 @@ import obvious.impl.SchemaImpl;
 import obvious.impl.TableImpl;
 
 /**
- * Implementation of Obvious DataFactoryInterface.
- * Use this class to build Obvious Network with Jung toolkit.
- * This factory can be used to build Obvious Table using the TableImpl from
- * Obvious package. So for tables, no extra parameters are used in the factory,
- * only schema.
+ * This class is in an implementation of the
+ * {@link obvious.data.DataFactory DataFactory} for the Obvious Jung binding.
+ * This class allows to instantiate Obvious Network from wrapped
+ * Jung graphs structures and from Obvious schema. For further information,
+ * see {@link obvious.dataDataFactory Datafactory class}.
+ * @see obvious.data.Network
+ * @see obvious.data.Schema
+ * @see obvious.data.DataFactory
  * @author Pierre-Luc Hemery
  *
  */

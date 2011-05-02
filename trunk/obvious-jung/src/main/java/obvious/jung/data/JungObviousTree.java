@@ -41,11 +41,10 @@ import obvious.impl.NodeImpl;
 /**
  * Implementation of an Obvious Tree based on Jung toolkit. It simply
  * subclasses the
- * {@link obvious.jung.data#JungObviousNetwork JungObviousNetwork} class.
- * @author Pierre-Luc Hémery
- *
- * @see obvious.jung.data#JungObviousNetwork
- * @see obvious.data#Tree
+ * {@link obvious.jung.data.JungObviousNetwork JungObviousNetwork} class.
+ * @see obvious.jung.data.JungObviousNetwork
+ * @see obvious.data.Tree
+ * @author Hemery
  */
 public class JungObviousTree extends JungObviousNetwork
     implements Tree<Node, Edge> {
