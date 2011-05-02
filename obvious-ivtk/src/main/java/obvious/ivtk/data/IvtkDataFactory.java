@@ -37,8 +37,15 @@ import obvious.data.Schema;
 import obvious.data.Table;
 
 /**
- * Implementation of an Obvious DataFactory based on infovis toolkit.
- *
+ * This class is in an implementation of the
+ * {@link obvious.data.DataFactory DataFactory} for the Obvious Ivtk binding.
+ * This class allows to instantiate Obvious Network and Table from wrapped
+ * Ivtk data structures and from Obvious schema. For further information,
+ * see {@link obvious.dataDataFactory Datafactory class}.
+ * @see obvious.data.Table
+ * @see obvious.data.Network
+ * @see obvious.data.Schema
+ * @see obvious.data.DataFactory
  * @author Pierre-Luc Hemery
  *
  */

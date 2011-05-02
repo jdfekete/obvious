@@ -47,8 +47,13 @@ import obvious.impl.SchemaImpl;
 
 
 /**
- * Implementation of an Obvious Schema based on infovis toolkit.
- *
+ * This class is in an implementation of the
+ * {@link obvious.data.Schema Schema} for the Obvious Ivtk binding.
+ * Since Ivtk does not have a schema structure, but use column object
+ * to store column description, this implementation is not a wrapper
+ * class. This class implements service introduced in Obvious schemas
+ * with a java collection of columns objects from Ivtk.
+ * @see obvious.data.Schema
  * @author Pierre-Luc Hemery
  *
  */
