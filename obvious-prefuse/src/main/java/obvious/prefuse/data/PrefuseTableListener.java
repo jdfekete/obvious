@@ -32,7 +32,11 @@ import obvious.data.event.TableListener;
 import obvious.prefuse.utils.wrappers.WrapToPrefTable;
 
 /**
- * A prefuse based implementation of obvious TableListener interface.
+/**
+ * This class is in an implementation of the
+ * {@link obvious.data.event.TableListener TableListener} for the Obvious
+ * Prefuse binding. It is simply a wrapper class.
+ * @see obvious.data.event.TableListener
  * @author Hemery
  *
  */

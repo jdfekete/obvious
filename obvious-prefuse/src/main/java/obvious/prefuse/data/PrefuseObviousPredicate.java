@@ -34,7 +34,15 @@ import obvious.prefuse.utils.wrappers.WrapToPrefTuple;
 import prefuse.data.expression.parser.ExpressionParser;
 
 /**
- * A wrapper for Prefuse Predicate.
+ * This class is an implementation of the Obvious
+ * {@link obvious.data.util.Predicate Predicate class} based on the Obvious
+ * Prefuse binding. To create and apply Predicate, this class uses the Prefuse
+ * predicates engine. A PrefuseObviousPredicate can be created directly by
+ * wrapping an existing Prefuse Predicate or with the String description of
+ * it.
+ * This class enables predicates support for all Obvious bindings since
+ * predicates produce by this class can be apply to whatever Obvious table.
+ * @see obvious.data.util.Predicate Predicate
  * @author Hemery
  *
  */

@@ -37,26 +37,25 @@ import obvious.data.Table;
 import obvious.data.Tree;
 
 /**
- * Implementation of an Obvious Tree based on Prefuse toolkit.
+ * This class is in an implementation of the {@link obvious.data.Tree Tree}
+ * for the Obvious Prefuse binding based on the Prefuse tree class. This
+ * class extends the existing
+ * {@link obvious.data.PrefuseObviousNetwork PrefuseObviousNetwork} class to
+ * provide generic network methods. Since, specific tree methods introduced in
+ * Obvious such as
+ * {@link obvious.prefuse.data.PrefuseObviousTree#getDepth(Node) getDepth} do
+ * not exist, they have been implemented directly using Obvious code.
+ * @see obvious.data.Tree
+ * @see obvious.prefuse.data.PrefuseObviousNetwork
  * @author Pierre-Luc Hemery
  *
  */
 public class PrefuseObviousTree extends PrefuseObviousNetwork
   implements Tree<Node, Edge> {
 
-  /**
-   * Implementation of an Obvious {@link obvious.data#Tree Tree} based on
-   * Prefuse toolkit.
-   *
-   * Prefuse to describe trees uses 3 columns to describe: nodes Id, source and
-   * target nodes for edges. If not specified in the constructor default columns
-   * will be used to handle this task. It should be noted that if custom columns
-   * are used their type should be int and not Integer due to prefuse
-   * contraints.
-   * @see obvious.data#Tree
-   * @author Pierre-Luc Hemery
-   *
-   */
+ /**
+  * A forest.
+  */
   private Collection<Tree<Node, Edge>> forest;
 
   /**

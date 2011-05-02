@@ -34,8 +34,10 @@ import obvious.data.Table;
 import obvious.data.Tuple;
 
 /**
- * Implementation of an Obvious Tuple based on Prefuse toolkit.
- * Obvious and Prefuse tuples are pretty close, this class is mainly a wrapper.
+ * This class is in an implementation of the {@link obvious.data.Tuple Tuple}
+ * interface based on Prefuse Tuple class. Since Obvious tuples have designed
+ * from Prefuse tuples, this class is purely a wrapper. Prefuse tuples are
+ * fully with Obvious tuples.
  * @author Pierre-Luc Hemery
  *
  */
