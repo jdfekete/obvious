@@ -55,8 +55,17 @@ import obvious.jdbc.utils.FormatFactorySQL;
 import obviousx.text.TypedFormat;
 
 /**
- *
- * Implementation of an Obvious Table based on JDBC.
+ * This class is an implementation of the Obvious
+ * {@link obvious.data.Table Table} interface based on JDBC.
+ * It could be normally used with all JDBC drivers and has been
+ * tested with Oracle and MySQL JDBC drivers. To create a Table instance,
+ * it simply needs to have the parameters to create a JDBC connection and
+ * a Table name.
+ * All Obvious methods are translated into SQL commands in order
+ * to implement them through JDBC. This Obvious data structure
+ * can be used as a "traditional" Obvious implementation based
+ * on an InfoVis toolkit.
+ * @see obvious.data.Table
  * @author Pierre-Luc Hemery
  *
  */

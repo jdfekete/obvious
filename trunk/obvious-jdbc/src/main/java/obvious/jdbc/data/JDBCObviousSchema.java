@@ -52,11 +52,21 @@ import obvious.impl.SchemaImpl;
 import obvious.jdbc.utils.FormatFactorySQL;
 
 /**
-*
-* Implementation of an Obvious Table based on JDBC.
-* @author Pierre-Luc Hemery
-*
-*/
+ * This class is an implementation of the Obvious
+ * {@link obvious.data.Schema Schema} interface based on JDBC.
+ * It could be normally used with all JDBC drivers and has been
+ * tested with Oracle and MySQL JDBC drivers. To create a schema,
+ * it simply needs to have the parameters to create a JDBC connection and
+ * a Table name. Then, the class will retrieve information of each columns
+ * in this JDBC table.
+ * All Obvious methods are translated into SQL commands in order
+ * to implement them through JDBC. This Obvious data structure
+ * can be used as a "traditional" Obvious implementation based
+ * on an InfoVis toolkit.
+ * @see obvious.data.Schema
+ * @author Pierre-Luc Hemery
+ *
+ */
 public class JDBCObviousSchema implements Schema {
 
   /**

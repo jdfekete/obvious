@@ -28,6 +28,7 @@
 /**
  * <h1>Package obvious.jdbc.data</h1>
  *
- * TODO document the package.
+ * This package contains JDBC based Obvious implementation of Table and
+ * Network Interfaces.
  */
 package obvious.jdbc.data;
