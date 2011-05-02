@@ -37,9 +37,14 @@ import obvious.data.Table;
 import obvious.impl.SchemaImpl;
 
 /**
- * Implementation of Obvious DataFactory Interface.
- * Use this class to build Obvious Table based on a JDBC implementation.
- * Network are not supported for the moment.
+ * This class is in an implementation of the
+ * {@link obvious.data.DataFactory DataFactory} for the Obvious JDBC binding.
+ * This class allows to instantiate Obvious Network and Tables from wrapped
+ * JDBC graphs structures and from Obvious schema. For further information,
+ * see {@link obvious.dataDataFactory Datafactory class}.
+ * @see obvious.data.Network
+ * @see obvious.data.Schema
+ * @see obvious.data.DataFactory
  * @author Pierre-Luc Hemery
  *
  */

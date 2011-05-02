@@ -52,8 +52,19 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 
 /**
- * An obvious network implementation using a database with a JDCB link
- * in order to store data.
+ * This class is an implementation of the Obvious
+ * {@link obvious.data.Network Network} interface based on JDBC.
+ * It could be normally used with all JDBC drivers and has been
+ * tested with Oracle and MySQL JDBC drivers. To create an instance,
+ * it simply needs to give as parameter a JDBC connection and convenient
+ * Obvious schemas and table informations. For example, like in the Prefuse
+ * binding, nodeId, source and target columns for edges should be provided
+ * to create a network instance.
+ * All Obvious methods are translated into SQL commands in order
+ * to implement them through JDBC. This Obvious data structure
+ * can be used as a "traditional" Obvious implementation based
+ * on an InfoVis toolkit.
+ * @see obvious.data.Network
  * @author Hemery
  *
  */
