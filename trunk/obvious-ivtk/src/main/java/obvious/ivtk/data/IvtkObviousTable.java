@@ -55,8 +55,13 @@ import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 
 /**
- * Implementation of an Obvious Table based on infovis toolkit.
- *
+ * This class is in an implementation of the
+ * {@link obvious.data.Table Table} for the Obvious Ivtk binding based on the
+ * Ivtk Table class. Since Obvious and Ivtk tables do not share exactly the
+ * same design -Obvious is tuple based and Ivtk columns based-, this class is
+ * not exactly a wrapper. Ivtk methods can not be bound directly to Obvious
+ * ones, some complementary Ivtk code should be added to bind methods.
+ * @see obvious.data.Table
  * @author Pierre-Luc Hemery
  *
  */

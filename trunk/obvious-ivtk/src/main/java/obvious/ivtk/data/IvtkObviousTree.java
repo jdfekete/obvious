@@ -45,8 +45,16 @@ import obvious.data.Tree;
 import obvious.impl.EdgeImpl;
 
 /**
- * Implementation of an Obvious Tree based on infovis toolkit.
- *
+ * This class is in an implementation of the
+ * {@link obvious.data.Tree Tree} for the Obvious Ivtk binding based on
+ * the Ivtk Tree class. Obvious and Ivtk do not share the same design
+ * for Tree. In Obvious Tree extends Graph and are meant to be built
+ * around two tables one for edges and one for nodes. However, in Ivtk,
+ * trees do not extend graph and are built around only one table. Thus,
+ * the current implementation is not a wrapper but has to reimplement
+ * all method from the Obvious graph and tree interfaces using some
+ * complementary Ivtk code.
+ * @see obvious.data.Tree
  * @author Pierre-Luc Hemery
  *
  */

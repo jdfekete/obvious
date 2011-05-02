@@ -54,9 +54,14 @@ import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 
 /**
- * Implementation of an Obvious Network based on infovis toolkit.
- *
- * @author Pierre-Luc Hemery
+ * This class is in an implementation of the
+ * {@link obvious.data.Network Network} for the Obvious Ivtk binding based on
+ * the Ivtk Graph class. Ivtk and Obvious do not share the same granularity
+ * of method for graphs. That is why, this class is not a simple wrapper.
+ *  For example, Ivtk graph does not provide a
+ * {@link obvious.data.Network#getSuccessors(Node) getSuccessors method} as
+ * Obvious ones do. Thus, Ivtk methods can not be bound directly to Obvious
+ * ones, some complementary Ivtk code should be added to bind them.
  *
  */
 public class IvtkObviousNetwork implements Network {

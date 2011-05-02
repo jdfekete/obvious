@@ -10,7 +10,14 @@ import obvious.data.Schema;
 import obvious.data.Tree;
 
 /**
- * Implementation of an Obvious Forest based on Ivtk toolkit.
+ * Implementation of an Obvious {@link obvious.data.Forest Forest} based on
+ * Prefuse toolkit. This implementation mainly subclasses
+ * {@link obvious.ivtk.data.IvtkObviousNetwork IvtkObviousNetwork}
+ * class and provides the additional method
+ * {@link obvious.data.Forest#getTrees() getTrees} introduced in Forest is
+ * written with custom Obvious code.
+ * @see obvious.data.Forest
+ * @see obvious.ivtk.data.IvtkObviousForest
  * @author Hemery
  *
  */

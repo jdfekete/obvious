@@ -28,7 +28,7 @@
 /**
  * <h1>Package obvious.ivtk.data</h1>
  *
- * This package contains Jung based Obvious implementation of Tree and
- * Network Interfaces.
+ * This package contains all Obvious data structure implemenations based
+ * on the ivtk toolkit.
  */
 package obvious.ivtk.data;
