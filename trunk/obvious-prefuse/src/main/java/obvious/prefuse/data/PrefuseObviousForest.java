@@ -37,9 +37,9 @@ import obvious.data.Schema;
 import obvious.data.Tree;
 
 /**
- * Implementation of an Obvious {@link obvious.data#Forest Forest} based on
+ * Implementation of an Obvious {@link obvious.data.Forest Forest} based on
  * Prefuse toolkit. This implementation mainly subclasses
- * {@link obvious.prefuse.data#PrefuseObviousNetwork PrefuseObviousNetwork}
+ * {@link obvious.prefuse.data.PrefuseObviousNetwork PrefuseObviousNetwork}
  * class.
  *
  * It should be noted that this implementation supports
@@ -50,7 +50,7 @@ import obvious.data.Tree;
  * target nodes for edges. If not specified in the constructor default columns
  * will be used to handle this task. It should be noted that if custom columns
  * are used their type should be int and not Integer due to prefuse contraints.
- * @see obvious.data#Forest
+ * @see obvious.data.Forest
  * @author Hemery
  */
 public class PrefuseObviousForest extends PrefuseObviousNetwork

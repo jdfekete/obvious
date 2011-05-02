@@ -30,12 +30,14 @@ package obvious.prefuse.data;
 import obvious.data.Edge;
 
 /**
- * Implementation of an Obvious Edge based on Prefuse toolkit.
- * It subclasses PrefuseObviousTuple.
- * This class is mainly a factory to build Obvious compatible edge from
- * Prefuse edge.
+ * This class is in an implementation of the {@link obvious.data.Edge Edge}
+ * interface based on Prefuse Edge class. Since the Edge interface is
+ * only a tagging one, this class simply implements the Edge interface and
+ * extends {@link obvious.prefuse.data PrefuseObviousTuple PrefuseObviousTuple}
+ * class.
  * @author Pierre-Luc Hemery
- *
+ * @see obvious.data.Edge
+ * @see obvious.prefuse.data.PrefuseObviousTuple
  */
 public class PrefuseObviousEdge extends PrefuseObviousTuple implements Edge {
 

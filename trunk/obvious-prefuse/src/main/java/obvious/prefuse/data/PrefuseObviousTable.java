@@ -43,7 +43,11 @@ import obvious.impl.IntIteratorImpl;
 import prefuse.data.util.TableIterator;
 
 /**
- * Implementation of an Obvious Table based on prefuse toolkit.
+ * This class is in an implementation of the {@link obvious.data.Table Table}
+ * interface based on Prefuse Table class. Since Obvious and Prefuse tables
+ * adopt the same design approach, this class is mainly a wrapper: Prefuse
+ * tables are fully compatible with Obvious ones.
+ * @see obvious.data.Table
  * @author Pierre-Luc Hemery
  *
  */

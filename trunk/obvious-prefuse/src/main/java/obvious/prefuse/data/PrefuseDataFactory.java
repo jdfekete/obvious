@@ -36,8 +36,15 @@ import obvious.data.Schema;
 import obvious.data.Table;
 
 /**
- * Implementation of Obvious DataFactoryInterface.
- * Use this class to build Obvious Table and Graph with Prefuse toolkit.
+ * This class is in an implementation of the
+ * {@link obvious.data.DataFactory DataFactory} for the Obvious Prefuse binding.
+ * This class allows to instantiate Obvious Network and Table from wrapped
+ * Prefuse data structures and from Obvious schema. For further information,
+ * see {@link obvious.dataDataFactory Datafactory class}.
+ * @see obvious.data.Table
+ * @see obvious.data.Network
+ * @see obvious.data.Schema
+ * @see obvious.data.DataFactory
  * @author Pierre-Luc Hemery
  *
  */

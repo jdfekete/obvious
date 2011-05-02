@@ -28,6 +28,7 @@
 /**
  * <h1>Package obvious.prefuse</h1>
  *
- * TODO document the package.
+ * This package contains all Obvious data structure implemenations based
+ * on the prefuse toolkit.
  */
 package obvious.prefuse.data;

@@ -30,11 +30,14 @@ package obvious.prefuse.data;
 import obvious.data.Node;
 
 /**
- * Implementation of an Obvious Node based on Prefuse toolkit.
- * It subclasses PrefuseObviousTuple.
- * This class is mainly a factory to build Obvious compatible node from
- * Prefuse node.
+ * This class is in an implementation of the {@link obvious.data.Node Node}
+ * interface based on Prefuse Node class. Since the Node interface is
+ * only a tagging one, this class simply implements the Node interface and
+ * extends {@link obvious.prefuse.data PrefuseObviousTuple PrefuseObviousTuple}
+ * class.
  * @author Pierre-Luc Hemery
+ * @see obvious.data.Node
+ * @see obvious.prefuse.data.PrefuseObviousTuple
  *
  */
 public class PrefuseObviousNode extends PrefuseObviousTuple implements Node {

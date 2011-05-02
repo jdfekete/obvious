@@ -39,8 +39,11 @@ import obvious.data.util.Predicate;
 import obvious.impl.FilterIntIterator;
 
 /**
- * Implementation of an Obvious Schema based on prefuse toolkit.
- * It is mainly a wrapper, Obvious Schema and Prefuse ones are really closed.
+ * This class is in an implementation of the {@link obvious.data.Schema Schema}
+ * interface based on Prefuse Schema class. Since Obvious and Prefuse designs of
+ * schemas are close, this class is mainly a wrapper. Prefuse schemas are fully
+ * compatible with Obvious ones.
+ * @see obvious.data.Schema
  * @author Pierre-Luc Hemery
  *
  */
@@ -486,10 +489,12 @@ public class PrefuseObviousSchema implements Schema {
   /**
    * Return the underlying implementation.
    * @param type targeted class
-   * @return null
+   * @return prefuse underlying schema if correct type provided otherwise null
    */
   public Object getUnderlyingImpl(Class<?> type) {
-    // TODO Auto-generated method stub
+    if (type.equals(prefuse.data.Schema.class)) {
+      return this.schema;
+    }
     return null;
   }
 
