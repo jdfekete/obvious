@@ -41,7 +41,38 @@ import obvious.data.util.Predicate;
 import obvious.util.Adaptable;
 
 /**
- * Visualization interface.
+ * This interface stands for the visualization part of the infovis reference
+ * model. It differs from others interfaces introduced in the data sub-package
+ * since this interface is more a black box than a consensus to describe
+ * the functionalities of the visualization part.
+ * That is why Obvious introduced a black box compatible with monolithic
+ * visualizations. Monolithic visualizations with this black box can still
+ * be configured with extra parameters: for instance, for a scatter plot,
+ * X and Y axis parameters can be defined and gave by the user trough
+ * the map of parameters passed to the
+ * {@link #Visualization(Data, Predicate, String, Map) constructor}. Some
+ * parameters such as the {@link #LABEL_KEY label key} to indicate the column
+ * used for labeling. In addition, developers can define custom parameters
+ * when implementing their own visualization.
+ * It is possible to bind visualization from polylithic toolkits: developers
+ * have to write a predefined visualization and then wrap it with the black box.
+ * Custom parameters could also be introduced for such visualizations.
+ * <br/>
+ * An Obvious Visualization can be created from an Obvious data structure
+ * whatever is its original binding. The data model will be either wrapped to
+ * become compatible with the native model if the underlying implementations
+ * are different or unwrapped when the visualization and the data model are
+ * from the same implementation. This mechanism avoids copying data from one
+ * structure to another, which is a crucial point for VA. Alternatively,
+ * Obvious also provides
+ * {@link obvious.util.ObviousLib#fillTable(Table, Table) a default mechanism}
+ * to quickly copy and synchronize
+ * data models when no wrapper has been defined for a specific toolkit.
+ * <br/>
+ * Obvious visualization should also support picking introduced in
+ * {@link #pickAll(Rectangle2D, Rectangle2D) pickAll} method and predicates
+ * used to filter the given Obvious data structure in the
+ * {@link #Visualization(Data, Predicate, String, Map) constructor}.
  * @author  Hemery
  */
 public abstract class Visualization extends VisualAttributeManager
