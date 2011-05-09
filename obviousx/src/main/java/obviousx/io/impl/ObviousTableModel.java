@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.impl;
 
 import java.util.ArrayList;
 import java.util.List;

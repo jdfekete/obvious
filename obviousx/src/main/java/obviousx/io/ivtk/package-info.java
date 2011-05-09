@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011, INRIA
+* Copyright (c) 2009, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,71 +25,9 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
-
-import java.io.File;
-
-import obvious.data.Network;
-//import obvious.prefuse.utils.wrappers.WrapToPrefGraph;
-import obviousx.ObviousxException;
-import obviousx.util.FormatFactory;
-import prefuse.data.io.AbstractGraphWriter;
-
 /**
- * Wrapper for Prefuse writter to be compatible with obvious.
- * @author Hemery
+ * <h1>Package obviousx.io.ivtk</h1>
  *
+ * This package contains several importers based on InfoVis toolkit.
  */
-public class PrefuseObviousGraphWriter implements Exporter {
-
-  /**
-   * Target file.
-   */
-  @SuppressWarnings("unused")
-  private File file;
-
-  /**
-   * Exported obvious network.
-   */
-  @SuppressWarnings("unused")
-  private Network network;
-
-  /**
-   * Wrapped prefuse writer.
-   */
-  @SuppressWarnings("unused")
-  private AbstractGraphWriter prefWriter;
-
-  /**
-   * Constructor.
-   * @param writer wrapped writer
-   * @param inNetwork network to export
-   * @param inFile target file
-   */
-  public PrefuseObviousGraphWriter(AbstractGraphWriter writer,
-      Network inNetwork, File inFile) {
-    this.prefWriter = writer;
-    this.file = inFile;
-  }
-
-  @Override
-  public void createFile() throws ObviousxException {
-    try {
-      return;
-      //prefWriter.writeGraph(new WrapToPrefGraph(network), file);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public FormatFactory getFormatFactory() {
-    return null;
-  }
-
-  @Override
-  public void setFormatFactory(FormatFactory formatFactory) {
-    return;
-  }
-
-}
+package obviousx.io.ivtk;

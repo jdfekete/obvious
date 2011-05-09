@@ -25,57 +25,53 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
-
-import infovis.graph.DefaultGraph;
-import infovis.graph.io.AbstractGraphReader;
-import infovis.graph.io.GraphReaderFactory;
+package obviousx.io.prefuse;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import obvious.ObviousException;
 import obvious.data.DataFactory;
-import obvious.data.Network;
+import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.ObviousxRuntimeException;
+import obviousx.io.TableImporter;
 import obviousx.util.FormatFactory;
+import prefuse.data.io.AbstractTextTableReader;
+import prefuse.data.io.DataIOException;
 
 /**
- * Wrapper for ivtk reader to be compatible with obvious.
+ * Wrapper for Prefuse reader to be compatible with obvious.
  * @author Hemery
  *
  */
-public class IvtkObviousGraphReader implements GraphImporter {
+public class PrefuseObviousTableReader implements TableImporter {
 
   /**
-   * Obvious network to fill.
+   * Prefuse table reader.
    */
-  private Network network;
+  private AbstractTextTableReader prefReader;
 
   /**
-   * Ivtk graph reader.
+   * Obvious table to fill.
    */
-  private AbstractGraphReader ivtkReader;
+  private Table table;
+
+  /**
+   * Input stream.
+   */
+  private InputStream stream;
 
   /**
    * Constructor.
    * @param reader prefuse table reader to wrap
+   * @param file input file
    */
-  public IvtkObviousGraphReader(AbstractGraphReader reader) {
-    this.ivtkReader = reader;
-  }
-
-  /**
-   * Constructor.
-   * @param name name of the entry format
-   * @param inFile file to import
-   */
-  public IvtkObviousGraphReader(String name, File inFile) {
+  public PrefuseObviousTableReader(AbstractTextTableReader reader, File file) {
+    this.prefReader = reader;
     try {
-      ivtkReader = (AbstractGraphReader) GraphReaderFactory.createGraphReader(
-          new FileInputStream(inFile), name, new DefaultGraph());
+      this.stream = new FileInputStream(file);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -87,26 +83,22 @@ public class IvtkObviousGraphReader implements GraphImporter {
   }
 
   @Override
-  public Network loadGraph() throws ObviousxException {
-    boolean success = this.ivtkReader.load();
-    if (success) {
-      infovis.Graph graph = this.ivtkReader.getGraph();
+  public Table loadTable() throws ObviousxException {
+    try {
+      prefuse.data.Table prefTable = prefReader.readTable(stream);
       String oldProperty = System.getProperty("obvious.DataFactory");
       System.setProperty("obvious.DataFactory",
-          "obvious.ivtk.data.IvtkDataFactory");
-      try {
-        network = DataFactory.getInstance().wrapGraph(graph);
-      } catch (ObviousException e) {
-        e.printStackTrace();
-      }
+          "obvious.prefuse.data.PrefuseDataFactory");
+      table = DataFactory.getInstance().wrapTable(prefTable);
       if (oldProperty != null) {
         System.setProperty("obvious.DataFactory", oldProperty);
       }
-    } else {
-      throw new ObviousxRuntimeException(
-          "Can't import the given file " + ivtkReader.getName());
+    } catch (DataIOException e) {
+      e.printStackTrace();
+    } catch (ObviousException e) {
+      e.printStackTrace();
     }
-    return this.network;
+    return table;
   }
 
   @Override

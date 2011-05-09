@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.impl;
 
 import java.io.File;
 import java.util.HashMap;
@@ -40,6 +40,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.TableImpl;
 import obviousx.ObviousxException;
+import obviousx.io.GraphImporter;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 

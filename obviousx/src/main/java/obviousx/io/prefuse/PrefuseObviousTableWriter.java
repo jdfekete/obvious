@@ -25,13 +25,14 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.prefuse;
 
 import java.io.File;
 
 import obvious.data.Table;
 //import obvious.prefuse.utils.wrappers.WrapToPrefTable;
 import obviousx.ObviousxException;
+import obviousx.io.Exporter;
 import obviousx.util.FormatFactory;
 import prefuse.data.io.AbstractTableWriter;
 //import prefuse.data.io.DataIOException;
