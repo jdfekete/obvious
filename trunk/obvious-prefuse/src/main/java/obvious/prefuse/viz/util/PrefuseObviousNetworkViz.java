@@ -45,7 +45,16 @@ import prefuse.visual.VisualItem;
 import prefuse.Constants;
 
 /**
- * PrefuseObviousNetworkViz class.
+ * This class is a specialized Obvious visualization for
+ * {@link Network Network} based on the scatter-plot visualization introduced
+ * in the Prefuse Toolkit.
+ * This class do not use extra-parameters to configure the visualization.
+ * However, parameters defined in
+ * {@link PrefuseObviousVisualization PrefuseObviousVisualization}
+ * should also be considered: mainly if the developer wants to use a custom
+ * prefuse group name ("graph" by default for this visualization).
+ * @see PrefuseObviousVisualization
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */
