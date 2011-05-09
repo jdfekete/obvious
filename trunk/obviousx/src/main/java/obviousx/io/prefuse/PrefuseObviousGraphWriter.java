@@ -25,39 +25,61 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.prefuse;
 
-import infovis.io.AbstractWriter;
+import java.io.File;
 
+import obvious.data.Network;
+//import obvious.prefuse.utils.wrappers.WrapToPrefGraph;
 import obviousx.ObviousxException;
-import obviousx.ObviousxRuntimeException;
+import obviousx.io.Exporter;
 import obviousx.util.FormatFactory;
+import prefuse.data.io.AbstractGraphWriter;
 
 /**
- * Wrapper for ivtk writer to be compatible with obvious.
+ * Wrapper for Prefuse writter to be compatible with obvious.
  * @author Hemery
  *
  */
-public class IvtkObviousTableWriter implements Exporter {
+public class PrefuseObviousGraphWriter implements Exporter {
 
   /**
-   * Ivtk table writer.
+   * Target file.
    */
-  private AbstractWriter ivtkWriter;
+  @SuppressWarnings("unused")
+  private File file;
+
+  /**
+   * Exported obvious network.
+   */
+  @SuppressWarnings("unused")
+  private Network network;
+
+  /**
+   * Wrapped prefuse writer.
+   */
+  @SuppressWarnings("unused")
+  private AbstractGraphWriter prefWriter;
 
   /**
    * Constructor.
    * @param writer wrapped writer
+   * @param inNetwork network to export
+   * @param inFile target file
    */
-  public IvtkObviousTableWriter(AbstractWriter writer) {
-    this.ivtkWriter = writer;
+  public PrefuseObviousGraphWriter(AbstractGraphWriter writer,
+      Network inNetwork, File inFile) {
+    this.prefWriter = writer;
+    this.file = inFile;
   }
 
   @Override
   public void createFile() throws ObviousxException {
-    boolean success = ivtkWriter.write();
-    if (!success) {
-      throw new ObviousxRuntimeException("Can't export the given table");
+    try {
+      return;
+      //prefWriter.writeGraph(new WrapToPrefGraph(network), file);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

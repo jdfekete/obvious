@@ -26,9 +26,8 @@
 */
 
 /**
- * <h1>Package obviousx</h1>
+ * <h1>Package obviousx.io.impl</h1>
  *
- * This package contains several importers for well known formats such as
- * CSV and GraphML.
+ * This package contains several importers.
  */
-package obviousx.io;
+package obviousx.io.impl;

@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.impl;
 
 
 import obvious.data.Edge;
@@ -35,6 +35,7 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.TableImpl;
 import obviousx.ObviousxException;
+import obviousx.io.Exporter;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 

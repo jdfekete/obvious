@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2011, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -25,10 +25,51 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+package obviousx.io.ivtk;
+
+import infovis.io.AbstractWriter;
+
+import obviousx.ObviousxException;
+import obviousx.ObviousxRuntimeException;
+import obviousx.io.Exporter;
+import obviousx.util.FormatFactory;
+
 /**
- * <h1>Package obviousx</h1>
+ * Wrapper for ivtk writer to be compatible with obvious.
+ * @author Hemery
  *
- * This package contains several importers for well known formats such as
- * CSV and GraphML.
  */
-package obviousx.io;
+public class IvtkObviousTableWriter implements Exporter {
+
+  /**
+   * Ivtk table writer.
+   */
+  private AbstractWriter ivtkWriter;
+
+  /**
+   * Constructor.
+   * @param writer wrapped writer
+   */
+  public IvtkObviousTableWriter(AbstractWriter writer) {
+    this.ivtkWriter = writer;
+  }
+
+  @Override
+  public void createFile() throws ObviousxException {
+    boolean success = ivtkWriter.write();
+    if (!success) {
+      throw new ObviousxRuntimeException("Can't export the given table");
+    }
+  }
+
+  @Override
+  public FormatFactory getFormatFactory() {
+    return null;
+  }
+
+  @Override
+  public void setFormatFactory(FormatFactory formatFactory) {
+    return;
+  }
+
+}

@@ -25,7 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package obviousx.io;
+package obviousx.io.impl;
 
 import java.io.File;
 import java.io.FileReader;
@@ -45,6 +45,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.SchemaImpl;
 import obvious.impl.NodeImpl;
 import obviousx.ObviousxException;
+import obviousx.io.GraphImporter;
 import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
