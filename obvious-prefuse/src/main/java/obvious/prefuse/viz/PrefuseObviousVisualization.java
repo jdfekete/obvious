@@ -51,7 +51,17 @@ import prefuse.visual.VisualTupleSet;
 
 
 /**
- * PrefuseObviousVisualization class.
+ * This class is an implementation for the Obvious Prefuse Toolkit of the
+ * {@link Visualization Visualization interface}. Since Prefuse is polylithic
+ * this class can not be directly instantiated to create an Obvious
+ * visualization. It should be extended to create custom Prefuse visualizations
+ * such as {@link PrefuseObviousNetworkViz PrefuseObviousNetworkViz}. In
+ * addition, this class introduces several extra parameter dedicated to
+ * Prefuse. Thus, additional keys for the parameters maps have been introduced:
+ * GROUP_NAME keys for the prefuse group name value and DIRECTED key indicating
+ * if a graph is oriented or not. Default values are provided for those values
+ * (tupleset for the group name and false for directed).
+ * @see Visualization
  * @author Hemery
  *
  */
