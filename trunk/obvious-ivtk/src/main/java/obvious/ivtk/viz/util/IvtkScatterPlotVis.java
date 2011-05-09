@@ -37,7 +37,13 @@ import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 
 /**
- * Monolithic visualization for scatter plot in obvious ivtk implementation.
+ * This class is a specialized Obvious visualization for {@link Table Table}
+ * based on the scatter-plot visualization introduced in the InfoVis Toolkit.
+ * This class used extra-parameters to configure the visualization. Thus, it
+ * is possible to specify the X and Y axis of the scatter-plot by adding the
+ * name of those axis for the key described by X_AXIS and Y_AXIS variables
+ * introduced in {@link obvious.viz.Visualization Visualization}.
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */

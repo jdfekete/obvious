@@ -36,7 +36,11 @@ import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 
 /**
- * Monolithic link-node visualization for graph in obvious-ivtk implementation.
+ * This class is a specialized Obvious visualization for
+ * {@link Network Network} based on the NodeLink visualization introduced in
+ * the InfoVis Toolkit. This class introduces no new extra parameter to
+ * configure the visualization.
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */
@@ -56,7 +60,6 @@ public class IvtkNodeLinkGraphVis extends IvtkObviousVisualization {
 
   @Override
   public void initVisualization(Map<String, Object> param) {
-    //setIvtkVisualization(new NodeLinkGraphVisualization(getIvtkGraph()));
     setIvtkVisualization(new NodeLinkGraphVisualization(getIvtkGraph()));
     setVisualAllColumns(param, DataModel.NETWORK);
   }
