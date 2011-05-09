@@ -56,7 +56,14 @@ import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 
 /**
- * Infovis Toolkit implementation of obvious Visualization abstract class.
+ * This class is an implementation for the Obvious Infovis Toolkit of the
+ * {@link Visualization Visualization interface}. Since the Infovis Toolkit
+ * is monolithic, this class should not be directly instantiated. It should be
+ * used to create specialized Obvious visualizations based on the Infovis
+ * toolkit. For example, the following visualizations extends the current
+ * class: {@link IvtkNodeLinkGraphVis IvtkNodeLinkGraphVis} and
+ * {@link IvtkScatterPlotVis IvtkScatterPlotVis}.
+ * @see Visualization
  * @author Hemery
  *
  */

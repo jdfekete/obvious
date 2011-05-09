@@ -39,7 +39,10 @@ import obvious.ivtk.viz.IvtkObviousVisualization;
 
 
 /**
- * Monolithic link-node visualization for tree in obvious-ivtk implementation.
+ * This class is a specialized Obvious visualization for {@link Tree Tree}
+ * based on the NodeLink visualization introduced in the InfoVis Toolkit. This
+ * class introduces no new extra parameter to configure the visualization.
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */

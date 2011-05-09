@@ -38,7 +38,10 @@ import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 
 /**
- * Monolithic visualization for TreeMap in obvious-ivtk implementation.
+ * This class is a specialized Obvious visualization for {@link Tree Tree}
+ * based on the Tree map visualization introduced in the InfoVis Toolkit. This
+ * class introduces no new extra parameter to configure the visualization.
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */

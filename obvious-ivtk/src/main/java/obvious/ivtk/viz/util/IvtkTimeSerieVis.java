@@ -27,6 +27,7 @@
 
 package obvious.ivtk.viz.util;
 
+import infovis.Column;
 import infovis.table.visualization.TimeSeriesVisualization;
 
 import java.util.Map;
@@ -36,11 +37,23 @@ import obvious.data.util.Predicate;
 import obvious.ivtk.viz.IvtkObviousVisualization;
 
 /**
- * Monolithic visualization for time series in obvious-ivtk implementation.
+ * This class is a specialized Obvious visualization for {@link Table Table}
+ * based on the time series visualization introduced in the InfoVis Toolkit.
+ * This class introduces a new extra parameter TIMESERIES_NAME. This parameter
+ * is used to design the key of the parameter map that represents the column
+ * used to assign the different colors for each plot of the  the time series.
+ * The value associated to this key must be the column name.
+ * @see obvious.viz.Visualization
  * @author Hemery
  *
  */
 public class IvtkTimeSerieVis extends IvtkObviousVisualization {
+
+    /**
+     * Name of the column used to assign different colors for each plot of the
+     * time series.
+     */
+    public static final String TIMESERIES_NAME = "timeseriesnames";
 
     /**
      * Constructor.
@@ -56,11 +69,17 @@ public class IvtkTimeSerieVis extends IvtkObviousVisualization {
 
     @Override
     protected void initVisualization(Map<String, Object> param) {
+        Column nameColumn = getIvtkTable().getColumnAt(0);
+        if (getIvtkTable().getColumn((String) param.get(
+            TIMESERIES_NAME)) != null) {
+        nameColumn = getIvtkTable().getColumn((String) param.get(
+            TIMESERIES_NAME));
+        }
         infovis.Visualization visualization = new TimeSeriesVisualization(
             getIvtkTable());
         visualization.setVisualColumn(
                 TimeSeriesVisualization.VISUAL_COLOR,
-                getIvtkTable().getColumn("Name"));
+                nameColumn);
         setIvtkVisualization(visualization);
         setVisualAllColumns(param, DataModel.TABLE);
     }
