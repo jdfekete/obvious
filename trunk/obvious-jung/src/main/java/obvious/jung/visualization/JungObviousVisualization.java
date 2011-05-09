@@ -53,7 +53,14 @@ import obvious.viz.Renderer;
 import obvious.viz.Visualization;
 
 /**
- * Visualization class for the obvious-jung implementation.
+ * This class is an implementation for the Obvious JUNG of the
+ * {@link Visualization Visualization interface}. Since JUNG can be considered
+ * as monolithic and versatile toolkit, only this class is needed to build
+ * visualizations with this Obvious binding. To indicate the layout to use, an
+ * extra parameter has been created: LAYOUT. It is used as a key of the
+ * parameter map and its associated in the class path of the JUNG layout to
+ * use.
+ * @see Visualization
  * @author Hemery
  *
  */
