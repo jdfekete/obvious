@@ -34,8 +34,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.xmlpull.v1.XmlPullParserFactory;
-import org.xmlpull.v1.XmlSerializer;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 
 import obvious.data.Edge;
 import obvious.data.Graph;
@@ -105,7 +105,7 @@ public class GraphMLExport implements Exporter {
   /**
    * XML serializer.
    */
-  private XmlSerializer serializer;
+  private XMLStreamWriter serializer;
 
   /**
    * GraphMLExport constructor.
@@ -124,12 +124,10 @@ public class GraphMLExport implements Exporter {
       this.nodeSchema = inNodeSchema;
       this.edgeSchema = inEdgeSchema;
       this.formatFactory = new FormatFactoryImpl();
-      XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-      factory.setNamespaceAware(true);
-      this.serializer = factory.newSerializer();
+      XMLOutputFactory factory = XMLOutputFactory.newInstance();
       this.file = new File(name);
       this.writer = new FileWriter(file);
-      this.serializer.setOutput(writer);
+      serializer = factory.createXMLStreamWriter(writer);
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -141,7 +139,7 @@ public class GraphMLExport implements Exporter {
    */
   public void createFile() throws ObviousxException {
     try {
-      serializer.startDocument("UTF-8", null);
+      serializer.writeStartDocument();
       createXmlSchemDecl();
       createGraphSchema();
       createGraph();
@@ -175,16 +173,16 @@ public class GraphMLExport implements Exporter {
   private void createXmlSchemDecl() throws ObviousxException {
     try {
       writer.append('\n');
-      serializer.startTag(null, "graphml");
-      serializer.attribute(null, "xmlns",
+      serializer.writeStartElement(null, "graphml");
+      serializer.writeAttribute(null, "xmlns",
           "http://graphml.graphdrawing.org/xmlns");
       writer.append('\n');
       writer.append('\t');
-      serializer.attribute(null, "xmlns:xsi",
+      serializer.writeAttribute(null, "xmlns:xsi",
           "http://www.w3.org/2001/XMLSchema-instance");
       writer.append('\n');
       writer.append('\t');
-      serializer.attribute(null, "xsi:schemaLocation",
+      serializer.writeAttribute(null, "xsi:schemaLocation",
           "http://graphml.graphdrawing.org/xmlns "
           + "http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
       serializer.flush();
@@ -214,16 +212,16 @@ public class GraphMLExport implements Exporter {
   private void createGraph() throws ObviousxException {
     try {
       writer.append("\n\t");
-      serializer.startTag(null, "graph");
-      serializer.attribute(null, "id", "graph0");
-      serializer.attribute(null, "edgedefault", "undirected");
+      serializer.writeStartElement(null, "graph");
+      serializer.writeAttribute(null, "id", "graph0");
+      serializer.writeAttribute(null, "edgedefault", "undirected");
       serializer.flush();
       createNode();
       createEdge();
       writer.append("\n\t");
-      serializer.endTag(null, "graph");
+      serializer.writeEndElement();
       writer.append("\n");
-      serializer.endTag(null, "graphml");
+      serializer.writeEndElement();
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -240,26 +238,26 @@ public class GraphMLExport implements Exporter {
     try {
       for (int i = 0; i < schema.getColumnCount(); i++) {
         writer.append("\n\t");
-        serializer.startTag(null, "key");
-        serializer.attribute(null, "id", "attr" + type + i);
-        serializer.attribute(null, "for", type);
-        serializer.attribute(null, "attr.name", schema.getColumnName(i));
-        serializer.attribute(null, "attr.type",
+        serializer.writeStartElement(null, "key");
+        serializer.writeAttribute(null, "id", "attr" + type + i);
+        serializer.writeAttribute(null, "for", type);
+        serializer.writeAttribute(null, "attr.name", schema.getColumnName(i));
+        serializer.writeAttribute(null, "attr.type",
             schema.getColumnType(i).getSimpleName());
         colNameToId.put(schema.getColumnName(i), "attr" + type + i);
         serializer.flush();
         if (schema.getColumnDefault(i) != null) {
           writer.append("\n\t\t");
-          serializer.startTag(null, "default");
+          serializer.writeStartElement(null, "default");
           TypedFormat format = formatFactory.getFormat(
               schema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(schema.getColumnDefault(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.text(value.toString());
-          serializer.endTag(null, "default");
+          serializer.writeCData(value.toString());
+          serializer.writeEndElement();
           writer.append("\n\t");
         }
-        serializer.endTag(null, "key");
+        serializer.writeEndElement();
       }
     } catch (Exception e) {
       throw new ObviousxException(e);
@@ -275,24 +273,24 @@ public class GraphMLExport implements Exporter {
       int nodeCount = 0;
       for (Node node : network.getNodes()) {
         writer.append("\n\t\t");
-        serializer.startTag(null, "node");
-        serializer.attribute(null, "id", "node" + nodeCount);
+        serializer.writeStartElement(null, "node");
+        serializer.writeAttribute(null, "id", "node" + nodeCount);
         nodeToId.put(node, "node" + nodeCount);
         serializer.flush();
         for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
           writer.append("\n\t\t\t");
-          serializer.startTag(null, "data");
-          serializer.attribute(null, "key", colNameToId.get(
+          serializer.writeStartElement(null, "data");
+          serializer.writeAttribute(null, "key", colNameToId.get(
               nodeSchema.getColumnName(i)));
           TypedFormat format = formatFactory.getFormat(
               nodeSchema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(node.get(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.text(value.toString());
-          serializer.endTag(null, "data");
+          serializer.writeCData(value.toString());
+          serializer.writeEndElement();
         }
         writer.append("\n\t\t");
-        serializer.endTag(null, "node");
+        serializer.writeEndElement();
         nodeCount++;
       }
       writer.append("\n\t");
@@ -310,8 +308,8 @@ public class GraphMLExport implements Exporter {
       int edgeCount = 0;
       for (Edge edge : network.getEdges()) {
         writer.append("\n\t\t");
-        serializer.startTag(null, "edge");
-        serializer.attribute(null, "id", "edge" + edgeCount);
+        serializer.writeStartElement(null, "edge");
+        serializer.writeAttribute(null, "id", "edge" + edgeCount);
         Node source = null, target = null;
         if (network.getEdgeType(edge).equals(Graph.EdgeType.DIRECTED)) {
           source = network.getSource(edge);
@@ -325,24 +323,24 @@ public class GraphMLExport implements Exporter {
             source = it.next();
             target = it.next();
           }
-          serializer.attribute(null, "source", nodeToId.get(source));
-          serializer.attribute(null, "target", nodeToId.get(target));
+          serializer.writeAttribute(null, "source", nodeToId.get(source));
+          serializer.writeAttribute(null, "target", nodeToId.get(target));
         }
         serializer.flush();
         for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
           writer.append("\n\t\t\t");
-          serializer.startTag(null, "data");
-          serializer.attribute(null, "key", colNameToId.get(
+          serializer.writeStartElement(null, "data");
+          serializer.writeAttribute(null, "key", colNameToId.get(
               edgeSchema.getColumnName(i)));
           TypedFormat format = formatFactory.getFormat(
               edgeSchema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(edge.get(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.text(value.toString());
-          serializer.endTag(null, "data");
+          serializer.writeCData(value.toString());
+          serializer.writeEndElement();
         }
         writer.append("\n\t\t");
-        serializer.endTag(null, "edge");
+        serializer.writeEndElement();
         edgeCount++;
       }
     } catch (Exception e) {
