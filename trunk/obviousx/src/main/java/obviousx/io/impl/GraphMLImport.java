@@ -28,12 +28,20 @@
 package obviousx.io.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.XMLEvent;
 
 import obvious.data.DataFactory;
 import obvious.data.Edge;
@@ -90,7 +98,7 @@ public class GraphMLImport implements GraphImporter {
   /**
    * XML parser to process GraphML description.
    */
-  private XmlPullParser xpp;
+  private XMLEventReader xpp;
 
   /**
    * Map linking XML id to columns name.
@@ -159,10 +167,14 @@ public class GraphMLImport implements GraphImporter {
       this.targetCol = target;
       this.nodeId = inNodeId;
       this.idToName = new HashMap<String, String>();
-      XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-      factory.setNamespaceAware(true);
-      this.xpp = factory.newPullParser();
-      this.xpp.setInput(new FileReader(file));
+      XMLInputFactory factory = XMLInputFactory.newInstance();
+      try {
+        xpp = factory.createXMLEventReader(new FileReader(file));
+      } catch (FileNotFoundException e) {
+        System.out.println("File " + file + " is unknown!");
+      } catch (XMLStreamException e) {
+        e.printStackTrace();
+      }
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -179,10 +191,14 @@ public class GraphMLImport implements GraphImporter {
       this.idToName = new HashMap<String, String>();
       this.nodeSchema = new SchemaImpl();
       this.edgeSchema = new SchemaImpl();
-      XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-      factory.setNamespaceAware(true);
-      this.xpp = factory.newPullParser();
-      this.xpp.setInput(new FileReader(file));
+      XMLInputFactory factory = XMLInputFactory.newInstance();
+      try {
+        xpp = factory.createXMLEventReader(new FileReader(file));
+      } catch (FileNotFoundException e) {
+        System.out.println("File " + file + " is unknown!");
+      } catch (XMLStreamException e) {
+        e.printStackTrace();
+      }
       readSchema();
       this.sourceCol = "source";
       this.targetCol = "target";
@@ -222,14 +238,16 @@ public class GraphMLImport implements GraphImporter {
       if (!schemaLoaded) {
         readSchema();
       }
+      XMLEvent event = xpp.nextEvent();
       do {
-        if (xpp.getEventType() == XmlPullParser.START_TAG
-            && xpp.getName().equals("graph")) {
-          processGraphElement();
+        if (event.isStartElement()) {
+            if (event.asStartElement().getName().equals("graph")) {
+              processGraphElement();
+            }
         } else {
-          xpp.next();
+          event = xpp.nextEvent();
         }
-      } while (xpp.getEventType() != XmlPullParser.END_DOCUMENT);
+      } while (event.isEndDocument());
       for (Edge edge : edges) {
         Node source = getNode(edge.get(sourceCol));
         Node target = getNode(edge.get(targetCol));
@@ -247,24 +265,39 @@ public class GraphMLImport implements GraphImporter {
    */
   public void readSchema() throws ObviousxException {
     try {
-      int eventType = xpp.getEventType();
+      XMLEvent event = xpp.nextEvent();
       do {
-        if (eventType == XmlPullParser.START_DOCUMENT) {
-          eventType = xpp.nextTag();
-        } else if (eventType == XmlPullParser.START_TAG
-            && xpp.getName().equals("key")) {
-          processKeyElement();
-        } else if (eventType == XmlPullParser.END_TAG) {
-          eventType = xpp.nextTag();
+        if (event.isStartDocument()) {
+          event = xpp.nextEvent();
+        } else if (event.isStartElement()) {
+          if (event.asStartElement().getName().getLocalPart().equals("key")) {
+            processKeyElement();
+          }
+        } else if (event.isEndElement()) {
+          event = xpp.nextEvent();
         } else {
-          eventType = xpp.nextTag();
+          event = xpp.nextEvent();
         }
-      } while (!xpp.getName().equals("graph"));
+      } while (!isGraphStarting(event));
       schemaLoaded = true;
     } catch (Exception e) {
       e.printStackTrace();
       //throw new ObviousxException(e);
     }
+  }
+
+  /**
+   * Checks if the cursor is in the graph tag.
+   * @param event current XML event
+   * @return true if the cursor is in the graph tag
+   */
+  private boolean isGraphStarting(XMLEvent event) {
+    if (event.isStartElement()) {
+      if (event.asStartElement().getName().getLocalPart().equals("graph")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -288,25 +321,24 @@ public class GraphMLImport implements GraphImporter {
       String type = "N/A";
       String  destinationSchema = "N/A";
       String defaultValue = "";
-      // Harvesting columnName, id, destination schema and type.
-      for (int i = 0; i < xpp.getAttributeCount(); i++) {
-        if (xpp.getAttributeName(i).equals("id")) {
-         id = xpp.getAttributeValue(i);
-        } else if (xpp.getAttributeName(i).equals("attr.name")) {
-          columnName = xpp.getAttributeValue(i);
-        } else if (xpp.getAttributeName(i).equals("attr.type")) {
-          type = xpp.getAttributeValue(i);
-        } else if (xpp.getAttributeName(i).equals("for")) {
-          destinationSchema = xpp.getAttributeValue(i);
+      XMLEvent event = null;
+      Iterator attIter = event.asStartElement().getAttributes();
+      while (attIter.hasNext()) {
+        Attribute attribute = (Attribute) attIter.next();
+        if (attribute.getName().getLocalPart().equals("id")) {
+          id = attribute.getValue();
+        } else if (attribute.getName().getLocalPart().equals("attr.name")) {
+           columnName = attribute.getValue();
+        } else if (attribute.getName().getLocalPart().equals("attr.type")) {
+           type = attribute.getValue();
+        } else if (attribute.getName().getLocalPart().equals("for")) {
+           destinationSchema = attribute.getValue();
         }
       }
       // Harvesting default value.
-      if (!xpp.isEmptyElementTag()) {
-        int eventType = xpp.nextTag();
-        if (eventType == XmlPullParser.START_TAG
-            && xpp.getName().equals("default")) {
-          defaultValue = xpp.nextText();
-        }
+      if (event.isStartElement() && event.asStartElement().getName()
+          .getLocalPart().equals("default")) {
+        defaultValue = xpp.getElementText();
       }
       // Creating new entry in the corresponding schema.
       Schema currentSchema;
@@ -336,25 +368,28 @@ public class GraphMLImport implements GraphImporter {
    */
   private void processGraphElement() throws ObviousxException {
     try {
-      for (int i = 0; i < xpp.getAttributeCount(); i++) {
-        if (xpp.getAttributeName(i).equals("edgedefault")) {
-          if (xpp.getAttributeValue(i).equals("directed")) {
+      XMLEvent event = null;
+      Iterator attIter = event.asStartElement().getAttributes();
+      while (attIter.hasNext()) {
+        Attribute att = (Attribute) attIter.next();
+        if (att.getName().getLocalPart().equals("edgedefault")) {
+          if (att.getValue().equals("directed")) {
             defaultEdgeType = Graph.EdgeType.DIRECTED;
           }
         }
       }
       xpp.next();
       do {
-        if (xpp.getEventType() == XmlPullParser.START_TAG
-            && xpp.getName().equals("node")) {
+        if (event.isStartElement()
+            && event.asStartElement().getName().getLocalPart().equals("node")) {
           processNodeElement();
-        } else if (xpp.getEventType() == XmlPullParser.START_TAG
-            && xpp.getName().equals("edge")) {
+        } else if (event.isStartElement()
+            && event.asStartElement().getName().getLocalPart().equals("edge")) {
           processEdgeElement();
         } else {
           xpp.next();
         }
-      } while (xpp.getEventType() != XmlPullParser.END_DOCUMENT);
+      } while (event.isEndDocument());
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -368,22 +403,27 @@ public class GraphMLImport implements GraphImporter {
     try {
       Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
       String id = "";
-      for (int i = 0; i < xpp.getAttributeCount(); i++) {
-        if (xpp.getAttributeName(i).equals("id")) {
-          id = xpp.getAttributeValue(i);
+      XMLEvent event = null;
+      Iterator attIter = event.asStartElement().getAttributes();
+      while (attIter.hasNext()) {
+        Attribute att = (Attribute) attIter.next();
+        if (att.getName().getLocalPart().equals("id")) {
+          id = att.getValue();
         }
       }
       for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
         nodeAttr[i] = nodeSchema.getColumnDefault(i);
       }
-      int eventType = xpp.next();
+      event = xpp.nextEvent();
       do {
-        if (eventType == XmlPullParser.START_TAG
-            && xpp.getName().equals("data")) {
-          for (int i = 0; i < xpp.getAttributeCount(); i++) {
-            if (xpp.getAttributeName(i).equals("key")) {
-              String colName = idToName.get(xpp.getAttributeValue(i));
-              String stringValue = xpp.nextText();
+        if (event.isStartElement()
+            && event.asStartElement().getName().getLocalPart().equals("data")) {
+          Iterator it = event.asStartElement().getAttributes();
+          while (it.hasNext()) {
+            Attribute att = (Attribute) it.next();
+            if (att.getName().getLocalPart().equals("key")) {
+              String colName = idToName.get(att.getValue());
+              String stringValue = xpp.getElementText();
               TypedFormat format = formatFactory.getFormat(
                   nodeSchema.getColumnType(colName).getSimpleName());
               Object value = format.parseObject(stringValue,
@@ -392,11 +432,12 @@ public class GraphMLImport implements GraphImporter {
               break;
             }
           }
-          eventType = xpp.next();
+          event = xpp.nextEvent();
         } else {
-          eventType = xpp.next();
+          event = xpp.nextEvent();
         }
-      } while (xpp.getName() == null || !xpp.getName().equals("node"));
+      } while (event.asStartElement().getName() == null
+          || !event.asStartElement().getName().getLocalPart().equals("node"));
       Node node = (Node) new NodeImpl(network.getNodeTable().getSchema(),
           nodeAttr);
       idToNode.put(id, node);
@@ -416,17 +457,20 @@ public class GraphMLImport implements GraphImporter {
       // Determine the correct edge type.
       String source = "", target = "";
       Graph.EdgeType currentEdgeType = defaultEdgeType;
-      for (int i = 0; i < xpp.getAttributeCount(); i++) {
-        if (xpp.getAttributeName(i).equals("directed")) {
-          if (xpp.getAttributeValue(i).equals("true")) {
+      XMLEvent event = null;
+      Iterator attIter = event.asStartElement().getAttributes();
+      while (attIter.hasNext()) {
+        Attribute att = (Attribute) attIter.next();
+        if (att.getName().getLocalPart().equals("directed")) {
+          if (att.getValue().equals("true")) {
             currentEdgeType = Graph.EdgeType.DIRECTED;
           } else {
             currentEdgeType = Graph.EdgeType.UNDIRECTED;
           }
-        } else if (xpp.getAttributeName(i).equals("source")) {
-          source = xpp.getAttributeValue(i);
-        } else if (xpp.getAttributeName(i).equals("target")) {
-          target = xpp.getAttributeValue(i);
+        } else if (att.getName().getLocalPart().equals("source")) {
+          att.getValue();
+        } else if (att.getName().getLocalPart().equals("target")) {
+          att.getValue();
         }
       }
       // Load default values.
@@ -441,14 +485,16 @@ public class GraphMLImport implements GraphImporter {
         }
       }
       // Load attribute values contained in the graphml file.
-      int eventType = xpp.next();
+      event = xpp.nextEvent();
       do {
-        if (eventType == XmlPullParser.START_TAG
-            && xpp.getName().equals("data")) {
-          for (int i = 0; i < xpp.getAttributeCount(); i++) {
-            if (xpp.getAttributeName(i).equals("key")) {
-              String colName = idToName.get(xpp.getAttributeValue(i));
-              String stringValue = xpp.nextText();
+        if (event.isStartElement() && event.asStartElement().getName()
+            .getLocalPart().equals("data")) {
+          Iterator it = event.asStartElement().getAttributes();
+          while (it.hasNext()) {
+            Attribute att = (Attribute) it.next();
+            if (att.getName().getLocalPart().equals("key")) {
+              String colName = idToName.get(att.getValue());
+              String stringValue = xpp.getElementText();
               TypedFormat format = formatFactory.getFormat(
                   edgeSchema.getColumnType(colName).getSimpleName());
               Object value = format.parseObject(stringValue,
@@ -457,11 +503,12 @@ public class GraphMLImport implements GraphImporter {
               break;
             }
           }
-          eventType = xpp.next();
+          event = xpp.nextEvent();
         } else {
-          eventType = xpp.next();
+          event = xpp.nextEvent();
         }
-      } while (xpp.getName() == null || !xpp.getName().equals("edge"));
+      } while (event.asStartElement().getName() == null
+          || !event.asStartElement().getName().getLocalPart().equals("edge"));
       // Update the list of edges and edge typ map.
       // Edge addition to the network are done at the end, when it is
       // sure that all nodes have been added to the graph.
