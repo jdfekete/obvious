@@ -58,9 +58,6 @@ import obviousx.text.TypedFormat;
 import obviousx.util.FormatFactory;
 import obviousx.util.FormatFactoryImpl;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 /**
  * GraphML Import class.
  * Allows to convert a GraphML simple graph as an Obvious Network.
