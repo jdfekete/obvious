@@ -147,6 +147,11 @@ public class GraphMLImport implements GraphImporter {
   private boolean schemaLoaded = false;
 
   /**
+   * Current event.
+   */
+  private XMLEvent event;
+
+  /**
    * Constructor for GraphMLImport.
    * @param inputFile external file to load
    * @param inputNetwork network to fill with the content of the file
@@ -238,7 +243,7 @@ public class GraphMLImport implements GraphImporter {
       if (!schemaLoaded) {
         readSchema();
       }
-      XMLEvent event = xpp.nextEvent();
+      event = xpp.nextEvent();
       do {
         if (event.isStartElement()) {
             if (event.asStartElement().getName().equals("graph")) {
@@ -265,7 +270,7 @@ public class GraphMLImport implements GraphImporter {
    */
   public void readSchema() throws ObviousxException {
     try {
-      XMLEvent event = xpp.nextEvent();
+      event = xpp.nextEvent();
       do {
         if (event.isStartDocument()) {
           event = xpp.nextEvent();
@@ -321,7 +326,6 @@ public class GraphMLImport implements GraphImporter {
       String type = "N/A";
       String  destinationSchema = "N/A";
       String defaultValue = "";
-      XMLEvent event = null;
       Iterator attIter = event.asStartElement().getAttributes();
       while (attIter.hasNext()) {
         Attribute attribute = (Attribute) attIter.next();
@@ -368,7 +372,6 @@ public class GraphMLImport implements GraphImporter {
    */
   private void processGraphElement() throws ObviousxException {
     try {
-      XMLEvent event = null;
       Iterator attIter = event.asStartElement().getAttributes();
       while (attIter.hasNext()) {
         Attribute att = (Attribute) attIter.next();
@@ -403,7 +406,6 @@ public class GraphMLImport implements GraphImporter {
     try {
       Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
       String id = "";
-      XMLEvent event = null;
       Iterator attIter = event.asStartElement().getAttributes();
       while (attIter.hasNext()) {
         Attribute att = (Attribute) attIter.next();
@@ -457,7 +459,6 @@ public class GraphMLImport implements GraphImporter {
       // Determine the correct edge type.
       String source = "", target = "";
       Graph.EdgeType currentEdgeType = defaultEdgeType;
-      XMLEvent event = null;
       Iterator attIter = event.asStartElement().getAttributes();
       while (attIter.hasNext()) {
         Attribute att = (Attribute) attIter.next();
