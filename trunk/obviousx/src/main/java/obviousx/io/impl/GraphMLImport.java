@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -174,6 +175,7 @@ public class GraphMLImport implements GraphImporter {
         xpp = factory.createXMLEventReader(new FileReader(file));
       } catch (FileNotFoundException e) {
         System.out.println("File " + file + " is unknown!");
+        e.printStackTrace();
       } catch (XMLStreamException e) {
         e.printStackTrace();
       }
@@ -240,10 +242,11 @@ public class GraphMLImport implements GraphImporter {
       if (!schemaLoaded) {
         readSchema();
       }
-      event = xpp.nextEvent();
+      //event = xpp.nextEvent();
       do {
         if (event.isStartElement()) {
-            if (event.asStartElement().getName().equals("graph")) {
+            if (event.asStartElement().getName()
+                .getLocalPart().equals("graph")) {
               processGraphElement();
             }
         } else {
@@ -275,12 +278,13 @@ public class GraphMLImport implements GraphImporter {
           if (event.asStartElement().getName().getLocalPart().equals("key")) {
             processKeyElement();
           }
+          event = xpp.nextEvent();
         } else if (event.isEndElement()) {
           event = xpp.nextEvent();
         } else {
           event = xpp.nextEvent();
         }
-      } while (!isGraphStarting(event));
+      } while (!isGraphStarting());
       schemaLoaded = true;
     } catch (Exception e) {
       e.printStackTrace();
@@ -289,11 +293,10 @@ public class GraphMLImport implements GraphImporter {
   }
 
   /**
-   * Checks if the cursor is in the graph tag.
-   * @param event current XML event
-   * @return true if the cursor is in the graph tag
+   * Checks if the cursor is in the graph begin tag.
+   * @return true if the cursor is in the graph begin tag
    */
-  private boolean isGraphStarting(XMLEvent event) {
+  private boolean isGraphStarting() {
     if (event.isStartElement()) {
       if (event.asStartElement().getName().getLocalPart().equals("graph")) {
         return true;
@@ -356,8 +359,6 @@ public class GraphMLImport implements GraphImporter {
       }
       currentSchema.addColumn(columnName, format.getFormattedClass(), value);
       idToName.put(id, columnName);
-      xpp.nextTag();
-      xpp.nextTag();
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -378,21 +379,35 @@ public class GraphMLImport implements GraphImporter {
           }
         }
       }
-      xpp.next();
       do {
         if (event.isStartElement()
             && event.asStartElement().getName().getLocalPart().equals("node")) {
           processNodeElement();
+          //event = xpp.nextEvent();
         } else if (event.isStartElement()
             && event.asStartElement().getName().getLocalPart().equals("edge")) {
           processEdgeElement();
+          //event = xpp.nextEvent();
         } else {
-          xpp.next();
+          event = xpp.nextEvent();
         }
-      } while (event.isEndDocument());
+      } while (!isGraphEnding());
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
+  }
+
+  /**
+   * Checks if the cursor is in the graph ending tag.
+   * @return true if the cursor is in the graph ending tag
+   */
+  private boolean isGraphEnding() {
+    if (event.isEndElement()) {
+      if (event.asEndElement().getName().getLocalPart().equals("graph")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -402,7 +417,7 @@ public class GraphMLImport implements GraphImporter {
   private void processNodeElement() throws ObviousxException {
     try {
       Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
-      String id = "";
+      String id = "-1";
       Iterator attIter = event.asStartElement().getAttributes();
       while (attIter.hasNext()) {
         Attribute att = (Attribute) attIter.next();
@@ -413,7 +428,6 @@ public class GraphMLImport implements GraphImporter {
       for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
         nodeAttr[i] = nodeSchema.getColumnDefault(i);
       }
-      event = xpp.nextEvent();
       do {
         if (event.isStartElement()
             && event.asStartElement().getName().getLocalPart().equals("data")) {
@@ -435,16 +449,27 @@ public class GraphMLImport implements GraphImporter {
         } else {
           event = xpp.nextEvent();
         }
-      } while (event.asStartElement().getName() == null
-          || !event.asStartElement().getName().getLocalPart().equals("node"));
-      Node node = (Node) new NodeImpl(network.getNodeTable().getSchema(),
+      } while (!isNodeEnding());
+      Node node = (Node) new NodeImpl(nodeSchema,
           nodeAttr);
       idToNode.put(id, node);
       network.addNode(node);
-      xpp.nextTag();
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
+  }
+
+  /**
+   * Checks if the cursor is in a node ending tag.
+   * @return true if the cursor is in a node ending tag
+   */
+  private boolean isNodeEnding() {
+    if (event.isEndElement()) {
+      if (event.asEndElement().getName().getLocalPart().equals("node")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -483,7 +508,6 @@ public class GraphMLImport implements GraphImporter {
         }
       }
       // Load attribute values contained in the graphml file.
-      event = xpp.nextEvent();
       do {
         if (event.isStartElement() && event.asStartElement().getName()
             .getLocalPart().equals("data")) {
@@ -505,12 +529,11 @@ public class GraphMLImport implements GraphImporter {
         } else {
           event = xpp.nextEvent();
         }
-      } while (event.asStartElement().getName() == null
-          || !event.asStartElement().getName().getLocalPart().equals("edge"));
+      } while (!isEdgeEnding());
       // Update the list of edges and edge typ map.
       // Edge addition to the network are done at the end, when it is
       // sure that all nodes have been added to the graph.
-      Edge currentEdge = (Edge) new EdgeImpl(network.getEdgeTable().getSchema()
+      Edge currentEdge = (Edge) new EdgeImpl(edgeSchema
           , edgeAttr);
       edges.add(currentEdge);
       edgeType.put(currentEdge, currentEdgeType);
@@ -518,6 +541,20 @@ public class GraphMLImport implements GraphImporter {
       throw new ObviousxException(e);
     }
   }
+
+  /**
+   * Checks if the cursor is in an edge ending tag.
+   * @return true if the cursor is in an edge ending tag
+   */
+  private boolean isEdgeEnding() {
+    if (event.isEndElement()) {
+      if (event.asEndElement().getName().getLocalPart().equals("edge")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   /**
    * Gets a node in the network by its id.
