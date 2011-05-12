@@ -40,7 +40,7 @@ import obvious.data.Schema;
 import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.GraphMLImport;
+import obviousx.io.impl.GraphMLImport;
 
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -71,14 +71,12 @@ public final class GraphMLImportExample {
     try {
       factoryPath = args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
-      factoryPath = "obvious.JungDataFactory";
+      factoryPath = "obvious.prefuse.data.PrefuseDataFactory";
     }
 
     // Load GraphML File
-    File inputFile = new File("//src//main//resources//example.graphML");
-    System.setProperty(XmlPullParserFactory.PROPERTY_NAME,
-        "org.kxml2.io.KXmlParser");
-
+    File inputFile = new File("src//main//resources//example.graphML//");
+    System.out.println(inputFile.getAbsolutePath());
     // Create network
     Schema nodeSchema = new SchemaImpl();
     nodeSchema.addColumn("nodeId", int.class, 0);
@@ -100,7 +98,6 @@ public final class GraphMLImportExample {
     // Create GraphMLImporter
     GraphMLImport importer = new GraphMLImport(inputFile, network,
         "#FirstVertex", "#SecondVertex", "nodeId");
-    importer.readSchema();
     importer.loadGraph();
 
     System.out.println("Nodes : ");
