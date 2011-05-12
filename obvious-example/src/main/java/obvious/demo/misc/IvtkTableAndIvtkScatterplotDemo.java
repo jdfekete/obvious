@@ -13,7 +13,7 @@ import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
+import obviousx.io.impl.CSVImport;
 
 /**
  * This demo used the Obvious IVTK binding for the whole visualization

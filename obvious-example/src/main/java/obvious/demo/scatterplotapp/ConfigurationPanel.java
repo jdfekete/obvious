@@ -40,7 +40,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import obvious.data.Table;
-import obviousx.io.ObviousTableModel;
+import obviousx.io.impl.ObviousTableModel;
 
 /**
  * A configuration panel for view.

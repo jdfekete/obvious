@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import obvious.data.Table;
-import obviousx.io.CSVImport;
+import obviousx.io.impl.CSVImport;
 import obviousx.io.weka.ObviousWekaInstances;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.SimpleKMeans;

@@ -14,7 +14,7 @@ import obvious.prefuse.viz.util.PrefuseObviousAction;
 import obvious.prefuse.viz.util.PrefuseObviousRenderer;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
+import obviousx.io.impl.CSVImport;
 import prefuse.Constants;
 import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
