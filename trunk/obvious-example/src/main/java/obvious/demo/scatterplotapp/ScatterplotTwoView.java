@@ -34,7 +34,7 @@ import obvious.prefuse.viz.PrefuseVisualizationFactory;
 import obvious.prefuse.viz.util.PrefuseScatterPlotViz;
 import obvious.viz.Visualization;
 import obvious.viz.VisualizationFactory;
-import obviousx.io.ObviousTableModel;
+import obviousx.io.impl.ObviousTableModel;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.ZoomControl;

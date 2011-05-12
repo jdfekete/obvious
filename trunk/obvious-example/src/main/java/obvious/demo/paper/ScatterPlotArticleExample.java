@@ -41,7 +41,7 @@ import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
+import obviousx.io.impl.CSVImport;
 
 /**
  * Creation of an Obvious scatter-plot visualization.

@@ -31,7 +31,7 @@ import java.io.File;
 
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.IvtkObviousTableReader;
+import obviousx.io.ivtk.IvtkObviousTableReader;
 
 /**
  * Example for wrapped prefuse reader.

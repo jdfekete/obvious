@@ -32,8 +32,8 @@ import java.io.File;
 import obvious.data.Network;
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.PrefuseObviousGraphReader;
-import obviousx.io.PrefuseObviousTableReader;
+import obviousx.io.prefuse.PrefuseObviousGraphReader;
+import obviousx.io.prefuse.PrefuseObviousTableReader;
 
 import prefuse.data.io.CSVTableReader;
 import prefuse.data.io.GraphMLReader;
