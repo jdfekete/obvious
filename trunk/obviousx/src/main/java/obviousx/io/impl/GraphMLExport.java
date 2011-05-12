@@ -108,6 +108,11 @@ public class GraphMLExport implements Exporter {
   private XMLStreamWriter serializer;
 
   /**
+   * Namespace.
+   */
+  private String nameSpace = "";
+
+  /**
    * GraphMLExport constructor.
    * @param fileName name for the GraphML file
    * @param inNetwork network to convert in GraphML
@@ -128,6 +133,7 @@ public class GraphMLExport implements Exporter {
       this.file = new File(name);
       this.writer = new FileWriter(file);
       serializer = factory.createXMLStreamWriter(writer);
+      serializer.setDefaultNamespace(nameSpace);
     } catch (Exception e) {
       throw new ObviousxException(e);
     }
@@ -173,16 +179,16 @@ public class GraphMLExport implements Exporter {
   private void createXmlSchemDecl() throws ObviousxException {
     try {
       writer.append('\n');
-      serializer.writeStartElement(null, "graphml");
-      serializer.writeAttribute(null, "xmlns",
+      serializer.writeStartElement(nameSpace, "graphml");
+      serializer.writeAttribute(nameSpace, "xmlns",
           "http://graphml.graphdrawing.org/xmlns");
       writer.append('\n');
       writer.append('\t');
-      serializer.writeAttribute(null, "xmlns:xsi",
+      serializer.writeAttribute(nameSpace, "xmlns:xsi",
           "http://www.w3.org/2001/XMLSchema-instance");
       writer.append('\n');
       writer.append('\t');
-      serializer.writeAttribute(null, "xsi:schemaLocation",
+      serializer.writeAttribute(nameSpace, "xsi:schemaLocation",
           "http://graphml.graphdrawing.org/xmlns "
           + "http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd");
       serializer.flush();
@@ -212,9 +218,9 @@ public class GraphMLExport implements Exporter {
   private void createGraph() throws ObviousxException {
     try {
       writer.append("\n\t");
-      serializer.writeStartElement(null, "graph");
-      serializer.writeAttribute(null, "id", "graph0");
-      serializer.writeAttribute(null, "edgedefault", "undirected");
+      serializer.writeStartElement(nameSpace, "graph");
+      serializer.writeAttribute(nameSpace, "id", "graph0");
+      serializer.writeAttribute(nameSpace, "edgedefault", "undirected");
       serializer.flush();
       createNode();
       createEdge();
@@ -238,22 +244,23 @@ public class GraphMLExport implements Exporter {
     try {
       for (int i = 0; i < schema.getColumnCount(); i++) {
         writer.append("\n\t");
-        serializer.writeStartElement(null, "key");
-        serializer.writeAttribute(null, "id", "attr" + type + i);
-        serializer.writeAttribute(null, "for", type);
-        serializer.writeAttribute(null, "attr.name", schema.getColumnName(i));
-        serializer.writeAttribute(null, "attr.type",
+        serializer.writeStartElement(nameSpace, "key");
+        serializer.writeAttribute(nameSpace, "id", "attr" + type + i);
+        serializer.writeAttribute(nameSpace, "for", type);
+        serializer.writeAttribute(nameSpace, "attr.name",
+            schema.getColumnName(i));
+        serializer.writeAttribute(nameSpace, "attr.type",
             schema.getColumnType(i).getSimpleName());
         colNameToId.put(schema.getColumnName(i), "attr" + type + i);
         serializer.flush();
         if (schema.getColumnDefault(i) != null) {
           writer.append("\n\t\t");
-          serializer.writeStartElement(null, "default");
+          serializer.writeStartElement(nameSpace, "default");
           TypedFormat format = formatFactory.getFormat(
               schema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(schema.getColumnDefault(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.writeCData(value.toString());
+          serializer.writeCharacters(value.toString());
           serializer.writeEndElement();
           writer.append("\n\t");
         }
@@ -273,20 +280,20 @@ public class GraphMLExport implements Exporter {
       int nodeCount = 0;
       for (Node node : network.getNodes()) {
         writer.append("\n\t\t");
-        serializer.writeStartElement(null, "node");
-        serializer.writeAttribute(null, "id", "node" + nodeCount);
+        serializer.writeStartElement(nameSpace, "node");
+        serializer.writeAttribute(nameSpace, "id", "node" + nodeCount);
         nodeToId.put(node, "node" + nodeCount);
         serializer.flush();
         for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
           writer.append("\n\t\t\t");
-          serializer.writeStartElement(null, "data");
-          serializer.writeAttribute(null, "key", colNameToId.get(
+          serializer.writeStartElement(nameSpace, "data");
+          serializer.writeAttribute(nameSpace, "key", colNameToId.get(
               nodeSchema.getColumnName(i)));
           TypedFormat format = formatFactory.getFormat(
               nodeSchema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(node.get(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.writeCData(value.toString());
+          serializer.writeCharacters(value.toString());
           serializer.writeEndElement();
         }
         writer.append("\n\t\t");
@@ -308,8 +315,8 @@ public class GraphMLExport implements Exporter {
       int edgeCount = 0;
       for (Edge edge : network.getEdges()) {
         writer.append("\n\t\t");
-        serializer.writeStartElement(null, "edge");
-        serializer.writeAttribute(null, "id", "edge" + edgeCount);
+        serializer.writeStartElement(nameSpace, "edge");
+        serializer.writeAttribute(nameSpace, "id", "edge" + edgeCount);
         Node source = null, target = null;
         if (network.getEdgeType(edge).equals(Graph.EdgeType.DIRECTED)) {
           source = network.getSource(edge);
@@ -323,20 +330,20 @@ public class GraphMLExport implements Exporter {
             source = it.next();
             target = it.next();
           }
-          serializer.writeAttribute(null, "source", nodeToId.get(source));
-          serializer.writeAttribute(null, "target", nodeToId.get(target));
+          serializer.writeAttribute(nameSpace, "source", nodeToId.get(source));
+          serializer.writeAttribute(nameSpace, "target", nodeToId.get(target));
         }
         serializer.flush();
         for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
           writer.append("\n\t\t\t");
-          serializer.writeStartElement(null, "data");
-          serializer.writeAttribute(null, "key", colNameToId.get(
+          serializer.writeStartElement(nameSpace, "data");
+          serializer.writeAttribute(nameSpace, "key", colNameToId.get(
               edgeSchema.getColumnName(i)));
           TypedFormat format = formatFactory.getFormat(
               edgeSchema.getColumnType(i).getSimpleName());
           StringBuffer value = format.format(edge.get(i),
               new StringBuffer(), new FieldPosition(0));
-          serializer.writeCData(value.toString());
+          serializer.writeCharacters(value.toString());
           serializer.writeEndElement();
         }
         writer.append("\n\t\t");
