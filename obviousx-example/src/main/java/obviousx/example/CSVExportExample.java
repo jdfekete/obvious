@@ -38,7 +38,7 @@ import obvious.data.Table;
 import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.CSVExport;
+import obviousx.io.impl.CSVExport;
 
 /**
  * Example class for CSVExport.

@@ -42,7 +42,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.GraphMLExport;
+import obviousx.io.impl.GraphMLExport;
 
 /**
  * Example class for GraphMLExport.
@@ -85,7 +85,7 @@ public final class GraphMLExportExample {
       factoryPath = args[1];
     } catch (ArrayIndexOutOfBoundsException e) {
       filePath = "C:\\outputObvious\\DefaultTest.graphml";
-      factoryPath = "obvious.prefuse.PrefuseDataFactory";
+      factoryPath = "obvious.prefuse.data.PrefuseDataFactory";
     }
 
     // Preparing network to export in GraphML

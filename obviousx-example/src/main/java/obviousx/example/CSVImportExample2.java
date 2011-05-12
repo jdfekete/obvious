@@ -44,8 +44,8 @@ import obvious.data.Table;
 import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
-import obviousx.io.ObviousTableModel;
+import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.ObviousTableModel;
 
 /**
  * Second example for CVSImport use.

@@ -42,7 +42,7 @@ import obvious.impl.EdgeImpl;
 import obvious.impl.NodeImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.CSVGraphExport;
+import obviousx.io.impl.CSVGraphExport;
 
 /**
  * Example of CSVGraphExport usage.

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.CSVImport;
+import obviousx.io.impl.CSVImport;
 import obviousx.io.weka.ObviousWekaInstances;
 import obviousx.io.weka.ObviousWekaLoader;
 import weka.classifiers.trees.J48;

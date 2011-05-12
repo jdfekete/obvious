@@ -40,7 +40,7 @@ import obvious.data.Schema;
 import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.CSVGraphImport;
+import obviousx.io.impl.CSVGraphImport;
 
 /**
  * Example of CSVGraphImport usage.
