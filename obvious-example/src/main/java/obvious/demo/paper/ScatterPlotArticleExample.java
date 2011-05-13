@@ -41,7 +41,7 @@ import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.view.JView;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 
 /**
  * Creation of an Obvious scatter-plot visualization.
@@ -69,7 +69,7 @@ public final class ScatterPlotArticleExample {
         "obvious.prefuse.data.PrefuseDataFactory");
 
     // Creating an Obvious CSV reader and loading an Obvious table
-    CSVImport csv = new CSVImport(new File(
+    CSVTableImport csv = new CSVTableImport(new File(
         "src//main//resources//articlecombinedexample.csv"), ',');
     Table table = csv.loadTable();
 

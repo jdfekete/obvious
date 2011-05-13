@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import obvious.data.Table;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 import obviousx.io.weka.ObviousWekaInstances;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.SimpleKMeans;
@@ -64,7 +64,7 @@ public final class WekaArticleExample {
     // Creating the obvious data structure.
     System.setProperty("obvious.DataFactory",
     "obvious.prefuse.data.PrefuseDataFactory");
-    CSVImport importer = new CSVImport(new File(
+    CSVTableImport importer = new CSVTableImport(new File(
         "src//main/resources//bank-data.csv"), ',');
     Table table = importer.loadTable();
 

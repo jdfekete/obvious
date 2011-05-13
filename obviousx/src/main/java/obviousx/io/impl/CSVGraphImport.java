@@ -145,9 +145,9 @@ public class CSVGraphImport implements GraphImporter {
    * @throws ObviousxException when exception occurs
    */
   public Network loadGraph() throws ObviousxException {
-    CSVImport nodeImport = new CSVImport(nodeFile, new TableImpl(nodeSchema),
+    CSVTableImport nodeImport = new CSVTableImport(nodeFile, new TableImpl(nodeSchema),
         separator);
-    CSVImport edgeImport = new CSVImport(edgeFile, new TableImpl(edgeSchema),
+    CSVTableImport edgeImport = new CSVTableImport(edgeFile, new TableImpl(edgeSchema),
         separator);
     Table nodeTable = nodeImport.loadTable();
     Table edgeTable = edgeImport.loadTable();
@@ -174,10 +174,10 @@ public class CSVGraphImport implements GraphImporter {
    * @throws ObviousxException when reading fails
    */
   public void readSchema() throws ObviousxException {
-    CSVImport nodeImport = new CSVImport(nodeFile, null, separator);
+    CSVTableImport nodeImport = new CSVTableImport(nodeFile, null, separator);
     nodeImport.readSchema();
     nodeSchema = nodeImport.getSchema();
-    CSVImport edgeImport = new CSVImport(edgeFile, null, separator);
+    CSVTableImport edgeImport = new CSVTableImport(edgeFile, null, separator);
     edgeImport.readSchema();
     edgeSchema = edgeImport.getSchema();
   }

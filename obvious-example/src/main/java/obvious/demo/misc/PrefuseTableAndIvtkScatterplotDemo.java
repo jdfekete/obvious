@@ -14,7 +14,7 @@ import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.viz.Visualization;
 import obviousx.ObviousxException;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 
 /**
  * This demo used the Obvious Prefuse binding for the data model and the
@@ -50,7 +50,7 @@ public final class PrefuseTableAndIvtkScatterplotDemo {
     "obvious.ivtk.data.IvtkDataFactory");
 
     // Creating an Obvious CSV reader and loading an Obvious table
-    CSVImport csv = new CSVImport(new File(
+    CSVTableImport csv = new CSVTableImport(new File(
       "src//main//resources//articlecombinedexample.csv"), ',');
     Table table = csv.loadTable();
 

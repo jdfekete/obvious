@@ -50,7 +50,7 @@ import au.com.bytecode.opencsv.CSVReader;
  * @author Pierre-Luc Hemery
  *
  */
-public class CSVImport implements TableImporter {
+public class CSVTableImport implements TableImporter {
 
   /**
    * Input file.
@@ -89,7 +89,7 @@ public class CSVImport implements TableImporter {
    * @param inputTable Obvious input Table
    * @param sep the separator char used for CSV
    */
-  public CSVImport(File inputFile, Table inputTable, char sep) {
+  public CSVTableImport(File inputFile, Table inputTable, char sep) {
     this.file = inputFile;
     this.table = inputTable;
     this.separator = sep;
@@ -101,7 +101,7 @@ public class CSVImport implements TableImporter {
    * @param inputFile external file to load
    * @param sep the separator char used for CSV
    */
-  public CSVImport(File inputFile, char sep) {
+  public CSVTableImport(File inputFile, char sep) {
     this(inputFile, null, sep);
   }
 
