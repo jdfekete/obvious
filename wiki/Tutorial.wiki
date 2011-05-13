@@ -23,3 +23,35 @@ Once this is defined, the user can call the appropriate reader. Here since this 
 
 Then, the table can be loaded:
 `Table table = csv.loadTable();`
+
+= Creating the Visualization =
+
+To create an Obvious visualization, it is also possible to use a factory or direct instantiation. We will see how to use the direct instantiation below.
+
+To create a Visualization, the user has simply to find the appropriate visualization technique in the Obvious binding. Here, we want use a scatter plot visualization based on Ivtk:
+
+`Visualization vis = new IvtkScatterPlotVis(table , null , "plot", param);`
+
+The extra parameter "param" is a map of parameter for the configurable parameters of the visualization technique. Here, this map has been used to set the X and Y axis of the visualization:
+
+{{{
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put(IvtkScatterPlotVis.X_AXIS, "id"); // xfield
+    param.put(IvtkScatterPlotVis.Y_AXIS, "age"); // yfield
+}}}
+
+= Creating the View =
+
+To create the Obvious View, the user has to used the View component introduced in the binding, he/she used for the visualization part.
+
+`    JView view = new IvtkScatterPlotView(vis, null);`
+
+Once the component is ready, apply the standard window java creation:
+
+{{{
+    JFrame frame = new JFrame("Scatter-plot visualization (article example)");
+    JScrollPane panel = new JScrollPane(view.getViewJComponent());
+    frame.add(panel);
+    frame.pack();
+    frame.setVisible(true);
+}}} 
