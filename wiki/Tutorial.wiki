@@ -1,0 +1,25 @@
+#summary Tutorial for Obvious.
+
+= Introduction =
+
+This page is a tutorial showing how to create an InfoVis application with this toolkit. It focus on the main steps: creating the data structure, the visualisation (visual abstraction) and the view.
+
+
+= Creating the Obvious data structure =
+
+There are several ways to create data structures in Obvious: by wrapping existing data structures from an Obvious compatible toolkit (i.e. Prefuse, Improvise, InfoVis toolkit, weka and Jung), by creating an empty structure and adding manually tuples to this structure or by reading a file containing data.
+
+For this tutorial, we will use the last approach: we want to load a CSV file containing tabular data.
+
+Since Obvious is toolkit based on several implementations, before creating data structures, the user must decide which binding to use. To specify it properly, we recommend to use the well-known  Factory pattern.
+
+For instance, here, the following code indicates that the Obvious Prefuse binding is used for data structures:
+
+`System.setProperty("obvious.DataFactory", "obvious.prefuse.data.PrefuseDataFactory");`
+
+Once this is defined, the user can call the appropriate reader. Here since this example is based on a CSV file, the generic Obvious CSV importer for Table structure is called:
+
+`CSVTableImport csv = new CSVTableImport(new File("articlecombinedexample.csv"), ',');`
+
+Then, the table can be loaded:
+`Table table = csv.loadTable();`
