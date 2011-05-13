@@ -12,10 +12,13 @@ This page details the content of the wiki.
  * [PageName Summary of the workshop decisions]
 
 == obvious in details ==
+ * [Tutorial Tutorial for Obvious]
  * [SofwareArchitecture Software Architecture of obvious]
  * [DataModel Presentation of the data model in obvious]
  * [Visualization Presentation of the visualization part in obvious]
  * [View Presentation of the view part in obvious]
+ * [obviousx Presentation of the complementary of obvious]
+ * [Predicate Presentation of Predicate in Obvious]
 
 = Technical documentation =
 
@@ -23,4 +26,3 @@ This page details the content of the wiki.
  * [CompilationGuide Compilation Guide]
  * [TestGuide Guide for unit tests]
  * [DocExtractionGuide Guide to extract documentation]
-
