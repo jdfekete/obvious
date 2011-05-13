@@ -42,4 +42,10 @@ This packages contains readers and writers for Obvious that wrap readers and wri
 
 == obviousx.text ==
 
+This package only introduced the interface TypedFormat. This interface is identical to standard Java Format interface but adds to it one function getFormatedClass() that returns the associated Java class to this format. It is a convenient interface used in FormatFactory (see above).
+
 == obviousx.util ==
+
+This package contains the FormatFactory interface. It defines ways to retrieves a TypedFormat by giving the classpath (via a String) of its associated class.
+
+This is used in all Obvious reader / writer to handle parsing and formating of Java objects.
