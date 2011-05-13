@@ -1,0 +1,20 @@
+#summary This page describes the obviousx package.
+
+= Introduction =
+
+Obviousx is a complementary package, named in the same way as the javax package of Sun. It introduces support functions for all obvious bindings. Each subpackage of Obvious will be described above.
+
+
+= obviousx =
+
+== obviousx.io ==
+
+=== obviousx.io.impl ===
+
+=== obviousx.io.ivtk ===
+
+=== obviousx.io.prefuse ===
+
+== obviousx.text ==
+
+== obviousx.util ==
