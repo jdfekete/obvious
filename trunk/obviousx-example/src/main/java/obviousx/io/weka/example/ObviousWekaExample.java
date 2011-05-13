@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 import obviousx.io.weka.ObviousWekaInstances;
 import obviousx.io.weka.ObviousWekaLoader;
 import weka.classifiers.trees.J48;
@@ -30,7 +30,7 @@ public class ObviousWekaExample {
 
     System.setProperty("obvious.DataFactory",
     "obvious.prefuse.data.PrefuseDataFactory");
-    CSVImport importer = new CSVImport(new File(
+    CSVTableImport importer = new CSVTableImport(new File(
         "src//main/resources//bank-data.csv"), ',');
     Table table = importer.loadTable();
 
