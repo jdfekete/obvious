@@ -33,7 +33,7 @@ import javax.swing.event.TableModelListener;
 
 import obvious.data.Table;
 import obvious.data.event.TableListener;
-import obviousx.io.ObviousTableModel;
+import obviousx.io.impl.ObviousTableModel;
 
 /**
  * An ivtk based implementation of obvious TableListener interface.
