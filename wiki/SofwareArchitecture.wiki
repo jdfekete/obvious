@@ -20,7 +20,7 @@ Most of sub-projects implements Obvious interfaces and its sub-packages (obvious
  * <b> obvious-jung </b> : implementation using <a href ="http://jung.sourceforge.net/"> JUNG framework </a>. Dependancies are : obvious and Jung framework (under BSD license).
  * <b> obvious-prefuse </b> : implementation using <a href ="http://prefuse.org/"> Prefuse framework </a>. Dependancies are : obvious and Prefuse framework (under BSD license).
  * <b> obviousx </b> : it is an utils package. It contains mainly reader and writer for CSV and GraphML. It also hosts wrappers allowing to use obvious data structures as ivtk and prefuse data structures.
- * <b> obviousx-weka <b> : implementation using <a href ="http://www.cs.waikato.ac.nz/ml/weka/"> the Weka framework </a>. Dependancies are : obvious and the Weka Framework (under GNU GPL license).
+ * <b> obviousx-weka </b> : implementation using <a href ="http://www.cs.waikato.ac.nz/ml/weka/"> the Weka framework </a>. Dependancies are : obvious and the Weka Framework (under GNU GPL license).
  * <b> obviousx-example </b> :it contains example for the obviousx package.
  * <b> obviousx-jdbc </b> : experimental project. BSD license.
 
