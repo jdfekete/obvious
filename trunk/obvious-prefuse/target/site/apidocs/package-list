@@ -1,1 +1,5 @@
-obvious.prefuse
+obvious.prefuse.data
+obvious.prefuse.utils.wrappers
+obvious.prefuse.view
+obvious.prefuse.viz
+obvious.prefuse.viz.util
