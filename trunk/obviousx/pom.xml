@@ -4,6 +4,19 @@
   <artifactId>obviousx</artifactId>
   <name>obviousx</name>
   <version>0.0.1-SNAPSHOT</version>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting> 
   <repositories>
     	<repository>
   		<id>ivtk-sourceforge-repository</id>
