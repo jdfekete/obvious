@@ -10,6 +10,7 @@ This page details the content of the wiki.
 == Workshop ==
  * [Motivation Motivation]
  * [PageName Summary of the workshop decisions]
+ * [FutureWork Future Work]
 
 == obvious in details ==
  * [Tutorial Tutorial for Obvious]
