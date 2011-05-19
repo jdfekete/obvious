@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="1" time="0.016" errors="0" skipped="0" tests="13" name="test.obvious.impl.ImplSchemaTest">
+  <properties>
+    <property name="java.vendor" value="Sun Microsystems Inc."/>
+    <property name="localRepository" value="C:\Documents and Settings\plhemery\.m2\repository"/>
+    <property name="env.VS90COMNTOOLS" value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.management.compiler" value="HotSpot Client Compiler"/>
+    <property name="env.PROMPT" value="$P$G"/>
+    <property name="os.name" value="Windows XP"/>
+    <property name="env.FP_NO_HOST_CHECK" value="NO"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.6.0_07\jre\lib\resources.jar;C:\Program Files\Java\jdk1.6.0_07\jre\lib\rt.jar;C:\Program Files\Java\jdk1.6.0_07\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.6.0_07\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.6.0_07\jre\lib\jce.jar;C:\Program Files\Java\jdk1.6.0_07\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.6.0_07\jre\classes"/>
+    <property name="env.COMPUTERNAME" value="IRISA-4342C25E0"/>
+    <property name="env.ALLUSERSPROFILE" value="C:\Documents and Settings\All Users"/>
+    <property name="env.GTK_BASEPATH" value="C:\Program Files\GtkSharp\2.12\"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="obvious.DataFactory" value="obvious.impl.DataFactoryImpl"/>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="java.runtime.version" value="1.6.0_07-b06"/>
+    <property name="env.HOMEPATH" value="\Documents and Settings\plhemery"/>
+    <property name="env.DISPLAY" value="localhost:0"/>
+    <property name="user.name" value="plhemery"/>
+    <property name="env.QTJAVA" value="C:\Program Files\Java\jre1.6.0_07\lib\ext\QTJava.zip"/>
+    <property name="user.language" value="fr"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.6.0_07\jre\bin"/>
+    <property name="classworlds.conf" value="C:\Documents and Settings\plhemery\Mes documents\Workspace\.metadata\.plugins\org.maven.ide.eclipse\launches\m2conf1120291536521595528.tmp"/>
+    <property name="java.version" value="1.6.0_07"/>
+    <property name="env.PROCESSOR_IDENTIFIER" value="x86 Family 6 Model 15 Stepping 6, GenuineIntel"/>
+    <property name="user.timezone" value=""/>
+    <property name="env.TEMP" value="C:\DOCUME~1\plhemery\LOCALS~1\Temp"/>
+    <property name="sun.arch.data.model" value="32"/>
+    <property name="env.vlc" value="C:\\Program Files\VideoLAN\VLC\vlc"/>
+    <property name="env.APR_ICONV_PATH" value="C:\Data\Tools\Subversion\iconv"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.6.0_07\jre\lib\endorsed"/>
+    <property name="sun.cpu.isalist" value="pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86"/>
+    <property name="env.HOMEDRIVE" value="C:"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="env.GUESS_HOME" value="C:\Data\Tools\GUESS"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="50.0"/>
+    <property name="user.country" value="FR"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.6.0_07\jre"/>
+    <property name="env.APPDATA" value="C:\Documents and Settings\plhemery\Application Data"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="env.ComSpec" value="C:\WINDOWS\system32\cmd.exe"/>
+    <property name="env.OS" value="Windows_NT"/>
+    <property name="env.CommonProgramFiles" value="C:\Program Files\Fichiers communs"/>
+    <property name="os.version" value="5.1"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.version" value="10.0-b23"/>
+    <property name="env.USERPROFILE" value="C:\Documents and Settings\plhemery"/>
+    <property name="user.variant" value=""/>
+    <property name="env.JAVA_HOME" value="C:\Program Files\Java\jdk1.6.0_07"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="env.TMP" value="C:\DOCUME~1\plhemery\LOCALS~1\Temp"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="user.home" value="C:\Documents and Settings\plhemery"/>
+    <property name="env.SESSIONNAME" value="Console"/>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="env.CLASSPATH" value=".;.;.;.;C:\PROGRA~1\JMF21~1.1E\lib\sound.jar;C:\PROGRA~1\JMF21~1.1E\lib\jmf.jar;C:\PROGRA~1\JMF21~1.1E\lib;"/>
+    <property name="env.JRE_SRC" value="C:\Program Files\Java\jdk1.6.0_07\src.zip"/>
+    <property name="env.M2_HOME" value="C:\apache-maven-2.2.1"/>
+    <property name="env.NUMBER_OF_PROCESSORS" value="2"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.6.0_07\bin;.;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre6/bin/client;C:/Program Files/Java/jre6/bin;C:\Program Files\MiKTeX 2.9\miktex\bin;c:\gtk\bin;C:\Program Files\Mozilla Firefox;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Data\Tools\;C:\Data\Tools\ATT\Graphviz\bin;C:\Data\Tools\apache-ant-1.7.0-bin\apache-ant-1.7.0\bin;C:\Data\Tools\GnuWin32\bin;C:\Data\Tools\Subversion\bin;C:\Data\cygwin\bin;C:\Data\cygwin\usr\bin;C:\Data\cygwin\usr\local\bin;C:\Data\cygwin\usr\X11R6\bin;C:\Data\gs\gs8.00\bin;C:\Data\gs\gs8.00\lib;C:\Program Files\Java\jdk1.6.0_03\bin;C:\Data\Tools\TortoiseSVN\bin;C:\apache-maven-2.0.9\bin;C:\Program Files\QuickTime\QTSystem\;C:\apache-maven-2.2.1\bin;C:\Program Files\GtkSharp\2.12\bin;C:\MinGW\bin;C:\Program Files\Graphviz2.26.3\bin;C:\apache-maven-2.2.1\bin"/>
+    <property name="java.vendor.url" value="http://java.sun.com/"/>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."/>
+    <property name="maven.home" value="EMBEDDED"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.class.path" value="/C:/eclipse/plugins/org.maven.ide.components.maven_embedder_2.1.0.20080530-2300/jars/plexus-classworlds-1.2-alpha-12.jar"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="env.LOGONSERVER" value="\\IRISA-4342C25E0"/>
+    <property name="env.windir" value="C:\WINDOWS"/>
+    <property name="java.vm.specification.version" value="1.0"/>
+    <property name="env.PROCESSOR_ARCHITECTURE" value="x86"/>
+    <property name="m2eclipse.workspace.state" value="C:\Documents and Settings\plhemery\Mes documents\Workspace\.metadata\.plugins\org.maven.ide.eclipse\workspacestate.properties"/>
+    <property name="sun.os.patch.level" value="Service Pack 3"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="env.HOME" value="C:\Data\cygwin\home"/>
+    <property name="env.ProgramFiles" value="C:\Program Files"/>
+    <property name="env.ANT_HOME" value="C:\Data\Tools\apache-ant-1.7.0-bin\apache-ant-1.7.0"/>
+    <property name="surefire.test.class.path" value="C:\Documents and Settings\plhemery\Mes documents\Workspace\obvious\target\test-classes;C:\Documents and Settings\plhemery\Mes documents\Workspace\obvious\target\classes;C:\Documents and Settings\plhemery\.m2\repository\junit\junit\4.7\junit-4.7.jar;"/>
+    <property name="java.io.tmpdir" value="C:\DOCUME~1\plhemery\LOCALS~1\Temp\"/>
+    <property name="env.PROCESSOR_REVISION" value="0f06"/>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"/>
+    <property name="env.SystemRoot" value="C:\WINDOWS"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="os.arch" value="x86"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.6.0_07\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="user.dir" value="C:\Documents and Settings\plhemery\Mes documents\Workspace\obvious"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) Client VM"/>
+    <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH"/>
+    <property name="env.Path" value="C:/Program Files/Java/jre6/bin/client;C:/Program Files/Java/jre6/bin;C:\Program Files\MiKTeX 2.9\miktex\bin;c:\gtk\bin;C:\Program Files\Mozilla Firefox;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Data\Tools\;C:\Data\Tools\ATT\Graphviz\bin;C:\Data\Tools\apache-ant-1.7.0-bin\apache-ant-1.7.0\bin;C:\Data\Tools\GnuWin32\bin;C:\Data\Tools\Subversion\bin;C:\Data\cygwin\bin;C:\Data\cygwin\usr\bin;C:\Data\cygwin\usr\local\bin;C:\Data\cygwin\usr\X11R6\bin;C:\Data\gs\gs8.00\bin;C:\Data\gs\gs8.00\lib;C:\Program Files\Java\jdk1.6.0_03\bin;C:\Data\Tools\TortoiseSVN\bin;C:\apache-maven-2.0.9\bin;C:\Program Files\QuickTime\QTSystem\;C:\apache-maven-2.2.1\bin;C:\Program Files\GtkSharp\2.12\bin;C:\MinGW\bin;C:\Program Files\Graphviz2.26.3\bin;C:\apache-maven-2.2.1\bin"/>
+    <property name="basedir" value="C:\Documents and Settings\plhemery\Mes documents\Workspace\obvious"/>
+    <property name="maven.mode.standalone" value="true"/>
+    <property name="env.M2" value="C:\apache-maven-2.2.1\bin"/>
+    <property name="env.USERNAME" value="plhemery"/>
+    <property name="env.SystemDrive" value="C:"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="env.USERDOMAIN" value="IRISA-4342C25E0"/>
+    <property name="java.specification.version" value="1.6"/>
+    <property name="env.SonicCentral" value="C:\Program Files\Fichiers communs\Sonic Shared\Sonic Central\"/>
+    <property name="env.PROCESSOR_LEVEL" value="6"/>
+  </properties>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnCount"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnDefault"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testCanGetByIndex"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testCanGetByField"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testCanSetByIndex"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testCanSetByField"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnTypeByIndex"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnTypeByField"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnName"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testGetColumnIndex"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testAddColumn"/>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testRemoveColumnByIndex">
+    <failure message="" type="java.lang.AssertionError">java.lang.AssertionError: 
+	at org.junit.Assert.fail(Assert.java:91)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at org.junit.Assert.assertTrue(Assert.java:54)
+	at test.obvious.data.SchemaTest.testRemoveColumnByIndex(SchemaTest.java:219)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:76)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:62)
+	at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.executeTestSet(AbstractDirectoryTestSuite.java:140)
+	at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.execute(AbstractDirectoryTestSuite.java:127)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)
+</failure>
+  </testcase>
+  <testcase time="0" classname="test.obvious.impl.ImplSchemaTest" name="testRemoveColumnByField"/>
+</testsuite>
