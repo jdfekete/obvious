@@ -1,1 +1,7 @@
 obvious.ivtk.data
+obvious.ivtk.data.event
+obvious.ivtk.utils.wrappers
+obvious.ivtk.view
+obvious.ivtk.view.util
+obvious.ivtk.viz
+obvious.ivtk.viz.util
