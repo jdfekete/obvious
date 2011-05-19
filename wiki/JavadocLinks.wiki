@@ -17,9 +17,8 @@ Find all javadoc links here.
   * <a href="http://obvious.googlecode.com/svn/trunk/obvious-jdbc/target/site/apidocs/index.html"> Obvious JDBC binding</a>
   * <a href="http://obvious.googlecode.com/svn/trunk/obvious-jung/target/site/apidocs/index.html"> Obvious Jung binding</a>
   * <a href="http://obvious.googlecode.com/svn/trunk/obvious-prefuse/target/site/apidocs/index.html"> Obvious Prefuse binding</a>
-  * <a href="http://obvious.googlecode.com/svn/trunk/obvious-weka/target/site/apidocs/index.html"> Obvious(X) Weka binding</a>
+  * <a href="http://obvious.googlecode.com/svn/trunk/obviousx-weka/target/site/apidocs/index.html"> Obvious(X) Weka binding</a>
 
 == Obvious examples package ==
   * <a href="http://obvious.googlecode.com/svn/trunk/obvious-example/target/site/apidocs/index.html"> Obvious example package</a>
   * <a href="http://obvious.googlecode.com/svn/trunk/obviousx-example/target/site/apidocs/index.html"> ObviousX example package</a>
-
