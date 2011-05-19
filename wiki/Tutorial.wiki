@@ -9,7 +9,7 @@ This page is a tutorial showing how to create an InfoVis application with this t
 
 There are several ways to create data structures in Obvious: by wrapping existing data structures from an Obvious compatible toolkit (i.e. Prefuse, Improvise, InfoVis toolkit, weka and Jung), by creating an empty structure and adding manually tuples to this structure or by reading a file containing data.
 
-For this tutorial, we will use the last approach: we want to load a CSV file containing tabular data.
+For this tutorial, we will use the last approach (and give hints to manually build a data structure): we want to load a CSV file containing tabular data. This file could be downloaded [http://code.google.com/p/obvious/source/browse/trunk/obvious-example/src/main/resources/articlecombinedexample.csv here].
 
 Since Obvious is toolkit based on several implementations, before creating data structures, the user must decide which binding to use. To specify it properly, we recommend to use the well-known  Factory pattern.
 
@@ -23,6 +23,28 @@ Once this is defined, the user can call the appropriate reader. Here since this 
 
 Then, the table can be loaded:
 `Table table = csv.loadTable();`
+
+As indicated above, it is also possible to build manually an Obvious data structure. Three steps have to be followed: specifying a schema, building the structure from the defined schema, and adding tuple to the data structure. See the following lines of code:
+
+{{{
+// First the schema
+Schema schema = new PrefuseObviousSchema();
+schema.addColumn("columnName", String.class, "defaultValue");
+
+// Then the table...
+Table table = new PrefuseObviousTable(schema);
+OR
+Table table = factory.createTable(schema);
+
+// Add tuple
+int rowId = table.addRow()
+table.setValue("value", rowId, columnId);
+
+// Or if tuples already exist
+table.addRow(row);
+}}}
+
+Most of the time, Obvious reader will handle those tasks.
 
 = Creating the Visualization =
 
