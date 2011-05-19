@@ -1,0 +1,13 @@
+#summary Future works for Obvious.
+= Introduction =
+
+This page presents next major steps for the Obvious Project.
+
+
+= Future features =
+
+= Portability of Obvious =
+
+= Reach other visualizations =
+
+= Community building =
