@@ -3,11 +3,16 @@
 
 This page presents next major steps for the Obvious Project.
 
-
 = Future features =
 
 = Portability of Obvious =
 
+Since Obvious is mosty based on intefaces, and tend to not use Java idioms, its syntax is not Java dependant. That is why Obvious could be described as a language neutral API.
+
+The idea is to port Obvious to others languages such as C++, C# or JavaScript where InfoVis tools exist. Obvious can become a multi-language API such as the Document Object Model API that has several bindings for major languages.
+
 = Reach other visualizations =
+
+For the moment, Obvious is made to unify the sofware infrastructure for InfoVis toolkits used in visual analytics. However, VA often needs to combine InfoVis with others visualizations such as Scientific and GeoSpatial ones.
 
 = Community building =
