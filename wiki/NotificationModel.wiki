@@ -8,4 +8,21 @@ However, during the design and conception of Obvious bindings, we saw that each 
 
 = A standard syntax for the notification model =
 
+All implementations of the Table interface in Obvious have methods to register, unregister, and get listeners:
+
+{{{
+table.addTableListener(listener);
+table.removeTableListener(listener);
+}}}
+
+Thus, when a method that changes the structure is called (addRow, removeRow, set), the _fireTableEvent_ (or _fireNetworkEvent_) method is called. Then, this method awakes all registered listeners and furnishes them information about changes:
+
+{{{
+// start : starting row for change, end : ending row, col : columns
+// affected by the changes, type : type of the operation (add, rem...)
+fireTableEvent(start, end, col, type);
+}}}
+
+In the listener, the method tableChanged is called, with the arguments provided by the _fireTableEvent_ method.
+
 = Obvious JDBC binding: introducing new mechanisms for notification model =
