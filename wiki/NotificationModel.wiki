@@ -1,0 +1,9 @@
+#summary The notification model introduced in Obvious.
+
+= Introduction =
+
+If Obvious for the data structure follows the traditionnal Observer pattern, Obvious tries to improve and adapt this pattern for InfoVis.
+
+= A standard syntax for the notification model =
+
+= New mechanisms introduced =
