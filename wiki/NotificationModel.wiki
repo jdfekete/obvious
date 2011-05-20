@@ -30,11 +30,12 @@ In the listener, the method tableChanged is called, with the arguments provided 
 Since one operation occuring on the data model can have an impact on a large number of rows and then generates a lot of notifications. Thus, it  is followed, for example, by updating a large number of visual items causing the application to be unresponsive for a long time.
 
 Obvious introduces new mechanisms to handle transaction (commit) and batches with the beginEdit/endEdit system. When the beginEdit method is called on the data structure, the listener's beginEdit method is called to launch a batch transaction. It is possible with a  mode argument of the beginEdit method to specify if the transaction is atomic or only batched. Several strategies have been implemented to support the beginEdit mechanism:
-* *lazy strategy*: after a beginEdit, Observers ignore all calls to tableChanged method untils the endEdit method is called. After, the Observer's action are performed (layout is recomputed)
-* *Batch strategy*: after beginEdit, the observer buffers the information sent by tableChanged. When endEdit is called, the actions
+
+* _Lazy strategy_ : after a beginEdit, Observers ignore all calls to tableChanged method untils the endEdit method is called. After, the Observer's action are performed (layout is recomputed)
+* _Batch strategy_ : after beginEdit, the observer buffers the information sent by tableChanged. When endEdit is called, the actions
 are performed on each of the buffered items.
-* *Transaction strategy* same as the batch strategy but when endEdit is called, some structural invariants are check (for example, checks if an integer only contains even numbers) before performing actions.
+* _Transaction strategy_ same as the batch strategy but when endEdit is called, some structural invariants are check (for example, checks if an integer only contains even numbers) before performing actions.
 
 = Sequence diagramm for the notification model =
 
-http://code.google.com/p/obvious/source/browse/VAST2011/figures/notification.png
+http://obvious.googlecode.com/svn/VAST2011/figures/notification.png
