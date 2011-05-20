@@ -2,8 +2,10 @@
 
 = Introduction =
 
-If Obvious for the data structure follows the traditionnal Observer pattern, Obvious tries to improve and adapt this pattern for InfoVis.
+Obvious as many popular InfoVis toolkits such as Prefuse, Infovis Toolkit and JUNG. With this patterns, data structures are *Observable* meaning that some *Observers* can be registered in order to be notified when structures are changed.
+
+However, during the design and conception of Obvious bindings, we saw that each toolkit implements this model in its own way with its own syntax and idioms. That is why Obvious uses a notification made to handle a wide variety of notification models even those that are not currently implemented in toolkits. For example, we design a model based on the Obvious-JDBC binding supporting commit and batch mechanisms.
 
 = A standard syntax for the notification model =
 
-= New mechanisms introduced =
+= Obvious JDBC binding: introducing new mechanisms for notification model =
