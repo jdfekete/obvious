@@ -318,6 +318,7 @@ public class GraphMLImport implements GraphImporter {
    * corresponding schema.
    * @throws ObviousxException when parsing failed
    */
+  @SuppressWarnings("unchecked")
   private void processKeyElement() throws ObviousxException {
     try {
       String id = "N/A";
@@ -367,6 +368,7 @@ public class GraphMLImport implements GraphImporter {
    * Process a "graph" element in the graph.
    * @throws ObviousxException when parsing failed
    */
+  @SuppressWarnings("unchecked")
   private void processGraphElement() throws ObviousxException {
     try {
       Iterator attIter = event.asStartElement().getAttributes();
@@ -413,6 +415,7 @@ public class GraphMLImport implements GraphImporter {
    * Process a "node" element in the graph.
    * @throws ObviousxException when parsing failed
    */
+  @SuppressWarnings("unchecked")
   private void processNodeElement() throws ObviousxException {
     try {
       Object[] nodeAttr = new Object[nodeSchema.getColumnCount()];
@@ -475,6 +478,7 @@ public class GraphMLImport implements GraphImporter {
    * Process an "edge" element of the graph.
    * @throws ObviousxException when parsing failed
    */
+  @SuppressWarnings("unchecked")
   private void processEdgeElement() throws ObviousxException {
     try {
       // Determine the correct edge type.
