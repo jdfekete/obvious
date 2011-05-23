@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009, INRIA
+* Copyright (c) 2011, INRIA
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -26,9 +26,8 @@
 */
 
 /**
- * <h1>Package obvious.data.util</h1>
+ * <h1>Package obvious.view.event</h1>
  *
- * This package contains util interfaces for data model such as Iterator
- * and Operator.
+ * TODO document the package.
  */
-package obvious.data.util;
+package obvious.view.event;
