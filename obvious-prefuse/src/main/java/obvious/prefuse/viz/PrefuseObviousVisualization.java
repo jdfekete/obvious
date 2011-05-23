@@ -252,7 +252,7 @@ public class PrefuseObviousVisualization extends Visualization {
       visualTable = (prefuse.visual.VisualTable) tupleSet;
     } else if (tupleSet instanceof prefuse.data.Graph) {
       prefuse.data.Graph g = (prefuse.data.Graph) tupleSet;
-      visualTable = (VisualTable)(tuple instanceof Node ? g.getNodeTable()
+      visualTable = (VisualTable) (tuple instanceof Node ? g.getNodeTable()
           : g.getEdgeTable());
     } else {
       return null;
@@ -301,7 +301,7 @@ public class PrefuseObviousVisualization extends Visualization {
       visualTable = (prefuse.visual.VisualTable) tupleSet;
     } else if (tupleSet instanceof prefuse.data.Graph) {
       prefuse.data.Graph g = (prefuse.data.Graph) tupleSet;
-      visualTable = (VisualTable)(tuple instanceof Node ? g.getNodeTable()
+      visualTable = (VisualTable) (tuple instanceof Node ? g.getNodeTable()
           : g.getEdgeTable());
     } else {
       return null;
@@ -352,7 +352,8 @@ public class PrefuseObviousVisualization extends Visualization {
       if (vis.getGroup(groupName) != null && super.getData() instanceof Table) {
           return new PrefuseObviousTable(
                   (prefuse.data.Table) vis.getGroup(groupName));
-      } else if (vis.getGroup(groupName) != null && super.getData() instanceof Network) {
+      } else if (vis.getGroup(groupName) != null && super.getData()
+      instanceof Network) {
           return new PrefuseObviousNetwork (
                   (prefuse.data.Graph) vis.getGroup(groupName));
       } else {
