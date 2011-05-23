@@ -83,7 +83,8 @@ public class ZoomControl extends MouseAdapter {
     if (e.getModifiersEx() == InputEvent.BUTTON1_DOWN_MASK) {
       int y = e.getY();
       int dy = y - refY;
-      double scale = 1 + ((double) dy) / 100;
+      final int scaleFactor = 100;
+      double scale = 1 + ((double) dy) / scaleFactor;
       view.zoom(e.getPoint(), (float) scale);
       refY = y;
     }

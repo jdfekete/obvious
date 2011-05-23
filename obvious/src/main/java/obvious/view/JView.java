@@ -39,7 +39,6 @@ import obvious.view.event.ViewListener;
  * @author Hemery
  *
  */
-@SuppressWarnings("serial")
 public abstract class JView implements View {
 
   /**
