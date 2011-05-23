@@ -20,6 +20,7 @@ This page details the content of the wiki.
  * [View Presentation of the view part in obvious]
  * [obviousx Presentation of the complementary of obvious]
  * [Predicate Presentation of Predicate in Obvious]
+ * [NotificationModel Presentation of the notification model in Obvious]
 
 = Technical documentation =
 
