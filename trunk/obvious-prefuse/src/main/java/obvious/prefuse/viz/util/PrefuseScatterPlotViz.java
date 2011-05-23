@@ -103,16 +103,16 @@ public class PrefuseScatterPlotViz extends PrefuseObviousVisualization {
     AxisLayout yAxis = new AxisLayout(groupName,
         (String) param.get(Y_AXIS), Constants.Y_AXIS, VisiblePredicate.TRUE);
     this.putAction("y", new PrefuseObviousAction(yAxis));
-
+    final int labelDim = 15;
     AxisLabelLayout xlabels = new AxisLabelLayout("xlabel", xAxis,
-        new Rectangle2D.Double(), 15);
+        new Rectangle2D.Double(), labelDim);
     this.putAction("xlabel", new PrefuseObviousAction(xlabels));
     AxisLabelLayout ylabels = new AxisLabelLayout("ylabel", yAxis,
-        new Rectangle2D.Double(), 15);
+        new Rectangle2D.Double(), labelDim);
     this.putAction("ylabel", new PrefuseObviousAction(ylabels));
-
+    final int rgb1 = 100, rgb2 = 255;
     ColorAction color = new ColorAction(groupName,
-        VisualItem.STROKECOLOR, ColorLib.rgb(100,100,255));
+        VisualItem.STROKECOLOR, ColorLib.rgb(rgb1, rgb1, rgb2));
     this.putAction("color", new PrefuseObviousAction(color));
     DataShapeAction shape = new DataShapeAction(groupName,
         (String) param.get(SHAPE));

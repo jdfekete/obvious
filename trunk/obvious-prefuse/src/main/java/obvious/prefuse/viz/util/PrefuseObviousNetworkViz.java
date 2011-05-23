@@ -88,20 +88,23 @@ public class PrefuseObviousNetworkViz extends PrefuseObviousVisualization {
     this.setPrefVisualization(prefVis);
     this.getPrefVisualization().add(groupName, getPrefuseNetwork());
     LabelRenderer r = new LabelRenderer(label);
-    r.setRoundedCorner(8, 8); // round the corners
+    final int cornerRoundDim = 8;
+    r.setRoundedCorner(cornerRoundDim, cornerRoundDim); // round the corners
     this.setRenderer(new PrefuseObviousRenderer(
         new DefaultRendererFactory(r)));
     // Color for data values.
+    final int rgb1 = 255, rgb2 = 180, rgb3 = 190;
     int[] palette = new int[] {
-        ColorLib.rgb(255,180,180), ColorLib.rgb(190,190,255)
+        ColorLib.rgb(rgb1, rgb2, rgb2), ColorLib.rgb(rgb3, rgb3, rgb1)
     };
     DataColorAction fill = new DataColorAction(groupName + ".nodes", label,
         Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
     ColorAction text = new ColorAction(groupName + ".nodes",
         VisualItem.TEXTCOLOR, ColorLib.gray(0));
     // Color for edges
+    final int edgeGrayLevel = 200;
     ColorAction edges = new ColorAction(groupName + ".edges",
-        VisualItem.STROKECOLOR, ColorLib.gray(200));
+        VisualItem.STROKECOLOR, ColorLib.gray(edgeGrayLevel));
 
     // Creating the prefuse action list.
     ActionList color = new ActionList();
