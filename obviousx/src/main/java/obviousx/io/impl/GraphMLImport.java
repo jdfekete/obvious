@@ -186,8 +186,12 @@ public class GraphMLImport implements GraphImporter {
   /**
    * Constructor.
    * @param inputFile external file to load
+   * @param source sourceNode column name in edgeSchema
+   * @param target targetNode column name in edgeSchema
+   * @param inNodeId node id column name in nodeSchema
    */
-  public GraphMLImport(File inputFile) {
+  public GraphMLImport(File inputFile, String source, String target,
+      String inNodeId) {
     try {
       this.file = inputFile;
       this.formatFactory = new FormatFactoryImpl();
@@ -202,17 +206,27 @@ public class GraphMLImport implements GraphImporter {
       } catch (XMLStreamException e) {
         e.printStackTrace();
       }
+      this.sourceCol = source;
+      this.targetCol = target;
+      this.nodeId = inNodeId;
       readSchema();
-      this.sourceCol = "source";
-      this.targetCol = "target";
-      edgeSchema.addColumn(sourceCol, int.class, null);
-      edgeSchema.addColumn(targetCol, int.class, null);
+      Map<String, Object> paramMap = new HashMap<String, Object>();
+      paramMap.put("sourceKey", this.sourceCol);
+      paramMap.put("targetKey", this.targetCol);
+      paramMap.put("nodeKey", this.nodeId);
       this.network = DataFactory.getInstance().createGraph(
-          nodeSchema, edgeSchema);
-      this.nodeId = prefuse.data.Graph.DEFAULT_NODE_KEY;
+          nodeSchema, edgeSchema, paramMap);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Constructor.
+   * @param inputFile external file to load
+   */
+  public GraphMLImport(File inputFile) {
+    this(inputFile, "source", "target", null);
   }
 
   /**
@@ -253,6 +267,8 @@ public class GraphMLImport implements GraphImporter {
         }
       } while (event.isEndDocument());
       for (Edge edge : edges) {
+        System.out.println(sourceCol);
+        System.out.println(edge.getSchema().hasColumn(sourceCol));
         Node source = getNode(edge.get(sourceCol));
         Node target = getNode(edge.get(targetCol));
         network.addEdge(edge, source, target, edgeType.get(edge));
@@ -284,6 +300,15 @@ public class GraphMLImport implements GraphImporter {
           event = xpp.nextEvent();
         }
       } while (!isGraphStarting());
+        if (!edgeSchema.hasColumn(sourceCol)) {
+          edgeSchema.addColumn(sourceCol, String.class, "0");
+        }
+        if (!edgeSchema.hasColumn(targetCol)) {
+          edgeSchema.addColumn(targetCol, String.class, "0");
+        }
+        if (!nodeSchema.hasColumn(nodeId) && nodeId != null) {
+          nodeSchema.addColumn(nodeId, String.class, "0");
+        }
       schemaLoaded = true;
     } catch (Exception e) {
       e.printStackTrace();
@@ -457,7 +482,8 @@ public class GraphMLImport implements GraphImporter {
       idToNode.put(id, node);
       network.addNode(node);
     } catch (Exception e) {
-      throw new ObviousxException(e);
+      e.printStackTrace();
+      //throw new ObviousxException(e);
     }
   }
 
