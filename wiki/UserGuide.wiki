@@ -1,0 +1,29 @@
+#summary User guide
+
+= Installing Obvious =
+
+== How to install Obvious ==
+
+== Testing ==
+
+= Getting started : the Obvious model =
+
+== The InfoVis standard reference model ==
+
+== Existing implementations ==
+
+= The Obvious model =
+
+== The Obvious data model ==
+
+== The Visualization part in Obvious ==
+
+== The View part in Obvious ==
+
+= Additional Obvious features =
+
+== ObviousX ==
+
+== The notification model ==
+
+== Predicate ==
