@@ -1,29 +1,30 @@
 #summary User guide
+<div style="text-align: center;"> =User guide= </div>
 
-= Installing Obvious =
+==Installing Obvious==
 
-== How to install Obvious ==
+===How to install Obvious===
 
-== Testing ==
+===Testing===
 
-= Getting started : the Obvious model =
+==Getting started : the Obvious model==
 
-== The InfoVis standard reference model ==
+===The InfoVis standard reference model===
 
-== Existing implementations ==
+===Existing implementations===
 
-= The Obvious model =
+==The Obvious model==
 
-== The Obvious data model ==
+===The Obvious data model===
 
-== The Visualization part in Obvious ==
+===The Visualization part in Obvious===
 
-== The View part in Obvious ==
+===The View part in Obvious===
 
-= Additional Obvious features =
+==Additional Obvious features==
 
-== ObviousX ==
+===ObviousX===
 
-== The notification model ==
+===The notification model===
 
-== Predicate ==
+===Predicate===
