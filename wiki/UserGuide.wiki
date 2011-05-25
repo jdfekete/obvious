@@ -9,9 +9,9 @@
 
 ==Getting started : the Obvious model==
 
-===The InfoVis standard reference model===
+===[InfoVisRefModel The InfoVis standard reference model]===
 
-===[SoftwareArchitecture Existing implementations]===
+===[SofwareArchitecture Existing implementations]===
 
 ==The Obvious model==
 
