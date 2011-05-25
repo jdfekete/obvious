@@ -5,7 +5,7 @@
 This page details the content of the wiki.
 
 
-= General content =
+= Featured content =
 
 == Workshop ==
  * [Motivation Motivation]
