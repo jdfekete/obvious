@@ -267,8 +267,6 @@ public class GraphMLImport implements GraphImporter {
         }
       } while (event.isEndDocument());
       for (Edge edge : edges) {
-        System.out.println(sourceCol);
-        System.out.println(edge.getSchema().hasColumn(sourceCol));
         Node source = getNode(edge.get(sourceCol));
         Node target = getNode(edge.get(targetCol));
         network.addEdge(edge, source, target, edgeType.get(edge));
@@ -453,7 +451,11 @@ public class GraphMLImport implements GraphImporter {
         }
       }
       for (int i = 0; i < nodeSchema.getColumnCount(); i++) {
-        nodeAttr[i] = nodeSchema.getColumnDefault(i);
+        if (nodeSchema.getColumnName(i).equals(nodeId)) {
+          nodeAttr[i] = id;
+        } else {
+          nodeAttr[i] = nodeSchema.getColumnDefault(i);
+        }
       }
       do {
         if (event.isStartElement()
@@ -479,8 +481,14 @@ public class GraphMLImport implements GraphImporter {
       } while (!isNodeEnding());
       Node node = (Node) new NodeImpl(nodeSchema,
           nodeAttr);
-      idToNode.put(id, node);
       network.addNode(node);
+      for (Node n : network.getNodes()) {
+        if (n.get(nodeId).equals(id)) {
+          node = n;
+          break;
+        }
+      }
+      idToNode.put(id, node);
     } catch (Exception e) {
       e.printStackTrace();
       //throw new ObviousxException(e);
@@ -520,9 +528,9 @@ public class GraphMLImport implements GraphImporter {
             currentEdgeType = Graph.EdgeType.UNDIRECTED;
           }
         } else if (att.getName().getLocalPart().equals("source")) {
-          att.getValue();
+          source = att.getValue();
         } else if (att.getName().getLocalPart().equals("target")) {
-          att.getValue();
+          target = att.getValue();
         }
       }
       // Load default values.
@@ -591,6 +599,7 @@ public class GraphMLImport implements GraphImporter {
    * @return searched node
    */
   private Node getNode(Object id) {
+    /*
     Collection<Node> nodes = network.getNodes();
     for (Node node : nodes) {
       if (nodeId != null) {
@@ -602,6 +611,8 @@ public class GraphMLImport implements GraphImporter {
       }
     }
     return null;
+    */
+    return idToNode.get(id);
   }
 
 }
