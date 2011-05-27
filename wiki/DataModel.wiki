@@ -112,6 +112,65 @@ Tree<V,E> interface in obvious extends the Forest<V, E> interface. This interfac
 
 Currently, all the existing implementation of Tree interface extends Graph<Node, Edge> and are thus derived from Network.
 
+=Different ways to instantiate and fill data structures=
+
+Obvious introduces different mechanisms to create and fill data structures. This part presents all the possibilites offered by Obvious to complete those tasks.
+
+==Creating Obvious data structures==
+
+To instantiate data structures in Obvious, it is possible to use the DataFactory class or to use direct instantiation.
+
+The direct instantiation supposes the developper directly calls one of the constructors defined in a Table, Network or Tree implementations of Obvious. Most of the time, they only take one or two schemas as arguments. The following lines of code gives examples for Prefuse, InfoVis  toolkit and Jung:
+
+{{{
+// Definition of Obvious schemas
+Schema tableSchema, nodeSchema, edgeSchema;
+[...]
+// Creating an Obvious table based on Ivtk
+Table table = new IvtkObviousTable(tableSchema);
+// Creating an Obvious network based on Prefuse
+Network network = new PrefuseObviousNetwork(nodeSchema, edgeSchema);
+// Creating an Obvious tree bases on Jung
+Tree tree = new PrefuseObviousTree(nodeSchema, edgeSchema);
+}}}
+
+However, Obvious also proposes data factories based on the well known factory pattern to create data structures. Each Obvious binding has its own factory placed in its data subpackage.
+
+First, the classpath of the data factory must be set up via the obvious.DataFactory property, then one instance of DataFactory must be retrieved and a creation method called (based on schema, wrapped structures from bound toolkits and optionnal extra parameters). This is illustrated by the following line of codes :
+
+{{{
+// Sets the factory path, here Obvious-Jung is used
+String factoryPath = "obvious.jung.data.JungDataFactory";
+System.setProperty("obvious.DataFactory", factoryPath);*
+// Creates the instance
+DataFactory dFactory = DataFactoryImpl.getInstance();
+Network network = dFactory.createGraph(nodeSchema, edgeSchema);
+}}}
+
+==Filling Obvious data structures==
+
+To fill an Obvious network, it is possible to do it manually or to use external data (file, SQL source) to import with a reader.
+
+To do it by hand, it is simply to create Tuple (or Node/Edge) instances and adds it to the structure with the corresponding method:
+
+{{{
+// Adds an empty row and then set up the values...
+int row = table.addRow();
+table.set(0, value);
+
+// Adds a pre-existing tuple
+table.addRow(tuple);
+}}}
+
+Obvious proposes a container for Java table to store values in a pre-existing tuple (TupleImpl) just to store and load data directly with addRow method.
+
+The other way is to use an existing reader for a file format (CSV, GraphML...) and to directly import its content into an Obvious structure:
+
+{{{
+CSVTableImport csv = new CSVTableImport(newFile("example.csv"), ',');
+Table table = csv.loadTable();
+}}}
+
 = Data model : class diagram =
 
 http://obvious.googlecode.com/svn/VAST2011/figures/obviousdataclass.png
