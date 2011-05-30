@@ -1,4 +1,5 @@
 #summary Presentation of the standard InfoVis reference model
+#sidebar UserGuide
 
 All toolkits binded to Obvious follows the InfoVis reference model described by Ed Chi and updated by Card, Mackginlay and Shneiderman.
 
