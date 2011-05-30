@@ -42,18 +42,19 @@
 ====[DataModel#Class_diagramm 3.1.4 Class diagramm]====
 
 ===[Visualization 3.2. The Visualization part in Obvious]===
-====3.2.1. Introduction====
-====3.2.2. Description of the Visualization abstract class====
-=====3.2.2.1. How to create an Obvious visualization?=====
-=====3.2.2.2. Parameters for the Visualization class=====
-====3.2.3. Creating visualization====
-=====3.2.3.1. Using the VisualizationFactory class=====
-=====3.2.3.2. Direct instantiation=====
+====[Introduction 3.2.1. Introduction]====
+====[Visualization#Visualization_(abstract_class) 3.2.2. Description of the Visualization abstract class]====
+=====[Visualization#How_to_create_an_Obvious_visualization? 3.2.2.1. How to create an Obvious visualization?]=====
+=====[Visualization#Optional_parameters 3.2.2.2. Parameters for the Visualization class]=====
+====[Visualization#Creating_visualization 3.2.3. Creating visualization]====
+=====[Visualization#ViewFactory 3.2.3.1. Using the VisualizationFactory class]=====
+=====[Visualization#Direct_instantiation 3.2.3.2. Direct instantiation]=====
+
 ===[View 3.3. The View part in Obvious]===
-====3.3.1. Introduction====
-====3.3.2. The View interface====
-====3.3.3. The JView abstract class====
-====3.3.4. The ViewListener interface====
+====[View#Introduction 3.3.1. Introduction]====
+====[View#View 3.3.2. The View interface]====
+====[View#JView 3.3.3. The JView abstract class]====
+====[View#ViewListener 3.3.4. The ViewListener interface]====
 
 ==4. Additional Obvious features==
 
