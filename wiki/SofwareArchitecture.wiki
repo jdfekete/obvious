@@ -1,4 +1,5 @@
 #summary Description of the software architecture of Obvious API.
+#sidebar UserGuide
 
 = Introduction =
 
