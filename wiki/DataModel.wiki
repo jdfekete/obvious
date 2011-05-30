@@ -1,4 +1,5 @@
 #summary Data model for obvious.
+#sidebar UserGuide
 
 = Introduction =
 
