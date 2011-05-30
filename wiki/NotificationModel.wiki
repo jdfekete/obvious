@@ -1,4 +1,5 @@
 #summary The notification model introduced in Obvious.
+#sidebar UserGuide
 
 = Introduction =
 
