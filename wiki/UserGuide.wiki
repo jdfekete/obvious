@@ -14,7 +14,7 @@
 ====[TestGuide#Introduction 1.2.1. Introduction]====
 ====[TestGuide#Details 1.2.2 In details]====
 
-==2. Getting started: the Obvious model==
+==2. Getting started==
 
 ===[InfoVisRefModel 2.1. The InfoVis standard reference model]===
 <p/>
