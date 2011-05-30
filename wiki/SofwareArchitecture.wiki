@@ -26,7 +26,7 @@ Most of sub-projects implements Obvious interfaces and its sub-packages (obvious
 
 = Organization of the different implementations =
 
-== One toolkit, four parts ==
+== One toolkit four parts ==
 
 The toolkit is divided in four parts :
 
