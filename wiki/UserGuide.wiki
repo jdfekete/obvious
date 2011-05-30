@@ -42,7 +42,7 @@
 ====[DataModel#Class_diagramm 3.1.4 Class diagramm]====
 
 ===[Visualization 3.2. The Visualization part in Obvious]===
-====[Introduction 3.2.1. Introduction]====
+====[Visualization#Introduction 3.2.1. Introduction]====
 ====[Visualization#Visualization_(abstract_class) 3.2.2. Description of the Visualization abstract class]====
 =====[Visualization#How_to_create_an_Obvious_visualization? 3.2.2.1. How to create an Obvious visualization?]=====
 =====[Visualization#Optional_parameters 3.2.2.2. Parameters for the Visualization class]=====
