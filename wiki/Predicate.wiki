@@ -1,4 +1,5 @@
 #summary Predicate support in obvious
+#sidebar UserGuide
 
 = Introduction =
 
