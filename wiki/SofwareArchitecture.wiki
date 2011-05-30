@@ -6,7 +6,7 @@ This pages describes the content of the Obvious project. First, it gives informa
 
 The Obvious API used the BSD license. It could be used in non-commercial and commercial projects.
 
-= Details =
+= Different implementations =
 
 Most of sub-projects implements Obvious interfaces and its sub-packages (obvious.data, obvious.viz, obvious.view and obvious.utils).
 
@@ -24,7 +24,7 @@ Most of sub-projects implements Obvious interfaces and its sub-packages (obvious
  * <b> obviousx-example </b> :it contains example for the obviousx package.
  * <b> obviousx-jdbc </b> : experimental project. BSD license.
 
-= Description =
+= Organization of the different implementations =
 
 == One toolkit, four parts ==
 
