@@ -1,4 +1,5 @@
 #summary Visualization partin obvious toolkit.
+#sidebar UserGuide
 
 = Introduction =
 
