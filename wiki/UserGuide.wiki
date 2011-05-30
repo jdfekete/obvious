@@ -4,17 +4,15 @@
 ==1. Installing Obvious==
 
 ===[CompilationGuide 1.1. How to install Obvious]===
-==== 1.1.1. Introduction====
-==== 1.1.2. In details====
-
-=====1.1.2. Developing, updating and enhancing existing Obvious bindings=====
-
-=====1.1.3. Using an Obvious binding for your project=====
+====[CompilationGuide#Introduction 1.1.1. Introduction]====
+====[CompilationGuide#Details 1.1.2. In details]====
+=====[CompilationGuide#Details 1.1.2.1. Developing, updating and enhancing existing Obvious bindings]=====
+=====[CompilationGuide#Details 1.1.2.2. Using an Obvious binding for your project]=====
 
 ===[TestGuide 1.2. Testing]===
 
-==== 1.2.1. Introduction====
-==== 1.2.2 In details====
+====[TestGuide#Introduction 1.2.1. Introduction]====
+====[TestGuide#Details 1.2.2 In details]====
 
 ==2. Getting started: the Obvious model==
 
