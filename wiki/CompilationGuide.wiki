@@ -1,5 +1,5 @@
 #summary Compilation guide for Obvious Project.
-#sidebar TableOfContent
+#sidebar UserGuide
 
 = Introduction =
 
