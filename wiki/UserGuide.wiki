@@ -58,20 +58,20 @@
 ==4. Additional Obvious features==
 
 ===[obviousx 4.1. ObviousX]===
-====4.1.1. Introduction====
-====4.1.2. The different packages of ObviousX====
-=====4.1.2.1. obviousx.io=====
-=====4.1.2.2 obviousx.text=====
-=====4.1.2.3 obviousx.util=====
+====[obviousx#Introduction 4.1.1. Introduction]====
+====[obviousx#obviousx 4.1.2. The different packages of ObviousX]====
+=====[obviousx#obviousx.io 4.1.2.1. obviousx.io]=====
+=====[obviousx#obviousx.text 4.1.2.2 obviousx.text]=====
+=====[obviousx#obviousx.util 4.1.2.3 obviousx.util]=====
 
 ===[NotificationModel 4.2. The notification model]===
-====4.2.1. Introduction====
-====4.2.2. A standard syntax for the notification model====
-====4.2.3. Obvious JDBC binding: introducing new mechanisms for notification model====
-====4.2.4. Sequence diagramm for the notification model====
+====[NotificationModel#Introduction 4.2.1. Introduction]====
+====[NotificationModel#A_standard_syntax_for_the_notification_model  4.2.2. A standard syntax for the notification model]====
+====[NotificationModel 4.2.3. Obvious JDBC binding: introducing new mechanisms for notification model]====
+====[NotificationModel#Sequence_diagramm_for_the_notification_model 4.2.4. Sequence diagramm for the notification model]====
 
 ===[Predicate 4.3. Predicate]===
-====4.3.1. Introduction====
-====4.3.2. Implementations====
-=====4.3.2.1. Prefuse=====
-=====4.3.2.2. Infovis Toolkit=====
+====[Predicate#Introduction 4.3.1. Introduction]====
+====[Predicate#Implementations 4.3.2. Implementations]====
+=====[Predicate#obvious-prefuse 4.3.2.1. Prefuse]=====
+=====[Predicate#obvious-ivtk 4.3.2.2. Infovis Toolkit]=====
