@@ -25,6 +25,20 @@
 
 ===[SofwareArchitecture Existing implementations]===
 
+====Introduction====
+
+====Different implementations====
+
+====Different implementations====
+
+====Organization of the different implementations====
+
+======One toolkit four parts=====
+
+=====Composition of the different bindings=====
+
+=====Class diagramm=====
+
 ==The Obvious model==
 
 ===[DataModel The Obvious data model]===
