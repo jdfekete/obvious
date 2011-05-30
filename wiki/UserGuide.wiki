@@ -31,17 +31,17 @@
 ==3. The Obvious model==
 
 ===[DataModel 3.1. The Obvious data model]===
-====3.1.1. Introduction====
-====3.1.2. Interfaces====
-=====3.1.2.1 Schema=====
-=====3.1.2.2 Tuple, Node and Edge=====
-=====3.1.2.2 Data=====
-=====3.1.2.3 Table=====
-=====3.1.2.4 Graph, Network and Tree=====
-====3.1.3 Different ways to instantiate and fill data structures====
-=====3.1.3.1 Creating Obvious data structures=====
-=====3.1.3.2 Filling Obvious data structures=====
-====3.1.4 Class diagramm====
+====[DataModel#Introduction 3.1.1. Introduction]====
+====[DataModel#Interfaces 3.1.2. Interfaces]====
+=====[DataModel#Schema 3.1.2.1 Schema]=====
+=====[3.1.2.2 Tuple, Node and Edge]=====
+=====[DataModel#Data 3.1.2.2 Data]=====
+=====[DataModel#Table 3.1.2.3 Table]=====
+=====[3.1.2.4 Graph, Network and Tree]=====
+====[3.1.3 Different ways to instantiate and fill data structures]====
+=====[DataModel#Creating_Obvious_data_structures 3.1.3.1 Creating Obvious data structures]=====
+=====[DataModel#Filling_Obvious_data_structures 3.1.3.2 Filling Obvious data structures]=====
+====[DataModel#Class_diagramm 3.1.4 Class diagramm]====
 
 ===[Visualization 3.2. The Visualization part in Obvious]===
 ====3.2.1. Introduction====
