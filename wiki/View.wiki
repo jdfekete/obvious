@@ -1,4 +1,5 @@
 #summary View for obvious
+#sidebar UserGuide
 
 = Introduction =
 
