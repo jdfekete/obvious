@@ -1,5 +1,6 @@
 #summary This page explains the way to run unit test for Obvious implementations.
 #labels Phase-QA
+#sidebar UserGuide
 
 = Introduction =
 
