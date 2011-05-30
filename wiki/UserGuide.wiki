@@ -19,12 +19,12 @@
 ===[InfoVisRefModel 2.1. The InfoVis standard reference model]===
 <p/>
 ===[SofwareArchitecture 2.2. Existing implementations]===
-====2.2.1. Introduction====
-====2.2.2. Different implementations====
-====2.2.3. Organization of the different implementations====
-=====2.2.3.1. One toolkit four parts=====
-=====2.2.3.2. Composition of the different bindings=====
-=====2.2.3.3. Class diagramm=====
+====[SofwareArchitecture#Introduction 2.2.1. Introduction]====
+====[SofwareArchitecture#Different_implementations 2.2.2. Different implementations]====
+====[SofwareArchitecture#Organization_of_the_different_implementations 2.2.3. Organization of the different implementations]====
+=====[SofwareArchitecture#One_toolkit_four_parts 2.2.3.1. One toolkit four parts]=====
+=====[SofwareArchitecture#Composition_of_the_different_bindings 2.2.3.2. Composition of the different bindings]=====
+=====[SofwareArchitecture#Class_diagramm 2.2.3.3. Class diagramm]=====
 
 ==3. The Obvious model==
 
