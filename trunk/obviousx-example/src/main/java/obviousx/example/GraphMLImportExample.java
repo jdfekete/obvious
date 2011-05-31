@@ -71,7 +71,7 @@ public final class GraphMLImportExample {
     try {
       factoryPath = args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
-      factoryPath = "obvious.prefuse.data.PrefuseDataFactory";
+      factoryPath = "obvious.jung.data.JungDataFactory";
     }
 
     // Load GraphML File
