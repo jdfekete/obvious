@@ -141,6 +141,8 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
    * @param e event
    */
   public void actionPerformed(final ActionEvent e) {
+    new Thread(new Runnable() {
+      public void run() {
     if (e.getSource() == addNodeButton) {
       final JDialog dialog = new JDialog(frame,
           "Add a node and/or an edge", true);
@@ -162,15 +164,16 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
           SwingUtilities.invokeLater(new Runnable() {
             public void run() {
               String nodeName = addNodeField.getText();
-              System.out.println(nodeName);
               prefViz.cancel("color");
               prefViz.cancel("layout");
               network.addNode(
                   new NodeImpl(nodeSchema, new Object[] {nodeName, "male"}));
-              prefViz.run("color");
-              prefViz.run("layout");
               panel.invalidate();
               panel.repaint();
+              panel.getVisualization().invalidate();
+              panel.getVisualization().repaint();
+              prefViz.run("color");
+              prefViz.run("layout");
               dialog.dispose();
             }
           });
@@ -192,8 +195,8 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
               network.addEdge(newEdge, node1, node2, Graph.EdgeType.UNDIRECTED);
               prefViz.run("color");
               prefViz.run("layout");
-              panel.invalidate();
-              panel.repaint();
+              panel.getVisualization().invalidate();
+              panel.getVisualization().repaint();
               dialog.dispose();
             }
           });
@@ -232,8 +235,8 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
                 prefViz.invalidate("graph");
                 prefViz.run("color");
                 prefViz.run("layout");
-                panel.invalidate();
-                panel.repaint();
+                panel.getVisualization().invalidate();
+                panel.getVisualization().repaint();
                 dialog.dispose();
               }
             });
@@ -247,6 +250,8 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
     }
+      }
+    }).start();
   }
 
 }

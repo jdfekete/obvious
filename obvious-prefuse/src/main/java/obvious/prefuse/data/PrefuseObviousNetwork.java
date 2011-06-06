@@ -234,7 +234,7 @@ public class PrefuseObviousNetwork implements Network {
           prefEdge.set(colName, edge.get(colName));
         }
       }
-      fireNetworkEvent(edge.getRow(), edge.getRow(), 0,
+      fireNetworkEvent(prefEdge.getRow(), prefEdge.getRow(), 0,
           NetworkListener.INSERT_EDGE);
       return true;
     } catch (Exception e) {
@@ -256,7 +256,8 @@ public class PrefuseObviousNetwork implements Network {
       for (int i = 0; i < node.getTable().getSchema().getColumnCount(); i++) {
         prefNode.set(node.getSchema().getColumnName(i), node.get(i));
       }
-      fireNetworkEvent(node.getRow(), node.getRow(), 0,
+      int nodeId = prefNode.getRow();
+      fireNetworkEvent(nodeId, nodeId, 0,
           NetworkListener.INSERT_NODE);
       return true;
     } catch (Exception e) {
