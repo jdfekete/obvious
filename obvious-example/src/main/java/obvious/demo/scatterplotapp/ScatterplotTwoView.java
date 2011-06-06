@@ -25,8 +25,8 @@ import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.TupleImpl;
-import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.view.IvtkObviousView;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
@@ -59,7 +59,7 @@ public final class ScatterplotTwoView {
    */
   public static void main(final String[] args) throws ObviousException {
 
-    final Schema schema = new IvtkObviousSchema();
+    final Schema schema = new PrefuseObviousSchema();
     schema.addColumn("id", Integer.class, 0);
     schema.addColumn("age", Integer.class, 18);
     schema.addColumn("category", String.class, "unemployed");
@@ -97,7 +97,7 @@ public final class ScatterplotTwoView {
 
     // Using the factory to build the visualization
     System.setProperty("obvious.VisualizationFactory",
-        "obvious.prefuse.data.viz.PrefuseVisualizationFactory");
+        "obvious.prefuse.viz.PrefuseVisualizationFactory");
     VisualizationFactory factory = PrefuseVisualizationFactory.getInstance();
     Visualization vis =
       factory.createVisualization(table, null, "scatterplot", param);
@@ -118,6 +118,7 @@ public final class ScatterplotTwoView {
 
     //System.out.println(display == null);
     view.getViewJComponent().setSize(800, 600);
+
 
     IvtkObviousView view2 = new IvtkObviousView(vis,  null,
         "scatterplot", null);

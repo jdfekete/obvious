@@ -38,8 +38,8 @@ import obvious.ObviousException;
 import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.impl.TupleImpl;
-import obvious.ivtk.data.IvtkObviousSchema;
 import obvious.ivtk.view.IvtkObviousView;
+import obvious.prefuse.data.PrefuseObviousSchema;
 import obvious.prefuse.data.PrefuseObviousTable;
 import obvious.prefuse.view.PrefuseObviousControl;
 import obvious.prefuse.view.PrefuseObviousView;
@@ -71,7 +71,7 @@ public final class ScatterplotApp {
    */
   public static void main(final String[] args) throws ObviousException {
 
-    final Schema schema = new IvtkObviousSchema();
+    final Schema schema = new PrefuseObviousSchema();
     schema.addColumn("id", Integer.class, 0);
     schema.addColumn("age", Integer.class, 0);
     schema.addColumn("category", String.class, "unemployed");

@@ -108,7 +108,7 @@ public class ConfigurationPanel extends JSplitPane implements ActionListener {
     this.frame = inFrame;
     this.prefVis = inPrefVis;
     this.ivtkViewComponent = inIvtkViewComponent;
-    obviousJTable = new JTable(new ObviousTableModel(table));
+    this.obviousJTable = new JTable();
     jTablePane = new JScrollPane(obviousJTable);
     JPanel editPane = new JPanel();
     addButton = new JButton("+");
@@ -120,8 +120,9 @@ public class ConfigurationPanel extends JSplitPane implements ActionListener {
     editPane.add(addButton, 0);
     editPane.add(removeButton, 1);
     editPane.add(refreshButton, 2);
-    this.add(jTablePane, 0);
+    this.add(jTablePane, 1);
     this.add(editPane);
+    this.obviousJTable.setModel(new ObviousTableModel(table));
   }
 
   /**
@@ -129,6 +130,7 @@ public class ConfigurationPanel extends JSplitPane implements ActionListener {
    * @param e event
    */
   public void actionPerformed(ActionEvent e) {
+
     if (e.getSource() == addButton) {
       @SuppressWarnings("unused")
       JDialog dialog = new AddPointDialog(frame, table, prefVis,
