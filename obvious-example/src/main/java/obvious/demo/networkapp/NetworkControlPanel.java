@@ -130,7 +130,7 @@ public class NetworkControlPanel extends JPanel implements ActionListener {
     buttonPane.add(addNodeButton, 0);
     buttonPane.add(refreshViewButton, 1);
     buttonPane.add(removeNodeButton, 2);
-    this.add(buttonPane, BorderLayout.NORTH);
+    this.add(buttonPane, BorderLayout.CENTER);
     final int borderParam = 20;
     setBorder(BorderFactory.createEmptyBorder(borderParam, borderParam,
         borderParam, borderParam));

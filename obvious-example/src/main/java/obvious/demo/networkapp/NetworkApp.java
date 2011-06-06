@@ -30,7 +30,10 @@ package obvious.demo.networkapp;
 import infovis.DynamicTable;
 import infovis.graph.visualization.NodeLinkGraphVisualization;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
+import obvious.data.Network;
 import obvious.data.Schema;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.data.PrefuseObviousNetwork;
@@ -111,57 +115,31 @@ public final class NetworkApp {
     ivtkParam.put("LABEL_COLUMN", "name");
     ivtkParam.put("DEFAULT_SIZE", 0);
 
-    IvtkNodeLinkGraphVisLabel ivtkVis = new IvtkNodeLinkGraphVisLabel(network, null, null, ivtkParam);
-    
+    IvtkNodeLinkGraphVisLabel ivtkVis = new IvtkNodeLinkGraphVisLabel(
+        network, null, null, ivtkParam);
+
     IvtkObviousView ivtkView = new IvtkObviousView(
         ivtkVis, null, "network", param);
 
-    infovis.panel.VisualizationPanel debugPanel
-      = (infovis.panel.VisualizationPanel)
-      ivtkView.getUnderlyingImpl(infovis.panel.VisualizationPanel.class);
-
-    NodeLinkGraphVisualization debugView = (NodeLinkGraphVisualization)
-        debugPanel.getVisualization();
-
-    DynamicTable nodeTable = debugView.getVertexTable();
-
-    debugView.setVisualColumn(
-        infovis.Visualization.VISUAL_LABEL, nodeTable.getColumn("name"));
-
-    /*
-    ControlPanel control = ControlPanelFactory
-    .createControlPanel(debugView);
-
-    JFrame debugFrame = new JFrame("debugIvtk graph struct");
-    JSplitPane split = ControlPanelFactory
-    .createScrollVisualization(control);
-    split.setResizeWeight(1.0);
-    debugFrame.getContentPane().add(split);
-    debugFrame.pack();
-    debugFrame.setVisible(true);
-    */
+    Toolkit tk = Toolkit.getDefaultToolkit();
+    Dimension dim = tk.getScreenSize();
 
     JSplitPane viewPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-    viewPane.add(prefView.getViewJComponent(), 0);
+    viewPane.add(new JScrollPane(prefView.getViewJComponent()), 0);
+    viewPane.getComponent(0).setPreferredSize(
+        new Dimension(dim.height, dim.width / 2));
+    viewPane.getComponent(1).setPreferredSize(
+        new Dimension(dim.height, dim.width / 2));
     viewPane.add(new JScrollPane(ivtkView.getViewJComponent()), 1);
-    final int height = 800;
-    final int width = 640;
-    Dimension viewDim = new Dimension(height, width);
-    viewPane.setMinimumSize(viewDim);
-    viewPane.setPreferredSize(viewDim);
 
 
     JSplitPane globalPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     globalPane.add(viewPane, 0);
 
-    JFrame frame = new JFrame("Obvious : network demonstrator");
+    JFrame frame = new JFrame("NetworkApp");
     JPanel networkControlPanel = new NetworkControlPanel(
         frame, network, nodeSchema, realPrefVis, ivtkView.getViewJComponent());
     globalPane.add(networkControlPanel, 1);
-    final int controlwidth = 80;
-    Dimension controlDim = new Dimension(height, controlwidth);
-    networkControlPanel.setMinimumSize(controlDim);
-    networkControlPanel.setPreferredSize(controlDim);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(globalPane);
     frame.pack();
