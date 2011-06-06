@@ -107,8 +107,14 @@ public final class NetworkApp {
     prefView.addListener(new PrefuseObviousControl(new PanControl()));
     prefView.addListener(new PrefuseObviousControl(new DragControl()));
 
+    Map<String, Object> ivtkParam = new HashMap<String, Object>();
+    ivtkParam.put("LABEL_COLUMN", "name");
+    ivtkParam.put("DEFAULT_SIZE", 0);
+
+    IvtkNodeLinkGraphVisLabel ivtkVis = new IvtkNodeLinkGraphVisLabel(network, null, null, ivtkParam);
+    
     IvtkObviousView ivtkView = new IvtkObviousView(
-        prefVisu, null, "network", param);
+        ivtkVis, null, "network", param);
 
     infovis.panel.VisualizationPanel debugPanel
       = (infovis.panel.VisualizationPanel)
