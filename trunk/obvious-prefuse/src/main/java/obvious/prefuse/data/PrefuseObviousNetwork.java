@@ -129,7 +129,7 @@ public class PrefuseObviousNetwork implements Network {
     this.graph = prefGraph;
     this.nodeKey = prefGraph.getNodeKeyField();
     this.sourceKey = prefGraph.getEdgeSourceField();
-    this.nodeKey = prefGraph.getEdgeTargetField();
+    this.nodeKey = prefuse.data.Graph.DEFAULT_NODE_KEY;
   }
 
   /**
