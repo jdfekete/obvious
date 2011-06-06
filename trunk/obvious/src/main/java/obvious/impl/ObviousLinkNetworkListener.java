@@ -282,10 +282,12 @@ public class ObviousLinkNetworkListener implements NetworkListener {
      * @return a node
      */
     private Node findNode(int i, Network network) {
+      int row = 0;
       for (Node node : network.getNodes()) {
-        if (node.getRow() == i) {
+        if (row == i) {
           return node;
         }
+        row++;
       }
       return null;
     }
@@ -297,10 +299,12 @@ public class ObviousLinkNetworkListener implements NetworkListener {
      * @return an edge
      */
     private Edge findEdge(int i, Network network) {
+      int row = 0;
       for (Edge edge : network.getEdges()) {
-        if (edge.getRow() == i) {
+        if (row == i) {
           return edge;
         }
+        row++;
       }
       return null;
     }

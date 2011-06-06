@@ -29,6 +29,8 @@ package obvious.demo.networkapp;
 
 import infovis.DynamicTable;
 import infovis.graph.visualization.NodeLinkGraphVisualization;
+import infovis.panel.ControlPanel;
+import infovis.panel.ControlPanelFactory;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
