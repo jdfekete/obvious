@@ -27,15 +27,9 @@
 
 package obvious.demo.networkapp;
 
-import infovis.DynamicTable;
-import infovis.graph.visualization.NodeLinkGraphVisualization;
-import infovis.panel.ControlPanel;
-import infovis.panel.ControlPanelFactory;
-
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import obvious.data.Network;
+import obvious.data.Node;
 import obvious.data.Schema;
 import obvious.ivtk.view.IvtkObviousView;
 import obvious.prefuse.data.PrefuseObviousNetwork;
@@ -100,6 +94,16 @@ public final class NetworkApp {
 
     // Create the obvious-prefuse graph.
     PrefuseObviousNetwork network = new PrefuseObviousNetwork(prefGraph);
+    ArrayList<String> names = new ArrayList<String>();
+    for (Node node : network.getNodes()) {
+      if (!names.contains(node.get("name"))) {
+        names.add(node.getString("name"));
+      } else {
+        names.add(node.getString("name"));
+        node.set("name", node.getString("name")
+            + names.lastIndexOf(node.getString("name")));
+      }
+    }
 
     PrefuseObviousVisualization prefVisu = new PrefuseObviousNetworkViz(
         network, null, "test", param);
