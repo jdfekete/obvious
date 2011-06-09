@@ -42,7 +42,7 @@ import weka.core.Instances;
  * Data structures are duplicated, so this approach is not memory oriented.
  * However, it allows to directly use data structures introduced in Weka
  * that are designed to be efficient with Weka's algorithms.
- * This class should be used when a developper wants to optimize execution
+ * This class should be used when a developer wants to optimize execution
  * time.
  * @author Hemery
  *
