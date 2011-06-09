@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>obviousx-rminer</groupId>
+  <artifactId>obviousx-rminer</artifactId>
+  <name>obviousx-rminer</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>obviousx-rminer</description>
+  <repositories>
+    <repository>
+  		<id>ivtk-sourceforge-repository</id>
+  		<url>http://igetdb.sourceforge.net/maven2-repository/</url>
+  	</repository>
+  </repositories>
+  <dependencies>
+  	<dependency>
+  		<groupId>rapidminer</groupId>
+  		<artifactId>rapidminer</artifactId>
+  		<version>4.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>obvious</groupId>
+  		<artifactId>obvious</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>obviousx-weka</groupId>
+  		<artifactId>obviousx-weka</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+</project>
