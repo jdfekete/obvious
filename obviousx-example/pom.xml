@@ -42,6 +42,11 @@
     	<artifactId>obviousx-weka</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>obviousx-rminer</groupId>
+    	<artifactId>obviousx-rminer</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
     <repositories>
     <repository>

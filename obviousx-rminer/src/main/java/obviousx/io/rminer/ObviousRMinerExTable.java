@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import obvious.ObviousRuntimeException;
-import obvious.data.DataFactory;
 import obvious.data.Table;
 import obvious.data.util.IntIterator;
 import obviousx.io.weka.ObviousWekaUtils;
