@@ -98,6 +98,7 @@ public class ObviousRMinerLoader {
     } else {
       this.exampleTable = new MemoryExampleTable(loadAttributes());
     }
+    loadData();
     return this.exampleTable.createExampleSet();
   }
   
@@ -129,6 +130,10 @@ public class ObviousRMinerLoader {
       } else if (ObviousWekaUtils.isDate(table.getSchema().getColumnType(i))) {
         attributes.add(AttributeFactory.createAttribute(
             table.getSchema().getColumnName(i), Ontology.DATE));
+      } else if (ObviousWekaUtils.isString(
+          table.getSchema().getColumnType(i))) {
+        attributes.add(AttributeFactory.createAttribute(
+            table.getSchema().getColumnName(i), Ontology.NOMINAL));        
       }
     }
     return attributes;
