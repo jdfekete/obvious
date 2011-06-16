@@ -29,6 +29,7 @@ package obviousx.io.rminer;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -77,12 +78,35 @@ public class ObviousRMinerExTable implements ExampleTable {
   private DataRowFactory dataFactory;
   
   /**
+   * List of DataRows instances that compose this table.
+   */
+  private List<DataRow> dataList = new ArrayList<DataRow>();
+  
+  /**
+   * List of attributes.
+   */
+  private Attribute[] attributes;
+  
+  /**
    * Constructor.
    * @param inTable an ObviousTable
    */
   public ObviousRMinerExTable(Table inTable) {
     this.table = inTable;
     this.dataFactory = new DataRowFactory(DataRowFactory.TYPE_DOUBLE_ARRAY);
+    IntIterator it = table.rowIterator();
+    this.attributes = new Attribute[this.table.getSchema().getColumnCount()];
+    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+      attributes[i] = getAttribute(i);
+    }
+    while (it.hasNext()) {
+      int id = it.nextInt();
+      Object[] data = new Object[this.getAttributeCount()];
+      for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
+        data[i] = table.getValue(id, i);
+      }
+      dataList.add(dataFactory.create(data, attributes));
+    }
   }
   
   @Override
@@ -207,14 +231,7 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public DataRow getDataRow(int arg0) {
-    Object[] data = new Object[this.getAttributeCount()];
-    Attribute[] attributes = new Attribute[getAttributeCount()];
-    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-      attributes[i] = getAttribute(i);
-      attributes[i].setTableIndex(i);
-      data[i] = table.getValue(arg0, i);
-    }
-    return dataFactory.create(data, attributes);
+    return dataList.get(arg0);
   }
 
   @Override
