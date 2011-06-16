@@ -27,6 +27,7 @@
 
 package obviousx.io.rminer;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
@@ -171,20 +172,23 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public Attribute getAttribute(int id) {
+    Attribute att;
     if (ObviousWekaUtils.isNumeric(table.getSchema().getColumnType(id))) {
-      return AttributeFactory.createAttribute(
+      att = AttributeFactory.createAttribute(
           table.getSchema().getColumnName(id), Ontology.REAL);
     } else if (ObviousWekaUtils.isNominal(
         table.getSchema().getColumnType(id))) {
-      return AttributeFactory.createAttribute(
+      att = AttributeFactory.createAttribute(
           table.getSchema().getColumnName(id), Ontology.NOMINAL);
     } else if (ObviousWekaUtils.isDate(table.getSchema().getColumnType(id))) {
-      return AttributeFactory.createAttribute(
+      att = AttributeFactory.createAttribute(
           table.getSchema().getColumnName(id), Ontology.DATE);
     } else {
-      return AttributeFactory.createAttribute(
+      att = AttributeFactory.createAttribute(
           table.getSchema().getColumnName(id), Ontology.NOMINAL);
     }
+    att.setTableIndex(id);
+    return att;
   }
 
   @Override
@@ -203,19 +207,12 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public DataRow getDataRow(int arg0) {
-    IntIterator it = table.rowIterator();
-    Object[] data = new Object[size()];
+    Object[] data = new Object[this.getAttributeCount()];
     Attribute[] attributes = new Attribute[getAttributeCount()];
-    int idCount = 0;
-    while (it.hasNext()) {
-      int id = it.nextInt();
-      for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-        data[idCount] = table.getValue(id, i);
-      }
-      idCount++;
-    }
     for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
       attributes[i] = getAttribute(i);
+      attributes[i].setTableIndex(i);
+      data[i] = table.getValue(arg0, i);
     }
     return dataFactory.create(data, attributes);
   }
