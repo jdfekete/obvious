@@ -26,7 +26,6 @@ schema.addColumn(mydatamodel.getColumn(i).getName(),
 Once the schema is ready, it is possible to create a Table, that will contained Tuple instances (rows). To facilitate the creation of tuples, Obvious introduced a generic tuple class TupleImpl that will act as container between your datamodel and the Obvious targetted model. The following lines explained how you should proceed to fill the Obvious table :
 
 {{{
-
 Table table = new ObviousChosenImplementationTable(schema);
 
 for (Row row : datamodel.getRows()) {
@@ -37,6 +36,9 @@ for (Row row : datamodel.getRows()) {
    Tuple tuple = new TupleImpl(schema, values);
    table.addRow(tuple);
 }
+}}}
+
+Once this is done, your model is now fully Obvious and you can enjoy all Obvious possibilities.
 
 = Implementing Obvious with your data model =
 
