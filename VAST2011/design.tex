@@ -1,29 +1,29 @@
 Beyond proposing a unifying design, perhaps the most novel approach of
-Obvious is the \emph{process} carried to obtain this design.  The
-project started through a sequence of infovis Infrastructure
-workshops~\cite{visinfrastructure1, visinfrastructure2,
-vismaster2008}, during which consensus was reached that:
+Obvious is the \emph{process} carried-out to obtain this design.  The
+project started through a sequence of InfoVis Infrastructure
+workshops~\cite{visinfrastructure2, vismaster2008,visinfrastructure1},
+during which consensus was reached that:
 
 \begin{enumerate}[noitemsep]
 \item many common traits were shared among toolkits, often in slightly
   incompatible ways,
-\item much mundane work was needlessly repeated across toolkits,
+\item much mundane work was needlessly repeated across toolkits, and
 \item creating a unified toolkit from scratch was out of reach due to
   varying needs and design tradeoffs.
 \end{enumerate}
 
 Based on those observations, an attempt was made for a new approach of
 defining a ``meta-toolkit'' that would allow sharing and implementing
-cross-compatible services (such as data readers), then design and
+cross-compatible services (such as data readers); then design and
 implement, one by one, the components on which common consensus could
 be reached for a unified design.
 
-For this reason, Obvious is organized according to the infovis
-Reference Model in three main packages: data, visualization and
-view. Additionally, it provides utility classes in the ``util''
-package.  Next, efforts were focused on designing a consensual data
-model. For now, the data model is the most elaborated and successful
-part of the framework.
+For this reason, Obvious is organized according to the InfoVis
+reference model in three main packages: data, visualization, and
+view. It provides utility classes in the ``util'' package in addition.
+Next, efforts were focused on designing a consensual data model. For
+now, the data model is the most elaborated and successful part of the
+framework.
 %% Subsequent efforts shall focus
 %% on the next modules of the Visualization Reference Model, even though
 %% simple stubs for these packages have already been successfully
@@ -31,8 +31,8 @@ part of the framework.
 
 Resting on these foundation modules (data, visualization, view), some
 actual service packages have been developed, such as data readers,
-writers, conversions to provide immediate utility to both the Obvious
-users and the toolkit designers.
+writers, and conversions to provide immediate utility to both the
+Obvious users and the toolkit designers.
 
 %% \jo{It seems to me that there were two categories of contributors to
 %%   the consensus. Firstly there were the developers of existing

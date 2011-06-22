@@ -1,7 +1,7 @@
 
 \subsection{Extending Obvious Supported Features}
 
-Obvious aims at covering all the features of an infovis toolkit for
+Obvious aims at covering all the features of an InfoVis toolkit for
 which a consensual interface can be specified.  Relying on a common
 reference model helps tremendously but falls short on some
 implementation design choices.  Still, a few specific services have
@@ -32,7 +32,7 @@ view, visualization and interaction models.
 
 Regarding porting Obvious to other languages, two competing approaches
 are being considered.  One involves making the API as language neutral
-as possible, the other considers that widespread adoption is only
+as possible; the other considers that widespread adoption is only
 possible on a particular platform and language if its idioms are
 respected.
 
@@ -41,8 +41,8 @@ Obvious to other languages and platforms, such as C++, JavaScript and
 C\#.  Obvious has been designed to avoid using idioms too specific to
 Java so we believe it could be done without much difficulties.  There
 would be at least two benefits: the availability of a meta-toolkit is
-these languages to wrap infovis toolkits, and the availability of a
-common application programmer's interface (API) for infovis that would
+these languages to wrap InfoVis toolkits, and the availability of a
+common application programmer's interface (API) for InfoVis that would
 simplify learning and spreading the best practices.  Multi-language
 APIs already exist and are popular in recommendations of the W3C. For
 example, the Document Object Model API (DOM, see
@@ -54,9 +54,9 @@ with the language idioms.
 
 With the second approach, the Obvious design patterns should leverage
 the support platform/language conventions and blend as well as
-possible with its context. Interoperatbility, which is still strongly
-wished, should focus on communication formats and protocols rather
-than code similarity in the various languages.
+possible with its context. Interoperatbility --- which is still
+strongly wished --- should focus on communication formats and
+protocols rather than code similarity in the various languages.
 
 
 \begin{comment}
@@ -127,21 +127,21 @@ visible and readable from an outsider perspective.
 
 \subsection{Obvious and Other Visualizations}
 
-VA often needs to combine infovis with Scientific
+VA often needs to combine InfoVis with Scientific
 Visualization and/or GeoSpatial Visualization.  These two domains are
-more mature than infovis for standardization: the Scientific
+more mature than InfoVis for standardization: the Scientific
 Visualization community is converging towards using VTK~\cite{VTK} as
 a \textit{de facto} standard whereas the GeoSpatial Visualization
 community already has a mature GeoSpatial Consortium producing
-software\cite{OpenGeospatial}.
+software~\cite{OpenGeospatial}.
 
-Geometrical data structures are much less sophisticated in infovis
+Geometrical data structures are much less sophisticated in InfoVis
 than in the two others visualization fields.  Pre-computing complex
 geometries and maintaining them dynamically is a main concern in
 Scientific Visualization and GeoSpatial Visualization; not so much in
-infovis.  Moreover, even if at the abstract level Scientific
+InfoVis.  Moreover, even if at the abstract level Scientific
 Visualization and GeoSpatial Visualization share this concern, at the
-implementation level, their geometrical structures are quite
+implementation level; their geometrical structures are quite
 different, adding another level of complexity to the problem.
 
 Currently, the state of the art in combining these visualizations is

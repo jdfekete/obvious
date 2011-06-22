@@ -8,7 +8,7 @@ of interpretations of design patterns.  We briefly describe the most
 important lessons here.
 
 The core of Obvious is a small (40Kb) Java
-project\footnote{\url{http://code.google.com/p/obvious}} managed by
+project~\cite{Obvious} managed by
 Maven~\cite{Maven} to facilitate its deployment.  It consists in 44
 java files, 23 interfaces and 21 utility classes organized in 5
 top-level packages: data, viz, view, util and impl.  It has been
@@ -24,7 +24,7 @@ abstractions described in the core Obvious interfaces for all data
 models, visualizations and views.
 
 For the visualization, Prefuse is currently the only polylithic
-infovis toolkit with a binding for Obvious.  As
+InfoVis toolkit with a binding for Obvious.  As
 explained in~\ref{sec:viewvis}, Obvious does not offer a visualization
 abstraction for polylithic components.  Thus, Obvious provides
 components pre-configured for well know visualization techniques such
@@ -51,7 +51,7 @@ Obvious to check its model and syntax.
 \subsection{IVTK}
 
 Since IVTK is monolithic and follows the reference
-infovis model, its Obvious binding realizes all the
+InfoVis model, its Obvious binding realizes all the
 interfaces for the data model, visualization and view introduced in
 Obvious. IVTK has monolithic visualizations, providing
 them simply consists in wrapping an Obvious visualization around their
@@ -89,14 +89,14 @@ require some changes in Improvise.
 JDBC is the standard Java interface to standard SQL databases.  We
 wrapped JDBC in an Obvious data table to prove that Obvious can
 support a large variety of data model, not only models coming from
-infovis toolkits.  JDBC was chosen because databases
+InfoVis toolkits.  JDBC was chosen because databases
 are frequently used as data sources for applications and since JDBC
 provides additional features not available in the toolkits data tables
 such as atomic and batched transactions.  We used it to test the
 notification model introduced formerly.  As expected, this
 implementation only supports the data model of Obvious.
 
-Concretely, this implementation translates obvious methods into SQL
+Concretely, this implementation translates Obvious methods into SQL
 queries.  For example, the data table ``get'' methods are implemented
 as SELECT queries, the ``set'' methods as UPDATE queries, the ``add''
 methods as INSERT queries, and the ``remove'' methods as DELETE

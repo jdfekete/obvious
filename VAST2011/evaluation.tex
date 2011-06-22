@@ -17,7 +17,7 @@ what we have done and we report on our results here.
 \subsection{Coding applications with Obvious}
 
 This section shows how Obvious can implement common applications in
-infovis such as the creation of a scatter-plot or of
+InfoVis such as the creation of a scatter-plot or of
 a network visualization.  These examples explain how to combine
 Obvious components to build an application, how to create data
 structure and spot patterns to use.  The first use-case concerns the
@@ -148,28 +148,30 @@ application programmers to build VA systems.
 
 \subsection{EdiDuplicate}
 
-INRIA maintains a repository called
-HAL-INRIA\cite{HAL} to store, index and give
-access to its publications.  Entering publications is a manual process
-done by researchers who make mistakes.  These mistakes can result in
-duplicated authors, institutions, or articles. Thus, INRIA needs to
-clean the HAL database with tools that can detect potential duplicates
-and ask skilled users to resolve them.  Currently, INRIA leaves that
-task to librarians with very primitive tools.
+The French National Institute of Research in Computer Science and
+Control (INRIA) maintains a repository called HAL-INRIA~\cite{HAL} to
+store, index and give access to its publications.  Entering
+publications is a manual process done by researchers who make
+mistakes.  These mistakes can result in duplicated authors,
+institutions, or articles. Thus, INRIA needs to clean the HAL database
+with tools that can detect potential duplicates and ask skilled users
+to resolve them.  Currently, INRIA leaves that task to librarians with
+very primitive tools.
 
 EdiDuplicate is a system designed to detect and merge duplicated
-entities in the HAL-INRIA publication database that has been built
-with Obvious; it is an adaptation of the D-Dupe software~\cite{DDupe}
+entities in the HAL-INRIA publication database; it has been built
+with Obvious.  It is an adaptation of the D-Dupe software~\cite{DDupe}
 with extensions to cover needs specific the HAL-INRIA
-database\cite{HAL} to perform other operation in a workflow.
+database~\cite{HAL} to perform specific operations in a workflow.
 
 Each time a new entity is created in the database, multiple similarity
-metrics are automatically computed between this entity to all the ones
-already in the database.  This information is loaded on an Obvious
+metrics are automatically computed between this entity and all the ones
+already in the database.  When a user connects to the editing
+interface of EdiDuplicate, this information is loaded in an Obvious
 table and displayed, as shown on the left pane of
 Figure~\ref{fig:ediduplicate} using a standard Java table.  Each row
 refers to one pair of names and the columns contain the multiple
-similarity measures with a green-red color coding; the table that can
+similarity measures with a green-red color coding; the table can
 then be sorted according to any column order.
 
 When a pair is selected by clicking on a row, a network view is created
@@ -186,7 +188,7 @@ This problem has already been addressed by at least two communities:
 the database community, which calls it the ``Record Linkage'' or
 ``Entity Resolution'' problem, and the VA community with
 the D-Dupe tool~\cite{DDupe}.  D-Dupe uses similarity metrics between
-entity names and infovis techniques to show a rich
+entity names and InfoVis techniques to show a rich
 set of information to the librarian to make a decision whether two
 entities are the same or different.  However, since D-Dupe does not
 connect to the workflow of HAL, we used Obvious to build a similar
@@ -217,7 +219,7 @@ bidirectional link with the DBMS.  When the DBMS table is modified
 from any application, a database trigger is invoked that notifies the
 Obvious table implementation that some rows are invalid.  They are
 then flushed from memory and will be read again when the application
-needs it.  The communication between the DBMS and the Obvious
+needs them.  The communication between the DBMS and the Obvious
 component is done through a fast network connection (UDP packets).
 Oracle provides a standard API to send UDP packets whereas we had to
 add an extension written in C to MySQL to support them (200 lines of
@@ -251,15 +253,15 @@ INRIA shares with other institutions a Wall-Size display called
 WILD~\cite{Wild} made of 32 high-resolution 32" screens.  Using
 Obvious, we have developed an application for visualizing
 co-authorship networks on WILD.  WILD is made of 16 machines serving 2
-screens each and connected to a fast network.
+screens each and connected to a gigabit Ethernet network.
 
 Our application uses a client-server approach: the server program
 loads the network using Obvious, computes its layout and stores the
 result as a set of graphic primitives in a database table using an
 Obvious-JDBC data table.  For each screen, one client program is
-launched that uses the DBMS caching data-structure to load the
-relevant portion of the nodes and links: the area that is visible on
-the portion of the screen managed by the client.
+launched that uses the DBMS caching data-structure to load its visible
+portion of the nodes and links, i.e., the area that is visible on the
+portion of the screen managed by the client.
 
 An Oracle DBMS is used to store publications data in two tables: one
 for the authors (containing id and name) and one for the publications
@@ -274,8 +276,8 @@ Since cached tables are synchronized with the DBMS, the whole pipeline
 is dynamic: when a data table containing the network is modified
 (e.g. a new author is added), it is reloaded by the server, the layout
 is recomputed by Prefuse and the visual table is stored in the DBMS.
-When the DBMS visual tables is changed, the clients are notified and
-they reload and redisplay their content.
+When the DBMS visual table is changed, the clients are notified and
+they reload and redisplay the content.
 
 Designing the application boiled down to having a first version using
 Obvious-Prefuse in memory, then changing the data tables to use the
@@ -292,13 +294,13 @@ a novel layout algorithm and using the Obvious toolkit to make it
 available in a variety of toolkits. This layout component is a
 generalized treemap algorithm.
 %% ~\cite{Treemaps2011}.  [jdf: not yet]
-Its interface makes it easy to port as this
-algorithm takes as input a data model and renders using a Visitor
-design pattern to a renderer object, making it very convenient to
-implement across polylithic toolkits such as Prefuse or Discovery.
-Considering that the current visualization model is mostly targeted at
-enabling monolithic patterns, Obvious in its current state turns out
-to be of limited use for our purpose.
+Its interface makes it easy to port as this algorithm takes as input a
+data model and renders using a Visitor design
+pattern~\cite{DesignPatterns} to a renderer object, making it very
+convenient to implement across polylithic toolkits such as Prefuse or
+Discovery.  Considering that the current visualization model is mostly
+targeted at enabling monolithic patterns, Obvious in its current state
+turns out to be of limited use for our purpose.
 
 Still, we have found that the existing data model and utilities have
 made developing our layout algorithm on top of Obvious worthwhile: we

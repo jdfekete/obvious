@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  31 MAR 2011 15:54
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  22 JUN 2011 14:21
 entering extended mode
 **obvious
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.tex
@@ -760,15 +760,16 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 <figures/refmodpat.png, id=209, 876.27374pt x 266.49562pt>
 File: figures/refmodpat.png Graphic file (type png)
 
-<use figures/refmodpat.png> [2 <C:/Fekete/src/obvious-papers/VAST2011/figures/r
-efmodpat.png (PNG copy)>]) (C:\Fekete\src\obvious-papers\VAST2011\design.tex)
+<use figures/refmodpat.png>
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 181.
+ [2 <C:/Fekete/src/obvious-papers/VAST2011/figures/refmodpat.png (PNG copy)>]) 
+(C:\Fekete\src\obvious-papers\VAST2011\design.tex)
 (C:\Fekete\src\obvious-papers\VAST2011\datamodel.tex
 <figures/obviousdataclass.png, id=254, 769.87625pt x 287.0725pt>
 File: figures/obviousdataclass.png Graphic file (type png)
 
 <use figures/obviousdataclass.png> [3]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 100.
 Missing character: There is no T in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no b in font nullfont!
@@ -787,12 +788,7 @@ Underfull \vbox (badness 3281) has occurred while \output is active []
 
  [4 <C:/Fekete/src/obvious-papers/VAST2011/figures/obviousdataclass.png>])
 (C:\Fekete\src\obvious-papers\VAST2011\viewvis.tex)
-(C:\Fekete\src\obvious-papers\VAST2011\implementation.tex
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 11.
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\ot1pcr.fd"
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [5]
+(C:\Fekete\src\obvious-papers\VAST2011\implementation.tex [5]
 Underfull \hbox (badness 10000) in paragraph at lines 204--204
 []|\OT1/ptm/b/n/7 Binding
  []
@@ -824,17 +820,22 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 115.
  [7]
-<figures/ediduplicate.png, id=395, 1209.10852pt x 732.75496pt>
+<figures/ediduplicate.png, id=396, 1209.10852pt x 732.75496pt>
 File: figures/ediduplicate.png Graphic file (type png)
 
 <use figures/ediduplicate.png> [8 <C:/Fekete/src/obvious-papers/VAST2011/figure
 s/ediduplicate.png (PNG copy)>])
-(C:\Fekete\src\obvious-papers\VAST2011\futurework.tex)
-(C:\Fekete\src\obvious-papers\VAST2011\conclusion.tex)
+(C:\Fekete\src\obvious-papers\VAST2011\futurework.tex
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 49.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+))
+(C:\Fekete\src\obvious-papers\VAST2011\conclusion.tex) [9]
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.bbl
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.brf)
 \tf@brf=\write6
- [9]
+
 Underfull \hbox (badness 10000) in paragraph at lines 62--62
 []\OT1/ptm/m/n/8 K. Borner, B. Herr, and J.-D. Fekete.  2007 work-
  []
@@ -844,9 +845,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 62--62
 \OT1/ptm/m/n/8 shop on in-for-ma-tion vi-su-al-iza-tion soft-ware in-fras-truc-
 tures.
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 150--150
@@ -872,13 +870,13 @@ Underfull \hbox (badness 2837) in paragraph at lines 156--156
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 215--215
+Underfull \hbox (badness 10000) in paragraph at lines 219--219
 []\OT1/ptm/m/n/8 Vismaster eu-ro-pean fet-open co-or-di-na-tion ac-tion project
 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--226
+Underfull \hbox (badness 10000) in paragraph at lines 230--230
 []\OT1/ptm/m/n/8 WILD: Wall-sized in-ter-ac-tion with large datasets.
  []
 
@@ -891,14 +889,14 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
 Package rerunfilecheck Info: File `obvious.out' has not changed.
 (rerunfilecheck)             Checksum: FFE34B22C9EE08783BB95113AE9E5936;2253.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
-(rerunfilecheck)             Checksum: 4E785B08D766E7CC29C45071D94F670B;2737.
+(rerunfilecheck)             Checksum: C8D0C556D1B317B6813C1B87148BC7F2;2831.
  ) 
 Here is how much of TeX's memory you used:
- 17113 strings out of 495285
- 315537 string characters out of 3179884
- 497895 words of memory out of 3000000
- 19713 multiletter control sequences out of 15000+200000
- 58103 words of font info for 113 fonts, out of 3000000 for 9000
+ 17118 strings out of 495285
+ 315583 string characters out of 3179884
+ 498055 words of memory out of 3000000
+ 19716 multiletter control sequences out of 15000+200000
+ 58316 words of font info for 113 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  56i,16n,73p,534b,1405s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.8/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
@@ -911,9 +909,9 @@ fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on obvious.pdf (10 pages, 445382 bytes).
+Output written on obvious.pdf (10 pages, 445263 bytes).
 PDF statistics:
- 558 PDF objects out of 1000 (max. 8388607)
- 177 named destinations out of 1000 (max. 500000)
+ 563 PDF objects out of 1000 (max. 8388607)
+ 178 named destinations out of 1000 (max. 500000)
  396 words of extra memory for PDF output out of 10000 (max. 10000000)
 

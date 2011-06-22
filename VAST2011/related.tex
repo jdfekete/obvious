@@ -8,7 +8,7 @@ standardization processes for software systems.
 
 \subsection{Visualization Toolkits}
 
-Pretty much all existing infovis toolkits follow the
+Pretty much all existing InfoVis toolkits follow the
 InfoVis reference model initially specified by Ed Chi and refined by
 Card, Mackinlay and Shneiderman~\cite{ReadingsIV,ChiRefModel} and has
 been described as a design pattern in~\cite{DesignPatternsIV}.  The
@@ -17,7 +17,7 @@ model defines three stages: \emph{DataSet} or \emph{Data Tables},
 (Figure~\ref{fig:refmodel}).  One of its main benefits is that it
 explicitly represents interaction, in contrast to older visualization:
 models.  Several articles have described the concrete design of an
-infovis toolkit.  We report here on the common and
+InfoVis toolkit.  We report here on the common and
 the specific parts.
 
 \begin{figure}
@@ -37,7 +37,7 @@ interactive performance for rendering and dynamic queries with a small
 memory footprint.  The visual structure is managed using a
 \emph{monolithic} architecture~\cite{Polylithic}: each visualization
 technique is implemented as a specific class (e.g.,
-ScatterPlotVisualization, ParallelCoordinatesVisualization,
+ScatterPlotVisualization, ParallelCoordinatesVisualization, or
 TreeVisualization) that performs the mapping between the data set and
 the graphic items to render.  Finally, the view component is the same
 for each of the visual structures and takes care of scrolling,
@@ -79,8 +79,7 @@ do the initial setup.
 
 Building upon their experience in the Prefuse toolkit~\cite{Prefuse},
 Heer and Agrawala~\cite{DesignPatternsIV} have derived software design
-patterns that are common to InfoVis applications and
-toolkits. 
+patterns that are common to InfoVis applications, and toolkits. 
 
 Improvise~\cite{Improvise} relies on an in-memory database with
 notification that is row-oriented and its visual structures are
@@ -120,13 +119,13 @@ global organization: they all implement an in-memory database with two
 variants (row-based or column-based), a visual structure with two
 variants (monolithic or polylithic), and several specific features.
 Even if some choices made by toolkits designers were carefully
-decided, other were probably made without being aware of alternatives.
+decided, others were probably made without being aware of alternatives.
 Combining the best possible features for a next-generation toolkit
 might be tempting but there are still tradeoffs that cannot be solved.
 For example, the power of coordinated and linked views offered by
 Improvise comes at the cost of maintaining caches that should be
-flushed when the data change so there seems to be a tradeoff there
-that still needs research to be solved.
+flushed when the data change so more research is needed to maintain
+linked and coordinated views on dynamic data.
 
 There are also lower-level toolkits that can be used to build VA
 applications.  Two popular families are graphics libraries
@@ -174,27 +173,29 @@ rendering objects that are not visible.
 Although scene-graph technologies are mature and used in a wide
 variety of graphics applications such as games, virtual-reality
 applications and scientific visualization systems, they are not always
-adequate for infovis systems because they require
-the explicit specification of geometry and graphic attributes for each
-displayed objects.  Very often, infovis can quickly
-compute graphic attributes and even geometry from data attributes.
-For example, the position of an item using a scatter-plot visualization
-is computed using a simple affine transformation the data attributes
-using for the X and Y dimensions.  There is no need to store the
-computed values when computing them on the fly is very cheap.  The
-same is true for color etc.  Copying and storing this information is
-costly in terms of time and memory.
+adequate for InfoVis systems because they require the explicit
+specification of geometry and graphic attributes for each displayed
+objects.  Very often, InfoVis can quickly compute graphic attributes
+and even geometry from data attributes.  For example, the position of
+an item using a scatter-plot visualization is computed using a simple
+affine transformation the data attributes using the $x$ and $y$
+dimensions.  There is no need to store the computed values when
+computing them on the fly is cheap.  The same is true for color and
+other properties.  In contrast, copying and storing this information
+is costly in terms of time and memory.
 
 Direct-graphics libraries such as \emph{Processing} or \emph{OpenGL}
-can also be used to implement the visualization technique while
-drawing for rapid prototyping or high-performance reasons.
+can also be used to implement the visualization techniques. 
+%Processing
+%is well known for it rapid prototyping capabilities whereas OpenGL is
+%notorious for its high-performances.
 
 %[Add a section on Processing]
 
 Still, when separating the data-model from the visual model,
 scene-graph managers offer more flexibility than information
 visualization systems for complex graphics and sophisticated
-interaction.  This is why several infovis systems
+interaction.  This is why several InfoVis systems
 still use them.
 
 % say something about the fact that scene-graph toolkits are
@@ -204,7 +205,7 @@ still use them.
 
 While most table-based visualization toolkits rely on an in-memory
 database, several graph-based visualization systems manage their
-data-structures using a model inspired from graph-theory where
+data-structures using a model inspired from graph theory where
 topology is the main focus and data associated with graph entities is
 less important.  This is the case for the JUNG library~\cite{jung2003}
 or the Boost Graph Library (BGL)~\cite{BGL}, as well as for the graph
@@ -222,7 +223,7 @@ edge) also removes the entity from the graph structure.
 Thus, there is no clear consensus on how a graph data structure should
 be managed internally; the design choices are quite different
 depending on the communities such as graph theory, information
-visualization, database and semantic web.
+visualization, database, and semantic web.
 
 
 \subsection{Standardization Processes}
@@ -238,31 +239,30 @@ compatibility, interoperability, safety, repeatability, or quality.''
 The goals raised in this article are well among them: compatibility,
 interoperability, and quality.
 
-Standardization follow roughly four models: 
+Standardization roughly follows four models: 
 \begin{enumerate}[noitemsep]
 \item Specified by national and international organization such as the
   International Organization for Standardization (e.g. ISO, ASCII),
 
 \item Specified by a private or public consortium (e.g. the Unicode
-  Consortium, the OMG, the World Wide Web Consortium (W3C). Closer to
-  the infovis community, ``The Open Geospatial
-  Consortium''~\cite{OpenGeospatial},
-  which is an international industry consortium of companies,
-  government agencies and universities participating in a consensus
-  process to develop publicly available interface standards for
-  geospatial data.
+  Consortium, the OMG, and the World Wide Web Consortium (W3C)). Closer to
+  the InfoVis community, ``The Open Geospatial
+  Consortium''~\cite{OpenGeospatial} which is an international
+  industry consortium of companies, government agencies, and
+  universities participating in a consensus process to develop
+  publicly available interface standards for geospatial data.
 
 \item Community-driven: looser groups can be faster and allow for more
   experiments than formal standardization bodies or consortia.
   Communities, such as the \emph{Boost
     Community}~\cite{Boost} --- designing
-  libraries for the ISO C++ language --- experiment, develop and
+  libraries for the ISO C++ language --- experiment, develop, and
   document software that sometimes become part of formal ISO
   standards.  The \emph{Java Community
     Process}~\cite{JCP} plays a similar role
   for the Java language and programming environment.
 
-  Standard specified by established organizations go through a formal
+  Standards specified by established organizations go through a formal
   process that take substantial time; usually years.  On the other
   side, ad-hoc organizations such as consortia can issue standards or
   recommendations faster.  In particular, the W3C or community-drive
@@ -272,9 +272,9 @@ Standardization follow roughly four models:
   control the processes and require substantial involvements from many
   organizations to achieve standards.
 
-\item \textit{De facto}: at the other extreme are the application
+\item \textit{De facto}: At the other extreme are the application
   domains where one system becomes the standard.  For example, in
-  Scientific Visualization, VTK~\cite{VTK} has become, in the latest
+  scientific visualization, VTK~\cite{VTK} has become, in the latest
   years, the \textit{de facto} standard toolkit: it is used by
   researchers and practitioners, and newer solutions are getting
   integrated quickly into VTK.  This is possible when either a
@@ -283,11 +283,11 @@ Standardization follow roughly four models:
   system are unmatched --- such as VTK.
 \end{enumerate}
 
-At the current stage, infovis toolkits are not
-understood well-enough to start a formal standardization process.  It
-seems that one toolkit will not become a \textit{de facto} standard
-due to their stretch in scope and capabilities.  Two models remain:
+At the current stage, InfoVis toolkits are not understood well-enough
+to start a formal standardization process.  It seems that one toolkit
+will not become a \textit{de facto} standard due to the stretch in
+scope and capabilities of existing toolkits.  Two models remain:
 consortium-driven or community driven.  Obvious has started as a
 community-driven initiative.  It is up to the community to decide how
 it wants to coordinate its software development for better
-compatibility, interoperability and quality.
+compatibility, interoperability, and quality.

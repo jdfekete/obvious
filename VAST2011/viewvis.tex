@@ -5,7 +5,7 @@ workshop~\cite{vismaster2008}; the main reason being the different
 approaches chosen among toolkits.  One important issue is the
 monolithic vs. polylithic approach. Another one is related to tables
 vs. objects: some toolkits keep the visualization data in tables
-(e.g. Prefuse, IVTK and Tulip) whereas others create
+(e.g. Prefuse, IVTK, and Tulip) whereas others create
 objects for displaying (e.g. Improvise, Cytoscape) or nothing at all
 when there is a pipeline as in Discovery.  So, more work is needed to
 design the abstractions required to wrap the different
@@ -13,8 +13,8 @@ implementations.  Further discussions and workshops will address the
 problem.
 
 Still, Obvious provides a solution: it wraps visualizations into a
-black box with a small set of methods and, for the creation of these
-visualizations, it relies on a \emph{Factory} design
+black box with a small set of methods and --- for the creation of
+these visualizations --- it relies on a \emph{Factory} design
 pattern~\cite{DesignPatterns}.  For example, creating a scatter-plot
 visualization from a data table requires the following lines:
 \lstset{frame=single,columns=flexible,numbers=left,numberstyle=\tiny,basicstyle=\small,language=Java,caption={Creating a
@@ -27,8 +27,8 @@ Visualization vis = VisualizationFactory.getInstance()
     .createVisualization(table, null, "scatterplot", params);
 \end{lstlisting}
 The variable ``param'' contains parameters to configure the
-visualization, here to specify which attribute will be used for the X
-and Y axes.
+visualization, here to specify which attribute will be used for the $x$
+and $y$ axes.
 
 With this mechanism, it looks as if Obvious were a monolithic toolkit
 but the actual implementation of the Obvious wrapper for a polylithic

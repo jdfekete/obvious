@@ -172,6 +172,10 @@ D.~Keefe, M.~Ewert, W.~Ribarsky, and R.~Chang.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   15:1383--1390, 2009.
 
+\bibitem{Obvious}
+Obvious source repository.
+\newblock http://code.google.com/p/obvious.
+
 \bibitem{jung2003}
 J.~O'Madadhain, D.~Fisher, S.~White, and Y.-B. Boey.
 \newblock The jung (java universal graph/network) framework.

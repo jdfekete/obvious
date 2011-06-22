@@ -1,26 +1,27 @@
 This section describes the data model used in Obvious to represent and
 manipulate data structures.  This model has been specified for the
-most part during the workshop~\cite{vismaster2008} as consensus has
-emerged, tediously but rapidly on its central and annex features.
+most part during the 2008 workshop~\cite{vismaster2008} as consensus
+has emerged, tediously but rapidly on its central and annex features.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.8\columnwidth]{figures/obviousdataclass}
-\caption{Class diagram of the data model}
+\includegraphics[width=0.7\columnwidth]{figures/obviousdataclass}
+\caption{Class diagram of the Obvious data model}
 \label{fig:datamodel}
 \end{figure}
 
-The Obvious data model is centered on the proxy tuple design pattern
-exposed in \cite{DesignPatternsIV}. Obvious adopts this design pattern
-to offer high extensibility and good usability.  Among all the patterns
-introduced in \cite{DesignPatternsIV}, the proxy tuple pattern enables
-both as it encompasses graphs in an object-oriented manner --- many
-developers are used to manipulation of \emph{object oriented graphs}
----- and as it unifies the data model around the same standard
-structure (tuples and tables). In our data model, tuples are standards
-elements of all structures: tables are composed of tuples and
-graphs/trees are implemented as networks i.e. graphs built around two
-tables one for the nodes and the other for the edges.
+The Obvious data model (Figure~\ref{fig:datamodel}) is centered on the
+proxy tuple design pattern exposed in \cite{DesignPatternsIV}. Obvious
+adopts this design pattern to offer high extensibility and good
+usability.  Among all the patterns introduced
+in \cite{DesignPatternsIV}, the proxy tuple pattern enables both as it
+encompasses graphs in an object-oriented manner --- many developers
+are used to manipulation of \emph{object oriented graphs} ---- and as
+it unifies the data model around the same standard structure (tuples
+and tables). In our data model, tuples are standards elements of all
+structures: tables are composed of tuples and graphs/trees are
+implemented as networks, i.e., graphs built around two tables one for
+the nodes and the other for the edges.
 
 This model is instantiated via factories that allow cross-toolkit
 interoperable data structure instantiation. With those factories, it
@@ -32,11 +33,10 @@ toolkits. For example, in the Prefuse implementation of Obvious,
 parameters are used to specify the source and target node columns for
 a graph in an edge table.
 
-In addition to data access, our data model allows providing 3
-optional, interoperable, features: \emph{introspection}, \emph{batch
-  editing} and \emph{notification}. Those features are not found in
-all target toolkit implementations and thus sometimes had to be
-emulated.
+In addition to data access, our data model provides 3 optional,
+interoperable, features: \emph{introspection}, \emph{batch editing},
+and \emph{notification}. Those features are not found in all target
+toolkit implementations and, thus, sometimes had to be emulated.
  
 \subsubsection{Introspection}
 
@@ -66,12 +66,12 @@ direct manipulation~\cite{Discovery3}.
 
 \subsubsection{Notification}
 
-All the popular infovis toolkits
+All the popular InfoVis toolkits
 (e.g. \cite{Prefuse, InfoVis, jung2003, Discovery1}) implement
 notification using the ``Observer'' pattern from~\cite{DesignPatterns}
 to propagate information about changes affecting the data model.  This
 pattern specifies two roles: Observable and Observer; in our case,
-data models are Observables meaning that the allow Observers to
+data models are Observables meaning that they allow Observers to
 register and be notified when they are changed.  During the design of
 Obvious, we realized there were some variants in the way toolkits
 implemented this pattern.  This is why the notification system
@@ -136,7 +136,7 @@ Figure~\ref{fig:notification} shows the sequence diagrams of the
 notification manager.  Each time a data table is changed, the change
 is transmitted to the Observer with a call to the \emph{tableChanged}
 method.  This method takes several arguments describing the current
-event (affected Table, rows, columns and operation type): this is the
+event (affected Table, rows, columns, and operation type): this is the
 typical Observer pattern.
 
 When the \emph{beginEdit} method is called on an Obvious data table,
@@ -185,7 +185,7 @@ In practice, the three strategies we have described have been
 sufficient so far to handle all the cases required inside toolkits.
 The impact on performance can be substantial, in particular to manage
 dynamic data, a very standard situation in VA
-applications that has not been well addressed in infovis so far.
+applications that has not been well addressed in InfoVis so far.
 
 
 \subsubsection{Other services}
@@ -207,6 +207,6 @@ With the same logic, obviousx provides compatibility classes to use
 with standard Java components such as a Java Table Model that allows
 the creation of a JTable from an Obvious table.  Finally, obviousx
 also provides wrappers to \emph{map} obvious data structures into
-common existing data structures (e.g. for Prefuse, IVTK, and Jung) to share data structures when using more than one
-data model.
+common existing data structures (e.g. for Prefuse, IVTK, and Jung) to
+share data structures when using more than one data model.
 
