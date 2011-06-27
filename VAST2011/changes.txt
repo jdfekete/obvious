@@ -1,5 +1,5 @@
 We'd like to thank the reviewers for their thorough work and their
-comment and advice.  Here are the changes we did in the final version
+comments and advice.  Here are the changes we did in the final version
 of the paper.
 
 R4 (Primary)
