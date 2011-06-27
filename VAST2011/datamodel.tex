@@ -183,9 +183,14 @@ checks.
 
 In practice, the three strategies we have described have been
 sufficient so far to handle all the cases required inside toolkits.
-The impact on performance can be substantial, in particular to manage
-dynamic data, a very standard situation in VA
-applications that has not been well addressed in InfoVis so far.
+We performed experiments using MySQL and Oracle systems wrapped by
+Obvious with negligible overhead.  Managing notifications using the
+batch or transaction strategies increased performance typically by a
+factor 100 compared to the ``one notification per operation'' strategy
+exposed by standard toolkits.  The impact on performance is therefore
+substantial, in particular when managing dynamic --- a very standard
+situation in VA applications that has not been well addressed in
+InfoVis so far.
 
 
 \subsubsection{Other services}

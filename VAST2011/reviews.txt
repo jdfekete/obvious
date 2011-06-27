@@ -1,0 +1,276 @@
+------------------------ Submission 177, Review 4 ------------------------
+
+Title: Obvious: a Meta-Toolkit to Encapsulate Information Visualization Toolkits. One Toolkit to Bind Them All
+
+Reviewer:           primary
+
+Overall Rating
+
+   3  (Borderline: Overall I would not argue for accepting this paper.)
+
+Best Paper Award
+
+   No
+
+Topic Classification
+
+   Others
+
+Contribution to the field of Visual Analytics
+
+   See below.
+
+Expertise
+
+   2  (Passing Knowledge)
+
+The Review
+
+   This paper presents Obvious, which encapsulates popular infovis toolkits
+   written in Java. The main toolkits encapsulated are Prefuse, the InfoVis
+   Toolkit, Improvise, and Jung. Three of these toolkits are fully
+   encapsulated, while Improvise is encapsulated on the data model level
+   (because Improvise does not expose its visualization pipeline to public
+   use. In addition, JDBC, the Java interface for SQL databases, is
+   encapsulated on the data level. This opens up the Obvious environment to
+   the use of databases as data sources.
+
+   The paper purports to present a toolkit for facilitating visual analytics
+   applications. But Obvious is an information visualization toolkit that
+   would only support visual analytics applications to the extent that it
+   might support all applications, InfoVis or otherwise. It has no special
+   focus on visual analytics.
+
+   The paper is reasonably well-written (the authors should check for typos)
+   and seems reasonably complete. One supposes that a meta-toolkit that
+   saves work and perhaps streamlines the implementation of visualization
+   prototypes would be a good thing. But one wonders how much it would be
+   used or if it could be used effectively for novel extensions based on
+   research rather than merely embedding capabilities from existing toolkits
+   in its generalized format. Somehow the paper doesn’t elicit much
+   enthusiasm as a visual analytics paper. Partly this is due to its lack of
+   focus on visual analytics. It would have helped to have a more worked out
+   example of a real visual analytics application using the Obvious
+   encapsulation. The community-driven process to reach consensus on the
+   meta-format development is mentioned more than once, but there isn’t much
+   detail. The community is apparently the group of 10 or so people who
+   attended the VisMaster workshop. Some of these people are toolkit
+   developers. How does this community represent the broader interests of
+   researchers and application developers in the visual analytics community?
+
+Summary Rating
+
+   4  (Probably accept: This paper will be acceptable with minor changes.)
+
+The Summary Review
+
+   The reviews are 4, 4, 4, 3. General agreement is that the paper is
+   reasonably
+     well written and complete. The consensus is that the paper’s strong
+   point is
+     its support of interoperability among existing toolkits. There is a
+   range of
+     opinions of how relevant the paper is for VAST. Although the ability to
+   deal
+     with huge amounts of data within its common environment is listed more
+   than
+     once as a main attribute of the paper, there is concern about how this
+   would
+     be done and how long it would take to make a scalable application.
+   There is a
+     concern among the reviewers as to how well the toolkit will be adopted
+   by
+     researchers and what the applications will be like. The need for more
+     evaluation is mentioned. More than one reviewer points out that the
+   paper may
+     be more appropriate in another venue.
+
+     Given the range of ratings, a summary rating of 4 is appropriate for
+   the paper.
+     However, I don’t sense a lot of enthusiasm for the paper.
+
+------------------------ Submission 177, Review 1 ------------------------
+
+Title: Obvious: a Meta-Toolkit to Encapsulate Information Visualization Toolkits. One Toolkit to Bind Them All
+
+Reviewer:           external
+
+Overall Rating
+
+   4  (Probably accept: I would argue for accepting this paper.)
+
+Best Paper Award
+
+   Maybe
+
+Topic Classification
+
+   Others
+
+Contribution to the field of Visual Analytics
+
+   The target of Obvious is to develop a meta-toolkit which binds several
+   information visualization toolkits and further can be used as fundamental
+   component for visual analytics. It is a potential visual analytics system
+   with plenty of support of visualization work.
+
+Expertise
+
+   3  (Knowledgeable)
+
+The Review
+
+   It's a greate work to unify those visualization toolkits via standard
+   models in-between. However, this paper is more proper to be submitted to
+   a visualization conference rather than visual analytics coference in this
+   stage.
+   For sure, a powerful visualization toolkit is one of the most important
+   bases in a visual analytics system, but Obvisous needs lots of work to
+   integrate data analytics techniques and specific user interaction
+   techniques to be a visual analytics system as some visualization toolkits
+   are not designed for analytis in the beginning of development. Even so,
+   the good architecture of Obvious will make further integrations easier.
+   There are some questions:
+   i) How to deal with the out-of-core data in Obvious?  How long will be
+   spent when data is wrapped to Obvious data model for a large scale
+   dataset?The data scale should be considered in visual analytics
+   applications.
+   ii) Is any user interaction supported in Obvious in this stage?
+   iii) The author metioned multi-language support in future work. It's a
+   tradeoff between powerful full-function system and efficient specific
+   sysytem.
+
+------------------------ Submission 177, Review 2 ------------------------
+
+Title: Obvious: a Meta-Toolkit to Encapsulate Information Visualization Toolkits. One Toolkit to Bind Them All
+
+Reviewer:           secondary
+
+Overall Rating
+
+   4  (Probably accept: I would argue for accepting this paper.)
+
+Best Paper Award
+
+   No
+
+Topic Classification
+
+   Algorithms and Technologies
+
+Contribution to the field of Visual Analytics
+
+   The paper describes a possible architecture to be used as an umbrella to
+   cover and deal with different information visualisation toolkits
+   developed in java. Since a big challenge is to let the different
+   libraries and toolkit collaborate with one another, this is the major
+   contribution of the paper to visual analytics.
+
+
+Expertise
+
+   3  (Knowledgeable)
+
+The Review
+
+   The authors present a tool, Obvious, whose goal is to ease the
+   development of visual analytics applications. It is designed as a
+   software infrastructure which can improve the interoperability among
+   different and already existing toolkits and libraries at now developed in
+   java (Prefuse, IVTK, Improvise and Jung), and allows to exploit the
+   different features of the tools within a single framework.
+   The creation of a common software infrastructure, rather than single
+   tools, for dealing with huge amount of data as Visual analytics does is
+   therefore the major contribution of the paper and matches perfectly the
+   objectives of the conference.
+   Though the paper is well written and organized, some points still have to
+   be addressed:
+   - a part from the integration of Weka, is it planned to integrate for
+   instance free available statistical tools like R, whose functionalities
+   in the field are well known, but lacks of a valid visualisation
+   counterpart?
+   - concerning the evaluation, even if it is clear that a really formal
+   evaluation would be really complex, a more extensive one would be
+   required, e.g. from expert users. Moreover, it would be interesting to
+   know if the adoption of obvious for already on going projects is still
+   planned.
+   - somehow related to the previous point, it would be of interest to
+   clarify when a (almost) stable version of the code will be available,
+   since at the moment of the review no download was available
+   - since the creator of Improvise is also listed in the acknowledgement,
+   and for a complete binding of such tool in Obvious some changes in it are
+   required, are these changes already planned ?
+
+------------------------ Submission 177, Review 3 ------------------------
+
+Title: Obvious: a Meta-Toolkit to Encapsulate Information Visualization Toolkits. One Toolkit to Bind Them All
+
+Reviewer:           external
+
+Overall Rating
+
+   4  (Probably accept: I would argue for accepting this paper.)
+
+Best Paper Award
+
+   No
+
+Topic Classification
+
+   Others
+
+Contribution to the field of Visual Analytics
+
+   The paper presents a system for integrating information visualization
+   toolkits implemented in Java language. The target users are visualization
+   toolkit designers and visual analytics application designers. however,
+   since this paper is an incremental addition to existing information
+   visualization toolkits, I feel InfoVis might be a more suitable venue for
+   the paper.
+
+Expertise
+
+   3  (Knowledgeable)
+
+The Review
+
+   Obvious presents a meta-toolkit framework for integrating different
+   visualization toolkits seamlessly. the paper addresses an important It
+   helps application designers to focus on the design and not on the data
+   sources or visualization types. Although this paper targets VA designers
+   as potential users, the work is incremental to existing infovis toolkits,
+   so I think InfoVis might be a better fit for this paper. The paper is
+   well-written and easy to understand on the whole.  Here are some of my
+   observations:
+
+   With the proliferation of toolkits and an apparent overlap among them,
+   the paper definitely addresses a a key area of VA research. One concern
+   is that the work reported in the paper is obviously at an early stage of
+   development. Moreover, restricting the scope of the meta-toolkit to
+   incorporate only those toolkits implemented in Java language, might not
+   be viable in the long run from a commercial use perspective and restrict
+   the meta-toolkit's adoption just within the academic community.
+
+   A well-known fact in the visualization community is the dearth of
+   well-maintained and reliable toolkits.  How many toolkits are there that
+   are fully adopted in the community? A meta-toolkit would only be as good
+   as a toolkit with respect to the specific functionalities the latter
+   provides. Keeping this in mind, how much willing would VA designers be,
+   to use a meta-toolkit, when some of the toolkits themselves are not
+   dependable in the long run?
+
+
+   I am skeptical with the meta-toolkit name, it is more of a meta-data
+   approach to bind the different toolkit data formats. The key problem in
+   having toolkits talk to each other is the data, so that’s a natural place
+   to start. But, as explained by the authors themselves, the view and
+   visualization models are incomplete and need more consensus to be
+   developed. The most significant contribution in this paper therefore
+   comes from the meta-data model the authors describe to integrate the
+   disparate data sources. For a meta-toolkit designed for visualization,
+   the view and visualization parts are specially important. So the suthors
+   might restrict the scope of the paper to being a meta-data approach than
+   a meta-toolkit one.
+
+   In spite of these concerns, I did not find major issues with the paper
+   and would recommend an acceptance.

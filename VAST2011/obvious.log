@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  22 JUN 2011 14:21
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.5.30)  27 JUN 2011 14:51
 entering extended mode
 **obvious
 (C:\Fekete\src\obvious-papers\VAST2011\obvious.tex
@@ -783,9 +783,6 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no r in font nullfont!
-
-Underfull \vbox (badness 3281) has occurred while \output is active []
-
  [4 <C:/Fekete/src/obvious-papers/VAST2011/figures/obviousdataclass.png>])
 (C:\Fekete\src\obvious-papers\VAST2011\viewvis.tex)
 (C:\Fekete\src\obvious-papers\VAST2011\implementation.tex [5]
@@ -811,22 +808,22 @@ File: omlptm.fd
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <7> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 93.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 115.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 114.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 115.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
  [7]
-<figures/ediduplicate.png, id=396, 1209.10852pt x 732.75496pt>
+<figures/ediduplicate.png, id=400, 1209.10852pt x 732.75496pt>
 File: figures/ediduplicate.png Graphic file (type png)
 
 <use figures/ediduplicate.png> [8 <C:/Fekete/src/obvious-papers/VAST2011/figure
 s/ediduplicate.png (PNG copy)>])
 (C:\Fekete\src\obvious-papers\VAST2011\futurework.tex
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 49.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 48.
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -870,13 +867,13 @@ Underfull \hbox (badness 2837) in paragraph at lines 156--156
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--219
+Underfull \hbox (badness 10000) in paragraph at lines 232--232
 []\OT1/ptm/m/n/8 Vismaster eu-ro-pean fet-open co-or-di-na-tion ac-tion project
 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 230--230
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
 []\OT1/ptm/m/n/8 WILD: Wall-sized in-ter-ac-tion with large datasets.
  []
 
@@ -887,15 +884,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 165.
  (C:\Fekete\src\obvious-papers\VAST2011\obvious.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
 Package rerunfilecheck Info: File `obvious.out' has not changed.
-(rerunfilecheck)             Checksum: FFE34B22C9EE08783BB95113AE9E5936;2253.
+(rerunfilecheck)             Checksum: 873C816A8B2598D0884387E843CF27D6;2268.
 Package rerunfilecheck Info: File `obvious.brf' has not changed.
-(rerunfilecheck)             Checksum: C8D0C556D1B317B6813C1B87148BC7F2;2831.
+(rerunfilecheck)             Checksum: D11E03C34023633083B2B67FC32430BE;2921.
  ) 
 Here is how much of TeX's memory you used:
- 17118 strings out of 495285
- 315583 string characters out of 3179884
- 498055 words of memory out of 3000000
- 19716 multiletter control sequences out of 15000+200000
+ 17128 strings out of 495285
+ 315676 string characters out of 3179884
+ 498320 words of memory out of 3000000
+ 19724 multiletter control sequences out of 15000+200000
  58316 words of font info for 113 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  56i,16n,73p,534b,1405s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -909,9 +906,9 @@ fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on obvious.pdf (10 pages, 445263 bytes).
+Output written on obvious.pdf (10 pages, 447677 bytes).
 PDF statistics:
- 563 PDF objects out of 1000 (max. 8388607)
- 178 named destinations out of 1000 (max. 500000)
+ 570 PDF objects out of 1000 (max. 8388607)
+ 180 named destinations out of 1000 (max. 500000)
  396 words of extra memory for PDF output out of 10000 (max. 10000000)
 

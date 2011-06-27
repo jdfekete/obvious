@@ -172,6 +172,13 @@ D.~Keefe, M.~Ewert, W.~Ribarsky, and R.~Chang.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   15:1383--1390, 2009.
 
+\bibitem{RapidMiner}
+I.~Mierswa, M.~Wurst, R.~Klinkenberg, M.~Scholz, and T.~Euler.
+\newblock Yale: rapid prototyping for complex data mining tasks.
+\newblock In {\em Proceedings of the 12th ACM SIGKDD international conference
+  on Knowledge discovery and data mining}, KDD '06, pages 935--940, New York,
+  NY, USA, 2006. ACM.
+
 \bibitem{Obvious}
 Obvious source repository.
 \newblock http://code.google.com/p/obvious.
@@ -192,6 +199,12 @@ C.~Plaisant, J.~Grosjean, and B.~B. Bederson.
 \newblock In {\em Proceedings of the IEEE Symposium on Information
   Visualization (InfoVis'02)}, INFOVIS '02, pages 57--, Washington, DC, USA,
   2002. IEEE Computer Society.
+
+\bibitem{R}
+{R Development Core Team}.
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2011.
+\newblock {ISBN} 3-900051-07-0.
 
 \bibitem{Cytoscape}
 P.~Shannon, A.~Markiel, O.~Ozier, N.~S. Baliga, J.~T. Wang, D.~Ramage, N.~Amin,

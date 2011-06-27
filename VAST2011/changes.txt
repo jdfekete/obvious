@@ -1,0 +1,137 @@
+We'd like to thank the reviewers for their thorough work and their
+comment and advice.  Here are the changes we did in the final version
+of the paper.
+
+R4 (Primary)
+   The paper purports to present a toolkit for facilitating visual analytics
+   applications. But Obvious is an information visualization toolkit that
+   would only support visual analytics applications to the extent that it
+   might support all applications, InfoVis or otherwise. It has no special
+   focus on visual analytics.
+
+We have extended a bit the evaluation section on connection to the
+Weka machine learning toolkit, adding references to our port of the
+RapidMiner machine learning toolkit as well.  We hope this proves that
+Obvious is not only an InfoVis wrapper/toolkit but also an enabling
+technology for Visual Analytics for its capabilities to connect to
+machine learning tools transparently, as well as to connect to SGBD as
+transparently.
+
+   But one wonders how much it would be
+   used or if it could be used effectively for novel extensions based on
+   research rather than merely embedding capabilities from existing toolkits
+   in its generalized format. 
+
+We have added a sentence at the end of the evaluation section to
+explain how new visualizations can be integrated with obvious: not
+directly but through any of the wrapped toolkits.
+
+   Somehow the paper doesn’t elicit much
+   enthusiasm as a visual analytics paper. Partly this is due to its lack of
+   focus on visual analytics. It would have helped to have a more worked out
+   example of a real visual analytics application using the Obvious
+   encapsulation. 
+
+The EdiDuplicate example in section "Evaluation" is a real VA
+application. It reads from a large database of publications (millions
+of entries) in real time and automatically computes similarity
+measures to find duplicates.  We have made that point clearer in the
+paper.  Describing "several" VA applications built using Obvious would
+not fit in one paper.
+
+   How does this community represent the broader interests of
+   researchers and application developers in the visual analytics
+   community?
+
+Certainly designers of infovis toolkits represent a substantial
+interest of the visual analytics community but certainly not all of
+it.
+
+   Although the ability to deal with huge amounts of data within its
+   common environment is listed more than once as a main attribute of
+   the paper, there is concern about how this would be done and how
+   long it would take to make a scalable application.
+
+We have provided some benchmark numbers for the improvements of the
+Obvious notification model when using a DBMS wrapped by Obvious at the
+end of section 3.1.3.
+
+R1
+
+   i) How to deal with the out-of-core data in Obvious?  How long will be
+   spent when data is wrapped to Obvious data model for a large scale
+   dataset?The data scale should be considered in visual analytics
+   applications.
+
+We have added a sentence on managing out-of-core data in Obvious at
+the end of section 5.4
+
+   ii) Is any user interaction supported in Obvious in this stage?
+
+No, the user interaction is done at the underlying toolkit level.
+
+   iii) The author metioned multi-language support in future work. It's a
+   tradeoff between powerful full-function system and efficient specific
+   sysytem.
+
+Efforts are under way, as can be seen on the Obvious SVN repository.
+
+R2
+   - a part from the integration of Weka, is it planned to integrate for
+   instance free available statistical tools like R, whose functionalities
+   in the field are well known, but lacks of a valid visualisation
+   counterpart?
+
+Support for RapidMiner has been added and described in section
+5.2. RapidMiner has an extension to use R so Obvious can also be used
+with R.  A more direct R wrapper would take 2 days of work to implement.
+
+   - concerning the evaluation, even if it is clear that a really formal
+   evaluation would be really complex, a more extensive one would be
+   required, e.g. from expert users. Moreover, it would be interesting to
+   know if the adoption of obvious for already on going projects is still
+   planned.
+
+Obvious is only available now so adoption will be visible later.
+
+   - somehow related to the previous point, it would be of interest to
+   clarify when a (almost) stable version of the code will be available,
+   since at the moment of the review no download was available
+
+Obvious is available now and maintained.
+
+   - since the creator of Improvise is also listed in the acknowledgement,
+   and for a complete binding of such tool in Obvious some changes in it are
+   required, are these changes already planned ?
+
+As stated in section 4.3, Improvise does not expose its visualization
+pipeline publicly.  More work will be needed to design abstract
+component to wrap Improvise services. Conversely, more work will be
+needed in Improvise to support dynamic data to fit the Obvious model.
+
+R3
+   One concern
+   is that the work reported in the paper is obviously at an early stage of
+   development. Moreover, restricting the scope of the meta-toolkit to
+   incorporate only those toolkits implemented in Java language, might not
+   be viable in the long run from a commercial use perspective and restrict
+   the meta-toolkit's adoption just within the academic community.
+
+Java is not restricted to academic use at all. 
+
+   I am skeptical with the meta-toolkit name, it is more of a meta-data
+   approach to bind the different toolkit data formats. The key problem in
+   having toolkits talk to each other is the data, so that’s a natural place
+   to start. But, as explained by the authors themselves, the view and
+   visualization models are incomplete and need more consensus to be
+   developed. The most significant contribution in this paper therefore
+   comes from the meta-data model the authors describe to integrate the
+   disparate data sources. For a meta-toolkit designed for visualization,
+   the view and visualization parts are specially important. So the suthors
+   might restrict the scope of the paper to being a meta-data approach than
+   a meta-toolkit one.
+
+We have given a definition of what we think is a meta-toolkit in the
+introduction.  There are limitations in the current version that we
+hope to overcome soon.
+

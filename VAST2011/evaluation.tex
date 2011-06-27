@@ -31,7 +31,7 @@ application, developers have to follow the following steps:
 \paragraph{Step 1:} creation of an Obvious data structure, either
 directly with a standard constructor or through a factory.  Three ways
 exist to fill the data structure:
-\begin{enumerate}[noitemsep]
+\begin{enumerate}[noitemsep,topsep=0pt]
 \item wrapping an existing data structure from a targeted toolkit as
   shown in the first example,
 \item using an Obvious reader to load an Obvious structure from a well
@@ -103,28 +103,29 @@ View view = new IvtkObviousView(vis,  null, "plot", null);
 ...
 \end{lstlisting}
 
-\subsection{Integration of Weka}
+\subsection{Integration of Weka and RapidMiner}
 
-Weka~\cite{Weka} is a suite of machine-learning algorithms and data
-structures widely used to design machine-learning applications.  
-The obviousx package of Obvious supports two mechanisms to build the
-main data structure of Weka (called ``Instances'') from an Obvious
-Table:
-
-\begin{itemize}[noitemsep]
-\item an Obvious table can be copied into a Weka ``Instances'', which
-  is a data structure specially optimized for the fast execution of
-   machine learning algorithms.  With this approach, running-time is
-   optimized.
-\item an Obvious table can be wrapped as a Weka ``Instances'': the
-  Instances translates its methods calls into Obvious equivalents.
-  With this approach, memory-footprint is optimized.
+Weka~\cite{Weka} and RapidMiner~\cite{RapidMiner} are suites of
+machine-learning algorithms and data structures widely used to design
+machine-learning applications.  The obviousx package of Obvious
+supports two mechanisms to build the main data structure of Weka and
+RapidMiner from an Obvious Table:
+\begin{itemize}[noitemsep,topsep=0pt]
+\item an Obvious table can be copied into a Weka or RapidMiner data
+  table, which are data structures specially optimized for the fast
+  execution of machine learning algorithms.  With this approach,
+  running-time is optimized but data is duplicated.
+\item an Obvious table can be wrapped as a Wekaor a
+  RapidMiner data table: it then translates its methods calls into
+  Obvious equivalents.  With this approach, memory-footprint is
+  optimized since data is not copied at the expense of speed.
 \end{itemize}
 
 Both methods are equivalent in terms of lines of code and can be
-applied to the same machine learning algorithms from Weka.  For
-example, wrapping the table from the code sample \ref{codeSample2}
-into a Weka ``Instances''  requires the following line:
+applied to the same machine learning algorithms from Weka and
+RapidMiner.  For example, wrapping the table from the code sample
+\ref{codeSample2} into a Weka structure requires the following
+line:
 
 \begin{lstlisting}[caption={Wrapping an Obvious Table into Weka Instances},label=wekaExample]
 Instances inst = new ObviousWekaInstances(table, "Instances");
@@ -135,15 +136,19 @@ Instances inst = new ObviousWekaInstances(table, "Instances");
 
 This ``Instances'' can be used by all the machine-learning algorithms
 defined in Weka.  Creating this wrapper took about three days to one
-developer who knew Obvious well but was discovering Weka.
+developer who knew Obvious well but was discovering Weka and two for
+RapidMiner for the same developer.
 
 This example demonstrates an important gain of Obvious: a toolkit with
 a binding in Obvious can immediately benefit from a substantial set of
-additional features, such as Weka for advanced machine-learning
-capabilities and several format converters.  Conversely, developers of
-new analysis algorithms could port them to use Obvious data structures
-so that they become usable by a substantial number of toolkits and
-application programmers to build VA systems.
+additional features, such as Weka and RapidMiner for advanced
+machine-learning capabilities and several format converters.
+Furthermore, Weka and RapidMiner provide rich extensions such as
+connecting to the R statistical environment~\cite{R} that are now
+accessible from Obvious.  Conversely, developers of new analysis
+algorithms could port them to use Obvious data structures so that they
+become usable by a substantial number of toolkits and application
+programmers to build VA systems.
 
 
 \subsection{EdiDuplicate}
@@ -158,7 +163,7 @@ with tools that can detect potential duplicates and ask skilled users
 to resolve them.  Currently, INRIA leaves that task to librarians with
 very primitive tools.
 
-EdiDuplicate is a system designed to detect and merge duplicated
+EdiDuplicate is a VA system designed to detect and merge duplicated
 entities in the HAL-INRIA publication database; it has been built
 with Obvious.  It is an adaptation of the D-Dupe software~\cite{DDupe}
 with extensions to cover needs specific the HAL-INRIA
@@ -196,7 +201,8 @@ tool that we called EdiDuplicate.
 \end{comment}
 
 \begin{figure}[!h]
-\includegraphics[width=\columnwidth]{figures/ediduplicate}
+\centering
+\includegraphics[width=0.9\columnwidth]{figures/ediduplicate}
 \caption{The EdiDuplicate application}
 \label{fig:ediduplicate}
 \end{figure}
@@ -225,27 +231,14 @@ Oracle provides a standard API to send UDP packets whereas we had to
 add an extension written in C to MySQL to support them (200 lines of
 C).
 
-\begin{comment}
-The need to create DBMS caching data table appears during the development
-of Ediflow, a Scientific Workflow system for VA~\cite{Ediflow}.
-Ediflow is organized around a DBMS (Oracle) and runs modules processing
-large amount of data stored in the DBMS. Ediflow is a distribued system
-allowing workflows to be distributed on several platforms.
-
-When running a visualization component with Ediflow, all its resulting
-visual attributes are stored in a table of the DBMS called
-``VISUALATTRIBUTES''. This table is then used to create and maintain
-views on other platforms using Ediflow.
-
-To set up and maintain thoses view, in-memory caching tables are needed
-to only select in ``VISUALATTRIBUTES''  data useful for those views
-and to locally store it.
-\end{comment}
-
 The cached tables are implemented using Obvious (different bindings
-have been used: Prefuse, IVTK, JDBC and JUNG). Several applications have
-been built around Obvious DBMS caching tables; one of them is
-presented in the next section.
+have been used: Prefuse, IVTK, JDBC and JUNG). Several applications
+have been built around Obvious DBMS caching tables; one of them is
+presented in the next section.  Cached tables can be used as an
+initial step to implementing out-of-core algorithms but the caching
+strategy will always need to be adapted to the algorithm.  Again, that
+adaptation can be done later on when the algorithm already works on
+smaller datasets.
 
 \subsection{Network Visualization on a Large Wall}
 
@@ -322,3 +315,8 @@ Obvious model.  From our experience, a large number of the VA
 application fit the Obvious model and they will benefit from the
 meta-toolkit in term of richness and extensibility.
 
+Richness comes from the already large choice of visualizations and
+interaction techniques provided by the wrapped toolkits.
+Extensibility comes from the large choice of toolkits that can be used
+as basis for the implementation of novel visualizations and
+interaction techniques.
