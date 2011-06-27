@@ -27,7 +27,6 @@
 
 package obviousx.io.rminer;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,6 +77,7 @@ public class ObviousRMinerExTable implements ExampleTable {
   private DataRowFactory dataFactory;
   
   /**
+<<<<<<< .mine
    * List of DataRows instances that compose this table.
    */
   private List<DataRow> dataList = new ArrayList<DataRow>();
@@ -85,8 +85,8 @@ public class ObviousRMinerExTable implements ExampleTable {
   /**
    * List of attributes.
    */
-  private Attribute[] attributes;
-  
+  private List<Attribute> attributes;
+    
   /**
    * Constructor.
    * @param inTable an ObviousTable
@@ -95,9 +95,25 @@ public class ObviousRMinerExTable implements ExampleTable {
     this.table = inTable;
     this.dataFactory = new DataRowFactory(DataRowFactory.TYPE_DOUBLE_ARRAY);
     IntIterator it = table.rowIterator();
-    this.attributes = new Attribute[this.table.getSchema().getColumnCount()];
+    this.attributes = new ArrayList<Attribute>();;
     for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-      attributes[i] = getAttribute(i);
+      Attribute att;
+      if (ObviousWekaUtils.isNumeric(table.getSchema().getColumnType(i))) {
+        att = AttributeFactory.createAttribute(
+            table.getSchema().getColumnName(i), Ontology.REAL);
+      } else if (ObviousWekaUtils.isNominal(
+          table.getSchema().getColumnType(i))) {
+        att = AttributeFactory.createAttribute(
+            table.getSchema().getColumnName(i), Ontology.NOMINAL);
+      } else if (ObviousWekaUtils.isDate(table.getSchema().getColumnType(i))) {
+        att = AttributeFactory.createAttribute(
+            table.getSchema().getColumnName(i), Ontology.DATE);
+      } else {
+        att = AttributeFactory.createAttribute(
+            table.getSchema().getColumnName(i), Ontology.NOMINAL);
+      }
+      att.setTableIndex(i);
+      attributes.add(att);
     }
     while (it.hasNext()) {
       int id = it.nextInt();
@@ -105,7 +121,8 @@ public class ObviousRMinerExTable implements ExampleTable {
       for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
         data[i] = table.getValue(id, i);
       }
-      dataList.add(dataFactory.create(data, attributes));
+      dataList.add(dataFactory.create(data, (Attribute[]) attributes.toArray(
+          new Attribute[attributes.size()])));
     }
   }
   
@@ -125,7 +142,8 @@ public class ObviousRMinerExTable implements ExampleTable {
       } else if (type == Ontology.NOMINAL) {
         table.getSchema().addColumn(name, String.class, "defaultValue");
       }
-      return table.getSchema().getColumnCount();
+      attributes.add(attribute);
+      return attributes.size();
     } catch (ObviousRuntimeException e) {
       System.err.println("This Obvious binding doest not support column "
           + "add/removal for tables that are already filled");
@@ -196,23 +214,7 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public Attribute getAttribute(int id) {
-    Attribute att;
-    if (ObviousWekaUtils.isNumeric(table.getSchema().getColumnType(id))) {
-      att = AttributeFactory.createAttribute(
-          table.getSchema().getColumnName(id), Ontology.REAL);
-    } else if (ObviousWekaUtils.isNominal(
-        table.getSchema().getColumnType(id))) {
-      att = AttributeFactory.createAttribute(
-          table.getSchema().getColumnName(id), Ontology.NOMINAL);
-    } else if (ObviousWekaUtils.isDate(table.getSchema().getColumnType(id))) {
-      att = AttributeFactory.createAttribute(
-          table.getSchema().getColumnName(id), Ontology.DATE);
-    } else {
-      att = AttributeFactory.createAttribute(
-          table.getSchema().getColumnName(id), Ontology.NOMINAL);
-    }
-    att.setTableIndex(id);
-    return att;
+    return attributes.get(id);
   }
 
   @Override
@@ -222,11 +224,8 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public Attribute[] getAttributes() {
-    Attribute[] attributes = new Attribute[table.getSchema().getColumnCount()];
-    for (int i = 0; i < table.getSchema().getColumnCount(); i++) {
-      attributes[i] = getAttribute(i);
-    }
-    return attributes;
+    return (Attribute[]) attributes.toArray(
+        new Attributes[attributes.size()]);
   }
 
   @Override
@@ -236,11 +235,7 @@ public class ObviousRMinerExTable implements ExampleTable {
 
   @Override
   public DataRowReader getDataRowReader() {
-    List<DataRow> rows = new LinkedList<DataRow>();
-    for (int i = 0; i < size(); i++) {
-      rows.add(getDataRow(i));
-    }
-    return new ListDataRowReader(rows.iterator());
+    return new ListDataRowReader(dataList.iterator());
   }
 
   @Override
