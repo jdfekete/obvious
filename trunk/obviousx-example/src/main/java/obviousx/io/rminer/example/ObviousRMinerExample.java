@@ -28,12 +28,21 @@
 package obviousx.io.rminer.example;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.rapidminer.RapidMiner;
+import com.rapidminer.example.Example;
+import com.rapidminer.example.ExampleReader;
+import com.rapidminer.example.ExampleSet;
+import com.rapidminer.example.set.SimpleExampleReader;
+import com.rapidminer.example.table.DataRowReader;
 import com.rapidminer.example.table.ExampleTable;
+import com.rapidminer.tools.Ontology;
 
 import obvious.data.Table;
 import obviousx.ObviousxException;
 import obviousx.io.impl.CSVImport;
+import obviousx.io.rminer.ObviousRMinerExTable;
 import obviousx.io.rminer.ObviousRMinerLoader;
 
 /**
@@ -61,8 +70,35 @@ public final class ObviousRMinerExample {
         "src//main/resources//bank-data.csv"), ',');
     Table table = importer.loadTable();
 
+    /*
     ObviousRMinerLoader rminerLoader = new ObviousRMinerLoader(table);
     ExampleTable exTable = rminerLoader.getExampleTable();
+    */
+
+    ObviousRMinerExTable exTable = new ObviousRMinerExTable(table);
+
+    try {
+      RapidMiner.init();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    ExampleSet resultSet = exTable.createExampleSet();
+    ExampleReader reader = new SimpleExampleReader(
+        exTable.getDataRowReader(), resultSet);
+    //System.out.println(exTable.toDataString());
+    while (reader.hasNext()) {
+      Example ex = reader.next();
+      for (int i = 0; i < exTable.getAttributeCount(); i++) {
+        try {
+        System.out.print(ex.getValueAsString(exTable.getAttribute(i)) + " : ");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+      System.out.println();
+    }
+
   }
 
 }
