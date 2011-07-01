@@ -35,10 +35,7 @@ import obviousx.io.rminer.ObviousRMinerExTable;
 
 
 import com.rapidminer.RapidMiner;
-import com.rapidminer.example.Example;
-import com.rapidminer.example.ExampleReader;
 import com.rapidminer.example.ExampleSet;
-import com.rapidminer.example.set.SimpleExampleReader;
 import com.rapidminer.operator.IOContainer;
 import com.rapidminer.operator.Model;
 import com.rapidminer.operator.ModelApplier;
@@ -76,13 +73,16 @@ public class ObviousRminerApp {
       exampleSource.setParameter("attributes",
           "src//main/resources//bankatt.aml");
       IOContainer container = exampleSource.apply(
-          new IOContainer(trainingTable.createExampleSet()));
+          new IOContainer(trainingTable.createExampleSet(
+              trainingTable.getAttribute(0))));
       ExampleSet exampleSet = container.get(ExampleSet.class);
-
+      System.out.println(exampleSet.getAttributes().getLabel());
       // here the string based creation must be used since the J48 operator
       // do not have an own class ( derived from the Weka library ).
-      Learner learner = (Learner) OperatorService.createOperator("J48");
-      Model model = learner.learn(exampleSet);
+      Learner learner = (Learner) OperatorService.createOperator(
+          com.rapidminer.operator.learner.lazy.DefaultLearner.class);
+      Model model = learner.learn(trainingTable.createExampleSet(
+          trainingTable.getAttribute(0)));
 
    // loading the test set (plus adding the model to result container )
       IOContainer containerSource = new IOContainer(
@@ -90,7 +90,7 @@ public class ObviousRminerApp {
       Operator testSource =
         OperatorService .createOperator(ExampleSource.class);
       testSource.setParameter("attributes",
-          "src//main/resources//bank-data.csv");
+          "src//main/resources//bankatt.aml");
       container = testSource.apply(containerSource);
       container = container.append(model);
 
@@ -98,21 +98,6 @@ public class ObviousRminerApp {
         OperatorService.createOperator(ModelApplier.class);
         container = modelApp.apply(container);
         // print results
-        ExampleSet resultSet = container.get(ExampleSet.class);
-        ExampleReader reader = new SimpleExampleReader(
-            exTable.getDataRowReader(), resultSet);
-        while (reader.hasNext()) {
-          Example ex = reader.next();
-          for (int i = 0; i < exTable.getAttributeCount(); i++) {
-            try {
-            System.out.print(
-                ex.getValueAsString(exTable.getAttribute(i)) + " : ");
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-          System.out.println();
-        }
         SOMModelVisualization viz = new SOMModelVisualization(
             modelApp.getOperatorDescription());
         viz.apply();
