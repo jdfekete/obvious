@@ -41,7 +41,7 @@ import obvious.data.Table;
 import obvious.impl.DataFactoryImpl;
 import obvious.impl.SchemaImpl;
 import obviousx.ObviousxException;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 import obviousx.io.impl.ObviousTableModel;
 
 
@@ -89,7 +89,7 @@ public final class CSVImportExample {
 
 
     // Create CSV Importer
-    CSVImport importer = new CSVImport(inputFile, table, ';');
+    CSVTableImport importer = new CSVTableImport(inputFile, table, ';');
     importer.loadTable();
 
     // Display Obvious Table

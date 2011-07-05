@@ -41,7 +41,7 @@ import com.rapidminer.tools.Ontology;
 
 import obvious.data.Table;
 import obviousx.ObviousxException;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 import obviousx.io.rminer.ObviousRMinerExTable;
 import obviousx.io.rminer.ObviousRMinerLoader;
 
@@ -66,7 +66,7 @@ public final class ObviousRMinerExample {
   public static void main(String[] args) throws ObviousxException {
     System.setProperty("obvious.DataFactory",
     "obvious.prefuse.data.PrefuseDataFactory");
-    CSVImport importer = new CSVImport(new File(
+    CSVTableImport importer = new CSVTableImport(new File(
         "src//main/resources//bank-data.csv"), ',');
     Table table = importer.loadTable();
 
