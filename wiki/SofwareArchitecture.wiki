@@ -13,6 +13,7 @@ Most of sub-projects implements Obvious interfaces and its sub-packages (obvious
 
  * <b> obvious-api </b> : initial version of the obvious API. It has been written during the workshop (in Paris December 2008).
  * <b> obvious </b> : current version of the obvious API. It uses the structure given in the introduction.
+ * <b> obvious-c++ </b> : a port of the Obvious API for C++. It is currently a work in progress.
  * <b> obvious-example </b> : contains several simple examples and applications using all obvious implementations.  
  * <b> obvious-cytoscape </b> : implementation using <a href ="http://cytoscape.org/">Cytoscape framework </a>. Dependancies are : obvious and cytoscape framework (under GNU Library or Lesser General Public License (LGPL)).
  * <b> obvious-improvise </b> : implementation using <a href ="http://www.cs.ou.edu/~weaver/improvise/"> Improvise </a> Dependancies are : obvious, improvise and oblivion librairies. For the moment, there is no maven repository containing oblivion and improvise librairies. However, it is possible to directly add oblivon and improvise jar file to your local maven repository. Both librairies are under the GPL licence.
