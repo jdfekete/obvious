@@ -46,6 +46,7 @@ The toolkit is divided in four parts :
 || _Jung_ || Yes || Yes || Yes ||
 || _Improvise_ ||Yes || No || No ||
 || _Cytoscape_ || Yes || No || No ||
+|| _RapidMiner_ || Yes || No || No ||
 || _Weka_ ||Yes || No ||No ||
 || JDBC || Yes ||No || No ||
 
