@@ -8,7 +8,7 @@
   <repositories>
     <repository>
   		<id>ivtk-sourceforge-repository</id>
-  		<url>http://igetdb.sourceforge.net/maven2-repository/</url>
+  		<url>http://igetdb.sourceforge.net/maven2-repository</url>
   	</repository>
   </repositories>
   <dependencies>
