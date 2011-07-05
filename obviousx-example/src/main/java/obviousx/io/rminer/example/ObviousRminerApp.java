@@ -30,7 +30,7 @@ package obviousx.io.rminer.example;
 import java.io.File;
 
 import obvious.data.Table;
-import obviousx.io.impl.CSVImport;
+import obviousx.io.impl.CSVTableImport;
 import obviousx.io.rminer.ObviousRMinerExTable;
 
 
@@ -57,12 +57,12 @@ public class ObviousRminerApp {
       // Loading the source table
       System.setProperty("obvious.DataFactory",
       "obvious.prefuse.data.PrefuseDataFactory");
-      CSVImport importer = new CSVImport(new File(
+      CSVTableImport importer = new CSVTableImport(new File(
           "src//main/resources//bank-data.csv"), ',');
       Table table = importer.loadTable();
       ObviousRMinerExTable exTable = new ObviousRMinerExTable(table);
 
-      CSVImport importer2 = new CSVImport(new File(
+      CSVTableImport importer2 = new CSVTableImport(new File(
       "src//main/resources//bank-data-training.csv"), ',');
       Table bisTable = importer2.loadTable();
       ObviousRMinerExTable trainingTable = new ObviousRMinerExTable(bisTable);
