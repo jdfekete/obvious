@@ -29,8 +29,13 @@ package obvious.rminer.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
 import com.rapidminer.example.Attribute;
+import com.rapidminer.example.Example;
+import com.rapidminer.example.ExampleSet;
+import com.rapidminer.example.table.DoubleArrayDataRow;
 import com.rapidminer.example.table.ExampleTable;
 import com.rapidminer.example.table.MemoryExampleTable;
 
@@ -49,6 +54,11 @@ public class RMinerObviousTable implements Table {
      * Wrapped RapidMiner ExampleTable instance.
      */
     private ExampleTable rminerTable;
+    
+    /**
+     * Associated example set of the wrapped ExampleTable instance.
+     */
+    private ExampleSet rminerExSet;
 
     /**
      * Obvious schema.
@@ -71,18 +81,58 @@ public class RMinerObviousTable implements Table {
      */
     public RMinerObviousTable(ExampleTable inRminerTable) {
         this.rminerTable = inRminerTable;
+        this.rminerExSet = this.rminerTable.createExampleSet();
     }
     
     @Override
     public int addRow() {
-        // TODO Auto-generated method stub
-        return 0;
+      if (canAddRow()) {
+        MemoryExampleTable memTable = (MemoryExampleTable) rminerTable;
+        double[] data = new double[schema.getColumnCount()];
+        for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
+          Class<?> type = this.getSchema().getColumnType(i);
+          if (this.getSchema().getColumnDefault(i).equals(null)) {
+            data[i] = 0;
+          } else if (ObviousWekaUtils.isNumeric(type)) {
+            data[i] = Double.valueOf(
+                this.getSchema().getColumnDefault(i).toString());
+          } else if (ObviousWekaUtils.isNominal(type) ||
+              ObviousWekaUtils.isString(type)) {
+            data[i] = this.rminerTable.getAttribute(i).getMapping().mapString(
+                this.getSchema().getColumnDefault(i).toString());
+          } else if (ObviousWekaUtils.isDate(type)){
+            data[i] = Double.valueOf((
+                (Date) this.getSchema().getColumnDefault(i)).getTime());
+          }
+        }
+        memTable.addDataRow(new DoubleArrayDataRow(data));
+      }
+      return this.getRowCount();
     }
 
     @Override
     public int addRow(Tuple tuple) {
-        // TODO Auto-generated method stub
-        return 0;
+       if (canAddRow()) {
+         MemoryExampleTable memTable = (MemoryExampleTable) rminerTable;
+         double[] data = new double[schema.getColumnCount()];
+         for (int i = 0; i < this.getSchema().getColumnCount(); i++) {
+           Class<?> type = this.getSchema().getColumnType(i);
+           if (this.getSchema().getColumnDefault(i).equals(null)) {
+             data[i] = 0;
+           } else if (ObviousWekaUtils.isNumeric(type)) {
+             data[i] = Double.valueOf(
+                 tuple.get(i).toString());
+           } else if (ObviousWekaUtils.isNominal(type) ||
+               ObviousWekaUtils.isString(type)) {
+             data[i] = this.rminerTable.getAttribute(i).getMapping()
+               .mapString(tuple.get(i).toString());
+           } else if (ObviousWekaUtils.isDate(type)){
+             data[i] = Double.valueOf(((Date) tuple.get(i)).getTime());
+           }
+         }
+         memTable.addDataRow(new DoubleArrayDataRow(data));
+       }
+       return this.getRowCount();
     }
 
     @Override
@@ -160,10 +210,13 @@ public class RMinerObviousTable implements Table {
         double value = this.rminerTable.getDataRow(rowId).get(att);
         if (ObviousWekaUtils.isNumeric(c)) {
             return value;
-        } else if (ObviousWekaUtils.isNominal(c)) {
-            // TODO
+        } else if (ObviousWekaUtils.isNominal(c)
+            || ObviousWekaUtils.isString(c)) {
+          return this.rminerExSet.getExample(rowId).getValueAsString(
+              this.rminerTable.getAttribute(col)); 
         } else if (ObviousWekaUtils.isDate(c)) {
-         // TODO   
+          return new Date((long) this.rminerExSet.getExample(rowId)
+              .getValue(this.rminerTable.getAttribute(col)));
         }
         return null;
     }
@@ -207,26 +260,35 @@ public class RMinerObviousTable implements Table {
 
     @Override
     public IntIterator rowIterator() {
-        // TODO Auto-generated method stub
-        return null;
+        return new RMinerObviousIntIterator(rminerExSet);
     }
 
     @Override
     public IntIterator rowIterator(Predicate pred) {
-        // TODO Auto-generated method stub
-        return null;
+      return new RMinerObviousIntIterator(rminerExSet);
     }
 
     @Override
     public void set(int rowId, String field, Object val) {
-        // TODO Auto-generated method stub
-        
+      set(rowId, this.getSchema().getColumnIndex(field), val);
     }
 
     @Override
     public void set(int rowId, int col, Object val) {
-        // TODO Auto-generated method stub
-        
+      double wrappedVal = 0;
+      Class<?> c = this.getSchema().getColumnType(col);
+      if (ObviousWekaUtils.isNumeric(c)) {
+        wrappedVal = Double.valueOf(
+            val.toString());
+      } else if (ObviousWekaUtils.isNominal(c)
+        || ObviousWekaUtils.isString(c)) {
+        wrappedVal = this.rminerTable.getAttribute(col).getMapping()
+          .mapString(val.toString());
+      } else if (ObviousWekaUtils.isDate(c)) {
+        wrappedVal = Double.valueOf(((Date) val).getTime());
+      }
+      this.rminerTable.getDataRow(rowId).set(
+          this.rminerTable.getAttribute(col), wrappedVal);
     }
 
     @Override
@@ -235,6 +297,56 @@ public class RMinerObviousTable implements Table {
             return this.rminerTable;
         }
         return null;
+    }
+    
+    /**
+     * An Obvious IntIterator based on rapidminer.
+     * @author plhemery
+     *
+     */
+    public class RMinerObviousIntIterator implements IntIterator {
+
+      /**
+       * Wrapped iterator.
+       */
+      private Iterator<Example> it;
+      
+      /**
+       * Current index.
+       */
+      private int currentIndex = -1;
+      
+      /**
+       * Constructor
+       * @param set a rapidminer ExampleSet instance.
+       */
+      public RMinerObviousIntIterator(ExampleSet set) {
+        this.it = set.iterator();
+      }
+      
+      @Override
+      public int nextInt() {
+        if (hasNext()) {
+          currentIndex++;
+        }
+        return currentIndex;
+      }
+
+      @Override
+      public boolean hasNext() {
+        return it.hasNext();
+      }
+
+      @Override
+      public Integer next() {
+        return nextInt();
+      }
+
+      @Override
+      public void remove() {
+        it.remove();
+      }
+      
     }
 
 }
