@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import obvious.data.Table;
-import obvious.ivtk.view.IvtkObviousView;
 import obvious.ivtk.view.util.IvtkScatterPlotView;
 import obvious.ivtk.viz.util.IvtkScatterPlotVis;
 import obvious.view.JView;
