@@ -26,7 +26,7 @@ We have added a sentence at the end of the evaluation section to
 explain how new visualizations can be integrated with obvious: not
 directly but through any of the wrapped toolkits.
 
-   Somehow the paper doesn’t elicit much
+   Somehow the paper doesn't elicit much
    enthusiasm as a visual analytics paper. Partly this is due to its lack of
    focus on visual analytics. It would have helped to have a more worked out
    example of a real visual analytics application using the Obvious
@@ -121,7 +121,7 @@ Java is not restricted to academic use at all.
 
    I am skeptical with the meta-toolkit name, it is more of a meta-data
    approach to bind the different toolkit data formats. The key problem in
-   having toolkits talk to each other is the data, so that’s a natural place
+   having toolkits talk to each other is the data, so that's a natural place
    to start. But, as explained by the authors themselves, the view and
    visualization models are incomplete and need more consensus to be
    developed. The most significant contribution in this paper therefore

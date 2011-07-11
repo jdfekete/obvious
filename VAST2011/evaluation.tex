@@ -1,10 +1,10 @@
 %% -*- mode: latex; -*-
 
 Formally evaluating the effectiveness of a meta-toolkit for VA is
-complex. Arguably the most convincing method would require two groups
+complex.  Arguably the most convincing method would require two groups
 of programmers of equivalent skills to implement the same set of
 VA programs with and without Obvious. Then, a judgment
-could be made from the time spent and the quality of the results. This
+could be made from the time spent and the quality of the results.  This
 methodology has been used to assess IVTK~\cite{InfoVis} with students
 but is impractical for real VA applications that are
 more complex and would not fit the scope of student projects.
@@ -103,27 +103,27 @@ View view = new IvtkObviousView(vis,  null, "plot", null);
 ...
 \end{lstlisting}
 
-\subsection{Integration of Weka and RapidMiner}
+\subsection{Integration of Weka \new{and RapidMiner}}
 
-Weka~\cite{Weka} and RapidMiner~\cite{RapidMiner} are suites of
+Weka~\cite{Weka} \new{and RapidMiner~\cite{RapidMiner} are} suites of
 machine-learning algorithms and data structures widely used to design
 machine-learning applications.  The obviousx package of Obvious
-supports two mechanisms to build the main data structure of Weka and
-RapidMiner from an Obvious Table:
+supports two mechanisms to build the main data structure of Weka \new{and
+RapidMiner} from an Obvious Table:
 \begin{itemize}[noitemsep,topsep=0pt]
-\item an Obvious table can be copied into a Weka or RapidMiner data
+\item an Obvious table can be copied into a Weka \new{or RapidMiner} data
   table, which are data structures specially optimized for the fast
   execution of machine learning algorithms.  With this approach,
   running-time is optimized but data is duplicated.
-\item an Obvious table can be wrapped as a Weka or a
-  RapidMiner data table: it then translates its methods calls into
+\item an Obvious table can be wrapped as a Weka \new{or a
+  RapidMiner} data table: it then translates its methods calls into
   Obvious equivalents.  With this approach, memory-footprint is
   optimized since data is not copied at the expense of speed.
 \end{itemize}
 
 Both methods are equivalent in terms of lines of code and can be
-applied to the same machine learning algorithms from Weka and
-RapidMiner.  For example, wrapping the table from the code sample
+applied to the same machine learning algorithms from Weka \new{and
+RapidMiner}.  For example, wrapping the table from the code sample
 \ref{codeSample2} into a Weka structure requires the following
 line:
 
@@ -136,19 +136,19 @@ Instances inst = new ObviousWekaInstances(table, "Instances");
 
 This ``Instances'' can be used by all the machine-learning algorithms
 defined in Weka.  Creating this wrapper took about three days to one
-developer who knew Obvious well but was discovering Weka and two for
-RapidMiner for the same developer.
+developer who knew Obvious well but was discovering Weka \new{and two for
+RapidMiner for the same developer}.
 
 This example demonstrates an important gain of Obvious: a toolkit with
 a binding in Obvious can immediately benefit from a substantial set of
-additional features, such as Weka and RapidMiner for advanced
+additional features, such as Weka \new{and RapidMiner} for advanced
 machine-learning capabilities and several format converters.
-Furthermore, Weka and RapidMiner provide rich extensions such as
+\new{Furthermore, Weka and RapidMiner provide rich extensions such as
 connecting to the R statistical environment~\cite{R} that are now
 accessible from Obvious.  Conversely, developers of new analysis
 algorithms could port them to use Obvious data structures so that they
 become usable by a substantial number of toolkits and application
-programmers to build VA systems.
+programmers to build VA systems.}
 
 
 \subsection{EdiDuplicate}
@@ -163,7 +163,7 @@ with tools that can detect potential duplicates and ask skilled users
 to resolve them.  Currently, INRIA leaves that task to librarians with
 very primitive tools.
 
-EdiDuplicate is a VA system designed to detect and merge duplicated
+EdiDuplicate is a \new{VA} system designed to detect and merge duplicated
 entities in the HAL-INRIA publication database; it has been built
 with Obvious.  It is an adaptation of the D-Dupe software~\cite{DDupe}
 with extensions to cover needs specific the HAL-INRIA
@@ -234,11 +234,11 @@ C).
 The cached tables are implemented using Obvious (different bindings
 have been used: Prefuse, IVTK, JDBC and JUNG). Several applications
 have been built around Obvious DBMS caching tables; one of them is
-presented in the next section.  Cached tables can be used as an
+presented in the next section.  \new{Cached tables can be used as an
 initial step to implementing out-of-core algorithms but the caching
 strategy will always need to be adapted to the algorithm.  Again, that
 adaptation can be done later on when the algorithm already works on
-smaller datasets.
+smaller datasets.}
 
 \subsection{Network Visualization on a Large Wall}
 
@@ -315,8 +315,8 @@ Obvious model.  From our experience, a large number of the VA
 application fit the Obvious model and they will benefit from the
 meta-toolkit in term of richness and extensibility.
 
-Richness comes from the already large choice of visualizations and
+\new{Richness comes from the already large choice of visualizations and
 interaction techniques provided by the wrapped toolkits.
 Extensibility comes from the large choice of toolkits that can be used
 as basis for the implementation of novel visualizations and
-interaction techniques.
+interaction techniques.}

@@ -15,10 +15,10 @@
 #adjust the following for your purpose
 
 #set the a .dvi name that corresponds to your main .tex file
-DVIFILES = wikireactivity.dvi
+DVIFILES = obvious.dvi
 MAINTEXFILE = $(DVIFILES:.dvi=.tex)
-SUBTEXFILES = abstract.tex introduction.tex relatedwork.tex infrastructure.tex participatory.tex design.tex examples.tex conclusion.tex
-BIBFILES = wikireactivity.bib
+SUBTEXFILES = abstract.tex introduction.tex related.tex design.tex datamodel.tex viewvis.tex implementation.tex evaluation.tex conclusion.tex futurework.tex
+BIBFILES = obvious.bib
 
 #switch = to # when using ps2pdf in win32 (mingw/msys), i.e. uncomment 2nd line
 #E=\=
@@ -51,7 +51,7 @@ COPY = if test -r $*.toc; then cp $*.toc $*.toc.bak; fi
 #RM = /usr/bin/rm -f 
 RM = rm -f 
 
-all:	gs8
+all:	gs7
 
 msg:
 	@echo "  You must define gs7 for GhostScript 7 or gs8 for GhostScript 8"
@@ -100,7 +100,7 @@ $(MAINTEXFILE) : $(SUBTEXFILES) $(BIBFILES)
 	"-dColorImageFilter$E/FlateEncode" \
 	"-dGrayImageFilter$E/FlateEncode" \
 	"-dMonoImageFilter$E/FlateEncode" \
-	$< wikireactivity.pdf
+	$< obvious.pdf
 
 #				$(PDFLATEX) $<
 
@@ -116,12 +116,12 @@ $(MAINTEXFILE) : $(SUBTEXFILES) $(BIBFILES)
 	"-dMonoImageFilter=/FlateEncode" \
 	"-dDownsampleGrayImages=false" \
 	"-dDownsampleColorImages=false" \
-	$< wikireactivity.pdf
+	$< obvious.pdf
 #                               $(PDFLATEX) $<
 
 # cleans anything that can be re-generated automatically, plus emacs backups
 clean: 
 				rm -f *.aux *.log *.bbl *.blg *.brf *.cb *.ind *.idx *.ilg	\
-				*.inx *.toc *.out $(DVIFILES) $(PSFILES) wikireactivity.pdf *~
+				*.inx *.toc *.out $(DVIFILES) $(PSFILES) obvious.pdf *~
 
 .PHONY : all pdf ps dvi clean $(MAINTEXFILE)
