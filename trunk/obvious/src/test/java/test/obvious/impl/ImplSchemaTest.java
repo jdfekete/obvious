@@ -47,4 +47,8 @@ public class ImplSchemaTest extends SchemaTest {
     return new SchemaImpl();
   }
 
+  @Override
+  public void testRemoveColumnByIndex() {
+  }
+
 }

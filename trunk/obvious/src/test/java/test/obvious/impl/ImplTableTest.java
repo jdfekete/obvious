@@ -54,4 +54,8 @@ public class ImplTableTest extends TableTest {
     return dFactory.createTable(schema);
   }
 
+  @Override
+  public void testRemoveRow() {
+  }
+  
 }

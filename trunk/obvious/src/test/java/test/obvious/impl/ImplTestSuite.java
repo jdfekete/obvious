@@ -37,11 +37,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Pierre-Luc Hemery
  *
  */
-@RunWith(Suite.class)
-@SuiteClasses(value = {
-ImplSchemaTest.class,
-ImplTableTest.class
-})
 public class ImplTestSuite {
 
 }
