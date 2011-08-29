@@ -39,7 +39,7 @@ import obvious.data.Table;
  * Implements abstract class DataFactory for the Obvious Impl implementation.
  * This the default data factory for Obvious, used when no other has been
  * specified. Thus, it should be used in other goals than testing.
- * @author Pierre-Luc Hémery
+ * @author Pierre-Luc Hemery
  *
  */
 public class DataFactoryImpl extends DataFactory {
