@@ -36,25 +36,6 @@
   		<email>hemery at lri.fr</email>
   	</developer>
   </developers>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <aggregate>true</aggregate>
-          <quiet>true</quiet>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting> 
-  <repositories>
-    <repository>
-  		<id>ivtk-sourceforge-repository</id>
-  		<url>http://ivtk.sourceforge.net/maven/</url>
-  	</repository>
-  </repositories>
   <dependencies>
   	<dependency>
   		<groupId>milyn</groupId>
@@ -62,16 +43,6 @@
   		<version>1.6</version>
   		<scope>import</scope>
   	</dependency>
-  	<dependency>
-    	<groupId>org.prefuse</groupId>
-    	<artifactId>prefuse</artifactId>
-    	<version>beta-20071021</version>
-    </dependency>
-  	<dependency>
-    	<groupId>infovis</groupId>
-    	<artifactId>infovis</artifactId>
-    	<version>0.10-alpha-1</version>
-    </dependency>
   	<dependency>
   		<groupId>com.googlecode.obvious</groupId>
   		<artifactId>obvious</artifactId>
