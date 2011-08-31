@@ -1,10 +1,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>obvious-jdbc</groupId>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  <groupId>com.googlecode.obvious</groupId>
   <artifactId>obvious-jdbc</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
   <name>obvious-jdbc</name>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>obvious example implementation for jdbc</description>
+  <description>Obvious implementation based on jdbc</description>
+  <url>http://code.google.com/p/obvious/</url>
+  <licenses>
+  	<license>
+  		<name>The BSD License</name>
+  		<url>http://www.opensource.org/licenses/bsd-license.php</url>
+  		<distribution>repo</distribution>
+  	</license>
+  </licenses>
+  <scm>
+  	<url>http://obvious.googlecode.com/svn/trunk/</url>
+  	<connection>scm:svn:http://obvious.googlecode.com/svn/trunk/</connection>
+  	<developerConnection>scm:svn:https://obvious.googlecode.com/svn/trunk/</developerConnection>
+  </scm>
+  <developers>
+  	<developer>
+  		<id>1</id>
+  		<name>Fekete</name>
+  		<email>fekete at lri.fr</email>
+  	</developer>
+  	<developer>
+  		<id>2</id>
+  		<name>Hemery</name>
+  		<email>hemery at lri.fr</email>
+  	</developer>
+  </developers>  
   <dependencies>
   	<dependency>
   		<groupId>mysql</groupId>
@@ -12,45 +43,40 @@
   		<version>5.1.10</version>
   	</dependency>
   	<dependency>
-  		<groupId>obviousx</groupId>
-  		<artifactId>obviousx</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<groupId>com.googlecode.obvious</groupId>
+  		<artifactId>obvious</artifactId>
+  		<version>1.0</version>
   	</dependency>
-  	<dependency> <!-- reuse src/main/java code from moduleA, normal dependencies --> 
-  	<groupId>obvious</groupId>
-  	<artifactId>obvious</artifactId>
-  	  <version>0.0.1-SNAPSHOT</version>
-	</dependency>
-
-	<dependency> <!-- reuse src/test/java code from moduleA! -->
-  	<groupId>obvious</groupId>
-  	<artifactId>obvious</artifactId>
-  	  <version>0.0.1-SNAPSHOT</version>
-  	  	<type>test-jar</type>
-	<scope>test</scope>
-	</dependency>
+  	<dependency>
+  		<groupId>com.googlecode.obvious</groupId>
+  		<artifactId>obviousx</artifactId>
+  		<version>1.0</version>
+  	</dependency>
   </dependencies>
-  <repositories>
-    <repository>
-  		<id>maven2-repository.dev.java.net</id>
-  		<name>Java.net Repository for Maven</name>
-  		<url>http://download.java.net/maven/2/</url>
-  </repository>
- </repositories>
- <distributionManagement>
-        <repository>
-        <uniqueVersion>false</uniqueVersion>
-        <id>googlecode</id>
-        <url>svn:https://obvious.googlecode.com/svn/repo</url>
-        </repository>
-  </distributionManagement>
-    <build>
-       <extensions>
-           <extension>
-               <groupId>org.jvnet.wagon-svn</groupId>
-               <artifactId>wagon-svn</artifactId>
-               <version>1.9</version>
-           </extension>
-       </extensions>
-  </build>
+  <build>
+    <plugins>
+     	<plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-compiler-plugin</artifactId>
+        	<version>2.3.2</version>
+        	<configuration>
+          		<source>1.6</source>
+          		<target>1.6</target>
+        	</configuration>
+		</plugin>
+		<plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-gpg-plugin</artifactId>
+        	<executions>
+          		<execution>
+            		<id>sign-artifacts</id>
+            		<phase>verify</phase>
+            		<goals>
+              			<goal>sign</goal>
+            		</goals>
+				</execution>
+      		</executions>
+		</plugin>
+    </plugins>
+  </build> 
 </project>
