@@ -27,7 +27,7 @@
 
 package test.obvious.jdbc;
 
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,42 +37,42 @@ import obvious.data.Schema;
 import obvious.data.Table;
 import obvious.jdbc.data.JDBCObviousTable;
 import test.obvious.data.TableTest;
-
+*/
 /**
  * Implementation of  Table  test-case for JDBCObviousTable implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public class JDBCTableTest extends TableTest {
-
-  /**
+public class JDBCTableTest /*extends TableTest*/ {
+/*
+  *//**
    * Driver for the database.
-   */
+   *//*
   public static final String DRIVER = "com.mysql.jdbc.Driver";
 
-  /**
+  *//**
    * URL for the test database.
-   */
+   *//*
   public static final String URL = "jdbc:mysql:///test";
 
-  /**
+  *//**
    * Login for the test database.
-   */
+   *//*
   public static final String LOGIN = "root";
 
-  /**
+  *//**
    * Database for the test database.
-   */
+   *//*
   public static final String PASSWORD = "";
 
-  /**
+  *//**
    * Name of the test table.
-   */
+   *//*
   public static final String TABLE_NAME = "TEST_CASE_TABLE";
 
-  /**
+  *//**
    * Name of the primary key column.
-   */
+   *//*
   public static final String PRIMARY_KEY = "col2";
 
   @Override
@@ -114,6 +114,6 @@ public class JDBCTableTest extends TableTest {
       }
     }
     setTable(null);
-  }
+  }*/
 
 }

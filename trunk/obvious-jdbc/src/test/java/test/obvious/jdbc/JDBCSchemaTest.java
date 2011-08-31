@@ -27,45 +27,45 @@
 
 package test.obvious.jdbc;
 
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import obvious.data.Schema;
 import obvious.jdbc.data.JDBCObviousSchema;
-import test.obvious.data.SchemaTest;
+import test.obvious.data.SchemaTest;*/
 
 /**
  * Implementation of  Schema  test-case for JDBCObviousSchema implementation.
  * @author Pierre-Luc Hemery
  *
  */
-public class JDBCSchemaTest extends SchemaTest {
+public class JDBCSchemaTest /*extends SchemaTest*/ {
 
-  /**
+/*  *//**
    * Driver for the database.
-   */
+   *//*
   public static final String DRIVER = "com.mysql.jdbc.Driver";
 
-  /**
+  *//**
    * URL for the test database.
-   */
+   *//*
   public static final String URL = "jdbc:mysql:///test";
 
-  /**
+  *//**
    * Login for the test database.
-   */
+   *//*
   public static final String LOGIN = "root";
 
-  /**
+  *//**
    * Database for the test database.
-   */
+   *//*
   public static final String PASSWORD = "";
 
-  /**
+  *//**
    * Name of the test table.
-   */
+   *//*
   public static final String TABLE_NAME = "TEST_CASE_TABLE";
 
   @Override
@@ -106,6 +106,6 @@ public class JDBCSchemaTest extends SchemaTest {
       }
     }
     setSchema(null);
-  }
+  }*/
 
 }
