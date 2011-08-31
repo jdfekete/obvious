@@ -7,12 +7,6 @@
   <description>Example for obviousx project</description>
   <dependencies>
     <dependency>
-      <groupId>obviousx</groupId>
-      <artifactId>obviousx</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
     	<groupId>obvious-jdbc</groupId>
     	<artifactId>obvious-jdbc</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
@@ -46,6 +40,11 @@
     	<groupId>obviousx-rminer</groupId>
     	<artifactId>obviousx-rminer</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.googlecode.obvious</groupId>
+    	<artifactId>obviousx</artifactId>
+    	<version>1.0</version>
     </dependency>
   </dependencies>
     <repositories>
