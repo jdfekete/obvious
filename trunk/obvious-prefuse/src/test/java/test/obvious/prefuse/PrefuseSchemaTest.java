@@ -34,7 +34,7 @@ import test.obvious.data.SchemaTest;
 
 /**
  * Implementation of SchemaTest.
- * @author Pierre-Luc Hémery
+ * @author Pierre-Luc Hemery
  *
  */
 public class PrefuseSchemaTest extends SchemaTest {
