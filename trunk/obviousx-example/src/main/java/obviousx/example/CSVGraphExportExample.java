@@ -88,7 +88,7 @@ public final class CSVGraphExportExample {
     } catch (ArrayIndexOutOfBoundsException e) {
       nodeFilePath = "C:\\outputObvious\\nodeFile";
       edgeFilePath = "C:\\outputObvious\\edgeFile";
-      factoryPath = "obvious.prefuse.PrefuseDataFactory";
+      factoryPath = "obvious.prefuse.data.PrefuseDataFactory";
     }
 
     // Preparing network to export in GraphML

@@ -68,7 +68,7 @@ public final class CSVGraphExample {
     try {
       factoryPath = args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
-      factoryPath = "obvious.prefuse.PrefuseDataFactory";
+      factoryPath = "obvious.prefuse.data.PrefuseDataFactory";
     }
 
     // Load CSV files (nodes and edges)
