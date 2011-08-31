@@ -38,15 +38,14 @@
   </developers>
   <dependencies>
   	<dependency>
-  		<groupId>milyn</groupId>
-  		<artifactId>opencsv</artifactId>
-  		<version>1.6</version>
-  		<scope>import</scope>
-  	</dependency>
-  	<dependency>
   		<groupId>com.googlecode.obvious</groupId>
   		<artifactId>obvious</artifactId>
   		<version>1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.sf.opencsv</groupId>
+		<artifactId>opencsv</artifactId>
+		<version>2.3</version>
   	</dependency>
   </dependencies>
   <build>
