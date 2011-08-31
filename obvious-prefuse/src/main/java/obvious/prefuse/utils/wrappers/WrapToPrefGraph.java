@@ -288,8 +288,8 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
   }
 
   @Override
-  public long getKey(int node) {
-    return node;
+  public int getKey(int node) {
+    return  node;
   }
 
   @Override
@@ -306,12 +306,12 @@ public class WrapToPrefGraph extends prefuse.data.Graph {
   }
 
   @Override
-  public Node getNodeFromKey(long arg0) {
+  public Node getNodeFromKey(int arg0) {
     return super.getNodeFromKey(arg0);
   }
 
   @Override
-  public int getNodeIndex(long arg0) {
+  public int getNodeIndex(int arg0) {
     return super.getNodeIndex(arg0);
   }
 

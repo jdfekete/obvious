@@ -97,12 +97,10 @@ public class WrapToPrefTuple implements prefuse.data.Tuple {
     return tuple.getSchema().getColumnType(arg0);
   }
 
-  @Override
   public Object get(int arg0) {
     return tuple.get(arg0);
   }
 
-  @Override
   public void set(int arg0, Object arg1) {
     tuple.set(arg0, arg1);
   }
@@ -306,74 +304,72 @@ public class WrapToPrefTuple implements prefuse.data.Tuple {
     tuple.setString(arg0, arg1);
   }
 
-  @Override
   public boolean getBoolean(int arg0) {
     return tuple.getBoolean(arg0);
   }
 
-  @Override
   public Date getDate(int arg0) {
     return tuple.getDate(arg0);
   }
 
-  @Override
   public double getDouble(int arg0) {
     return tuple.getDouble(arg0);
   }
 
-  @Override
   public float getFloat(int arg0) {
     return tuple.getFloat(arg0);
   }
 
-  @Override
   public int getInt(int arg0) {
     return tuple.getInt(arg0);
   }
 
-  @Override
   public long getLong(int arg0) {
     return tuple.getLong(arg0);
   }
 
-  @Override
   public String getString(int arg0) {
     return tuple.getString(arg0);
   }
 
-  @Override
   public void setBoolean(int arg0, boolean arg1) {
     tuple.setBoolean(arg0, arg1);
   }
 
-  @Override
   public void setDate(int arg0, Date arg1) {
     tuple.setDate(arg0, arg1);
   }
 
-  @Override
   public void setDouble(int arg0, double arg1) {
     tuple.setDouble(arg0, arg1);
   }
 
-  @Override
   public void setFloat(int arg0, float arg1) {
     tuple.setFloat(arg0, arg1);
   }
 
-  @Override
   public void setInt(int arg0, int arg1) {
     tuple.setInt(arg0, arg1);
   }
 
-  @Override
   public void setLong(int arg0, long arg1) {
     tuple.setLong(arg0, arg1);
   }
 
-  @Override
   public void setString(int arg0, String arg1) {
     tuple.setString(arg0, arg1);
+  }
+
+  @Override
+  public Object getValueAt(int arg0) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setValueAt(int arg0, Object arg1) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

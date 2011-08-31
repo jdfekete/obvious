@@ -268,7 +268,7 @@ public class PrefuseObviousTuple implements Tuple {
    * @see #getColumnType(int)
    */
   public Object get(int col) {
-    return tuple.get(col);
+    return tuple.get(this.tuple.getSchema().getColumnName(col));
   }
 
   /**
