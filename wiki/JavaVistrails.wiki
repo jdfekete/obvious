@@ -7,6 +7,6 @@ The project described in this page concerns the port of Vistrails into Java with
 
 = Steps =
 
-[MID-JULY 2011] Project starts.
-[END OF JULY 2011] Units tests for the Vistrails core have been run on Jython
-[13 SEPTEMBER 2011] Displaying the version tree with Jython/Swing.
+MID-JULY 2011: Project starts.
+END OF JULY 2011: Units tests for the Vistrails core have been run on Jython
+13 SEPTEMBER 2011: Displaying the version tree with Jython/Swing.
