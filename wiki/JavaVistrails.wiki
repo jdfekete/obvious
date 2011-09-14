@@ -9,6 +9,14 @@ The project described in this page concerns the port of Vistrails into Java with
 
 MID-JULY 2011: Project starts.
 
-END OF JULY 2011: Units tests for the Vistrails core have been run on Jython
+END OF JULY 2011: Units tests for the Vistrails core have been run on Jython. Test failed or returned errors when they miss the QT dependancy in Jython, or some specific functions of PythonC missing in Jython.
 
-13 SEPTEMBER 2011: Displaying the version tree with Jython/Swing.
+{{{
+Ran 186 tests in 2.422s
+
+FAILED (failures=3, errors=56)
+}}}
+
+13 SEPTEMBER 2011: Displaying the version tree with Jython/Swing. It uses the Vistrail tree layout already written in the PythonC version of vistrails. Coordinates are then used by a Java graphics to draw rect (nodes) and line (edges).
+
+14 SEPTEMBER 2011 : Building the pipeline tree from the pipeline in order to use the same graph layout as the version tree. For the moment, the layout complains about a parent/child problems (probably undefined root for the tree)... more to come
