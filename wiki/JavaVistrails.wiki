@@ -1,4 +1,4 @@
-#summary This page describes progresses for the Jython/Vistrails project.
+#summary This page describes progress for the Jython/Vistrails project.
 
 = Introduction =
 
