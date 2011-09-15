@@ -22,3 +22,5 @@ FAILED (failures=3, errors=56)
 14 SEPTEMBER 2011 : Building the pipeline tree from the pipeline in order to use the same graph layout as the version tree. For the moment, the layout complains about a parent/child problems (probably undefined root for the tree)... more to come
 
 15 SEPTEMBER 2011 : Pipeline tree can now be displayed in Jython/Swing. Next step is to assemblate and polish everything into one JFrame. Then, add some interactivity with module (launch and additional panels).
+
+http://obvious.googlecode.com/svn/VAST2011/figures/PipelineTree.PNG
