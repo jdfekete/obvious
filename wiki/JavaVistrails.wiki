@@ -7,6 +7,8 @@ The project described in this page concerns the port of Vistrails into Java with
 
 = Steps =
 
+*21 SEPTEMBER 2011* The interface has been polished and updated: with buttons it is possible to switch between different views and when a node is clicked on the version tree, the pipeline view displays the corresponding pipeline view for this version.
+
 *15 SEPTEMBER 2011* : Pipeline tree can now be displayed in Jython/Swing. Next step is to assemblate and polish everything into one JFrame. Then, add some interactivity with module (launch and additional panels).
 
 http://obvious.googlecode.com/svn/VAST2011/figures/PipelineTree.PNG
@@ -24,8 +26,6 @@ FAILED (failures=3, errors=56)
 }}}
 
 *MID-JULY 2011* : Project starts.
-
-
 
 
 
