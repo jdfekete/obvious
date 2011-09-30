@@ -9,6 +9,8 @@ The project described in this page concerns the port of Vistrails into Java with
 
 *29 SEPTEMBER 2011* Updated layout. 
 
+http://obvious.googlecode.com/svn/VAST2011/figures/screenVistrails.PNG
+
 *27 SEPTEMBER 2011* The java branch of vistrails has been merged with the core_no_gui branch (vistrails 2.0 with Qt reference deleted from core).
 
 *26 SEPTEMBER 2011* A clicked node in the version view is now highlighted.
