@@ -7,7 +7,9 @@ The project described in this page concerns the port of Vistrails into Java with
 
 = Steps =
 
-*9 OCTOBER 2011* Layout now shows ports in the pipeline view and connections are drawn between ports. Fixes minors stuff in the layout.
+*9 OCTOBER 2011* Layout now shows ports in the pipeline view and connections are drawn between ports. Nodes and edges of the different graphs are drawn in a nicer way. Fixes minor problems in the layout.
+
+Improvments can be seen of the screenshot below:
 
 *29 SEPTEMBER 2011* Updated layout. 
 
