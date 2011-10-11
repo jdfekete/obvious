@@ -30,6 +30,12 @@ It can be later analyzed, displayed (in a Frame or as text in a console) with an
 
 http://obvious.googlecode.com/svn/VAST2011/figures/hypotheticalobviousworkflow.png
 
+-) *Adding edition panel to edit existing workflows and to create new ones*
+
+The first part of this step is purely a Swing one: creating panel with the list of available module and (un)drawing on the pipeline view new or deleted modules.
+
+The other part is purely vistrails, we have to be sure that changes done with the GUI are saved into the vistrails file when asked.
+
 = Done =
 
 More details about progress made into the development of the java branch can be found [JavaVistrails here] (detailled steps and screenshots).
