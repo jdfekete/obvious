@@ -6,9 +6,11 @@ This page presents the roadmap for the ongoing Vistrails-Jython project.
 
 = To do =
 
--) *Making configuration panel for module in order to set up value and attributes.* 
+-) *Making information panel for module in order to set up value and attributes.* 
 
 I suppose this step can be done later since I think we can manually assign some values to the different modules (i.e. string modules for the moment).
+
+http://obvious.googlecode.com/svn/VAST2011/figures/moduleinfopanel.PNG
 
 -) *Executing a simple workflow on Jython* 
 
@@ -18,11 +20,15 @@ For instance the current example workflow with concatenation of strings. To fini
 
 I suppose this is done with Qt in the standard version of Vistrails. That is why we need to rewrite that part in Swing probably and also to be able to be notified in Jython when a module has a state change.
 
+http://obvious.googlecode.com/svn/VAST2011/figures/executedworkflow.PNG
+
 -) *Writing a module using Obvious, building and running a workflow with it.*
 
 
 It can be something very simple at the beginning combining standard vistrails modules (such as String, Concatenation, Httpsource...) and an Obvious module that takes in entry node names as string or a file describing a graph structure (graphml, csv) and that returns an Obvious Network object.
 It can be later analyzed, displayed (in a Frame or as text in a console) with another module such as StandardOutput. If we can execute simple workflows on Jython, I supose this part won't be really difficult to achieve.
+
+http://obvious.googlecode.com/svn/VAST2011/figures/hypotheticalobviousworkflow.PNG
 
 = Done =
 
