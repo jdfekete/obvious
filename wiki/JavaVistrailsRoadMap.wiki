@@ -7,3 +7,16 @@ This page presents the roadmap for the ongoing Vistrails-Jython project.
 = To do =
 
 = Done =
+
+-) Displaying module ports on the pipeline view
+-) Instantiating correctly package manager and module registry on jython 
+-) Linking the version view and the pipeline view
+-) Merging the java branch with the core no-qt branch
+-) Merging the java branch with the 2.0 branch
+-) Making a core with no-qt references
+-) Displaying pipeline and version views on Swing with Jython                              
+-) Writing a simple layout based on Java graphics for pipeline and version views
+-) Reading vistrails files on Jython
+-) Making a core with no-qt references
+-) Creating a java branch on git
+-) Executing tests on the core
