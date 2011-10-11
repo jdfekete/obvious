@@ -32,6 +32,8 @@ http://obvious.googlecode.com/svn/VAST2011/figures/hypotheticalobviousworkflow.p
 
 = Done =
 
+More details about progress made into the development of the java branch can be found [JavaVistrails here] (detailled steps and screenshots).
+
 -) Displaying module ports on the pipeline view
 
 -) Instantiating correctly package manager and module registry on jython 
