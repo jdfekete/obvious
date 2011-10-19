@@ -6,6 +6,11 @@ The project described in this page concerns the port of Vistrails into Java with
 
 = Steps =
 
+*19 OCTOBER 2011* Graphics part of the pipeline view have updated. After the execute button has been clicked, modules are coloured based on their execution status. For the moment, since execution is not totally working in jython, all modules are not executed and then coloured in red.
+
+http://obvious.googlecode.com/svn/VAST2011/figures/screenVistrailspipelinecolor.PNG
+
+
 *9 OCTOBER 2011* Layout now shows ports in the pipeline view and connections are drawn between ports. Nodes and edges of the different graphs are drawn in a nicer way. Fixes minor problems in the layout.
 
 Improvments can be seen on the screenshot below:
