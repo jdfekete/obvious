@@ -50,7 +50,7 @@ import weka.core.Instances;
  * The method to create the tested table instance has been rewritten to set
  * up a convenient data set and other tests have modified to follow these
  * changes.
- * @author plhemery
+ * @author Hemery
  *
  */
 public class WekaTableTest {
