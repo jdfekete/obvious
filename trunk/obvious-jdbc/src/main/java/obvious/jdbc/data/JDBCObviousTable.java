@@ -27,19 +27,19 @@
 
 package obvious.jdbc.data;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import obvious.ObviousException;
 import obvious.ObviousRuntimeException;
@@ -51,6 +51,7 @@ import obvious.data.util.IntIterator;
 import obvious.data.util.Predicate;
 import obvious.impl.FilterIntIterator;
 import obvious.impl.IntIteratorImpl;
+import obvious.impl.SchemaImpl;
 import obvious.jdbc.utils.FormatFactorySQL;
 import obviousx.text.TypedFormat;
 
@@ -80,31 +81,32 @@ public class JDBCObviousTable implements Table {
    * Associated Obvious schema.
    */
   private Schema schema;
-
-  /**
-   * URL for the database.
-   */
-  private String url;
-
-  /**
-   * User name for the database.
-   */
-  private String username;
-
-  /**
-   * Password for the database.
-   */
-  private String password;
+//
+//  /**
+//   * URL for the database.
+//   */
+//  private String url;
+//
+//  /**
+//   * User name for the database.
+//   */
+//  private String username;
+//
+//  /**
+//   * Password for the database.
+//   */
+//  private String password;
 
   /**
    * Table Listeners.
    */
-  private Collection<TableListener> listener;
+  private Collection<TableListener> listener= new ArrayList<TableListener>();
 
   /**
    * SQL Format Factory.
    */
-  private FormatFactorySQL formatFactory;
+  private FormatFactorySQL formatFactory = new FormatFactorySQL();
+
 
   /**
    * Name of the column that is the primary key of the table.
@@ -116,7 +118,8 @@ public class JDBCObviousTable implements Table {
   /**
    * Map that links row Index to the value of their primary key.
    */
-  private Map<Integer, Object> rowIndexMap;
+  private Map<Integer, Object> rowIndexMap = new HashMap<Integer, Object>();
+
 
   /**
    * Is the schema being edited.
@@ -147,61 +150,61 @@ public class JDBCObviousTable implements Table {
   /**
    * Constructor for an Obvious table based on JDBC.
    * @param inSchema an Obvious schema
-   * @param driver driver for the database (JDBC)
-   * @param inUrl URL to access to the database
-   * @param inUsername user name to access to the database
-   * @param inPswd password to access to the database
+   * @param con JDBC Connection
    * @param tName table name
    * @param inKeyColumn name of column used as a primary key
+   * 
+   * @exception ObviousException when the table cannot be created
    */
-  public JDBCObviousTable(Schema inSchema, String driver, String inUrl,
-      String inUsername, String inPswd, String tName, String inKeyColumn) {
+  public JDBCObviousTable(Schema inSchema, Connection con, String tName, String inKeyColumn) throws ObviousException {
     // Initialize attributes.
-    this.tableName = tName;
     this.schema = inSchema;
-    this.url = inUrl;
-    this.username = inUsername;
-    this.password = inPswd;
-    this.formatFactory = new FormatFactorySQL();
-    this.listener = new ArrayList<TableListener>();
+    this.con = con;
+    this.tableName = tName;
+    // If the table needs to be created, it has to know the primary key to use
     this.primaryKey = inKeyColumn;
-    this.rowIndexMap = new HashMap<Integer, Object>();
-    // Creating table
-    try {
-      this.con = DriverManager.getConnection(url, username, password);
-    } catch (SQLException e1) {
-      e1.printStackTrace();
-    }
-    if (!tableExist()) {
-      PreparedStatement pStatement = null;
-      try {
-        String request = "CREATE TABLE " + this.tableName + " (";
-        for (int i = 0; i < inSchema.getColumnCount(); i++) {
-          String typeSQL = formatFactory.getSQLType(inSchema.getColumnType(i));
-          request += inSchema.getColumnName(i) + " " + typeSQL;
-          if (i < inSchema.getColumnCount() - 1) {
-            request += ", ";
-          } else {
-            request += ")";
-          }
-        }
-        pStatement = con.prepareStatement(request);
-        pStatement.executeUpdate(request);
-      } catch (SQLException e) {
-        System.err.println("SQLException: " + e.getMessage());
-      } finally {
-        try { pStatement.close(); } catch (Exception e) { e.printStackTrace(); }
-        //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
-      }
-    }
-    // Load the JDBC driver.
-    try {
-      Class.forName(driver);
-    } catch (ClassNotFoundException e) {
-      System.err.print("ClassNotFoundException: ");
-      System.err.println(e.getMessage());
-    }
+    maybeCreateTable(); 
+    if (inKeyColumn == null)
+        this.primaryKey = getPrimaryKey(con, tName);     
   }
+  
+  /**
+   * Constructor for an Obvious table based on JDBC.
+   * @param inSchema an Obvious schema
+   * @param driver driver for the database (JDBC)
+   * @param url URL to access to the database
+   * @param username user name to access to the database
+   * @param password password to access to the database
+   * @param tName table name
+   * @param inKeyColumn name of column used as a primary key
+   * 
+   * @exception ObviousException  when the table cannot be created
+   */
+  public JDBCObviousTable(Schema inSchema, 
+          String driver, String url, String username, String password, 
+          String tName, String inKeyColumn) throws ObviousException {
+      // Load the JDBC driver.
+      if (driver != null) try {
+        Class.forName(driver);
+      } catch (ClassNotFoundException e) {
+          throw new ObviousException(e);
+      }
+      // Creating table
+      try {
+        this.con = DriverManager.getConnection(url, username, password);
+      } catch (SQLException e) {
+          
+      }
+      // Initialize attributes.
+      this.tableName = tName;
+      this.schema = inSchema;
+      // If the table needs to be created, it has to know the primary key to use
+      this.primaryKey = inKeyColumn;
+      maybeCreateTable();
+      if (inKeyColumn == null)
+          this.primaryKey= getPrimaryKey(con, tName);      
+  }
+  
 
   /**
    * Constructor for an Obvious table based on JDBC. This constructor
@@ -216,83 +219,112 @@ public class JDBCObviousTable implements Table {
    */
   public JDBCObviousTable(Schema inSchema, String driver, String inUrl,
       String inUsername, String inPswd, String tName) throws ObviousException {
-    this(inSchema, driver, inUrl, inUsername, inPswd, tName,
-        getPrimaryKey(driver, inUrl, inUsername, inPswd, tName));
+    this(inSchema, driver, inUrl, inUsername, inPswd, tName, null);
+  }
+
+  protected void maybeCreateTable() throws ObviousException {
+      if (!tableExist()) {
+          if (primaryKey == null) {
+              throw new ObviousException("Cannot create a table with no primary key specified");
+          }
+          PreparedStatement pStatement = null;
+          try {
+              StringBuffer request = new StringBuffer();
+              request.append("CREATE TABLE " + this.tableName + " (");
+              for (int i = 0; i < schema.getColumnCount(); i++) {
+                  String typeSQL = formatFactory.getSQLType(schema.getColumnType(i));
+                  if (i != 0)
+                      request.append(", ");
+                  request.append(schema.getColumnName(i) + " " + typeSQL);
+                  if (schema.getColumnName(i).equals(primaryKey)) {
+                      request.append(" PRIMARY KEY");
+                  }
+                }
+              // we need a primary key so add it
+              request.append(")");
+              String req = request.toString();
+              pStatement = con.prepareStatement(req);
+              pStatement.executeUpdate(req);
+          } 
+          catch (SQLException e) {
+              throw new ObviousException(e);
+          }
+          finally {
+              if (pStatement != null) try {
+                  pStatement.close();
+              }
+              catch (Exception e) {
+                  throw new ObviousException(e);
+              }
+          }
+          assert(primaryKey.equals(getPrimaryKey(con, this.tableName)));
+      }
   }
 
   /**
    * Checks if the table already exist in the database.
    * @return true if table already created
+   * @exception ObviousException when an SQL query failed
    */
-  public boolean tableExist() {
+  public boolean tableExist() throws ObviousException {
     // There are two levels of table, a JDBC one and an obvious. Sometimes, dev
     // or user want to create both at the same time, sometimes they just want
     // to convert an existing JDBC table to Obvious. Constructors support both
     // cases, they determine which one to use with the result of this method.
     //con = null;
-    try {
-      Connection connect = DriverManager.getConnection(url, username, password);
-      DatabaseMetaData  metadata = connect.getMetaData();
-      String[] myTables = {"TABLE"};
-      ResultSet tables = metadata.getTables(null,
-      null, "%", myTables);
-      boolean existingTable = false;
-      while (tables.next()) {
-        if (tables.getString("TABLE_NAME").equalsIgnoreCase(tableName)) {
-          existingTable = true;
-          break;
+        try {
+            DatabaseMetaData metadata = con.getMetaData();
+            String[] myTables = { "TABLE" };
+            ResultSet tables = metadata.getTables(null, null, "%", myTables);
+            boolean existingTable = false;
+            while (tables.next()) {
+                if (tables.getString("TABLE_NAME").equalsIgnoreCase(tableName)) {
+                    existingTable = true;
+                    break;
+                }
+            }
+            return existingTable;
+        } catch (SQLException e) {
+            throw new ObviousException(e);
         }
-      }
-      connect.close();
-      return existingTable;
-    } catch (SQLException e) {
-      System.err.println("SQLException: " + e.getMessage());
-      return false;
-    } finally {
-      //try { connect.close(); } catch (Exception e) { e.printStackTrace(); }
-    }
   }
 
   /**
    * Gets the attribute primaryKey. Fails if the table has zero or two or more
    * columns as primary key.
-   * @param inDriver driver for the JDBC database
-   * @param inUrl URL to access to the database
-   * @param inUser user name to access to the database
-   * @param inPswd password to access to the database
+   * @param con the JDBC Connection
    * @param tName table name
    * @return name of the column used as primary key.
    * @throws ObviousException if table has zero or two (more) columns for PK.
    */
-  public static String getPrimaryKey(String inDriver,
-      String inUrl, String inUser, String inPswd,
-      String tName) throws ObviousException {
-    Connection con = null;
+  public static String getPrimaryKey(Connection con, String tName) throws ObviousException {
     ResultSet result = null;
     String primKey = "";
     try {
-      con = DriverManager.getConnection(inUrl, inUser, inPswd);
       DatabaseMetaData meta = con.getMetaData();
       result = meta.getPrimaryKeys(null, null, tName);
       if (result == null) {
-        throw new ObviousException("The table " + tName
-            + " doesn't define a primary key!");
+        throw new ObviousException("Missing primary key for table "+tName);
       } else {
-        int count = 0;
+        int count = 1;
         while (result.next()) {
-          primKey = result.getString(count);
+          primKey = result.getString("COLUMN_NAME");
           if (count > 1) {
-            throw new ObviousException("The Table " + tName
-                + " should have an unique column as primary key!");
+            throw new ObviousException("Table " + tName + " should use a unique column as primary key");
           }
           count++;
         }
       }
     } catch (SQLException e) {
-      System.err.println("SQLException: " + e.getMessage());
+        throw new ObviousException(e);
     } finally {
-      try { result.close(); } catch (Exception e) { e.printStackTrace(); }
-      //try { con.close(); } catch (Exception e) { e.printStackTrace(); }
+      try {
+          if (result != null)
+              result.close(); 
+          }
+      catch (Exception e) { 
+          throw new ObviousException(e);
+      }
     }
     return primKey;
   }
@@ -837,5 +869,33 @@ public class JDBCObviousTable implements Table {
       listnr.tableChanged(this, start, end, col, type);
     }
   }
+  
+
+  private static final String DB_USER_NAME = "storypedia";
+  private static final String DB_PASSWORD = "storypedia";
+  private static final String DB_URL = "jdbc:mysql://wikireactive.lri.fr/storypedia";
+  private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
+  
+  public static void main(String[] arguments) throws ObviousException {
+
+      SchemaImpl tableSchema = new SchemaImpl();
+
+      tableSchema.addColumn("Name", String.class, null);
+      tableSchema.addColumn("Id", Long.class, 0);
+      tableSchema.addColumn("hits", Integer.class, 0);            //hits for the article
+      
+      Table articleTable = new JDBCObviousTable(tableSchema, DB_DRIVER, DB_URL, DB_USER_NAME, DB_PASSWORD, "articles", "Id");
+      //articleTable = DataFactory.getInstance().createTable(tableSchema);
+
+      SchemaImpl dateTableSchema = new SchemaImpl();
+      dateTableSchema.addColumn("Name", String.class, null);      //name of the article
+      dateTableSchema.addColumn("Id", Long.class, null);          //id of the article
+      dateTableSchema.addColumn("Type", String.class, null);
+      dateTableSchema.addColumn("Value", Long.class, null);
+      dateTableSchema.addColumn("Precision", Long.class, null);
+
+      Connection con = (Connection) articleTable.getUnderlyingImpl(Connection.class);
+      Table dateTable = new JDBCObviousTable(dateTableSchema,  con, "dates", "Id");
+}
 
 }

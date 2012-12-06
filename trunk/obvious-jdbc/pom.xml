@@ -7,7 +7,7 @@
   </parent>
   <groupId>com.googlecode.obvious</groupId>
   <artifactId>obvious-jdbc</artifactId>
-  <version>1.0</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>obvious-jdbc</name>
   <description>Obvious implementation based on jdbc</description>
@@ -27,12 +27,12 @@
   <developers>
   	<developer>
   		<id>1</id>
-  		<name>Fekete</name>
-  		<email>fekete at lri.fr</email>
+  		<name>Jean-Daniel Fekete</name>
+  		<email>Jean-Daniel.Fekete@inria.fr</email>
   	</developer>
   	<developer>
   		<id>2</id>
-  		<name>Hemery</name>
+  		<name>Pierre-Luc Hemery</name>
   		<email>hemery at lri.fr</email>
   	</developer>
   </developers>  
